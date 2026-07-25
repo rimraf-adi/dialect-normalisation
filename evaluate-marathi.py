@@ -347,6 +347,7 @@ def main():
     parser.add_argument("--device", type=str, default=None, help="Device to run inference on (cuda/cpu)")
     parser.add_argument("--max-samples", type=int, default=None, help="Maximum number of utterances to evaluate")
     parser.add_argument("--output-yaml", type=str, default="indic_conformer_marathi_test.yaml", help="Output YAML file path")
+    parser.add_argument("--token", type=str, default=None, help="Hugging Face access token for gated models")
 
     args = parser.parse_args()
 
@@ -381,6 +382,7 @@ def main():
         device=device,
         max_samples=args.max_samples,
         output_yaml_path=Path(args.output_yaml),
+        token=args.token,
     )
 
 
