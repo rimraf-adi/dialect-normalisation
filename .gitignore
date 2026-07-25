@@ -12,4 +12,4 @@ wheels/
 # Datasets and archives
 *.tar.gz
 IISc_RESPIN_*/
-*.yaml
+
