@@ -190,18 +190,37 @@ def run_evaluation_for_decoder(
     age_group_metrics = compute_group_metrics("age_group")
     dialect_x_domain_metrics = compute_composite_group_metrics("dialect", "domain")
 
-    sample_predictions = []
-    for idx, s in enumerate(samples[:10]):
-        sample_predictions.append({
+    # Complete samplewise analytics for ALL samples
+    samplewise_analytics = []
+    for idx, s in enumerate(samples):
+        r_raw = all_ref_raw[idx]
+        h_raw = all_hyp_raw[idx]
+        r_norm = all_ref_norm[idx]
+        h_norm = all_hyp_norm[idx]
+
+        r_wer = float(round(jiwer.wer(r_raw, h_raw), 4)) if r_raw else 0.0
+        n_wer = float(round(jiwer.wer(r_norm, h_norm), 4)) if r_norm else 0.0
+        r_cer = float(round(jiwer.cer(r_raw, h_raw), 4)) if r_raw else 0.0
+        n_cer = float(round(jiwer.cer(r_norm, h_norm), 4)) if r_norm else 0.0
+
+        samplewise_analytics.append({
             "utterance_id": s.get("utterance_id", s.get("utt_key")),
             "dialect": s.get("dialect"),
             "domain": s.get("domain"),
-            "reference": all_ref_raw[idx],
-            "hypothesis": all_hyp_raw[idx],
-            "normalized_reference": all_ref_norm[idx],
-            "normalized_hypothesis": all_hyp_norm[idx],
-            "raw_wer": float(round(jiwer.wer(all_ref_raw[idx], all_hyp_raw[idx]), 4)),
-            "norm_wer": float(round(jiwer.wer(all_ref_norm[idx], all_hyp_norm[idx]), 4)),
+            "gender": s.get("gender"),
+            "slab": s.get("slab"),
+            "age_group": s.get("age_group"),
+            "speaker_id": s.get("speaker_id"),
+            "duration_seconds": s.get("duration"),
+            "reference_raw": r_raw,
+            "hypothesis_raw": h_raw,
+            "reference_normalized": r_norm,
+            "hypothesis_normalized": h_norm,
+            "raw_wer": r_wer,
+            "normalized_wer": n_wer,
+            "raw_cer": r_cer,
+            "normalized_cer": n_cer,
+            "exact_match": (r_norm == h_norm),
         })
 
     return {
@@ -212,7 +231,7 @@ def run_evaluation_for_decoder(
         "slab_breakdown": slab_metrics,
         "age_group_breakdown": age_group_metrics,
         "dialect_x_domain_breakdown": dialect_x_domain_metrics,
-        "sample_predictions": sample_predictions,
+        "samplewise_analytics": samplewise_analytics,
     }
 
 
@@ -223,7 +242,8 @@ def evaluate_marathi(
     model_name: str = "ai4bharat/indic-conformer-600m-multilingual",
     device: str = "cuda",
     max_samples: int = None,
-    output_yaml_path: Path = None,
+    output_detailed_yaml_path: Path = None,
+    output_summary_yaml_path: Path = None,
     token: str = None,
 ):
     print("\n" + "=" * 70)
@@ -283,7 +303,8 @@ def evaluate_marathi(
         dec_res = run_evaluation_for_decoder(dec, model, samples, device, lang_code="mr")
         decoder_results[dec] = dec_res
 
-    report = {
+    # 1. Build DETAILED Report (Sample-wise, Dialect-wise, Domain-wise, Gender, Slab, Age analytics)
+    detailed_report = {
         "model_info": {
             "model_name": model_name,
             "language": "mr",
@@ -300,13 +321,65 @@ def evaluate_marathi(
         "decoder_results": decoder_results,
     }
 
-    clean_report = to_python_types(report)
+    # 2. Build SMALL SUMMARY Report (Key overall metrics & high-level breakdowns only)
+    summary_decoder_results = {}
+    for dec, res in decoder_results.items():
+        om = res["overall_metrics"]
+        summary_decoder_results[dec] = {
+            "overall_summary": {
+                "raw_wer_percentage": om["raw"]["wer_percentage"],
+                "normalized_wer_percentage": om["normalized"]["wer_percentage"],
+                "raw_cer_percentage": om["raw"]["cer_percentage"],
+                "normalized_cer_percentage": om["normalized"]["cer_percentage"],
+                "raw_ser_percentage": om["raw"]["ser_percentage"],
+                "normalized_ser_percentage": om["normalized"]["ser_percentage"],
+                "normalized_exact_match_acc_percentage": om["normalized"]["exact_match_acc_percentage"],
+                "total_ref_words": om["normalized"]["total_ref_words"],
+                "substitutions": om["normalized"]["substitutions"],
+                "deletions": om["normalized"]["deletions"],
+                "insertions": om["normalized"]["insertions"],
+                "hits": om["normalized"]["hits"],
+            },
+            "dialect_normalized_wer": {
+                d: {
+                    "normalized_wer_percentage": ddata["normalized"]["wer_percentage"],
+                    "normalized_cer_percentage": ddata["normalized"]["cer_percentage"],
+                    "utterances": ddata["num_samples"],
+                }
+                for d, ddata in res["dialect_breakdown"].items()
+            },
+            "domain_normalized_wer": {
+                dm: {
+                    "normalized_wer_percentage": dmdata["normalized"]["wer_percentage"],
+                    "normalized_cer_percentage": dmdata["normalized"]["cer_percentage"],
+                    "utterances": dmdata["num_samples"],
+                }
+                for dm, dmdata in res["domain_breakdown"].items()
+            },
+        }
 
-    if output_yaml_path:
-        out_file = Path(output_yaml_path).resolve()
-        with open(out_file, "w", encoding="utf-8") as f:
-            yaml.dump(clean_report, f, allow_unicode=True, sort_keys=False, default_flow_style=False)
-        print(f"\nSaved YAML report to: {out_file}")
+    summary_report = {
+        "model_info": detailed_report["model_info"],
+        "dataset_info": detailed_report["dataset_info"],
+        "key_metrics_summary": summary_decoder_results,
+    }
+
+    clean_detailed_report = to_python_types(detailed_report)
+    clean_summary_report = to_python_types(summary_report)
+
+    # Save Detailed YAML Report
+    if output_detailed_yaml_path:
+        out_detailed_file = Path(output_detailed_yaml_path).resolve()
+        with open(out_detailed_file, "w", encoding="utf-8") as f:
+            yaml.dump(clean_detailed_report, f, allow_unicode=True, sort_keys=False, default_flow_style=False)
+        print(f"\n[Detailed YAML Report] Saved to: {out_detailed_file}")
+
+    # Save Small Summary YAML Report
+    if output_summary_yaml_path:
+        out_summary_file = Path(output_summary_yaml_path).resolve()
+        with open(out_summary_file, "w", encoding="utf-8") as f:
+            yaml.dump(clean_summary_report, f, allow_unicode=True, sort_keys=False, default_flow_style=False)
+        print(f"[Small Summary YAML Report] Saved to: {out_summary_file}")
 
     print("\n" + "=" * 70)
     print("INDIC-CONFORMER MARATHI EVALUATION SUMMARY REPORT")
@@ -331,7 +404,7 @@ def evaluate_marathi(
             print(f"    - {domain:12s}: WER = {dmdata['normalized']['wer_percentage']:5.2f}% | CER = {dmdata['normalized']['cer_percentage']:5.2f}% | Utts = {dmdata['num_samples']}")
     print("=" * 70)
 
-    return report
+    return detailed_report, summary_report
 
 
 def main():
@@ -346,10 +419,15 @@ def main():
     parser.add_argument("--decoder", type=str, choices=["ctc", "rnnt", "both"], default="both", help="Decoding mode: ctc, rnnt, or both (default: both)")
     parser.add_argument("--device", type=str, default=None, help="Device to run inference on (cuda/cpu)")
     parser.add_argument("--max-samples", type=int, default=None, help="Maximum number of utterances to evaluate")
-    parser.add_argument("--output-yaml", type=str, default="indic_conformer_marathi_test.yaml", help="Output YAML file path")
+    parser.add_argument("--output-detailed-yaml", type=str, default="indic_conformer_marathi_detailed.yaml", help="Path to detailed output YAML file")
+    parser.add_argument("--output-summary-yaml", type=str, default="indic_conformer_marathi_summary.yaml", help="Path to summary output YAML file")
+    parser.add_argument("--output-yaml", type=str, default=None, help="Legacy output YAML flag (sets detailed output path)")
     parser.add_argument("--token", type=str, default=None, help="Hugging Face access token for gated models")
 
     args = parser.parse_args()
+
+    detailed_path = Path(args.output_yaml) if args.output_yaml else Path(args.output_detailed_yaml)
+    summary_path = Path(args.output_summary_yaml)
 
     # Determine default paths if not explicitly provided
     if args.meta_file:
@@ -381,7 +459,8 @@ def main():
         decoder_modes=decoder_modes,
         device=device,
         max_samples=args.max_samples,
-        output_yaml_path=Path(args.output_yaml),
+        output_detailed_yaml_path=detailed_path,
+        output_summary_yaml_path=summary_path,
         token=args.token,
     )
 
