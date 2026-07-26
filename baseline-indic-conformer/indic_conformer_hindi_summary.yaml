@@ -1,0 +1,78 @@
+model_info:
+  model_name: ai4bharat/indic-conformer-600m-multilingual
+  language_name: Hindi
+  dataset_lang_code: hi
+  model_lang_code: hi
+  device: cuda
+dataset_info:
+  split: test
+  metadata_file: IISc_RESPIN_test_hi\IISc_RESPIN_test_hi\meta_test_hi.json
+  total_utterances_evaluated: 5
+  total_utterances_in_meta: 2288
+  total_duration_hours: 0.007
+  avg_duration_seconds: 5.1
+key_metrics_summary:
+  ctc:
+    overall_summary:
+      raw_wer_percentage: 14.04
+      normalized_wer_percentage: 15.52
+      raw_cer_percentage: 5.95
+      normalized_cer_percentage: 3.66
+      raw_ser_percentage: 80.0
+      normalized_ser_percentage: 60.0
+      normalized_exact_match_acc_percentage: 40.0
+      total_ref_words: 58
+      substitutions: 4
+      deletions: 5
+      insertions: 0
+      hits: 49
+    dialect_normalized_wer:
+      D1:
+        normalized_wer_percentage: 5.0
+        normalized_cer_percentage: 1.1
+        utterances: 2
+      D5:
+        normalized_wer_percentage: 21.05
+        normalized_cer_percentage: 5.16
+        utterances: 3
+    domain_normalized_wer:
+      Agriculture:
+        normalized_wer_percentage: 0.0
+        normalized_cer_percentage: 0.0
+        utterances: 1
+      Banking:
+        normalized_wer_percentage: 19.15
+        normalized_cer_percentage: 4.57
+        utterances: 4
+  rnnt:
+    overall_summary:
+      raw_wer_percentage: 14.04
+      normalized_wer_percentage: 15.52
+      raw_cer_percentage: 5.95
+      normalized_cer_percentage: 3.66
+      raw_ser_percentage: 80.0
+      normalized_ser_percentage: 60.0
+      normalized_exact_match_acc_percentage: 40.0
+      total_ref_words: 58
+      substitutions: 4
+      deletions: 5
+      insertions: 0
+      hits: 49
+    dialect_normalized_wer:
+      D1:
+        normalized_wer_percentage: 5.0
+        normalized_cer_percentage: 1.1
+        utterances: 2
+      D5:
+        normalized_wer_percentage: 21.05
+        normalized_cer_percentage: 5.16
+        utterances: 3
+    domain_normalized_wer:
+      Agriculture:
+        normalized_wer_percentage: 0.0
+        normalized_cer_percentage: 0.0
+        utterances: 1
+      Banking:
+        normalized_wer_percentage: 19.15
+        normalized_cer_percentage: 4.57
+        utterances: 4

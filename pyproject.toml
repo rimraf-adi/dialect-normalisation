@@ -1,7 +1,11 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "dialect-norm"
 version = "0.1.0"
-description = "IndicWhisper RESPIN Hindi Evaluation"
+description = "Indic Speech Recognition & Dialect Evaluation Suite"
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
@@ -19,6 +23,9 @@ dependencies = [
     "tqdm",
     "transformers",
 ]
+
+[tool.setuptools.packages.find]
+where = ["src"]
 
 [[tool.uv.index]]
 name = "pytorch-cu124"

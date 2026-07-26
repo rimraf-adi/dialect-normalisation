@@ -1,0 +1,968 @@
+model_info:
+  model_name: ai4bharat/indic-conformer-600m-multilingual
+  language_name: Hindi
+  dataset_lang_code: hi
+  model_lang_code: hi
+  device: cuda
+dataset_info:
+  split: test
+  metadata_file: IISc_RESPIN_test_hi\IISc_RESPIN_test_hi\meta_test_hi.json
+  total_utterances_evaluated: 5
+  total_utterances_in_meta: 2288
+  total_duration_hours: 0.007
+  avg_duration_seconds: 5.1
+decoder_results:
+  ctc:
+    overall_metrics:
+      num_samples: 5
+      raw:
+        wer: 0.1404
+        wer_percentage: 14.04
+        cer: 0.0595
+        cer_percentage: 5.95
+        ser: 0.8
+        ser_percentage: 80.0
+        exact_match_acc_percentage: 20.0
+        substitutions: 4
+        deletions: 4
+        insertions: 0
+        hits: 49
+        total_ref_words: 57
+      normalized:
+        wer: 0.1552
+        wer_percentage: 15.52
+        cer: 0.0366
+        cer_percentage: 3.66
+        ser: 0.6
+        ser_percentage: 60.0
+        exact_match_acc_percentage: 40.0
+        substitutions: 4
+        deletions: 5
+        insertions: 0
+        hits: 49
+        total_ref_words: 58
+    dialect_breakdown:
+      D1:
+        num_samples: 2
+        raw:
+          wer: 0.05
+          wer_percentage: 5.0
+          cer: 0.011
+          cer_percentage: 1.1
+          ser: 0.5
+          ser_percentage: 50.0
+          exact_match_acc_percentage: 50.0
+          substitutions: 1
+          deletions: 0
+          insertions: 0
+          hits: 19
+          total_ref_words: 20
+        normalized:
+          wer: 0.05
+          wer_percentage: 5.0
+          cer: 0.011
+          cer_percentage: 1.1
+          ser: 0.5
+          ser_percentage: 50.0
+          exact_match_acc_percentage: 50.0
+          substitutions: 1
+          deletions: 0
+          insertions: 0
+          hits: 19
+          total_ref_words: 20
+        total_duration_hours: 0.003
+      D5:
+        num_samples: 3
+        raw:
+          wer: 0.1892
+          wer_percentage: 18.92
+          cer: 0.087
+          cer_percentage: 8.7
+          ser: 1.0
+          ser_percentage: 100.0
+          exact_match_acc_percentage: 0.0
+          substitutions: 3
+          deletions: 4
+          insertions: 0
+          hits: 30
+          total_ref_words: 37
+        normalized:
+          wer: 0.2105
+          wer_percentage: 21.05
+          cer: 0.0516
+          cer_percentage: 5.16
+          ser: 0.6667
+          ser_percentage: 66.67
+          exact_match_acc_percentage: 33.33
+          substitutions: 3
+          deletions: 5
+          insertions: 0
+          hits: 30
+          total_ref_words: 38
+        total_duration_hours: 0.004
+    domain_breakdown:
+      Agriculture:
+        num_samples: 1
+        raw:
+          wer: 0.0833
+          wer_percentage: 8.33
+          cer: 0.0392
+          cer_percentage: 3.92
+          ser: 1.0
+          ser_percentage: 100.0
+          exact_match_acc_percentage: 0.0
+          substitutions: 0
+          deletions: 1
+          insertions: 0
+          hits: 11
+          total_ref_words: 12
+        normalized:
+          wer: 0.0
+          wer_percentage: 0.0
+          cer: 0.0
+          cer_percentage: 0.0
+          ser: 0.0
+          ser_percentage: 0.0
+          exact_match_acc_percentage: 100.0
+          substitutions: 0
+          deletions: 0
+          insertions: 0
+          hits: 11
+          total_ref_words: 11
+        total_duration_hours: 0.001
+      Banking:
+        num_samples: 4
+        raw:
+          wer: 0.1556
+          wer_percentage: 15.56
+          cer: 0.0647
+          cer_percentage: 6.47
+          ser: 0.75
+          ser_percentage: 75.0
+          exact_match_acc_percentage: 25.0
+          substitutions: 4
+          deletions: 3
+          insertions: 0
+          hits: 38
+          total_ref_words: 45
+        normalized:
+          wer: 0.1915
+          wer_percentage: 19.15
+          cer: 0.0457
+          cer_percentage: 4.57
+          ser: 0.75
+          ser_percentage: 75.0
+          exact_match_acc_percentage: 25.0
+          substitutions: 4
+          deletions: 5
+          insertions: 0
+          hits: 38
+          total_ref_words: 47
+        total_duration_hours: 0.006
+    gender_breakdown:
+      FEMALE:
+        num_samples: 2
+        raw:
+          wer: 0.05
+          wer_percentage: 5.0
+          cer: 0.011
+          cer_percentage: 1.1
+          ser: 0.5
+          ser_percentage: 50.0
+          exact_match_acc_percentage: 50.0
+          substitutions: 1
+          deletions: 0
+          insertions: 0
+          hits: 19
+          total_ref_words: 20
+        normalized:
+          wer: 0.05
+          wer_percentage: 5.0
+          cer: 0.011
+          cer_percentage: 1.1
+          ser: 0.5
+          ser_percentage: 50.0
+          exact_match_acc_percentage: 50.0
+          substitutions: 1
+          deletions: 0
+          insertions: 0
+          hits: 19
+          total_ref_words: 20
+        total_duration_hours: 0.003
+      MALE:
+        num_samples: 3
+        raw:
+          wer: 0.1892
+          wer_percentage: 18.92
+          cer: 0.087
+          cer_percentage: 8.7
+          ser: 1.0
+          ser_percentage: 100.0
+          exact_match_acc_percentage: 0.0
+          substitutions: 3
+          deletions: 4
+          insertions: 0
+          hits: 30
+          total_ref_words: 37
+        normalized:
+          wer: 0.2105
+          wer_percentage: 21.05
+          cer: 0.0516
+          cer_percentage: 5.16
+          ser: 0.6667
+          ser_percentage: 66.67
+          exact_match_acc_percentage: 33.33
+          substitutions: 3
+          deletions: 5
+          insertions: 0
+          hits: 30
+          total_ref_words: 38
+        total_duration_hours: 0.004
+    slab_breakdown:
+      clean:
+        num_samples: 5
+        raw:
+          wer: 0.1404
+          wer_percentage: 14.04
+          cer: 0.0595
+          cer_percentage: 5.95
+          ser: 0.8
+          ser_percentage: 80.0
+          exact_match_acc_percentage: 20.0
+          substitutions: 4
+          deletions: 4
+          insertions: 0
+          hits: 49
+          total_ref_words: 57
+        normalized:
+          wer: 0.1552
+          wer_percentage: 15.52
+          cer: 0.0366
+          cer_percentage: 3.66
+          ser: 0.6
+          ser_percentage: 60.0
+          exact_match_acc_percentage: 40.0
+          substitutions: 4
+          deletions: 5
+          insertions: 0
+          hits: 49
+          total_ref_words: 58
+        total_duration_hours: 0.007
+    age_group_breakdown:
+      31-35:
+        num_samples: 3
+        raw:
+          wer: 0.1892
+          wer_percentage: 18.92
+          cer: 0.087
+          cer_percentage: 8.7
+          ser: 1.0
+          ser_percentage: 100.0
+          exact_match_acc_percentage: 0.0
+          substitutions: 3
+          deletions: 4
+          insertions: 0
+          hits: 30
+          total_ref_words: 37
+        normalized:
+          wer: 0.2105
+          wer_percentage: 21.05
+          cer: 0.0516
+          cer_percentage: 5.16
+          ser: 0.6667
+          ser_percentage: 66.67
+          exact_match_acc_percentage: 33.33
+          substitutions: 3
+          deletions: 5
+          insertions: 0
+          hits: 30
+          total_ref_words: 38
+        total_duration_hours: 0.004
+      36-40:
+        num_samples: 2
+        raw:
+          wer: 0.05
+          wer_percentage: 5.0
+          cer: 0.011
+          cer_percentage: 1.1
+          ser: 0.5
+          ser_percentage: 50.0
+          exact_match_acc_percentage: 50.0
+          substitutions: 1
+          deletions: 0
+          insertions: 0
+          hits: 19
+          total_ref_words: 20
+        normalized:
+          wer: 0.05
+          wer_percentage: 5.0
+          cer: 0.011
+          cer_percentage: 1.1
+          ser: 0.5
+          ser_percentage: 50.0
+          exact_match_acc_percentage: 50.0
+          substitutions: 1
+          deletions: 0
+          insertions: 0
+          hits: 19
+          total_ref_words: 20
+        total_duration_hours: 0.003
+    dialect_x_domain_breakdown:
+      D1_Banking:
+        num_samples: 2
+        raw:
+          wer: 0.05
+          wer_percentage: 5.0
+          cer: 0.011
+          cer_percentage: 1.1
+          ser: 0.5
+          ser_percentage: 50.0
+          exact_match_acc_percentage: 50.0
+          substitutions: 1
+          deletions: 0
+          insertions: 0
+          hits: 19
+          total_ref_words: 20
+        normalized:
+          wer: 0.05
+          wer_percentage: 5.0
+          cer: 0.011
+          cer_percentage: 1.1
+          ser: 0.5
+          ser_percentage: 50.0
+          exact_match_acc_percentage: 50.0
+          substitutions: 1
+          deletions: 0
+          insertions: 0
+          hits: 19
+          total_ref_words: 20
+        total_duration_hours: 0.003
+      D5_Agriculture:
+        num_samples: 1
+        raw:
+          wer: 0.0833
+          wer_percentage: 8.33
+          cer: 0.0392
+          cer_percentage: 3.92
+          ser: 1.0
+          ser_percentage: 100.0
+          exact_match_acc_percentage: 0.0
+          substitutions: 0
+          deletions: 1
+          insertions: 0
+          hits: 11
+          total_ref_words: 12
+        normalized:
+          wer: 0.0
+          wer_percentage: 0.0
+          cer: 0.0
+          cer_percentage: 0.0
+          ser: 0.0
+          ser_percentage: 0.0
+          exact_match_acc_percentage: 100.0
+          substitutions: 0
+          deletions: 0
+          insertions: 0
+          hits: 11
+          total_ref_words: 11
+        total_duration_hours: 0.001
+      D5_Banking:
+        num_samples: 2
+        raw:
+          wer: 0.24
+          wer_percentage: 24.0
+          cer: 0.1091
+          cer_percentage: 10.91
+          ser: 1.0
+          ser_percentage: 100.0
+          exact_match_acc_percentage: 0.0
+          substitutions: 3
+          deletions: 3
+          insertions: 0
+          hits: 19
+          total_ref_words: 25
+        normalized:
+          wer: 0.2963
+          wer_percentage: 29.63
+          cer: 0.0755
+          cer_percentage: 7.55
+          ser: 1.0
+          ser_percentage: 100.0
+          exact_match_acc_percentage: 0.0
+          substitutions: 3
+          deletions: 5
+          insertions: 0
+          hits: 19
+          total_ref_words: 27
+        total_duration_hours: 0.003
+    samplewise_analytics:
+    - utterance_id: '40000764'
+      dialect: D1
+      domain: Banking
+      gender: FEMALE
+      slab: clean
+      age_group: 36-40
+      speaker_id: '40042'
+      duration_seconds: 7.0
+      reference_raw: कर माफी उन लोगों के लिए है जो सालों से अपनी संपत्ति को छिपाते
+        हैं
+      hypothesis_raw: कर माफ़ी उन लोगों के लिए है जो सालों से अपनी संपत्ति को छिपाते
+        हैं
+      reference_normalized: कर माफी उन लोगों के लिए है जो सालों से अपनी संपत्ति को
+        छिपाते हैं
+      hypothesis_normalized: कर माफ़ी उन लोगों के लिए है जो सालों से अपनी संपत्ति
+        को छिपाते हैं
+      raw_wer: 0.0667
+      normalized_wer: 0.0667
+      raw_cer: 0.0154
+      normalized_cer: 0.0154
+      exact_match: false
+    - utterance_id: '40000785'
+      dialect: D1
+      domain: Banking
+      gender: FEMALE
+      slab: clean
+      age_group: 36-40
+      speaker_id: '40042'
+      duration_seconds: 3.2
+      reference_raw: ऑडिटर ने खाता बखूबी मिलाया
+      hypothesis_raw: ऑडिटर ने खाता बखूबी मिलाया
+      reference_normalized: ऑडिटर ने खाता बखूबी मिलाया
+      hypothesis_normalized: ऑडिटर ने खाता बखूबी मिलाया
+      raw_wer: 0.0
+      normalized_wer: 0.0
+      raw_cer: 0.0
+      normalized_cer: 0.0
+      exact_match: true
+    - utterance_id: '40004938'
+      dialect: D5
+      domain: Banking
+      gender: MALE
+      slab: clean
+      age_group: 31-35
+      speaker_id: '40313'
+      duration_seconds: 5.7
+      reference_raw: ई के.वाई.सी क्या है इसको कैसे भरा जाता है ?
+      hypothesis_raw: ईकेवाईसी क्या है इसको कैसे भरा जाता है
+      reference_normalized: ई के वाई सी क्या है इसको कैसे भरा जाता है
+      hypothesis_normalized: ईकेवाईसी क्या है इसको कैसे भरा जाता है
+      raw_wer: 0.3
+      normalized_wer: 0.3636
+      raw_cer: 0.1163
+      normalized_cer: 0.0732
+      exact_match: false
+    - utterance_id: '40006085'
+      dialect: D5
+      domain: Agriculture
+      gender: MALE
+      slab: clean
+      age_group: 31-35
+      speaker_id: '40313'
+      duration_seconds: 4.32
+      reference_raw: कोल्ड स्टोर में कौन कौन से उत्पाद रखे जा सकते हैं ?
+      hypothesis_raw: कोल्ड स्टोर में कौन कौन से उत्पाद रखे जा सकते हैं
+      reference_normalized: कोल्ड स्टोर में कौन कौन से उत्पाद रखे जा सकते हैं
+      hypothesis_normalized: कोल्ड स्टोर में कौन कौन से उत्पाद रखे जा सकते हैं
+      raw_wer: 0.0833
+      normalized_wer: 0.0
+      raw_cer: 0.0392
+      normalized_cer: 0.0
+      exact_match: true
+    - utterance_id: '40006226'
+      dialect: D5
+      domain: Banking
+      gender: MALE
+      slab: clean
+      age_group: 31-35
+      speaker_id: '40313'
+      duration_seconds: 5.27
+      reference_raw: क्या एक ही यु.पी.आई नम्बर अलग अलग खाते में प्रयोग किया जा सकता
+        है ?
+      hypothesis_raw: क्या एक ही यूपीआई नंबर अलग अलग खाते में प्रयोग किया जा सकता
+        है
+      reference_normalized: क्या एक ही यु पी आई नम्बर अलग अलग खाते में प्रयोग किया
+        जा सकता है
+      hypothesis_normalized: क्या एक ही यूपीआई नंबर अलग अलग खाते में प्रयोग किया जा
+        सकता है
+      raw_wer: 0.2
+      normalized_wer: 0.25
+      raw_cer: 0.1045
+      normalized_cer: 0.0769
+      exact_match: false
+  rnnt:
+    overall_metrics:
+      num_samples: 5
+      raw:
+        wer: 0.1404
+        wer_percentage: 14.04
+        cer: 0.0595
+        cer_percentage: 5.95
+        ser: 0.8
+        ser_percentage: 80.0
+        exact_match_acc_percentage: 20.0
+        substitutions: 4
+        deletions: 4
+        insertions: 0
+        hits: 49
+        total_ref_words: 57
+      normalized:
+        wer: 0.1552
+        wer_percentage: 15.52
+        cer: 0.0366
+        cer_percentage: 3.66
+        ser: 0.6
+        ser_percentage: 60.0
+        exact_match_acc_percentage: 40.0
+        substitutions: 4
+        deletions: 5
+        insertions: 0
+        hits: 49
+        total_ref_words: 58
+    dialect_breakdown:
+      D1:
+        num_samples: 2
+        raw:
+          wer: 0.05
+          wer_percentage: 5.0
+          cer: 0.011
+          cer_percentage: 1.1
+          ser: 0.5
+          ser_percentage: 50.0
+          exact_match_acc_percentage: 50.0
+          substitutions: 1
+          deletions: 0
+          insertions: 0
+          hits: 19
+          total_ref_words: 20
+        normalized:
+          wer: 0.05
+          wer_percentage: 5.0
+          cer: 0.011
+          cer_percentage: 1.1
+          ser: 0.5
+          ser_percentage: 50.0
+          exact_match_acc_percentage: 50.0
+          substitutions: 1
+          deletions: 0
+          insertions: 0
+          hits: 19
+          total_ref_words: 20
+        total_duration_hours: 0.003
+      D5:
+        num_samples: 3
+        raw:
+          wer: 0.1892
+          wer_percentage: 18.92
+          cer: 0.087
+          cer_percentage: 8.7
+          ser: 1.0
+          ser_percentage: 100.0
+          exact_match_acc_percentage: 0.0
+          substitutions: 3
+          deletions: 4
+          insertions: 0
+          hits: 30
+          total_ref_words: 37
+        normalized:
+          wer: 0.2105
+          wer_percentage: 21.05
+          cer: 0.0516
+          cer_percentage: 5.16
+          ser: 0.6667
+          ser_percentage: 66.67
+          exact_match_acc_percentage: 33.33
+          substitutions: 3
+          deletions: 5
+          insertions: 0
+          hits: 30
+          total_ref_words: 38
+        total_duration_hours: 0.004
+    domain_breakdown:
+      Agriculture:
+        num_samples: 1
+        raw:
+          wer: 0.0833
+          wer_percentage: 8.33
+          cer: 0.0392
+          cer_percentage: 3.92
+          ser: 1.0
+          ser_percentage: 100.0
+          exact_match_acc_percentage: 0.0
+          substitutions: 0
+          deletions: 1
+          insertions: 0
+          hits: 11
+          total_ref_words: 12
+        normalized:
+          wer: 0.0
+          wer_percentage: 0.0
+          cer: 0.0
+          cer_percentage: 0.0
+          ser: 0.0
+          ser_percentage: 0.0
+          exact_match_acc_percentage: 100.0
+          substitutions: 0
+          deletions: 0
+          insertions: 0
+          hits: 11
+          total_ref_words: 11
+        total_duration_hours: 0.001
+      Banking:
+        num_samples: 4
+        raw:
+          wer: 0.1556
+          wer_percentage: 15.56
+          cer: 0.0647
+          cer_percentage: 6.47
+          ser: 0.75
+          ser_percentage: 75.0
+          exact_match_acc_percentage: 25.0
+          substitutions: 4
+          deletions: 3
+          insertions: 0
+          hits: 38
+          total_ref_words: 45
+        normalized:
+          wer: 0.1915
+          wer_percentage: 19.15
+          cer: 0.0457
+          cer_percentage: 4.57
+          ser: 0.75
+          ser_percentage: 75.0
+          exact_match_acc_percentage: 25.0
+          substitutions: 4
+          deletions: 5
+          insertions: 0
+          hits: 38
+          total_ref_words: 47
+        total_duration_hours: 0.006
+    gender_breakdown:
+      FEMALE:
+        num_samples: 2
+        raw:
+          wer: 0.05
+          wer_percentage: 5.0
+          cer: 0.011
+          cer_percentage: 1.1
+          ser: 0.5
+          ser_percentage: 50.0
+          exact_match_acc_percentage: 50.0
+          substitutions: 1
+          deletions: 0
+          insertions: 0
+          hits: 19
+          total_ref_words: 20
+        normalized:
+          wer: 0.05
+          wer_percentage: 5.0
+          cer: 0.011
+          cer_percentage: 1.1
+          ser: 0.5
+          ser_percentage: 50.0
+          exact_match_acc_percentage: 50.0
+          substitutions: 1
+          deletions: 0
+          insertions: 0
+          hits: 19
+          total_ref_words: 20
+        total_duration_hours: 0.003
+      MALE:
+        num_samples: 3
+        raw:
+          wer: 0.1892
+          wer_percentage: 18.92
+          cer: 0.087
+          cer_percentage: 8.7
+          ser: 1.0
+          ser_percentage: 100.0
+          exact_match_acc_percentage: 0.0
+          substitutions: 3
+          deletions: 4
+          insertions: 0
+          hits: 30
+          total_ref_words: 37
+        normalized:
+          wer: 0.2105
+          wer_percentage: 21.05
+          cer: 0.0516
+          cer_percentage: 5.16
+          ser: 0.6667
+          ser_percentage: 66.67
+          exact_match_acc_percentage: 33.33
+          substitutions: 3
+          deletions: 5
+          insertions: 0
+          hits: 30
+          total_ref_words: 38
+        total_duration_hours: 0.004
+    slab_breakdown:
+      clean:
+        num_samples: 5
+        raw:
+          wer: 0.1404
+          wer_percentage: 14.04
+          cer: 0.0595
+          cer_percentage: 5.95
+          ser: 0.8
+          ser_percentage: 80.0
+          exact_match_acc_percentage: 20.0
+          substitutions: 4
+          deletions: 4
+          insertions: 0
+          hits: 49
+          total_ref_words: 57
+        normalized:
+          wer: 0.1552
+          wer_percentage: 15.52
+          cer: 0.0366
+          cer_percentage: 3.66
+          ser: 0.6
+          ser_percentage: 60.0
+          exact_match_acc_percentage: 40.0
+          substitutions: 4
+          deletions: 5
+          insertions: 0
+          hits: 49
+          total_ref_words: 58
+        total_duration_hours: 0.007
+    age_group_breakdown:
+      31-35:
+        num_samples: 3
+        raw:
+          wer: 0.1892
+          wer_percentage: 18.92
+          cer: 0.087
+          cer_percentage: 8.7
+          ser: 1.0
+          ser_percentage: 100.0
+          exact_match_acc_percentage: 0.0
+          substitutions: 3
+          deletions: 4
+          insertions: 0
+          hits: 30
+          total_ref_words: 37
+        normalized:
+          wer: 0.2105
+          wer_percentage: 21.05
+          cer: 0.0516
+          cer_percentage: 5.16
+          ser: 0.6667
+          ser_percentage: 66.67
+          exact_match_acc_percentage: 33.33
+          substitutions: 3
+          deletions: 5
+          insertions: 0
+          hits: 30
+          total_ref_words: 38
+        total_duration_hours: 0.004
+      36-40:
+        num_samples: 2
+        raw:
+          wer: 0.05
+          wer_percentage: 5.0
+          cer: 0.011
+          cer_percentage: 1.1
+          ser: 0.5
+          ser_percentage: 50.0
+          exact_match_acc_percentage: 50.0
+          substitutions: 1
+          deletions: 0
+          insertions: 0
+          hits: 19
+          total_ref_words: 20
+        normalized:
+          wer: 0.05
+          wer_percentage: 5.0
+          cer: 0.011
+          cer_percentage: 1.1
+          ser: 0.5
+          ser_percentage: 50.0
+          exact_match_acc_percentage: 50.0
+          substitutions: 1
+          deletions: 0
+          insertions: 0
+          hits: 19
+          total_ref_words: 20
+        total_duration_hours: 0.003
+    dialect_x_domain_breakdown:
+      D1_Banking:
+        num_samples: 2
+        raw:
+          wer: 0.05
+          wer_percentage: 5.0
+          cer: 0.011
+          cer_percentage: 1.1
+          ser: 0.5
+          ser_percentage: 50.0
+          exact_match_acc_percentage: 50.0
+          substitutions: 1
+          deletions: 0
+          insertions: 0
+          hits: 19
+          total_ref_words: 20
+        normalized:
+          wer: 0.05
+          wer_percentage: 5.0
+          cer: 0.011
+          cer_percentage: 1.1
+          ser: 0.5
+          ser_percentage: 50.0
+          exact_match_acc_percentage: 50.0
+          substitutions: 1
+          deletions: 0
+          insertions: 0
+          hits: 19
+          total_ref_words: 20
+        total_duration_hours: 0.003
+      D5_Agriculture:
+        num_samples: 1
+        raw:
+          wer: 0.0833
+          wer_percentage: 8.33
+          cer: 0.0392
+          cer_percentage: 3.92
+          ser: 1.0
+          ser_percentage: 100.0
+          exact_match_acc_percentage: 0.0
+          substitutions: 0
+          deletions: 1
+          insertions: 0
+          hits: 11
+          total_ref_words: 12
+        normalized:
+          wer: 0.0
+          wer_percentage: 0.0
+          cer: 0.0
+          cer_percentage: 0.0
+          ser: 0.0
+          ser_percentage: 0.0
+          exact_match_acc_percentage: 100.0
+          substitutions: 0
+          deletions: 0
+          insertions: 0
+          hits: 11
+          total_ref_words: 11
+        total_duration_hours: 0.001
+      D5_Banking:
+        num_samples: 2
+        raw:
+          wer: 0.24
+          wer_percentage: 24.0
+          cer: 0.1091
+          cer_percentage: 10.91
+          ser: 1.0
+          ser_percentage: 100.0
+          exact_match_acc_percentage: 0.0
+          substitutions: 3
+          deletions: 3
+          insertions: 0
+          hits: 19
+          total_ref_words: 25
+        normalized:
+          wer: 0.2963
+          wer_percentage: 29.63
+          cer: 0.0755
+          cer_percentage: 7.55
+          ser: 1.0
+          ser_percentage: 100.0
+          exact_match_acc_percentage: 0.0
+          substitutions: 3
+          deletions: 5
+          insertions: 0
+          hits: 19
+          total_ref_words: 27
+        total_duration_hours: 0.003
+    samplewise_analytics:
+    - utterance_id: '40000764'
+      dialect: D1
+      domain: Banking
+      gender: FEMALE
+      slab: clean
+      age_group: 36-40
+      speaker_id: '40042'
+      duration_seconds: 7.0
+      reference_raw: कर माफी उन लोगों के लिए है जो सालों से अपनी संपत्ति को छिपाते
+        हैं
+      hypothesis_raw: कर माफ़ी उन लोगों के लिए है जो सालों से अपनी संपत्ति को छिपाते
+        हैं
+      reference_normalized: कर माफी उन लोगों के लिए है जो सालों से अपनी संपत्ति को
+        छिपाते हैं
+      hypothesis_normalized: कर माफ़ी उन लोगों के लिए है जो सालों से अपनी संपत्ति
+        को छिपाते हैं
+      raw_wer: 0.0667
+      normalized_wer: 0.0667
+      raw_cer: 0.0154
+      normalized_cer: 0.0154
+      exact_match: false
+    - utterance_id: '40000785'
+      dialect: D1
+      domain: Banking
+      gender: FEMALE
+      slab: clean
+      age_group: 36-40
+      speaker_id: '40042'
+      duration_seconds: 3.2
+      reference_raw: ऑडिटर ने खाता बखूबी मिलाया
+      hypothesis_raw: ऑडिटर ने खाता बखूबी मिलाया
+      reference_normalized: ऑडिटर ने खाता बखूबी मिलाया
+      hypothesis_normalized: ऑडिटर ने खाता बखूबी मिलाया
+      raw_wer: 0.0
+      normalized_wer: 0.0
+      raw_cer: 0.0
+      normalized_cer: 0.0
+      exact_match: true
+    - utterance_id: '40004938'
+      dialect: D5
+      domain: Banking
+      gender: MALE
+      slab: clean
+      age_group: 31-35
+      speaker_id: '40313'
+      duration_seconds: 5.7
+      reference_raw: ई के.वाई.सी क्या है इसको कैसे भरा जाता है ?
+      hypothesis_raw: ईकेवाईसी क्या है इसको कैसे भरा जाता है
+      reference_normalized: ई के वाई सी क्या है इसको कैसे भरा जाता है
+      hypothesis_normalized: ईकेवाईसी क्या है इसको कैसे भरा जाता है
+      raw_wer: 0.3
+      normalized_wer: 0.3636
+      raw_cer: 0.1163
+      normalized_cer: 0.0732
+      exact_match: false
+    - utterance_id: '40006085'
+      dialect: D5
+      domain: Agriculture
+      gender: MALE
+      slab: clean
+      age_group: 31-35
+      speaker_id: '40313'
+      duration_seconds: 4.32
+      reference_raw: कोल्ड स्टोर में कौन कौन से उत्पाद रखे जा सकते हैं ?
+      hypothesis_raw: कोल्ड स्टोर में कौन कौन से उत्पाद रखे जा सकते हैं
+      reference_normalized: कोल्ड स्टोर में कौन कौन से उत्पाद रखे जा सकते हैं
+      hypothesis_normalized: कोल्ड स्टोर में कौन कौन से उत्पाद रखे जा सकते हैं
+      raw_wer: 0.0833
+      normalized_wer: 0.0
+      raw_cer: 0.0392
+      normalized_cer: 0.0
+      exact_match: true
+    - utterance_id: '40006226'
+      dialect: D5
+      domain: Banking
+      gender: MALE
+      slab: clean
+      age_group: 31-35
+      speaker_id: '40313'
+      duration_seconds: 5.27
+      reference_raw: क्या एक ही यु.पी.आई नम्बर अलग अलग खाते में प्रयोग किया जा सकता
+        है ?
+      hypothesis_raw: क्या एक ही यूपीआई नंबर अलग अलग खाते में प्रयोग किया जा सकता
+        है
+      reference_normalized: क्या एक ही यु पी आई नम्बर अलग अलग खाते में प्रयोग किया
+        जा सकता है
+      hypothesis_normalized: क्या एक ही यूपीआई नंबर अलग अलग खाते में प्रयोग किया जा
+        सकता है
+      raw_wer: 0.2
+      normalized_wer: 0.25
+      raw_cer: 0.1045
+      normalized_cer: 0.0769
+      exact_match: false
