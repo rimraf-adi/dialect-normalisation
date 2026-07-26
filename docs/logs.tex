@@ -1,0 +1,88 @@
+\documentclass[10pt]{article}
+\usepackage[margin=0.6in]{geometry}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{amsmath}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{multirow}
+\setlist{nosep, leftmargin=*}
+
+\title{\textbf{IndicConformer Marathi Evaluation Summary Report \\\large RESPIN Dialect Corpus Baseline Results}}
+\author{Aditya Kinjawadekar}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\section*{Evaluation Overview}
+
+\begin{itemize}
+  \item \textbf{Evaluated Model:} \texttt{ai4bharat/indicconformer\_stt\_mr\_hybrid\_ctc\_rnnt\_large}
+  \item \textbf{Dataset:} RESPIN Marathi Sub-Corpus (4 Dialect Groups, 2 Domains)
+  \item \textbf{Total Utterances Evaluated:} 2,170 utterances
+  \item \textbf{Total Audio Duration:} 3.042 hours
+\end{itemize}
+
+\section*{Overall Benchmark Comparison: CTC vs. RNNT}
+
+\begin{table}[h!]
+\centering
+\small
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{lcccccc}
+\toprule
+\textbf{Decoder Mode} & \textbf{Raw WER} & \textbf{Norm WER} & \textbf{Raw CER} & \textbf{Norm CER} & \textbf{Norm Exact Match} \\
+\midrule
+\textbf{CTC}  & 28.46\% & 23.94\% & 7.26\% & 4.95\% & 30.00\% \\
+\textbf{RNNT} & 28.54\% & 23.71\% & 7.39\% & 5.06\% & 30.78\% \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section*{Dialect-Wise Breakdown (Normalized Metrics)}
+
+\begin{table}[h!]
+\centering
+\small
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{llcccc}
+\toprule
+\textbf{Code} & \textbf{Dialect Region / Variety} & \textbf{Utts} & \textbf{CTC Norm WER} & \textbf{RNNT Norm WER} & \textbf{RNNT Norm CER} \\
+\midrule
+\textbf{D1} & South Konkan (Sindhudurg / Ratnagiri) & 559 & 34.59\% & 34.37\% & 7.45\% \\
+\textbf{D2} & North Konkan (Palghar / Thane)       & 540 & 24.64\% & 24.14\% & 5.08\% \\
+\textbf{D3} & Standard Pune (Benchmark Target)     & 555 & 11.57\% & 10.87\% & 2.34\% \\
+\textbf{D4} & Varhadi (Vidarbha / Amravati)        & 516 & 24.29\% & 24.79\% & 5.14\% \\
+\midrule
+\textbf{Total} & \textbf{All Dialects Combined}     & \textbf{2,170} & \textbf{23.94\%} & \textbf{23.71\%} & \textbf{5.06\%} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section*{Domain-Wise Breakdown (Normalized Metrics)}
+
+\begin{table}[h!]
+\centering
+\small
+\begin{tabular}{lcccc}
+\toprule
+\textbf{Domain} & \textbf{Utterances} & \textbf{CTC Norm WER (\%)} & \textbf{RNNT Norm WER (\%)} & \textbf{RNNT Norm CER (\%)} \\
+\midrule
+\textbf{Agriculture} & 1,060 & 23.95\% & 23.85\% & 5.36\% \\
+\textbf{Banking}     & 1,110 & 23.94\% & 23.59\% & 4.77\% \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section*{Key Empirical Insights}
+
+\begin{enumerate}
+  \item \textbf{Prestige Target Baseline (D3 Standard Pune):} The model achieves its best performance on Standard Pune speech ($\sim$10.87\% WER / 2.34\% CER under RNNT), confirming that the ASR backbone is well-calibrated for standard Marathi.
+  \item \textbf{South Konkan (D1) Dialect Gap:} South Konkan exhibits the highest error rate across all dialects (\textbf{34.37\% WER}), generating a \textbf{$+23.50\%$ absolute WER gap} compared to Standard Pune. This underscores the severe phonological and acoustic mismatch between coastal Konkani/South Konkan speech and standard ASR acoustic models.
+  \item \textbf{Varhadi (D4) \& North Konkan (D2) Discrepancy:} Both Varhadi and North Konkan exhibit $\sim$24.1\%--24.8\% WER, demonstrating a consistent $\sim$13.5\% absolute WER degradation over standard speech.
+  \item \textbf{CTC vs. RNNT Decoding Parity:} CTC and RNNT decoders perform very similarly overall (23.94\% vs 23.71\% Normalized WER), though RNNT provides a slight edge on Standard Pune (10.87\% vs 11.57\%) and Exact Match Accuracy (30.78\% vs 30.00\%).
+\end{enumerate}
+
+\end{document}

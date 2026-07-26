@@ -1,0 +1,519 @@
+\documentclass[11pt]{article}
+
+\usepackage{fontspec}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{geometry}
+\usepackage{hyperref}
+\usepackage{mdframed}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, arrows.meta, positioning, fit, backgrounds}
+
+\setmainfont{Times New Roman}
+\geometry{margin=1in}
+\setlength{\emergencystretch}{1.5em}
+\hbadness=10000
+\vbadness=10000
+\sloppy
+
+\hypersetup{colorlinks=true, linkcolor=blue, citecolor=blue, urlcolor=blue}
+
+\definecolor{infobg}{gray}{0.95}
+\definecolor{infoborder}{gray}{0.7}
+
+\newmdenv[%
+  backgroundcolor=infobg,
+  linecolor=infoborder,
+  linewidth=0.5pt,
+  leftmargin=0pt,
+  rightmargin=0pt,
+  innertopmargin=6pt,
+  innerbottommargin=6pt,
+  innerleftmargin=8pt,
+  innerrightmargin=8pt,
+]{infobox}
+
+\title{\textbf{Marathi Dialect Normalisation \& Speech Adaptation \\\medskip\large Architectural Review, Thesis Defense \& Staged Technical Blueprint}}
+\author{Aditya Kinjawadekar}
+\date{\today}
+
+\tikzset{
+  fcbox/.style = {rectangle, rounded corners=4pt, draw=infoborder, fill=infobg,
+                  text width=5.4cm, align=center, inner sep=5pt, font=\small},
+  fcstart/.style = {fcbox, fill=blue!8},
+  fcdata/.style = {fcbox, fill=green!8},
+  fcdec/.style = {diamond, aspect=1.5, draw=infoborder, fill=yellow!10,
+                  text width=3.6cm, align=center, inner sep=3pt, font=\small},
+  fcardec/.style = {fcbox, fill=red!8},
+  fcarw/.style = {-{Stealth[length=2.2mm]}, thick, draw=infoborder},
+  fcarrw/.style = {-{Stealth[length=2.2mm]}, thick, draw=red!70},
+  fclbl/.style = {font=\scriptsize\itshape, text=black!70}
+}
+
+\begin{document}
+\maketitle
+
+\begin{infobox}
+\textbf{Executive Summary \& Research Crux:} \\
+This document provides the definitive architectural blueprint, theoretical thesis defense, and staged implementation plan for building a regional speech normalisation and recognition system for \textbf{Marathi dialects} (South Konkan D1, Varhadi D4, North Konkan D2 $\rightarrow$ Standard Pune D3). 
+
+It begins with a rigorous \textbf{Thesis Defense} establishing why a standalone dialect normalisation component is necessary over LoRA fine-tuning or post-ASR text cleanup. It then provides the \textbf{Marathi Speech Pipeline Review}, evaluating the 3-stage cascade (\textbf{Diarization $\rightarrow$ Dialect Normalisation $\rightarrow$ ASR}), followed by a \textbf{Staged 3-Phase Roadmap} (Phase 0: Text-to-Text MVP $\rightarrow$ Phase 1: Standalone Audio Feature Normaliser $\rightarrow$ Phase 2: Multilingual Scale-Up \& ASR Adaptation Benchmark).
+\end{infobox}
+
+% ==============================================================================
+% SECTION 1: THESIS DEFENSE
+% ==============================================================================
+\section{Thesis Defense: Standalone Normalisation vs. Alternatives}
+
+When defending a thesis or presenting a research proposal for a standalone dialect normalisation component (whether a full voice-conversion module or an acoustic feature adapter), academic reviewers will ask:
+\begin{quote}
+\textit{``Why build a separate normalisation component when you could fine-tune the downstream ASR model end-to-end using LoRA adapters, or clean up text transcripts after ASR?''}
+\end{quote}
+This section establishes the formal academic, system-architectural, and information-theoretic case FOR a standalone normaliser and AGAINST all alternative approaches.
+
+\subsection{Thesis Core Statement}
+\begin{infobox}
+\textbf{Thesis Core Defense:} \\
+We propose a \textbf{standalone, decoupled dialect normalisation component} that transforms regional non-standard Marathi speech (or its latent acoustic features) prior to downstream recognition. Standalone normalisation guarantees \textbf{universal model agnosticism}, enables \textbf{black-box API deployment}, prevents \textbf{catastrophic forgetting}, preserves \textbf{audio-level intelligibility for multi-task applications}, and disentangles \textbf{phonological shift from sequence language modeling}.
+\end{infobox}
+
+\subsection{The Case FOR a Standalone Normalisation Component}
+\begin{enumerate}[leftmargin=*]
+  \item \textbf{Decoupled Modularity \& Universal Model Agnosticism (Plug-and-Play Architecture):}
+    A standalone normaliser operates directly on speech waveforms or model-agnostic acoustic representations ($X_{\text{Dialect}} \to \hat{X}_{\text{Standard}}$). Once trained, it acts as a universal front-end that can precede \textbf{ANY downstream ASR engine} (IndicConformer, Whisper-v3, Meta MMS, Google STT), human listeners, live translation models, or biometric speaker verification pipelines without touching downstream code or weights.
+
+  \item \textbf{Real-World Black-Box API Compatibility:}
+    In commercial and enterprise deployments (healthcare, public infrastructure, customer support), ASR systems are black-box commercial APIs (e.g., Google Cloud STT, Azure Speech) accessed strictly over network endpoints where internal parameter fine-tuning (LoRA) is \textbf{strictly impossible}. A standalone front-end normaliser is the \textbf{only viable architectural mechanism} that enables black-box APIs to transcribe unsupported regional dialects.
+
+  \item \textbf{100\% Preservation of Pre-Trained ASR Knowledge (Zero Catastrophic Forgetting):}
+    Fine-tuning a 600M+ parameter ASR model on a small, low-resource regional dataset risks corrupting its pre-trained linguistic, semantic, and language modeling representations built on tens of thousands of hours of data. A standalone normaliser leaves the downstream ASR model 100\% frozen, preserving its pre-trained robustness.
+
+  \item \textbf{Multi-Task Usability \& Audio Output Retention:}
+    Direct ASR fine-tuning destroys the audio signal, producing only text strings. A standalone audio/feature normaliser preserves or reconstructs the speech signal, enabling human cross-dialect listening (standard Pune speakers understanding regional Varhadi/Konkan speech in real time), voice dubbing, speech-to-speech translation, and emotion preservation.
+
+  \item \textbf{Disentanglement of Phonology vs. Language Modeling:}
+    Dialect variation is fundamentally an \textbf{acoustic-phonological transformation}, not a structural semantic change. Conflating acoustic adaptation with sequence-to-sequence language modeling inside an ASR model forces the decoder to solve two distinct problems simultaneously. Disentangling normalisation into a specialized front-end isolates the phonological shift problem and allows explicit optimization for speaker identity preservation, acoustic naturalness (UTMOS), and phone contrast enhancement.
+\end{enumerate}
+
+\subsection{The Case AGAINST Direct LoRA Fine-Tuning of Downstream ASR}
+\begin{enumerate}[leftmargin=*]
+  \item \textbf{Tightly Coupled Model Dependency:}
+    LoRA adapters ($W_{\text{ASR}}' = W_{\text{ASR}} + BA$) bind the adaptation strictly to a single specific model architecture and checkpoint. Upgrading the underlying ASR model renders the LoRA weights useless, requiring costly re-training and re-collection of dialect data.
+  \item \textbf{Inapplicability to Black-Box Endpoints:}
+    LoRA requires open access to internal weight matrices, rendering it un-deployable over third-party APIs or proprietary hardware accelerators.
+  \item \textbf{Destruction of Audio Intelligibility:}
+    LoRA fine-tuning provides zero benefit to non-ASR tasks. It cannot produce audible speech for human cross-dialect understanding or live speech translation.
+  \item \textbf{Combinatorial Explosion across Sub-Dialects:}
+    Fine-tuning via LoRA requires maintaining separate adapter modules for every sub-dialect (Varhadi, South Konkan, North Konkan, Marathwada). In contrast, a standalone normaliser uses a shared discrete acoustic codebook (e.g., TokAN VQ-VAE) to map arbitrary dialect tokens onto standard acoustic primitives.
+\end{enumerate}
+
+\subsection{The Case AGAINST Post-ASR Text Normalisation (NMT / LLM Rewriting)}
+\begin{enumerate}[leftmargin=*]
+  \item \textbf{Fatal Information Loss Under CTC / Argmax Tokenization:}
+    When non-standard Marathi dialect speech is processed by a standard ASR, acoustic frames mismatching standard distributions get misclassified into incorrect Devanagari subwords during CTC/beam-search decoding:
+    \[
+    Y^* = \arg\max_Y P(Y \mid X_{\text{audio}})
+    \]
+    The moment speech is tokenized into text $Y^*$, \textbf{acoustic phoneme information is irreversibly destroyed} (entropy loss under argmax projection). No downstream text model (NMT or LLM) can reliably guess whether a transcribed character was what the speaker said or a phonetically garbled mishearing.
+  \item \textbf{High-Confidence Hallucination Propagation:}
+    ASR decoders output misheard tokens with high softmax confidence. Text rewriting models process these corrupted tokens as ground truth, leading to catastrophic semantic hallucinations.
+\end{enumerate}
+
+\subsection{Addressing Native Language Support in 22-Language Multilingual ASR}
+State-of-the-art multilingual ASR engines such as \texttt{ai4bharat/indic-conformer-600m-multilingual} natively support all 22 officially recognized Eighth Schedule languages of India—including Marathi (\texttt{mr}), Konkani (\texttt{kok}), Hindi (\texttt{hi}), Assamese (\texttt{as}), Bengali (\texttt{bn}), Gujarati (\texttt{gu}), Kannada (\texttt{kn}), Malayalam (\texttt{ml}), Tamil (\texttt{ta}), Telugu (\texttt{te}), and Urdu (\texttt{ur}). We explicitly clarify why native 22-language support does \textbf{not} eliminate the need for standalone dialect normalisation:
+
+\begin{enumerate}[leftmargin=*]
+  \item \textbf{Prestige vs. Regional Dialect Gap:}
+    Multilingual ASR training corpora (e.g., IndicVoices) collect data primarily from urban, prestige standard speakers (Goan Standard Konkani or Pune Standard Marathi). When deployed on regional coastal/rural varieties (South Konkan D1, Malvani, Chitpavani, Mangalorean Konkani), native decoders experience severe acoustic mismatch (WER $>30\%$). Official language inclusion does not equal regional dialect coverage.
+  \item \textbf{Dual-Baseline Benchmark Design:}
+    Native 22-language support in IndicConformer provides a valuable empirical asset: it allows us to evaluate regional speech against \textbf{two official baselines}: (1) Native Konkani ASR decoding (\texttt{IndicConformer-Konkani}), and (2) Cross-lingual Marathi ASR decoding (\texttt{IndicConformer-Marathi}). Our standalone feature adapter ($f_\theta$) acts as a universal front-end preceding \textbf{both} decoders across the 22-language suite, proving that acoustic feature normalisation closes the regional dialect gap regardless of which target decoder is selected.
+\end{enumerate}
+
+\subsection{Defense Summary Matrix}
+\begin{table}[h!]
+\centering
+\small
+\begin{tabular}{>{\raggedright\arraybackslash}p{3.0cm}>{\raggedright\arraybackslash}p{3.8cm}>{\raggedright\arraybackslash}p{4.2cm}>{\raggedright\arraybackslash}p{4.2cm}}
+\toprule
+\textbf{Architecture} & \textbf{Core Mechanism} & \textbf{Case FOR (Strengths)} & \textbf{Case AGAINST (Fatal Flaws)} \\
+\midrule
+\textbf{Standalone Audio/Feature Normaliser} (Proposed Thesis) & Pre-ASR acoustic feature or waveform transformation ($X_{\text{L2}} \to \hat{X}_{\text{L1}}$) & \textbf{Universal model agnosticism}; works with black-box APIs; zero catastrophic forgetting; preserves audio for human listening & Requires acoustic pair generation or discrete token alignment \\
+\midrule
+\textbf{Direct LoRA ASR Fine-Tuning} & Parameter-efficient fine-tuning of ASR weights ($W_{\text{ASR}} + \Delta W$) & Parameter efficient (<1\% weights fine-tuned); high performance on target model & Tightly coupled to 1 model checkpoint; \textbf{cannot work on black-box APIs}; destroys audio signal \\
+\midrule
+\textbf{Post-ASR Text Normalisation} & Post-processing garbled text via NMT/LLM rewriting & Easy text-only pair collection & \textbf{Fatal flaw:} Cannot recover acoustic phonemes lost during ASR argmax tokenization \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% ==============================================================================
+% SECTION 2: MARATHI SPEECH PIPELINE REVIEW
+% ==============================================================================
+\section{Review of the Planned Marathi Speech Pipeline}
+
+\subsection{What This Pipeline Is Proposing}
+The core architecture proposes a modular, three-stage cascade for transcribing regional Marathi dialect speech using an existing high-resource Marathi speech-recognition (ASR) system:
+\begin{enumerate}[leftmargin=*]
+  \item \textbf{Stage 1 --- Diarization (Speaker Segmentation \& Clustering):}
+    Processes raw, multi-speaker continuous audio streams to detect active speech boundaries and assign speaker labels, partitioning the input waveform into homogeneous single-speaker audio segments $A_1, A_2, \dots, A_K$.
+  \item \textbf{Stage 2 --- Audio Dialect Normalisation / Acoustic Adaptation:}
+    Transforms the regional Marathi acoustic signal $A_i$ directly in the signal or feature space into an adapted representation $\hat{A}_i$ calibrated to match the phonetic and acoustic expectations of the target Marathi ASR model.
+  \item \textbf{Stage 3 --- ASR Transcription (Marathi Acoustic Model):}
+    Feeds the adapted acoustic representation $\hat{A}_i$ into a pre-trained Marathi ASR backbone (e.g., IndicConformer-600M or IndicWhisper) to emit final Devanagari text transcripts $Y_i$.
+\end{enumerate}
+
+\subsection{Diarization: Technical Execution \& Language Isolation}
+Diarization operates strictly on acoustic signal characteristics (pitch, formant structures, spectral envelope, speaker embeddings) and VAD (Voice Activity Detection) timestamps, independent of linguistic semantics or underlying language phonology.
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Execution Workflow:} Raw audio passes through a neural VAD (e.g., Pyannote-Audio 3.1) to trim silence. Active speech frames are projected into a metric space using speaker encoders (e.g., ECAPA-TDNN or x-vectors). Agglomerative Hierarchical Clustering (AHC) or Variational Bayesian HMM (VBx) groups vectors into distinct speaker IDs.
+  \item \textbf{Isolation Guarantee:} Because diarization functions purely at the acoustic identity layer, it does not interact with the dialect discrepancy or language boundary problem. Placing it first isolates downstream processing to clean single-speaker segments.
+\end{itemize}
+
+\subsection{Audio Dialect Normalisation vs. Text Cleanup}
+Fixing speech at the audio/feature stage targets the root cause of recognition failure rather than attempting to patch downstream symptoms. When regional Marathi phoneme sequences (e.g., retroflex lateral lenition in Varhadi, mid-vowel raising in South Konkan, or dental-palatal affricate contrasts) differ from the Standard Marathi acoustic model's training distribution, the acoustic model misclassifies the phoneme frames into incorrect character tokens. Pre-ASR normalisation ($X_{\text{Dialect}} \to \hat{X}_{\text{Standard}}$) preserves phonemic contrast before irreversible tokenization occurs.
+
+\subsection{Technical Options for the Normalisation Stage}
+\begin{enumerate}[leftmargin=*]
+  \item \textbf{Full Waveform Voice Conversion:} Converts regional Marathi speech waveforms to sound like standard Pune Marathi in the original speaker's voice using TokAN-style VQ-VAE + Autoregressive Transformer + Flow Matching Vocoder. High quality, but complex neural synthesis.
+  \item \textbf{Acoustic Feature Adaptation (Learned Front-End Filter):} Operates directly on intermediate 80-channel Log-Mel spectrograms or self-supervised HuBERT/wav2vec2 embeddings:
+    \[
+    \hat{F}_{\text{Standard}} = f_\theta(F_{\text{Dialect}})
+    \]
+    A 2-to-4 layer Conformer/Linear feature adapter shifts regional acoustic features into the feature space expected by the Standard Marathi ASR encoder without generating audible waveforms. Fast, lightweight (<10M params).
+  \item \textbf{Direct ASR Fine-Tuning (LoRA Adapter):} Injects LoRA modules ($r=16, \alpha=32$) into the Marathi ASR model's attention/FFN layers and fine-tunes directly on regional dialect speech.
+\end{enumerate}
+
+\subsection{Overall Verdict on the Pipeline}
+\begin{infobox}
+\textbf{Strategic Verdict \& Technical Path:}
+Keep the 3-stage order (\textbf{Diarization $\rightarrow$ Dialect Normalisation $\rightarrow$ ASR}). Treat the normalisation stage initially as a lightweight, well-scoped acoustic feature adapter, and plan from day one to evaluate direct ASR fine-tuning as an empirical baseline.
+\end{infobox}
+
+% ==============================================================================
+% SECTION 3: STAGED 3-PHASE EXECUTION ROADMAP
+% ==============================================================================
+\section{Staged 3-Phase Execution Roadmap}
+
+To de-risk development, optimize GPU compute budget on a single 32GB GPU, and empirically establish performance bounds, we adopt a strict \textbf{staged 3-phase execution strategy}:
+
+\subsection{Phase 0: Text-to-Text Normalisation MVP \& Parallel Corpus Engine (Month 1)}
+
+\textbf{Goal:} Build and evaluate a discrete Text-to-Text Normalisation model ($T_{\text{Dialect}} \to T_{\text{Standard}}$) \textbf{FIRST}, before touching complex acoustic pipelines.
+
+\subsubsection{1. Strategic Purpose of Phase 0}
+Starting with Text-to-Text normalisation serves three vital research objectives:
+\begin{enumerate}[leftmargin=*]
+  \item \textbf{Establishes Upper-Bound Benchmark:} Evaluates the maximum achievable translation/normalisation accuracy on \textit{clean ground-truth regional transcripts} vs. \textit{garbled ASR transcripts}.
+  \item \textbf{Generates Parallel Data for Voice Cloning (Phase 1 Driver):} Creates thousands of aligned parallel sentence pairs $(T_{\text{Standard}}, T_{\text{Dialect}})$. These aligned text pairs directly drive the Phase 1 \textbf{IndicF5} voice-cloning TTS engine to generate parallel acoustic audio pairs $(X_{\text{L1\_Real}}, X_{\text{L2\_Synthetic}})$.
+  \item \textbf{Empirical Proof of Acoustic Loss Hypothesis:} Demonstrates that text rewriting models (NMT/LLM) fail when applied post-ASR due to CTC/argmax phonetic corruption, providing the empirical justification for the Phase 1 pre-ASR feature adapter.
+\end{enumerate}
+
+\subsubsection{2. Candidate Model Backbones \& Hyperparameters}
+We evaluate three model families on a single 32GB GPU:
+\begin{itemize}[leftmargin=*]
+  \item \textbf{IndicTrans2-1B Seq2Seq (\texttt{ai4bharat/indictrans2-indic-indic-1B}):} Specialized NMT backbone trained across Devanagari Indic languages. Fine-tuned with LoRA ($r=16, \alpha=32$) on target Marathi dialect pairs.
+  \item \textbf{mT5-Base / mT5-Large (\texttt{google/mt5-base}):} Multilingual T5 encoder-decoder fine-tuned using sequence-to-sequence cross-entropy loss.
+  \item \textbf{Llama-3.1-8B-Instruct (\texttt{meta-llama/Meta-Llama-3.1-8B-Instruct}):} Causal LM fine-tuned via 4-bit QLoRA ($r=16, \alpha=32$, target modules: \texttt{q\_proj, v\_proj, k\_proj, o\_proj}) using Unsloth/TRL.
+\end{itemize}
+
+\subsubsection{3. Parallel Corpus Construction Pipeline}
+Because large parallel dialect text corpora do not exist off-the-shelf, we construct a 30,000-sentence parallel text dataset using a 3-tier strategy:
+\begin{enumerate}[leftmargin=*]
+  \item \textbf{Tier 1 --- RESPIN Marathi Transcripts (Ground Truth):} 2,170+ RESPIN sentences categorized by dialect (D1 South Konkan, D2 North Konkan, D3 Standard Pune, D4 Varhadi).
+  \item \textbf{Tier 2 --- Rule-Based Phonological Rewriter:} Deterministic conversion rules mapping Varhadi/Konkan orthographic markers to Standard Pune Marathi (e.g., retroflex lateral $j \to \text{ɭ}$, case postpositions \textit{-le} $\to$ \textit{-lā}, locative markers \textit{-at} $\to$ \textit{-āt}).
+  \item \textbf{Tier 3 --- LLM Synthetic Dialect Expansion:} Prompting Frontier LLMs (e.g., Llama-3.1-70B / Claude-3.5-Sonnet) with dialect lexicons and phonological rules to paraphrase 25,000 Standard Marathi sentences into authentic Varhadi ($T_{\text{Varhadi}}$) and South Konkan ($T_{\text{Konkan}}$) phrasing.
+\end{enumerate}
+
+\subsubsection{4. Week-by-Week Execution Blueprint ("What To Do")}
+\begin{enumerate}[leftmargin=*]
+  \item \textbf{Week 1 (Rule Base \& Lexicon Mining):} Implement Python rule-based phonological rewriter; extract 5,000 parallel words/phrases from Marathi dialect dictionaries; build baseline text preprocessing scripts.
+  \item \textbf{Week 2 (Data Expansion \& LLM Prompting):} Run LLM synthetic expansion script to produce 30,000 aligned $(T_{\text{Standard}}, T_{\text{Dialect}})$ sentence pairs; execute quality filtering (BLEU, length ratio verification).
+  \item \textbf{Week 3 (Model Fine-Tuning):} Fine-tune \texttt{IndicTrans2-1B} and \texttt{Llama-3.1-8B} QLoRA on a 32GB GPU (bfloat16, learning rate $2 \times 10^{-4}$, batch size 16, 5 epochs, $\sim$4 hours training time).
+  \item \textbf{Week 4 (Evaluation \& Decision Gate):}
+    \begin{itemize}[leftmargin=*]
+      \item Evaluate BLEU, chrF++, CER, and WER on clean ground-truth text.
+      \item Feed raw, garbled ASR outputs from IndicConformer into the fine-tuned text model; measure accuracy drop.
+      \item Export clean parallel text pairs to launch Phase 1 IndicF5 voice-cloning synthesis.
+    \end{itemize}
+\end{enumerate}
+
+\subsection{Phase 1: Standalone Audio Feature Normaliser (Months 2--4, Paper 1)}
+\textbf{Goal:} Build the pre-ASR acoustic normaliser ($F_{\text{Dialect}} \to \hat{F}_{\text{Standard}}$ or TokAN discrete VQ-VAE token converter) operating on raw speech or Log-Mel features, conditioned on ECAPA-TDNN speaker embeddings.
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Primary Pairs:} Varhadi (D4) \& South Konkan (D1) $\rightarrow$ Standard Pune (D3 / IndicVoices-R Marathi).
+  \item \textbf{Synthetic Data Pipeline:} Use IndicF5 voice-cloning TTS to generate synthetic L2 audio in real L1 speaker voices from Phase 0 parallel text.
+  \item \textbf{Target Submission:} INTERSPEECH 2027 or ICASSP 2027 (system/results paper).
+\end{itemize}
+
+\subsection{Phase 2: Multilingual Scale-Up \& ASR Adaptation Benchmark (Months 5--8, Paper 2)}
+\textbf{Goal:} Expand normalisation across multiple regional dialects (South Konkan, Varhadi, Awadhi) and evaluate direct ASR acoustic model fine-tuning as an empirical comparator.
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Extended Pairs:} Hindi Awadhi Bundeli $\rightarrow$ Khariboli (RESPIN Hindi D3 $\rightarrow$ D1).
+  \item \textbf{Multilingual Model:} Shared VQ codebook + language/dialect-ID conditioning across Marathi and Hindi.
+  \item \textbf{Target Submission:} IEEE/ACM TASLP or Computer Speech and Language (CSL journal).
+\end{itemize}
+
+% ==============================================================================
+% SECTION 4: CORE MODEL ARCHITECTURE
+% ==============================================================================
+\section{Core Model Architecture: Acoustic Feature Adaptation Engine (\texorpdfstring{$f_\theta$}{f\_theta})}
+
+The primary architectural focus of this project is the \textbf{Learned Neural Acoustic Feature Adapter} ($f_\theta$). Instead of performing full audio-to-audio waveform generation (which requires heavy vocoders, flow matching, and phase alignment), $f_\theta$ operates as a lightweight, fast front-end filter directly in the latent acoustic representation space:
+\[
+\hat{F}_{\text{Standard}} = f_\theta(F_{\text{Dialect}})
+\]
+It projects non-standard regional Marathi acoustic vectors into the exact representation manifold expected by the frozen downstream Standard Marathi ASR model (\texttt{ai4bharat/indicconformer\_stt\_mr\_hybrid\_ctc\_rnnt\_large} or \texttt{IndicWhisper}).
+
+\subsection{Feature Space Representation Options}
+The feature adapter $f_\theta$ can be configured across two primary representation spaces:
+\begin{enumerate}[leftmargin=*]
+  \item \textbf{80-Channel Log-Mel Filterbanks ($F_{\text{Mel}} \in \mathbb{R}^{T \times 80}$):}
+    Processes standard acoustic spectrogram frames sampled at 16\,kHz with a 25\,ms window and 10\,ms hop size. $f_\theta$ transforms regional spectral energy distributions (e.g., formant shifts, retroflex lenition, vowel raising) directly before feature projection into the ASR encoder.
+  \item \textbf{Self-Supervised Speech Representations ($F_{\text{SSL}} \in \mathbb{R}^{T' \times D}$):}
+    Extracts frame-level embeddings from intermediate layers of a frozen self-supervised speech encoder (e.g., \texttt{wav2vec2-large-xlsr-53} or \texttt{IndicHuBERT}, $D=768 / 1024$). $f_\theta$ maps regional latent vectors into standard phonetic clusters.
+\end{enumerate}
+
+\subsection{Neural Adapter Networks}
+We evaluate two lightweight (<10M parameter) architecture variants for $f_\theta$:
+
+\subsubsection{1. Conformer Feature Adapter (2-to-4 Layers)}
+Composed of 2-to-4 stacked Conformer blocks (Multi-Head Self-Attention + Depthwise Separable Convolution + Feed-Forward Residual Modules):
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Depthwise Separable Convolutions:} Capture local spectral transitions, shift formants, and align phoneme duration boundaries.
+  \item \textbf{Self-Attention Blocks:} Capture global context across the sentence, resolving non-local grammatical and postposition shifts.
+  \item \textbf{Parameter Footprint:} $\sim$4.8M parameters ($D_{\text{model}} = 256$, 4 heads, $D_{\text{ffn}} = 1024$).
+\end{itemize}
+
+\subsubsection{2. Residual Linear Spectrogram Adapter}
+A 4-layer 1D Convolutional Residual Network with Layer Normalization and Swish activations:
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Residual Connections:} $\hat{F}_l = F_{l-1} + \text{Conv1D}(\text{LayerNorm}(F_{l-1}))$. Ensures stable gradient flow and prevents over-smoothing of fine spectral details.
+  \item \textbf{Parameter Footprint:} $\sim$1.2M parameters. Ultra-fast inference with virtually zero latency.
+\end{itemize}
+
+\subsection{Joint Optimization \& Loss Functions}
+The feature adapter $f_\theta$ is trained end-to-end using a compound loss function:
+\[
+\mathcal{L}_{\text{adapter}} = \alpha \cdot \mathcal{L}_{\text{ASR\_CTC}} + \beta \cdot \mathcal{L}_{\text{Feature\_Dist}} + \gamma \cdot \mathcal{L}_{\text{Cosine}}
+\]
+\begin{enumerate}[leftmargin=*]
+  \item \textbf{Downstream ASR CTC/Transducer Loss ($\mathcal{L}_{\text{ASR\_CTC}}$):}
+    Passed directly from the frozen downstream ASR model's CTC loss function on target ground-truth transcripts:
+    \[
+    \mathcal{L}_{\text{ASR\_CTC}} = \text{CTC\_Loss}\Big(\text{ASR\_Encoder}\big(f_\theta(F_{\text{Dialect}})\big), Y_{\text{Standard\_Text}}\Big)
+    \]
+    This forces the adapter to optimize directly for downstream ASR transcription accuracy without altering ASR weights.
+  \item \textbf{Parallel Feature Distance Loss ($\mathcal{L}_{\text{Feature\_Dist}}$):}
+    Measures $L_1$ frame-level error against synthetic/real parallel standard frames:
+    \[
+    \mathcal{L}_{\text{Feature\_Dist}} = \big\|f_\theta(F_{\text{Dialect}}) - F_{\text{Standard\_Real}}\big\|_1
+    \]
+  \item \textbf{Cosine Feature Direction Loss ($\mathcal{L}_{\text{Cosine}}$):}
+    Aligns feature vector trajectories in embedding space: $1 - \cos(\hat{F}, F_{\text{Real}})$.
+\end{enumerate}
+
+\subsection{TokAN Discrete Token Baseline (Comparative Hybrid)}
+As a discrete baseline, we adapt TokAN~\cite{tokan2025} using a discrete VQ-VAE tokenizer (512 codes, 256 dimensions) + 6-layer AR Transformer + ECAPA-TDNN speaker embedding conditioning. The comparative experiment evaluates whether continuous feature adaptation ($f_\theta$) outperforms discrete acoustic token mapping ($T_{\text{L2}} \to T_{\text{L1}}$) under modest compute constraints.
+
+% ==============================================================================
+% SECTION 5: MARATHI DIALECT LANDSCAPES & PHONOLOGICAL CONTRASTS
+% ==============================================================================
+\section{Marathi Dialect Landscapes \& Phonological Shift Rules}
+
+\subsection{Primary Target: Marathi Regional Dialect Spectrum}
+Marathi exhibits rich regional dialectal variation across Maharashtra. Standard Marathi (Puneri / Pune variety) serves as the primary ASR target language:
+
+\small
+\begin{longtable}{ll>{\raggedright\arraybackslash}p{5.5cm}}
+\toprule
+\textbf{Dialect / Variety} & \textbf{Region} & \textbf{Key Phonological Differences from Standard} \\
+\midrule
+\endhead
+\bottomrule
+\endfoot
+\textbf{Standard (Pune, D3)} & Pune / Urban MH & Standard prestige variety --- primary benchmark target \\
+\textbf{South Konkan (D1)} & Sindhudurg, Ratnagiri & Coastal phonology, vowel shifts, mid-vowel raising, unique affixes \\
+\textbf{Varhadi (D4)} & Vidarbha (E. MH) & Retroflex lateral [ɭ] $\rightarrow$ [j], \textit{-le} case marker (vs \textit{-lā}), ergative alignment \\
+\textbf{North Konkan (D2)} & Palghar, Thane & Distinct palatal affricates, nasalisation loss, vocabulary overlap \\
+\textbf{Awadhi (Hindi D3)} & Central UP & Dative /kaː/ $\to$ /koː/, locative /maː/ $\to$ /mẽː/, aspirated affricate mergers \\
+\end{longtable}
+\normalsize
+
+\subsection{Concrete Sound Rules}
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Varhadi $\rightarrow$ Standard Pune:}
+    Retroflex lateral lenition ([ɭ] $\rightarrow$ [j]), dative case marker change (\textit{-le} $\rightarrow$ \textit{-lā}), de-palatalisation of dental/palatal affricates.
+  \item \textbf{South Konkan $\rightarrow$ Standard Pune:}
+    Schwa syncope reduction, mid-vowel raising (/o/ $\to$ [u], /e/ $\to$ [i]), coastal postposition alignment.
+  \item \textbf{Awadhi $\rightarrow$ Khariboli (Hindi):}
+    Postposition shifts (/kaː/ $\to$ /koː/, /maː/ $\to$ /mẽː/), retroflex stop lenition.
+\end{itemize}
+
+% ==============================================================================
+% SECTION 6: DATA STRATEGY & SYNTHETIC PARALLEL DATA PIPELINE
+% ==============================================================================
+\section{Data Strategy \& Synthetic Parallel Data Pipeline}
+
+\subsection{Available Speech Corpora}
+\begin{longtable}{>{\raggedright\arraybackslash}p{1.8cm}>{\raggedright\arraybackslash}p{2.6cm}>{\raggedright\arraybackslash}p{1.4cm}>{\raggedright\arraybackslash}p{3.8cm}>{\raggedright\arraybackslash}p{2.0cm}}
+\toprule
+\textbf{Language} & \textbf{Dataset} & \textbf{Hours} & \textbf{Dialect Labels} & \textbf{Access} \\
+\midrule
+\endhead
+\bottomrule
+\endfoot
+\textbf{Marathi} & RESPIN-S1.0~\cite{respin2025} & $\sim$1,200 & 4 dialects (Konkan South, North, Pune, Varhadi) & Direct (GitHub) \\
+ & OpenSLR 103~\cite{openslr103} & 99 & 3 sociolect groups & Direct \\
+ & IndicVoices-R~\cite{indicvoicesr2025} & 100+ & Studio-quality standard Marathi & HuggingFace \\
+\midrule
+\textbf{Hindi} & RESPIN-S1.0~\cite{respin2025} & $\sim$2,500 & 5 dialects (Khariboli, Awadhi, Braj, Marwari, Garhwali) & Direct (GitHub) \\
+ & LAHAJA~\cite{lahaja2024} & 12.5 & 83 districts (test benchmark) & HuggingFace \\
+ & IndicVoices-R~\cite{indicvoicesr2025} & 175+ & Standard Khariboli reference & HuggingFace \\
+\end{longtable}
+
+\subsection{The Source-Synthesis Data Pipeline (CosyAccent Methodology)}
+Supervised normalisation models require parallel speech pairs $(X_{\text{L2}}, X_{\text{L1}})$ where the same speaker reads identical sentences in both dialect and standard varieties. Because no parallel human recordings exist for Indic dialects, we adopt the \textbf{CosyAccent}~\cite{cosyaccent2025} synthetic generation strategy:
+
+\begin{enumerate}[leftmargin=*]
+  \item \textbf{Keep L1 Target Real:} Standard audio recordings from IndicVoices-R Marathi / OpenSLR 103 ($\sim$5,000 utterances) are kept as authentic human speech. Synthesising L1 targets is strictly avoided to prevent propagating TTS artifacts into the normaliser.
+  \item \textbf{Synthesise L2 Dialect Audio in Cloned Voice:} Using a voice-cloning TTS (\textbf{IndicF5}~\cite{indicf5}), we feed the L1 speaker's real voice clip as identity reference alongside Phase 0 parallel text, generating synthetic L2 speech in the \textbf{same speaker's voice}.
+  \item \textbf{Quality Filtering Pipeline:}
+    \begin{itemize}[leftmargin=*]
+      \item \textit{ASR Consistency:} Transcribe L1 and L2 with IndicWhisper; discard if WER $>$ 15\%.
+      \item \textit{Speaker Similarity:} ECAPA-TDNN cosine similarity between real L1 and synthetic L2 audio ($>$ 0.5).
+      \item \textit{Naturalness:} UTMOS score filter ($>$ 3.0).
+    \end{itemize}
+\end{enumerate}
+
+\subsection{IndicF5 Voice-Cloning Design Fork}
+\begin{infobox}
+\textbf{Design Fork Decision Gate (Week 1 Sanity Check):}
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Path 1 (LoRA Accent Adapter):} Train a LoRA adapter on RESPIN dialect audio without modifying IndicF5. Conditioned on Speaker X's reference clip + dialect LoRA. If timbre remains anchored to Speaker X while pronunciation changes to Varhadi/Awadhi, Path 1 succeeds.
+  \item \textbf{Path 2 (VANI-Style Disentangled Conditioning):} Redesign IndicF5 to accept separate Speaker Embeddings (ECAPA-TDNN) and Accent Embeddings. Pursued if Path 1 causes speaker timbre drift.
+\end{itemize}
+\end{infobox}
+
+\subsection{32GB GPU Memory Budget}
+\begin{table}[h!]
+\centering
+\small
+\begin{tabular}{>{\raggedright\arraybackslash}p{4.2cm}>{\raggedright\arraybackslash}p{6.2cm}>{\raggedright\arraybackslash}p{2.2cm}}
+\toprule
+\textbf{Component} & \textbf{Configuration \& Approach} & \textbf{VRAM (32GB)} \\
+\midrule
+Phase 0 Text Engine & IndicTrans2-1B / Llama-3-8B (QLoRA, bfloat16) & $\sim$8 GB \\
+L1 TTS Voice Cloning & IndicF5 (0.4B flow-matching, reference audio) & $\sim$12 GB \\
+VQ Tokenizer & 512 codebook size, 256 embedding dimension & $\sim$4 GB \\
+AR Token Converter & 6-layer Transformer (512 hidden, 8 heads) & $\sim$6 GB \\
+ECAPA Speaker Encoder & Frozen pre-trained PyTorch checkpoint & $\sim$2 GB \\
+GRPO RL Fine-Tuning & LoRA adapters, micro-batch size 4 & $\sim$8 GB \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% ==============================================================================
+% SECTION 7: EVALUATION BENCHMARK & PUBLICATION STRATEGY
+% ==============================================================================
+\section{Evaluation Benchmark \& Publication Strategy}
+
+\subsection{Evaluation Metrics \& Baselines}
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Word Error Rate (WER) \& Relative WER Reduction:} Transcribe raw L2 vs converted audio using IndicConformer-600M / IndicWhisper. Target: $>30\%$ relative WER reduction.
+  \item \textbf{Speaker Similarity:} ECAPA-TDNN cosine similarity between input L2 and converted audio ($>0.85$).
+  \item \textbf{Audio Quality:} UTMOS naturalness score ($>3.0$).
+  \item \textbf{Dialect Classifier Score:} CNN trained on HuBERT features from RESPIN. Target: $>80\%$ classification as "standard" post-conversion.
+  \item \textbf{Baselines:} (1) Raw un-converted L2 audio, (2) Cascaded ASR $\to$ TTS (transcribe then re-speak), (3) Frame-to-frame GAN, (4) Direct Spectrogram Flow Matching.
+\end{itemize}
+
+\subsection{Publication Strategy (Two Independent Submissions)}
+\begin{enumerate}[leftmargin=*]
+  \item \textbf{Paper 1 (Month 4 Submission):} \textbf{INTERSPEECH 2027} or \textbf{ICASSP 2027}. First Indic dialect normalisation system, synthetic parallel data pipeline, RESPIN/LAHAJA benchmark, and single-language Marathi proof of concept.
+  \item \textbf{Paper 2 (Month 8 Submission):} \textbf{IEEE/ACM TASLP} or \textbf{Computer Speech and Language (CSL)}. Multilingual scale-up (Marathi + Hindi), cross-lingual transfer analysis, and comparison against direct LoRA ASR fine-tuning.
+\end{enumerate}
+
+% ==============================================================================
+% BIBLIOGRAPHY
+% ==============================================================================
+\begin{thebibliography}{10}
+
+\bibitem{grierson1907lsil}
+G.~A.~Grierson.
+\textit{Linguistic Survey of India}. 1907.
+
+\bibitem{tokan2025}
+N.~Ding et al., ``TokAN: Accent Normalization Using Self-Supervised Speech Tokens,'' arXiv:2607.03928, 2026.
+
+\bibitem{cosyaccent2025}
+M.~Li et al., ``CosyAccent: Source-Synthesis for Accent Normalisation,'' Proc. ICASSP, 2026. arXiv:2602.19166.
+
+\bibitem{mms2023}
+V.~Pratap et al., ``Scaling Speech Technology to 1,406 Languages,'' arXiv:2305.13516, 2023.
+
+\bibitem{indicvoices2024}
+T.~Javed et al., ``IndicVoices: Towards Building an Inclusive Multilingual Speech Dataset,'' arXiv:2403.01926, 2024.
+
+\bibitem{indicvoicesr2025}
+AI4Bharat, ``IndicVoices-R: A Massive Multilingual Multi-speaker Speech Corpus for Scaling Indian TTS,'' NeurIPS 2024.
+
+\bibitem{rasmalai2025}
+M.~Choudhury et al., ``RASMALAI: Large-Scale Speech Dataset with Rich Text Descriptions for 23 Indian Languages,'' arXiv:2505.18609, 2025.
+
+\bibitem{indicparlertts2025}
+AI4Bharat, ``IndicParlerTTS: Text-Description-Guided TTS for Indian Languages,'' arXiv:2505.18610, 2025.
+
+\bibitem{openslr103}
+OpenSLR, ``SLR103: Marathi Read Speech Corpus,'' \url{https://openslr.org/103/}.
+
+\bibitem{openslr64}
+OpenSLR, ``SLR64: Google Marathi Speech Corpus,'' \url{https://openslr.org/64/}.
+
+\bibitem{he2020open}
+F.~He et al., ``Open-source Multi-speaker Speech Corpora for Building Gujarati, Kannada, Malayalam, Marathi, Tamil and Telugu Speech Synthesis Systems,'' Proc. LREC, 2020.
+
+\bibitem{respin2025}
+S.~Kumar et al., ``RESPIN-S1.0: A Read Speech Corpus of 10,000+ Hours in Dialects of Nine Indian Languages,'' NeurIPS 2025.
+
+\bibitem{awadhi2022}
+R.~Kumar et al., ``Annotated Speech Corpus for Low Resource Indian Languages: Awadhi, Bhojpuri, Braj and Magahi,'' Proc. S4SG, 2022.
+
+\bibitem{chatterji1926}
+S.~K.~Chatterji, \textit{The Origin and Development of the Bengali Language}. Calcutta University Press, 1926.
+
+\bibitem{onubad2025}
+N.~Sultana et al., ``ONUBAD: A Comprehensive Dataset for Automated Conversion of Bangla Regional Dialects into Standard Bengali,'' Data in Brief, vol.~58, 2025.
+
+\bibitem{crossaccent2026}
+R.~Annamdevula et al., ``CrossAccent-TTS: Cross-Lingual Accent-Intensity Controllable Text-to-Speech via Disentangled Speaker and Accent Representations,'' Proc. INTERSPEECH, 2026.
+
+\bibitem{mullivc2024}
+Y.~Guo et al., ``MulliVC: Multi-lingual Voice Conversion With Cycle Consistency,'' arXiv:2408.04708, 2024.
+
+\bibitem{accentssl2025}
+Q.~Bai et al., ``Accent Normalisation Using Self-Supervised Discrete Tokens with Non-Parallel Data,'' Proc. INTERSPEECH, 2025.
+
+\bibitem{lahaja2024}
+T.~Javed et al., ``LAHAJA: A Robust Multi-accent Benchmark for Evaluating Hindi ASR Systems,'' arXiv:2408.11440, 2024.
+
+\bibitem{vaani2026}
+S.~Pulikodan et al., ``VAANI: Capturing the Language Landscape for an Inclusive Digital India,'' arXiv:2603.28714, 2026.
+
+\bibitem{multitts2025}
+``Optimized Multilingual TTS: Accents \& Emotions for Indic Languages,'' 2025.
+
+\bibitem{vani2024}
+NVIDIA, ``VANI: Accent-, Language-, and Speaker-Controllable TTS with Disentangled Embeddings,'' 2024.
+
+\bibitem{indicf5}
+AI4Bharat, ``IndicF5: Reference-Audio-Cloning TTS for Indian Languages,'' Hugging Face model tree.
+
+\bibitem{s2stdiffusion2025}
+A.~Mishra et al., ``Language Translation and Change of Accent for Speech-to-Speech Task Using Diffusion Model,'' arXiv:2505.04639, 2025.
+
+\end{thebibliography}
+
+\end{document}
