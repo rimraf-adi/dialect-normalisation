@@ -1,0 +1,94 @@
+model_info:
+  model_name: ai4bharat/indic-conformer-600m-multilingual
+  language_name: Telugu
+  dataset_lang_code: te
+  model_lang_code: te
+  device: null
+dataset_info:
+  split: test
+  metadata_file: IISc_RESPIN_test_te\IISc_RESPIN_test_te\meta_test_te.json
+  total_utterances_evaluated: 2226
+  total_utterances_in_meta: 2226
+  total_duration_hours: 3.375
+  avg_duration_seconds: 5.46
+key_metrics_summary:
+  ctc:
+    overall_summary:
+      raw_wer_percentage: 32.55
+      normalized_wer_percentage: 28.36
+      raw_cer_percentage: 7.3
+      normalized_cer_percentage: 5.34
+      raw_ser_percentage: 95.01
+      normalized_ser_percentage: 81.0
+      normalized_exact_match_acc_percentage: 19.0
+      total_ref_words: 18011
+      substitutions: 3943
+      deletions: 899
+      insertions: 266
+      hits: 13169
+    dialect_normalized_wer:
+      D1:
+        normalized_wer_percentage: 23.49
+        normalized_cer_percentage: 4.74
+        utterances: 526
+      D2:
+        normalized_wer_percentage: 31.24
+        normalized_cer_percentage: 5.53
+        utterances: 558
+      D3:
+        normalized_wer_percentage: 28.37
+        normalized_cer_percentage: 5.41
+        utterances: 609
+      D4:
+        normalized_wer_percentage: 30.42
+        normalized_cer_percentage: 5.74
+        utterances: 533
+    domain_normalized_wer:
+      Agriculture:
+        normalized_wer_percentage: 28.53
+        normalized_cer_percentage: 5.36
+        utterances: 1134
+      Banking:
+        normalized_wer_percentage: 28.21
+        normalized_cer_percentage: 5.33
+        utterances: 1092
+  rnnt:
+    overall_summary:
+      raw_wer_percentage: 31.57
+      normalized_wer_percentage: 27.29
+      raw_cer_percentage: 7.14
+      normalized_cer_percentage: 5.18
+      raw_ser_percentage: 94.83
+      normalized_ser_percentage: 80.05
+      normalized_exact_match_acc_percentage: 19.95
+      total_ref_words: 18011
+      substitutions: 3770
+      deletions: 894
+      insertions: 251
+      hits: 13347
+    dialect_normalized_wer:
+      D1:
+        normalized_wer_percentage: 22.01
+        normalized_cer_percentage: 4.46
+        utterances: 526
+      D2:
+        normalized_wer_percentage: 30.29
+        normalized_cer_percentage: 5.38
+        utterances: 558
+      D3:
+        normalized_wer_percentage: 27.5
+        normalized_cer_percentage: 5.35
+        utterances: 609
+      D4:
+        normalized_wer_percentage: 29.42
+        normalized_cer_percentage: 5.55
+        utterances: 533
+    domain_normalized_wer:
+      Agriculture:
+        normalized_wer_percentage: 27.42
+        normalized_cer_percentage: 5.24
+        utterances: 1134
+      Banking:
+        normalized_wer_percentage: 27.16
+        normalized_cer_percentage: 5.12
+        utterances: 1092

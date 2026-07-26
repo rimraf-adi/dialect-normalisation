@@ -1,7 +1,9 @@
 model_info:
   model_name: ai4bharat/indic-conformer-600m-multilingual
-  language: mr
-  device: cuda
+  language_name: Marathi
+  dataset_lang_code: mr
+  model_lang_code: mr
+  device: null
 dataset_info:
   split: test
   metadata_file: IISc_RESPIN_test_mr\IISc_RESPIN_test_mr\meta_test_mr.json
