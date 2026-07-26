@@ -2,7 +2,7 @@ import argparse
 import sys
 import torch
 from pathlib import Path
-from eval_engine import evaluate_dataset
+from dialect_norm.engine import evaluate_language
 
 AVAILABLE_LANGUAGES = {
     "bhojpuri": {"name": "Bhojpuri", "dataset_code": "bh", "model_code": "hi", "dir": "IISc_RESPIN_test_bh"},
@@ -20,16 +20,14 @@ AVAILABLE_LANGUAGES = {
 def main():
     if hasattr(sys.stdout, "reconfigure"):
         sys.stdout.reconfigure(encoding="utf-8")
-    if hasattr(sys.stderr, "reconfigure"):
-        sys.stderr.reconfigure(encoding="utf-8")
 
     parser = argparse.ArgumentParser(description="Evaluate IndicConformer on all available RESPIN Datasets.")
-    parser.add_argument("--langs", nargs="+", default=list(AVAILABLE_LANGUAGES.keys()), help="Languages to evaluate (default: all available)")
-    parser.add_argument("--decoder", type=str, choices=["ctc", "rnnt", "both"], default="both", help="Decoding mode: ctc, rnnt, or both (default: both)")
-    parser.add_argument("--device", type=str, default=None, help="Device to run inference on (cuda/cpu)")
-    parser.add_argument("--max-samples", type=int, default=None, help="Maximum number of utterances to evaluate per language")
+    parser.add_argument("--langs", nargs="+", default=list(AVAILABLE_LANGUAGES.keys()), help="Languages to evaluate (default: all)")
+    parser.add_argument("--decoder", type=str, choices=["ctc", "rnnt", "both"], default="both", help="Decoding mode")
+    parser.add_argument("--device", type=str, default=None, help="Device to run inference on")
+    parser.add_argument("--max-samples", type=int, default=None, help="Maximum number of utterances per language")
     parser.add_argument("--output-dir", type=str, default="baseline-indic-conformer", help="Directory to save output YAML files")
-    parser.add_argument("--token", type=str, default=None, help="Hugging Face access token for gated models")
+    parser.add_argument("--token", type=str, default=None, help="Hugging Face access token")
 
     args = parser.parse_args()
 
@@ -38,7 +36,7 @@ def main():
     output_dir = Path(args.output_dir)
 
     print("=" * 70)
-    print("RUNNING INDIC-CONFORMER BASELINE EVALUATIONS ACROSS ALL LANGUAGES")
+    print("RUNNING INDIC-CONFORMER EVALUATIONS ACROSS ALL LANGUAGES")
     print(f"Target Directory: {output_dir.resolve()}")
     print(f"Selected Languages: {', '.join(args.langs)}")
     print("=" * 70)
@@ -62,7 +60,7 @@ def main():
             print(f"Warning: Metadata file for {info['name']} not found at {candidate1}. Skipping.", file=sys.stderr)
             continue
 
-        evaluate_dataset(
+        evaluate_language(
             language_name=info["name"],
             dataset_lang_code=info["dataset_code"],
             model_lang_code=info["model_code"],
