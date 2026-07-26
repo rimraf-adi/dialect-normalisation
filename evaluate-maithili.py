@@ -11,48 +11,44 @@ def main():
     if hasattr(sys.stderr, "reconfigure"):
         sys.stderr.reconfigure(encoding="utf-8")
 
-    parser = argparse.ArgumentParser(description="Evaluate IndicConformer on RESPIN Marathi Dataset.")
-    parser.add_argument("--meta-file", type=str, default=None, help="Path to meta_test_mr.json metadata file")
+    parser = argparse.ArgumentParser(description="Evaluate IndicConformer on RESPIN Maithili Dataset.")
+    parser.add_argument("--meta-file", type=str, default=None, help="Path to meta_test_mt.json metadata file")
     parser.add_argument("--base-dir", type=str, default=None, help="Base directory containing test audio files")
     parser.add_argument("--decoder", type=str, choices=["ctc", "rnnt", "both"], default="both", help="Decoding mode: ctc, rnnt, or both (default: both)")
     parser.add_argument("--device", type=str, default=None, help="Device to run inference on (cuda/cpu)")
     parser.add_argument("--max-samples", type=int, default=None, help="Maximum number of utterances to evaluate")
     parser.add_argument("--output-dir", type=str, default="baseline-indic-conformer", help="Directory to save output YAML files")
-    parser.add_argument("--output-detailed-yaml", type=str, default=None, help="Override detailed output filename")
-    parser.add_argument("--output-summary-yaml", type=str, default=None, help="Override summary output filename")
     parser.add_argument("--token", type=str, default=None, help="Hugging Face access token for gated models")
 
     args = parser.parse_args()
 
-    # Default paths for Marathi
+    # Default paths for Maithili
     if args.meta_file:
         meta_file = Path(args.meta_file)
         base_dir = Path(args.base_dir) if args.base_dir else meta_file.parent
     else:
-        candidate1 = Path("IISc_RESPIN_test_mr/IISc_RESPIN_test_mr/meta_test_mr.json")
-        candidate2 = Path("IISc_RESPIN_test_mr/meta_test_mr.json")
+        candidate1 = Path("IISc_RESPIN_test_mt/IISc_RESPIN_test_mt/meta_test_mt.json")
+        candidate2 = Path("IISc_RESPIN_test_mt/meta_test_mt.json")
         if candidate1.exists():
-            meta_file, base_dir = candidate1, Path("IISc_RESPIN_test_mr/IISc_RESPIN_test_mr")
+            meta_file, base_dir = candidate1, Path("IISc_RESPIN_test_mt/IISc_RESPIN_test_mt")
         elif candidate2.exists():
-            meta_file, base_dir = candidate2, Path("IISc_RESPIN_test_mr")
+            meta_file, base_dir = candidate2, Path("IISc_RESPIN_test_mt")
         else:
-            meta_file, base_dir = candidate1, Path("IISc_RESPIN_test_mr/IISc_RESPIN_test_mr")
+            meta_file, base_dir = candidate1, Path("IISc_RESPIN_test_mt/IISc_RESPIN_test_mt")
 
     device = args.device if args.device else ("cuda" if torch.cuda.is_available() else "cpu")
     decoder_modes = ["ctc", "rnnt"] if args.decoder == "both" else [args.decoder]
 
     evaluate_dataset(
-        language_name="Marathi",
-        dataset_lang_code="mr",
-        model_lang_code="mr",
+        language_name="Maithili",
+        dataset_lang_code="mt",
+        model_lang_code="mai",
         meta_file=meta_file,
         base_dir=base_dir,
         decoder_modes=decoder_modes,
         device=device,
         max_samples=args.max_samples,
         output_dir=Path(args.output_dir),
-        output_detailed_yaml_filename=args.output_detailed_yaml,
-        output_summary_yaml_filename=args.output_summary_yaml,
         token=args.token,
     )
 
