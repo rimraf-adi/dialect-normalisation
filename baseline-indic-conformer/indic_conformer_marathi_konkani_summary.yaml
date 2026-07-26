@@ -1,0 +1,70 @@
+model_info:
+  model_name: ai4bharat/indic-conformer-600m-multilingual
+  language_name: Marathi (Konkani Model)
+  dataset_lang_code: mr
+  model_lang_code: kok
+  device: cuda
+dataset_info:
+  split: test
+  metadata_file: IISc_RESPIN_test_mr\IISc_RESPIN_test_mr\meta_test_mr.json
+  total_utterances_evaluated: 5
+  total_utterances_in_meta: 2170
+  total_duration_hours: 0.008
+  avg_duration_seconds: 5.78
+key_metrics_summary:
+  ctc:
+    overall_summary:
+      raw_wer_percentage: 55.88
+      normalized_wer_percentage: 35.48
+      raw_cer_percentage: 13.56
+      normalized_cer_percentage: 7.19
+      raw_ser_percentage: 100.0
+      normalized_ser_percentage: 100.0
+      normalized_exact_match_acc_percentage: 0.0
+      total_ref_words: 31
+      substitutions: 10
+      deletions: 0
+      insertions: 1
+      hits: 21
+    dialect_normalized_wer:
+      D3:
+        normalized_wer_percentage: 35.48
+        normalized_cer_percentage: 7.19
+        utterances: 5
+    domain_normalized_wer:
+      Agriculture:
+        normalized_wer_percentage: 41.18
+        normalized_cer_percentage: 6.86
+        utterances: 3
+      Banking:
+        normalized_wer_percentage: 28.57
+        normalized_cer_percentage: 7.69
+        utterances: 2
+  rnnt:
+    overall_summary:
+      raw_wer_percentage: 52.94
+      normalized_wer_percentage: 41.94
+      raw_cer_percentage: 21.47
+      normalized_cer_percentage: 16.17
+      raw_ser_percentage: 100.0
+      normalized_ser_percentage: 100.0
+      normalized_exact_match_acc_percentage: 0.0
+      total_ref_words: 31
+      substitutions: 9
+      deletions: 3
+      insertions: 1
+      hits: 19
+    dialect_normalized_wer:
+      D3:
+        normalized_wer_percentage: 41.94
+        normalized_cer_percentage: 16.17
+        utterances: 5
+    domain_normalized_wer:
+      Agriculture:
+        normalized_wer_percentage: 35.29
+        normalized_cer_percentage: 17.65
+        utterances: 3
+      Banking:
+        normalized_wer_percentage: 50.0
+        normalized_cer_percentage: 13.85
+        utterances: 2
