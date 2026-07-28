@@ -1,5 +1,5 @@
 """
-Unified CLI Entry Point for Gemma Synthetic Parallel Data Generation Pipeline with Detailed Logging.
+Unified CLI Entry Point for Gemma Synthetic Parallel Data Generation Pipeline with Ollama Health & Safety Check.
 """
 
 import argparse
@@ -9,8 +9,8 @@ from pathlib import Path
 # Add src to sys.path
 sys.path.insert(0, str(Path(__file__).parent / "src"))
 
+from dialect_norm.gemma_pipeline import check_ollama_health, execute_generation_pipeline
 from dialect_norm.sampler import load_and_sample_dialect_dataset
-from dialect_norm.gemma_pipeline import execute_generation_pipeline
 
 
 def main():
@@ -21,6 +21,12 @@ def main():
         description="Gemma 4:12b Synthetic Data Generation Pipeline (10k samples per dialect: D1, D2, D4)."
     )
     parser.add_argument("--meta-path", type=str, default=None, help="Path to meta_train_mr_clean.json metadata file")
+    parser.add_argument(
+        "--model-name",
+        type=str,
+        default="gemma4:12b",
+        help="Ollama target model name (default: gemma4:12b)",
+    )
     parser.add_argument(
         "--samples-per-dialect",
         type=int,
@@ -42,6 +48,13 @@ def main():
     parser.add_argument("--seed", type=int, default=42, help="Random seed for sampling reproducibility")
 
     args = parser.parse_args()
+
+    # CRITICAL SAFETY CHECK FIRST (FAILS FAST IN <0.5s IF OLLAMA IS DOWN)
+    is_healthy, health_msg = check_ollama_health(model_name=args.model_name)
+    if not is_healthy:
+        print(f"\n❌ OLLAMA SAFETY CHECK FAILED: {health_msg}", file=sys.stderr)
+        print("--> Make sure Ollama server is running ('ollama serve') and model is pulled.", file=sys.stderr)
+        sys.exit(1)
 
     meta_path1 = Path("IISc_RESPIN_train_mr_clean/IISc_RESPIN_train_mr_clean/meta_train_mr_clean.json")
     meta_path2 = Path("IISc_RESPIN_train_mr_clean/meta_train_mr_clean.json")
@@ -72,6 +85,7 @@ def main():
         sampled_dataset=sampled_dataset,
         output_dir=output_dir,
         log_dir=log_dir,
+        model_name=args.model_name,
     )
 
 

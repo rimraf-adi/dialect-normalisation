@@ -1,5 +1,5 @@
 """
-Gemma 4:12b Synthetic Data Generation Pipeline Engine with Detailed Logging.
+Gemma 4:12b Synthetic Data Generation Pipeline Engine with Detailed Logging & Safety Health Checks.
 Batches 5 sentences per prompt and saves output in 1,000-row CSV files.
 """
 
@@ -12,10 +12,12 @@ import time
 import urllib.error
 import urllib.request
 from pathlib import Path
-from typing import Dict, List
+from typing import Dict, List, Tuple
 from tqdm import tqdm
 
-OLLAMA_URL = "http://localhost:11434/api/generate"
+OLLAMA_BASE = "http://localhost:11434"
+OLLAMA_GENERATE_URL = f"{OLLAMA_BASE}/api/generate"
+OLLAMA_TAGS_URL = f"{OLLAMA_BASE}/api/tags"
 MODEL_NAME = "gemma4:12b"
 ITEMS_PER_PROMPT = 5
 ROWS_PER_CSV = 1000
@@ -50,29 +52,98 @@ def setup_logger(log_dir: Path):
     root_logger = logging.getLogger()
     root_logger.setLevel(logging.INFO)
 
-    # Formatter
     formatter = logging.Formatter(
         "[%(asctime)s] [%(levelname)s] [%(name)s] %(message)s",
         datefmt="%Y-%m-%d %H:%M:%S",
     )
 
-    # File Handler
+    # Clean existing handlers to prevent duplicate logs
+    root_logger.handlers.clear()
+
     file_handler = logging.FileHandler(log_file, encoding="utf-8")
     file_handler.setFormatter(formatter)
     file_handler.setLevel(logging.INFO)
     root_logger.addHandler(file_handler)
 
-    # Stream Handler (Console)
     stream_handler = logging.StreamHandler(sys.stdout)
     stream_handler.setFormatter(formatter)
     stream_handler.setLevel(logging.INFO)
     root_logger.addHandler(stream_handler)
 
-    logger.info(f"Detailed logging initialized. Log file: {log_file.resolve()}")
+
+def check_ollama_health(model_name: str = MODEL_NAME, base_url: str = OLLAMA_BASE) -> Tuple[bool, str]:
+    """
+    Safety Check: Verifies Ollama server availability, model existence, and warm-up generation.
+    Returns (is_healthy, message).
+    """
+    print("\n" + "=" * 70, flush=True)
+    print("OLLAMA SAFETY & HEALTH CHECK", flush=True)
+    print("=" * 70, flush=True)
+
+    tags_url = f"{base_url}/api/tags"
+    generate_url = f"{base_url}/api/generate"
+
+    # Step 1: Check Server Connectivity
+    print(f"[Health Check 1/3] Pinging Ollama server at {base_url}...", flush=True)
+    try:
+        req = urllib.request.Request(tags_url, headers={"User-Agent": "Python-OllamaHealthCheck"})
+        with urllib.request.urlopen(req, timeout=5) as resp:
+            if resp.status == 200:
+                tags_data = json.loads(resp.read().decode("utf-8"))
+                models = [m.get("name", "") for m in tags_data.get("models", [])]
+                print(f"  --> Server UP! Installed Ollama models ({len(models)}): {', '.join(models)}", flush=True)
+            else:
+                return False, f"Ollama server returned status HTTP {resp.status}"
+    except urllib.error.URLError as e:
+        return False, f"Ollama server connection failed at {tags_url}. Is Ollama running? Error: {e.reason}"
+    except Exception as e:
+        return False, f"Unexpected error connecting to Ollama: {e}"
+
+    # Step 2: Check Target Model Existence
+    print(f"[Health Check 2/3] Verifying model '{model_name}' presence...", flush=True)
+    matching_models = [m for m in models if model_name.split(":")[0] in m]
+    if not matching_models and model_name not in models:
+        print(f"  ⚠️ Warning: Exact model '{model_name}' not listed in tags: {models}", flush=True)
+        print(f"  Attempting to hit '{model_name}' directly...", flush=True)
+    else:
+        print(f"  --> Model '{model_name}' found in local Ollama registry.", flush=True)
+
+    # Step 3: Warm-up Test Generation
+    print(f"[Health Check 3/3] Running warm-up test translation prompt on '{model_name}'...", flush=True)
+    test_payload = {
+        "model": model_name,
+        "prompt": "Translate this dialect sentence to Standard Marathi: 'मले सांगा'\nRespond ONLY with standard translation.",
+        "stream": False,
+        "options": {"temperature": 0.1, "num_predict": 30},
+    }
+
+    t0 = time.time()
+    try:
+        req = urllib.request.Request(
+            generate_url,
+            data=json.dumps(test_payload).encode("utf-8"),
+            headers={"Content-Type": "application/json"},
+            method="POST",
+        )
+        with urllib.request.urlopen(req, timeout=30) as resp:
+            elapsed = time.time() - t0
+            if resp.status == 200:
+                res_data = json.loads(resp.read().decode("utf-8"))
+                response_text = res_data.get("response", "").strip()
+                if response_text:
+                    print(f"  --> WARM-UP SUCCESSFUL ({elapsed:.2f}s)! Test Output: '{response_text}'", flush=True)
+                    print("=" * 70 + "\n", flush=True)
+                    return True, f"Ollama health check passed ({elapsed:.2f}s latency)."
+                else:
+                    return False, f"Model '{model_name}' returned empty response during warm-up."
+            else:
+                return False, f"Generation endpoint returned status HTTP {resp.status}"
+    except Exception as e:
+        return False, f"Warm-up test request to model '{model_name}' failed: {e}"
 
 
-def query_ollama_batch(batch_items: List[dict], batch_idx: int, total_batches: int, model: str = MODEL_NAME, base_url: str = OLLAMA_URL) -> List[str]:
-    """Sends 5 sentences in a single prompt to Ollama gemma4:12b and parses response with detailed logging."""
+def query_ollama_batch(batch_items: List[dict], batch_idx: int, total_batches: int, model: str = MODEL_NAME, base_url: str = OLLAMA_GENERATE_URL) -> List[str]:
+    """Sends 5 sentences in a single prompt to Ollama gemma4:12b and parses response with retry logic."""
     texts = [item["dialect_text"] for item in batch_items]
     while len(texts) < ITEMS_PER_PROMPT:
         texts.append(texts[-1])
@@ -97,7 +168,6 @@ def query_ollama_batch(batch_items: List[dict], batch_idx: int, total_batches: i
     }
 
     start_time = time.time()
-    logger.debug(f"[Batch {batch_idx}/{total_batches}] Sending prompt with {len(batch_items)} dialect items to Ollama ({model})...")
 
     try:
         req = urllib.request.Request(
@@ -112,7 +182,7 @@ def query_ollama_batch(batch_items: List[dict], batch_idx: int, total_batches: i
                 res_data = json.loads(resp.read().decode("utf-8"))
                 raw_response = res_data.get("response", "").strip()
 
-                # Attempt JSON array parsing
+                # Option 1: Parse JSON array
                 json_match = re.search(r"\[.*\]", raw_response, re.DOTALL)
                 if json_match:
                     try:
@@ -121,16 +191,16 @@ def query_ollama_batch(batch_items: List[dict], batch_idx: int, total_batches: i
                             logger.info(f"[Batch {batch_idx}/{total_batches}] SUCCESS in {elapsed:.2f}s | Parsed 5 JSON translations cleanly.")
                             return [str(x).strip() for x in parsed[:len(batch_items)]]
                     except json.JSONDecodeError:
-                        logger.warning(f"[Batch {batch_idx}/{total_batches}] JSON regex matched but decode failed. Falling back to line parsing.")
+                        pass
 
-                # Fallback line parsing
+                # Option 2: Fallback line parsing
                 lines = [line.strip() for line in raw_response.split("\n") if line.strip() and not line.startswith("[") and not line.startswith("]")]
                 cleaned_lines = [re.sub(r"^\d+[\.\)]\s*", "", line).strip(' "') for line in lines]
                 if len(cleaned_lines) >= len(batch_items):
                     logger.info(f"[Batch {batch_idx}/{total_batches}] SUCCESS (Fallback Line Parse) in {elapsed:.2f}s | Extracted {len(cleaned_lines)} lines.")
                     return cleaned_lines[:len(batch_items)]
-                else:
-                    logger.warning(f"[Batch {batch_idx}/{total_batches}] Response length mismatch ({len(cleaned_lines)} lines vs {len(batch_items)} expected). Raw response snippet: '{raw_response[:100]}...'")
+
+                logger.warning(f"[Batch {batch_idx}/{total_batches}] Response length mismatch ({len(cleaned_lines)} lines vs {len(batch_items)} expected). Raw snippet: '{raw_response[:80]}...'")
 
     except urllib.error.URLError as e:
         elapsed = time.time() - start_time
@@ -147,8 +217,17 @@ def execute_generation_pipeline(
     output_dir: Path,
     log_dir: Path = Path("logs"),
     rows_per_csv: int = ROWS_PER_CSV,
+    model_name: str = MODEL_NAME,
 ):
     setup_logger(log_dir)
+
+    # MANDATORY SAFETY CHECK BEFORE RUNNING
+    is_healthy, health_msg = check_ollama_health(model_name=model_name)
+    if not is_healthy:
+        logger.error(f"[Safety Check Failed] {health_msg}")
+        print(f"\n❌ CRITICAL SAFETY ERROR: {health_msg}", file=sys.stderr)
+        print("Please ensure Ollama service is running ('ollama serve') and model is pulled ('ollama pull gemma4:12b').", file=sys.stderr)
+        sys.exit(1)
 
     output_dir.mkdir(parents=True, exist_ok=True)
     checkpoint_file = output_dir / "pipeline_checkpoint.json"
@@ -166,7 +245,6 @@ def execute_generation_pipeline(
     total_target = len(flattened_items)
     total_batches = (total_target + ITEMS_PER_PROMPT - 1) // ITEMS_PER_PROMPT
 
-    # Checkpoint recovery
     processed_count = 0
     current_csv_index = 1
     current_csv_rows = []
@@ -203,6 +281,7 @@ def execute_generation_pipeline(
                 writer.writeheader()
             writer.writerows(rows)
         logger.info(f"[CSV Saved] Successfully saved {len(rows):,} rows to: {csv_path.resolve()}")
+        print(f"\n[CSV Saved] Written {len(rows):,} rows to {csv_path.name}", flush=True)
 
     batch_idx = (processed_count // ITEMS_PER_PROMPT) + 1
     i = 0
@@ -212,7 +291,7 @@ def execute_generation_pipeline(
 
     while i < total_remaining:
         batch = remaining_items[i : i + ITEMS_PER_PROMPT]
-        translations = query_ollama_batch(batch, batch_idx, total_batches)
+        translations = query_ollama_batch(batch, batch_idx, total_batches, model=model_name)
 
         if translations:
             batch_added = 0
@@ -237,7 +316,6 @@ def execute_generation_pipeline(
                         current_csv_rows = []
                         current_csv_index += 1
 
-            # Save checkpoint
             with open(checkpoint_file, "w", encoding="utf-8") as f:
                 json.dump({
                     "processed_count": processed_count,
@@ -246,7 +324,7 @@ def execute_generation_pipeline(
                 }, f, indent=2)
 
             pct = (processed_count / total_target) * 100.0
-            logger.info(f"[Progress] Batch {batch_idx}/{total_batches} completed. Added {batch_added} pairs. Total progress: {processed_count:,}/{total_target:,} ({pct:.2f}%).")
+            logger.info(f"[Progress] Batch {batch_idx}/{total_batches} completed. Added {batch_added} pairs. Total: {processed_count:,}/{total_target:,} ({pct:.2f}%).")
 
             i += len(batch)
             batch_idx += 1
