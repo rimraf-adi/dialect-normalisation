@@ -1,5 +1,5 @@
 """
-Unified CLI Entry Point for Gemma Synthetic Parallel Data Generation Pipeline.
+Unified CLI Entry Point for Gemma Synthetic Parallel Data Generation Pipeline with Detailed Logging.
 """
 
 import argparse
@@ -33,6 +33,12 @@ def main():
         default="data/synthetic_parallel",
         help="Directory to save 1,000-row output CSV files",
     )
+    parser.add_argument(
+        "--log-dir",
+        type=str,
+        default="logs",
+        help="Directory to save detailed log files (default: logs)",
+    )
     parser.add_argument("--seed", type=int, default=42, help="Random seed for sampling reproducibility")
 
     args = parser.parse_args()
@@ -50,6 +56,9 @@ def main():
         print(f"Error: Could not find meta_train_mr_clean.json at {meta_path1} or {meta_path2}", file=sys.stderr)
         sys.exit(1)
 
+    output_dir = Path(args.output_dir)
+    log_dir = Path(args.log_dir)
+
     # Step 1: Sample 10,000 random/distorted utterances per dialect (D1, D2, D4)
     sampled_dataset = load_and_sample_dialect_dataset(
         meta_path=meta_path,
@@ -61,7 +70,8 @@ def main():
     # Step 2: Execute Gemma generation pipeline (5 sentences/prompt, 1,000 rows/CSV)
     execute_generation_pipeline(
         sampled_dataset=sampled_dataset,
-        output_dir=Path(args.output_dir),
+        output_dir=output_dir,
+        log_dir=log_dir,
     )
 
 
