@@ -528,6 +528,39 @@ Here is a direct technical comparison explaining why fine-tuning is necessary fo
 | **Inference Speed** | **20–40 ms / sentence** | **100–250 ms / sentence** | **mT5** |
 | **Memory Footprint (VRAM)** | **~1.2 GB VRAM** | **~2.2 GB VRAM** | **mT5** |
 
+#### 4.3.9 Dedicated Indic & Marathi Transformers Ecosystem
+
+While Google's `mT5` and `ByT5` provide broad multilingual baselines, several specialized Indic and Marathi transformer models exist that are optimized specifically for Devanagari script and Indian languages:
+
+##### 1. AI4Bharat IndicBART & IndicBARTSS (`ai4bharat/IndicBART`, `ai4bharat/IndicBARTSS`)
+- **Architecture**: mBART-based sequence-to-sequence transformer (244M parameters).
+- **Training Corpus**: Pre-trained on **IndicCorp** (9 billion tokens across 11 Indic languages, including large-scale Marathi monolingual text).
+- **Script Handling**:
+  - `IndicBART`: Uses Devanagari script unification across Indic languages, maximizing cross-lingual parameter sharing.
+  - `IndicBARTSS`: Uses native Devanagari script tokenization without mapping.
+- **Why it matters for Marathi**: Allocated a massive proportion of its 64,000 subword vocabulary to Indic/Devanagari subword roots compared to `mT5` (where Marathi represents < 1% of the total mC4 pre-training tokens).
+
+##### 2. AI4Bharat IndicTrans2 (`ai4bharat/indictrans2-indic-indic-1B`)
+- **Architecture**: 1 Billion parameter encoder-decoder transformer.
+- **Training Corpus**: Pre-trained on **BPCC** (Bharat Parallel Corpus Collection).
+- **Primary Design**: Optimized for inter-language translation across all 22 scheduled Indian languages.
+
+##### 3. L3Cube-Pune Marathi Ecosystem (`l3cube-pune`)
+- **`l3cube-pune/marathi-gemma-2b` (MahaGemma)**: Causal decoder LLM (2B parameters) continued pre-trained on L3Cube MahaCorpus (Marathi monolingual text).
+- **`l3cube-pune/marathi-bert-v2` (MahaBERT-v2)**: Encoder-only model (BERT-base, 110M params), ideal for sentence classification, POS, and NER, but **not suitable for text-to-text sequence generation**.
+
+##### Complete Summary Matrix of Transformer Options
+
+| Model | Org / Author | Architecture | HuggingFace ID | Suitability for Dialect Normalisation |
+| :--- | :--- | :--- | :--- | :--- |
+| **IndicBART** | AI4Bharat | Seq2Seq (244M) | `ai4bharat/IndicBART` | ⭐⭐⭐⭐⭐ **Highest** (Indic-specialized Devanagari subwords) |
+| **IndicBARTSS** | AI4Bharat | Seq2Seq (244M) | `ai4bharat/IndicBARTSS` | ⭐⭐⭐⭐⭐ **Highest** (Native script seq2seq) |
+| **mT5-small** | Google | Seq2Seq (300M) | `google/mt5-small` | ⭐⭐⭐⭐ **High** (Proven baseline for dialect normalisation) |
+| **ByT5-small** | Google | Seq2Seq (300M) | `google/byt5-small` | ⭐⭐⭐⭐ **High** (Character/byte level, suffix shifts) |
+| **IndicTrans2** | AI4Bharat | Seq2Seq (1B) | `ai4bharat/indictrans2-indic-indic-1B` | ⭐⭐⭐ **Medium** (Built for inter-language NMT) |
+| **MahaGemma-2B**| L3Cube | Decoder LLM (2B)| `l3cube-pune/marathi-gemma-2b` | ⭐⭐⭐ **Medium** (Causal LLM; higher VRAM) |
+| **MahaBERT-v2** | L3Cube | Encoder (110M)  | `l3cube-pune/marathi-bert-v2` | ❌ **N/A** (Encoder only; no generation) |
+
 ---
 
 ### 4.4 Phase 3: Evaluation
