@@ -1,0 +1,110 @@
+dataset_name: IISc RESPIN Marathi Train Set (Clean)
+language_name: Marathi
+language_code: mr
+metadata_file: IISc_RESPIN_train_mr_clean/IISc_RESPIN_train_mr_clean/meta_train_mr_clean.json
+overall_summary:
+  total_utterances: 809934
+  total_duration_seconds: 3693804.99
+  total_duration_hours: 1026.057
+  avg_duration_seconds: 4.56
+  total_unique_reference_texts: 23069
+  total_unique_prompt_ids: 23069
+  total_unique_speakers: 2644
+  total_unique_pincodes: 234
+dialect_breakdown:
+  D1:
+    utterances: 203651
+    percentage_of_total_utts: 25.14
+    total_duration_hours: 247.314
+    avg_duration_seconds: 4.37
+    unique_reference_texts: 5838
+    unique_prompt_ids: 5838
+    unique_speakers: 732
+    domain_distribution:
+      Banking: 112827
+      Agriculture: 90824
+    gender_distribution:
+      FEMALE: 97544
+      MALE: 106107
+    slab_distribution:
+      clean: 203651
+  D2:
+    utterances: 198560
+    percentage_of_total_utts: 24.52
+    total_duration_hours: 265.253
+    avg_duration_seconds: 4.81
+    unique_reference_texts: 5825
+    unique_prompt_ids: 5825
+    unique_speakers: 557
+    domain_distribution:
+      Banking: 96406
+      Agriculture: 102154
+    gender_distribution:
+      MALE: 91924
+      FEMALE: 106636
+    slab_distribution:
+      clean: 198560
+  D3:
+    utterances: 208850
+    percentage_of_total_utts: 25.79
+    total_duration_hours: 255.793
+    avg_duration_seconds: 4.41
+    unique_reference_texts: 6077
+    unique_prompt_ids: 6077
+    unique_speakers: 608
+    domain_distribution:
+      Banking: 108064
+      Agriculture: 100786
+    gender_distribution:
+      FEMALE: 104248
+      MALE: 104602
+    slab_distribution:
+      clean: 208850
+  D4:
+    utterances: 198873
+    percentage_of_total_utts: 24.55
+    total_duration_hours: 257.697
+    avg_duration_seconds: 4.66
+    unique_reference_texts: 5330
+    unique_prompt_ids: 5330
+    unique_speakers: 747
+    domain_distribution:
+      Banking: 98501
+      Agriculture: 100372
+    gender_distribution:
+      MALE: 93766
+      FEMALE: 103709
+      NA: 1398
+    slab_distribution:
+      clean: 198873
+domain_breakdown:
+  Agriculture:
+    utterances: 394136
+    percentage_of_total_utts: 48.66
+    total_duration_hours: 499.766
+    unique_reference_texts: 11176
+    unique_speakers: 2634
+  Banking:
+    utterances: 415798
+    percentage_of_total_utts: 51.34
+    total_duration_hours: 526.291
+    unique_reference_texts: 11893
+    unique_speakers: 2638
+demographics_breakdown:
+  gender_distribution:
+    FEMALE: 412137
+    MALE: 396399
+    NA: 1398
+  age_group_distribution:
+    25-30: 214445
+    18-24: 295932
+    46-50: 25828
+    41-45: 36276
+    31-35: 107510
+    36-40: 53215
+    56-60: 23508
+    60-100: 24709
+    51-55: 27348
+    <18: 1163
+  slab_distribution:
+    clean: 809934
