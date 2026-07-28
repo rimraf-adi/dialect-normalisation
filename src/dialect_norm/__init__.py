@@ -1,20 +1,23 @@
 """
-Dialect Normalisation & Evaluation Package for Indic Languages.
+Dialect Normalisation Framework Package.
 """
 
-__version__ = "0.1.0"
+from .distortion import compute_dialect_distortion_score
+from .sampler import load_and_sample_dialect_dataset
+from .gemma_pipeline import execute_generation_pipeline
 
-from .audio import load_and_preprocess_audio
-from .metrics import normalize_text, compute_metrics_for_set
-from .model import load_indic_conformer_model
-from .reporter import generate_yaml_reports
-from .engine import evaluate_language
+# Optional PyTorch/ASR dependencies
+try:
+    from .audio import load_and_preprocess_audio
+    from .metrics import compute_metrics_for_set, normalize_text
+    from .model import load_indic_conformer_model, run_decoder_inference
+    from .reporter import generate_yaml_reports
+    from .engine import evaluate_language
+except ImportError:
+    pass
 
 __all__ = [
-    "load_and_preprocess_audio",
-    "normalize_text",
-    "compute_metrics_for_set",
-    "load_indic_conformer_model",
-    "generate_yaml_reports",
-    "evaluate_language",
+    "compute_dialect_distortion_score",
+    "load_and_sample_dialect_dataset",
+    "execute_generation_pipeline",
 ]
