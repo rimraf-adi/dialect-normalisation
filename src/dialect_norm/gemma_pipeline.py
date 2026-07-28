@@ -112,9 +112,9 @@ def check_ollama_health(model_name: str = MODEL_NAME, base_url: str = OLLAMA_BAS
     print(f"[Health Check 3/3] Running warm-up test translation prompt on '{model_name}'...", flush=True)
     test_payload = {
         "model": model_name,
-        "prompt": "Translate this dialect sentence to Standard Marathi: 'मले सांगा'\nRespond ONLY with standard translation.",
+        "prompt": "Hello! Please confirm you are active and briefly state your model identity.",
         "stream": False,
-        "options": {"temperature": 0.1, "num_predict": 30},
+        "options": {"temperature": 0.2, "num_predict": 50},
     }
 
     t0 = time.time()
@@ -125,13 +125,13 @@ def check_ollama_health(model_name: str = MODEL_NAME, base_url: str = OLLAMA_BAS
             headers={"Content-Type": "application/json"},
             method="POST",
         )
-        with urllib.request.urlopen(req, timeout=30) as resp:
+        with urllib.request.urlopen(req, timeout=45) as resp:
             elapsed = time.time() - t0
             if resp.status == 200:
                 res_data = json.loads(resp.read().decode("utf-8"))
                 response_text = res_data.get("response", "").strip()
                 if response_text:
-                    print(f"  --> WARM-UP SUCCESSFUL ({elapsed:.2f}s)! Test Output: '{response_text}'", flush=True)
+                    print(f"  --> WARM-UP SUCCESSFUL ({elapsed:.2f}s)! Ollama Response: '{response_text[:60]}...'", flush=True)
                     print("=" * 70 + "\n", flush=True)
                     return True, f"Ollama health check passed ({elapsed:.2f}s latency)."
                 else:
