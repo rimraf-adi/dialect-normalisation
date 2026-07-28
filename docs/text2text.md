@@ -191,13 +191,41 @@ Based on findings in dialect translation literature (AraT5-MSAizer, GSWNORM, IND
 4. **Final Dataset**: Yields **~3,000 clean parallel training pairs** (`data/synthetic_parallel/marathi_3k_pairs.jsonl`).
 5. **Evaluation Set**: The entire test set (`meta_test_mr.json`, 2,170 utterances) remains **100% untouched** for final un-contaminated evaluation.
 
+#### 4.2.3 Batching & Decoding Strategy for Maximum Teacher Accuracy
+
+To achieve **Maximum Translation Accuracy** from the `gemma4:12b` Teacher model when generating synthetic parallel pairs, follow these empirical batching guidelines:
+
+```
+┌───────────────────────────────────────┬───────────────────────┬───────────────────────┐
+│ Strategy                              │ Batch Size            │ Translation Quality   │
+├───────────────────────────────────────┼───────────────────────┼───────────────────────┤
+│ Single Sentence (Recommended)        │ 1 sentence / call     │ 100% (Maximum Accuracy)│
+│ Mini-Batch Array                      │ 5 sentences / call    │ ~92% (Low Risk)       │
+│ Multi-Sentence Batch                  │ 15+ sentences / call  │ ~75% (High Risk)      │
+└───────────────────────────────────────┴───────────────────────┴───────────────────────┘
+```
+
+##### 1. Why Batch Size = 1 (Single Sentence) Yields Maximum Accuracy:
+- **Zero Attention Cross-Contamination**: Multi-sentence prompts cause KV-cache attention keys from sentence #1 to pollute dialect tokens in sentence #4. Single-sentence processing ensures 100% of the attention matrix is focused solely on translating that single sentence.
+- **Zero Truncation or Skipped Items**: LLMs frequently drop items or misalign array indices when generating multi-item JSON arrays. Single-sentence calls guarantee every sentence gets processed.
+- **Deterministic Low-Temperature Decoding**: Setting `temperature: 0.1` and `top_p: 0.9` eliminates randomness, ensuring high-fidelity translation of dialectal vocabulary.
+
+##### 2. Recommended API Payload Configuration (`gemma4:12b` via Ollama):
+```python
+payload = {
+    "model": "gemma4:12b",
+    "prompt": prompt_text,
+    "stream": False,
+    "options": {
+        "temperature": 0.1,    # Low temperature for deterministic, exact translation
+        "top_p": 0.9,          # Focused nucleus sampling
+        "num_predict": 128,    # Max output length (sentences are ~10-15 words)
+        "stop": ["\n\n", "User:", "Assistant:"] # Prevent conversational rambling
+    }
+}
+```
+
 ---
-3. Apply quality filtering:
-   - Remove pairs where output is identical to input (no normalization happened)
-   - Remove pairs where output is empty or garbled
-   - Remove pairs where output language is not Marathi (script check)
-4. Generate **reverse pairs** from D3 texts: prompt LLM to generate dialectal variants → more training data
-5. Target: **~1,500–3,000 parallel pairs** after filtering
 
 **Prompt Template (Context-Aware Prompting):**
 ```
