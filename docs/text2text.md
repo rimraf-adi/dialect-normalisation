@@ -57,7 +57,21 @@ This is a **pure text-level** problem. No speech or ASR is involved. Given a sen
 
 ## 3. Dataset Reality Check
 
-### 3.1 IISc RESPIN Marathi Test Corpus
+### 3.1 IISc RESPIN Marathi Train Set (`IISc_RESPIN_train_mr_clean`) — Primary Training Data Source
+
+The **RESPIN-S1.0** corpus (SPIRE Lab, IISc Bangalore; NeurIPS 2025 Datasets & Benchmarks) provides a large-scale **train split** with dialect-labelled Marathi transcripts:
+
+- **Corpus Archive**: `IISc_RESPIN_train_mr_clean` (~95 GB compressed)
+- **Metadata File**: `meta_train_mr_clean.json` (~630 MB)
+- **Audio Quality**: Clean subset (automated confidence scoring + manual verification)
+- **Domains**: Agriculture and Banking/Finance
+- **Dialects**: D1 (South Konkan), D2 (North Konkan), D3 (Standard Pune), D4 (Varhadi/Vidarbha)
+- **Scale**: Contains **thousands of unique dialect-labelled reference sentences** across D1, D2, D3, and D4.
+- **Per-Utterance Fields**: `text`, `dialect`, `domain`, `speaker_id`, `duration`, `text_id`, `gender`, `age_group`, `slab`, `pincode`
+
+> **Key Advantage**: The train set provides a massive pool of unique dialect reference texts for generating synthetic parallel data (`gemma4:12b`), allowing us to reserve the test set strictly for un-contaminated evaluation.
+
+### 3.2 IISc RESPIN Marathi Test Corpus — Evaluation Only
 
 | Dialect | Region | Utterances | Unique Texts | Avg Words/Sentence |
 | :--- | :--- | :--- | :--- | :--- |
@@ -66,16 +80,26 @@ This is a **pure text-level** problem. No speech or ASR is involved. Given a sen
 | **D3** | Standard Pune (Target) | 555 | 149 | 8.4 |
 | **D4** | Varhadi (Vidarbha/Amravati) | 516 | 198 | 8.9 |
 
-### 3.2 Critical Constraint: No Parallel Data
+> **Reserved strictly for evaluation.** No train-set text or synthetic pairs derived from train-set text should leak into test evaluation.
 
-- **Zero** shared text strings across dialects
+### 3.3 Critical Constraint: No Parallel Data Across Dialects
+
+- **Zero** shared text strings across dialects (verified empirically)
 - **Zero** shared text IDs across dialects
 - Each dialect has completely independent sentences on Agriculture and Banking topics
 - **We cannot directly pair D1 sentences with D3 equivalents**
 
-### 3.3 Implication: We Must Generate Synthetic Parallel Data
+### 3.4 Data Strategy: Synthetic Parallel Data from Train Set
 
-Since no natural parallel corpus exists, we follow the established approach from Arabic (AraT5-MSAizer) and Swiss German (GSWNORM) literature: **use an LLM to generate synthetic parallel pairs**.
+Since no natural parallel corpus exists, we follow the established approach from Arabic (AraT5-MSAizer) and Swiss German (GSWNORM) literature: **use an LLM (`gemma4:12b`) to generate synthetic parallel pairs from the train set dialect texts**.
+
+**Pipeline:**
+1. Extract unique D1/D2/D4 reference texts from `meta_train_mr_clean.json` (thousands of sentences)
+2. Prompt `gemma4:12b` (local Ollama) to translate each into Standard Pune Marathi
+3. Quality-filter the generated pairs (remove identity copies, empty lines, non-Marathi text)
+4. Generate D3 $\rightarrow$ dialect reverse pairs for data augmentation
+5. Train/val split the synthetic pairs (85%/15%)
+6. **Hold out the entire test set** (`meta_test_mr.json`) for final evaluation — zero contamination
 
 ---
 
@@ -155,24 +179,320 @@ Dialect sentence: {dialect_text}
 Standard Marathi translation:
 ```
 
-### 4.3 Phase 2: Model Fine-Tuning
+### 4.3 Phase 2: Model Fine-Tuning (Expanded)
 
-**Candidate Models (ranked by suitability):**
+#### 4.3.1 How Encoder-Decoder (Seq2Seq) Models Work for This Task
 
-| Model | Parameters | Why Consider | Why Hesitate |
-| :--- | :--- | :--- | :--- |
-| **IndicBART** | 244M | Pre-trained on 11 Indic languages including Marathi; seq2seq | Older architecture; limited dialect exposure |
-| **mT5-small** | 300M | Massively multilingual; proven on similar tasks (AraT5-MSAizer) | Not Indic-specialized |
-| **mT5-base** | 580M | Larger capacity; better for nuanced linguistic shifts | Higher compute cost |
-| **ByT5-small** | 300M | Character-level; handles orthographic variation natively | Slower inference; less semantic awareness |
+All our candidate models share the same fundamental architecture: **Encoder-Decoder Transformer**. Here's how the data flows through them for dialect normalisation:
 
-**Training Configuration:**
-- Input format: `normalize dialect: {dialect_text}`
-- Output format: `{standard_text}`
-- Optimizer: AdamW, lr=3e-4 with linear warmup
-- Batch size: 8–16
-- Epochs: 10–30 (small dataset, risk of overfitting → use early stopping)
-- Validation: 15% held-out split
+```
+INPUT (Dialect Text)                              OUTPUT (Standard Text)
+"मले बँकेतून किती रुपयापर्यंत कर्ज भेटन ?"   →   "मला बँकेतून किती रुपयांपर्यंत कर्ज मिळेल ?"
+         │                                                    ▲
+         ▼                                                    │
+┌─────────────────────┐                          ┌─────────────────────┐
+│      ENCODER        │                          │      DECODER        │
+│                     │    Context Vectors        │                     │
+│  Reads ENTIRE input │ ──────────────────────►   │  Generates output   │
+│  sentence at once   │   (rich representations   │  ONE TOKEN AT A TIME│
+│                     │    of every input token)   │  left-to-right      │
+│  Self-Attention:    │                          │                     │
+│  Each word attends  │                          │  Cross-Attention:   │
+│  to all other words │                          │  Each output token  │
+│  in the input       │                          │  looks back at ALL  │
+│                     │                          │  encoder outputs    │
+└─────────────────────┘                          └─────────────────────┘
+```
+
+**What the model actually learns:**
+- The **Encoder** learns to recognise dialectal patterns — "भेटन" (Varhadi for "मिळेल"), "मले" (Varhadi for "मला"), "रायते" (Varhadi for "असते")
+- The **Decoder** learns to generate the standard equivalent, attending to the encoder's representations to decide WHICH words need normalisation and WHICH should pass through unchanged
+- **Cross-attention** is the critical mechanism: when the decoder is generating the word "मिळेल", it attends strongly to "भेटन" in the encoder output, learning that these are dialect-standard equivalents
+
+#### 4.3.2 Candidate Model Architectures (How Each One Works)
+
+##### mT5 (Multilingual Text-to-Text Transfer Transformer)
+
+```
+Architecture: Encoder-Decoder Transformer (T5 framework)
+Pre-training: Span corruption on mC4 corpus (101 languages including Marathi)
+Tokenizer: SentencePiece (250,000 subword vocabulary)
+```
+
+**How mT5 was pre-trained:**
+- Random spans of text are masked with sentinel tokens: `"मला बँकेतून <extra_id_0> कर्ज मिळेल"` → model must predict `"<extra_id_0> किती रुपयांपर्यंत"`
+- This teaches the model to understand and generate Marathi text in context
+- Because it saw Marathi during pre-training, it already knows Marathi grammar, word co-occurrence, and common phrasing
+
+**How we adapt it for dialect normalisation:**
+- We prepend a task prefix to the input: `"normalize dialect: मले बँकेतून किती रुपयापर्यंत कर्ज भेटन ?"`
+- The model learns to map this to: `"मला बँकेतून किती रुपयांपर्यंत कर्ज मिळेल ?"`
+- The task prefix tells the model "this is a normalisation task, not summarisation or translation"
+
+| Variant | Parameters | Layers | Hidden Dim | Heads | VRAM Required |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **mT5-small** | 300M | 8+8 | 512 | 6 | ~4 GB |
+| **mT5-base** | 580M | 12+12 | 768 | 12 | ~8 GB |
+
+##### IndicBART (AI4Bharat)
+
+```
+Architecture: mBART-style Encoder-Decoder Transformer
+Pre-training: Denoising autoencoder on 11 Indic languages (including Marathi)
+Tokenizer: SentencePiece (64,000 tokens, Indic-specialized)
+Special Feature: Script unification via language tags
+```
+
+**How IndicBART was pre-trained:**
+- Input sentences are corrupted by: (1) randomly deleting tokens, (2) shuffling sentence order, (3) masking spans
+- The model learns to reconstruct the original clean sentence
+- Crucially, it uses **language identifier tags** like `<2mr>` (Marathi) prepended to input
+- Variant **IndicBARTSS** uses Devanagari script unification — all Indic scripts are mapped to a shared representation
+
+**How we adapt it for dialect normalisation:**
+- Input: `"<2mr> मले बँकेतून किती रुपयापर्यंत कर्ज भेटन ?"`
+- Output: `"<2mr> मला बँकेतून किती रुपयांपर्यंत कर्ज मिळेल ?"`
+- Since both dialect and standard Marathi use Devanagari and share the same language tag, the model treats this as an intra-language rewriting task
+
+| Variant | Parameters | VRAM Required |
+| :--- | :--- | :--- |
+| **IndicBART** | 244M | ~3 GB |
+| **IndicBARTSS** | 244M | ~3 GB |
+
+##### ByT5 (Byte-Level T5)
+
+```
+Architecture: T5 Encoder-Decoder, but operates on RAW UTF-8 BYTES (no tokenizer)
+Pre-training: Same span corruption as mT5, but at byte level
+Input Unit: Individual bytes (vocabulary size = 256 + special tokens)
+```
+
+**Why ByT5 is uniquely interesting for dialect normalisation:**
+- Dialect variations are often at the **character/suffix level**: "भेटन" vs "मिळेल", "रायते" vs "असते", "मले" vs "मला"
+- Subword tokenizers (SentencePiece) might tokenize dialectal words differently from their standard equivalents, making the mapping harder to learn
+- ByT5 sees raw bytes, so it naturally captures character-level transformations like suffix changes (`-न` → `-ल`, `-ले` → `-ला`)
+- **Trade-off**: Sequences are 3-4x longer (each Devanagari character = 3 UTF-8 bytes), so inference is slower
+
+| Variant | Parameters | VRAM Required |
+| :--- | :--- | :--- |
+| **ByT5-small** | 300M | ~4 GB |
+
+#### 4.3.3 How LoRA (Low-Rank Adaptation) Works
+
+Instead of updating ALL model parameters during fine-tuning (which risks overfitting on our small ~2,000-pair dataset), we use **LoRA** — which freezes the original weights and injects small trainable matrices.
+
+**The Core Idea:**
+
+```
+Standard Fine-Tuning:                   LoRA Fine-Tuning:
+
+  W_original (frozen)                      W_original (FROZEN, unchanged)
+       +                                        +
+  ΔW (full update,                          B × A (low-rank update,
+   same size as W,                           MUCH smaller than W,
+   300M params to train)                     ~1-5M params to train)
+
+  W_new = W_original + ΔW               W_new = W_original + B × A
+```
+
+**How LoRA decomposition works at the matrix level:**
+
+```
+Original weight matrix W:  shape [d_model × d_model] = [768 × 768] = 589,824 params
+
+LoRA replaces ΔW with two small matrices:
+  A: shape [768 × r]  (r = rank, typically 8-32)
+  B: shape [r × 768]
+
+  ΔW = B × A → shape [768 × 768] but only (768×8 + 8×768) = 12,288 params!
+
+Reduction: 589,824 → 12,288 = 98% fewer trainable parameters
+```
+
+**What this means practically:**
+- The pre-trained model's knowledge of Marathi grammar, vocabulary, and sentence structure is **preserved** (frozen weights)
+- LoRA adapters learn ONLY the dialect→standard mapping patterns
+- Training is **faster** (fewer gradients to compute), uses **less VRAM** (~60% reduction), and is **less prone to overfitting**
+- At inference time, LoRA weights are merged back into the base model — **zero additional latency**
+
+**Where LoRA adapters are inserted:**
+```
+Transformer Layer (repeated 8-12 times):
+  ┌──────────────────────────────────────┐
+  │  Multi-Head Self-Attention           │
+  │    Q = W_q·x + (B_q × A_q)·x  ← LoRA on Query    │
+  │    K = W_k·x                   (frozen)            │
+  │    V = W_v·x + (B_v × A_v)·x  ← LoRA on Value    │
+  │                                                     │
+  │  Feed-Forward Network                │
+  │    h = W_up·x                  (frozen)            │
+  │    o = W_down·h + (B_d × A_d)·h ← LoRA on Down   │
+  └──────────────────────────────────────┘
+
+Typical LoRA config:
+  - Target modules: q_proj, v_proj (attention) + sometimes dense layers
+  - Rank r = 16
+  - Alpha = 32 (scaling factor)
+  - Dropout = 0.05
+```
+
+#### 4.3.4 Full Training Pipeline (Step by Step)
+
+**Step 1: Data Preparation**
+```python
+# Each training sample is a dict:
+{
+    "input_text":  "normalize D4 Varhadi: मले बँकेतून किती रुपयापर्यंत कर्ज भेटन ?",
+    "target_text": "मला बँकेतून किती रुपयांपर्यंत कर्ज मिळेल ?",
+    "dialect": "D4",
+    "domain": "Banking"
+}
+
+# Split: 85% train, 15% validation
+# Tokenize using model's tokenizer (SentencePiece for mT5/IndicBART, raw bytes for ByT5)
+```
+
+**Step 2: Model Loading + LoRA Injection**
+```python
+from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
+from peft import get_peft_model, LoraConfig, TaskType
+
+# Load base model (frozen)
+model = AutoModelForSeq2SeqLM.from_pretrained("google/mt5-small")
+tokenizer = AutoTokenizer.from_pretrained("google/mt5-small")
+
+# Inject LoRA adapters (only these are trainable)
+lora_config = LoraConfig(
+    task_type=TaskType.SEQ_2_SEQ_LM,
+    r=16,                    # Rank of low-rank matrices
+    lora_alpha=32,           # Scaling factor
+    lora_dropout=0.05,       # Regularisation
+    target_modules=["q", "v"],  # Which attention matrices to adapt
+)
+model = get_peft_model(model, lora_config)
+
+# Result: ~1.2M trainable params out of 300M total (0.4%)
+model.print_trainable_parameters()
+# → "trainable params: 1,245,184 || all params: 300,234,752 || trainable%: 0.4148"
+```
+
+**Step 3: Training Loop**
+```python
+from transformers import Seq2SeqTrainer, Seq2SeqTrainingArguments
+
+training_args = Seq2SeqTrainingArguments(
+    output_dir="./checkpoints/mt5-dialect-norm",
+    num_train_epochs=20,
+    per_device_train_batch_size=8,
+    per_device_eval_batch_size=8,
+    learning_rate=3e-4,
+    weight_decay=0.01,
+    warmup_steps=100,
+    eval_strategy="epoch",
+    save_strategy="epoch",
+    load_best_model_at_end=True,
+    metric_for_best_model="eval_loss",
+    predict_with_generate=True,
+    generation_max_length=128,
+    fp16=True,  # Mixed precision for speed
+)
+
+trainer = Seq2SeqTrainer(
+    model=model,
+    args=training_args,
+    train_dataset=train_dataset,
+    eval_dataset=val_dataset,
+    tokenizer=tokenizer,
+)
+
+trainer.train()
+```
+
+**Step 4: Inference (How the Trained Model Generates Output)**
+```python
+# Input: dialect sentence
+input_text = "normalize D1 South Konkan: तुका ठाऊक हा , भारतात जास्तकरून सामान्य स्टॉकची मोठी गुंतवणूक केली जाता"
+
+# Tokenize
+inputs = tokenizer(input_text, return_tensors="pt", max_length=128, truncation=True)
+
+# Generate (autoregressive decoding)
+# The decoder generates one token at a time:
+#   Step 1: <bos> → "तुला"
+#   Step 2: <bos> "तुला" → "माहित"
+#   Step 3: <bos> "तुला" "माहित" → "आहे"
+#   ... until <eos> is generated
+outputs = model.generate(**inputs, max_length=128, num_beams=4)
+
+# Decode back to text
+result = tokenizer.decode(outputs[0], skip_special_tokens=True)
+# → "तुला माहित आहे , भारतात जास्तकरून सामान्य स्टॉकची मोठी गुंतवणूक केली जाते"
+```
+
+#### 4.3.5 Candidate Models Summary
+
+| Model | Parameters | Trainable (LoRA) | Tokenization | Best For | HuggingFace ID |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **mT5-small** | 300M | ~1.2M (0.4%) | SentencePiece subword | General-purpose baseline | `google/mt5-small` |
+| **mT5-base** | 580M | ~2.4M (0.4%) | SentencePiece subword | Higher capacity, nuanced shifts | `google/mt5-base` |
+| **IndicBART** | 244M | ~1.0M (0.4%) | SentencePiece (Indic-specific) | Indic-specialized, smaller footprint | `ai4bharat/IndicBART` |
+| **ByT5-small** | 300M | ~1.2M (0.4%) | Raw UTF-8 bytes | Character-level suffix changes | `google/byt5-small` |
+
+#### 4.3.6 Training Configuration
+
+- **Input format**: `"normalize {dialect_code} {region}: {dialect_text}"`
+- **Output format**: `"{standard_text}"`
+- **Optimizer**: AdamW, lr=3e-4 with linear warmup (100 steps)
+- **Batch size**: 8–16
+- **Epochs**: 15–25 (small dataset, risk of overfitting → early stopping on val loss)
+- **LoRA rank**: r=16, alpha=32, dropout=0.05
+- **Mixed precision**: fp16 enabled
+- **Validation**: 15% held-out split
+- **Beam search**: num_beams=4 at inference time
+- **Hardware**: Single GPU (RTX series, ~6-8 GB VRAM sufficient with LoRA)
+
+#### 4.3.7 Why Fine-Tune vs. Prompting? (What is the Point of Fine-Tuning?)
+
+A key question arises: *If we can pass any instruction prompt to a large LLM like `gemma4:12b`, why fine-tune a smaller model (like mT5-small 300M or IndicBART 244M)?*
+
+Here is a direct technical comparison explaining why fine-tuning is necessary for production, research, and deployment:
+
+```
+┌──────────────────────────────┬───────────────────────────────┬───────────────────────────────┐
+│ Metric / Dimension           │ Big LLM Prompting             │ Fine-Tuned Small Model        │
+│                              │ (e.g. gemma4:12b via Ollama)  │ (mT5-small 300M + LoRA)       │
+├──────────────────────────────┼───────────────────────────────┼───────────────────────────────┤
+│ Model Size                   │ 12 Billion parameters (~7.5GB)│ 300 Million params (~1.2GB)   │
+│ GPU VRAM Needed              │ 8–16 GB VRAM                  │ 1–2 GB VRAM (runs on CPU/edge)│
+│ Latency per Sentence         │ 2,000–18,000 ms (2–18 secs)   │ 20–50 ms (< 0.05 seconds)     │
+│ Throughput                   │ ~5–10 sentences / second      │ ~200–500 sentences / second   │
+│ Prompt Overhead              │ Requires ~200-word prompt     │ ZERO prompt overhead          │
+│ Output Cleanliness           │ May hallucinate chit-chat     │ Deterministic exact text      │
+│ Deployment Cost              │ High-end GPU server required  │ Runs on cheap CPU microservice│
+└──────────────────────────────┴───────────────────────────────┴───────────────────────────────┘
+```
+
+##### 1. Inference Speed & Real-Time Performance
+- **Prompting LLMs**: Ingesting a system prompt + dialect sentence into a 12B model takes **2 to 18 seconds** per sentence.
+- **Fine-Tuned Seq2Seq Model**: A 244M/300M model takes **less than 50 milliseconds** per sentence. In production ASR/NLP pipelines, waiting 10 seconds for text normalisation makes voice bots unusable.
+
+##### 2. No Conversational Bloat or Hallucination
+- **Prompting LLMs**: Large models often add unwanted conversational filler:
+  - *Input*: "Normalize: मले बँकेतून किती रुपयापर्यंत कर्ज भेटन ?"
+  - *LLM Output*: *"Sure! Here is the standard Marathi translation: मला बँकेतून किती रुपयांपर्यंत कर्ज मिळेल ? Let me know if you need anything else!"*
+- **Fine-Tuned Model**: The fine-tuned model outputs **ONLY** `"मला बँकेतून किती रुपयांपर्यंत कर्ज मिळेल ?"` — zero extra tokens, zero parsing needed.
+
+##### 3. Zero System Prompt Overhead
+- During **training**, we use `gemma4:12b` as a **Teacher Model** to generate ground-truth standard pairs from raw dialect sentences in `meta_train_mr_clean.json`.
+- During **inference**, the fine-tuned **Student Model** has learned the mapping weights directly into its parameters. You simply pass:
+  - `Input`: `"normalize D4: मले बँकेतून किती रुपयापर्यंत कर्ज भेटन ?"`
+  - `Output`: `"मला बँकेतून किती रुपयांपर्यंत कर्ज मिळेल ?"`
+  - You do **NOT** need to send a 200-word prompt instruction every time!
+
+##### 4. Edge & Local Microservice Deployment
+- A 244M IndicBART model with LoRA adapters compressed into ONNX / TensorRT can run on low-cost CPU instances, mobile apps, or embedded hardware.
+
+---
 
 ### 4.4 Phase 3: Evaluation
 
