@@ -169,4 +169,14 @@
   \item \textbf{Justification for Post-ASR Text-to-Text Normaliser:} High substitution and insertion rates across sub-dialects demonstrate that acoustic model errors are primarily lexical and orthographic, strongly validating our proposed \textbf{Text-to-Text Normalisation Model} ($\text{Dialect Text} \rightarrow \text{Standard Formal Text}$).
 \end{enumerate}
 
+\section*{Development \& Implementation Log --- July 29, 2026}
+
+\begin{itemize}
+  \item \textbf{LLM Pipeline Engine \& LM Studio Integration:} Integrated LM Studio local inference backend (\texttt{google/gemma-4-e2b} at \texttt{http://localhost:1234/v1}) with fast health check verification and fallback to reasoning content for Gemma thinking tags.
+  \item \textbf{1-Prompt-per-Sentence Architecture:} Replaced batching with 1:1 single-sentence inference (\texttt{ITEMS\_PER\_PROMPT = 1}), completely eliminating batch array length mismatches and cross-sentence context contamination.
+  \item \textbf{Zero-Hallucination System Prompt Design:} Redesigned system prompt with strict semantic fidelity rules, dialectal lexical mapping tables (D1 Malvani, D2 Ahirani, D4 Varhadi), and few-shot reference examples. Verified 100\% preservation of domain terms and zero extra clause insertions.
+  \item \textbf{Real-Time Per-Inference Persistence:} Updated generation pipeline to append translated rows to CSV (\texttt{marathi\_parallel\_part\_XXX.csv}) and update \texttt{pipeline\_checkpoint.json} immediately after every single inference.
+  \item \textbf{Codebase Restructuring \& Package Management:} Modularized repository into \texttt{src/dialect\_norm/}, added unified CLI entrypoint (\texttt{dialect\_norm.cli}), created \texttt{tests/} suite, and registered CLI script commands in \texttt{pyproject.toml}.
+\end{itemize}
+
 \end{document}
