@@ -1,7 +1,6 @@
 """
-LM Studio / Ollama Synthetic Data Generation Pipeline Engine with Detailed Logging & Safety Health Checks.
-Batches 5 sentences per prompt and saves output in 1,000-row CSV files.
-Supports LM Studio (google/gemma-4-e2b) and Ollama (gemma4:12b).
+Synthetic Parallel Data Generation Pipeline using Local LLM Backends (LM Studio / Ollama).
+Supports 1-prompt-per-sentence single-item normalization, KV cache flushing, dynamic sysprompt loading, and instant row-level CSV persistence.
 """
 
 import csv
@@ -28,32 +27,12 @@ ROWS_PER_CSV = 1000
 
 logger = logging.getLogger("dialect_norm.gemma_pipeline")
 
-PROMPT_TEMPLATE = """You are a senior computational linguist specializing in Marathi sub-dialects:
+DEFAULT_PROMPT_TEMPLATE = """You are a senior computational linguist specializing in Marathi sub-dialects:
 - D1: Malvani / South Konkani (Ratnagiri, Sindhudurg)
 - D2: Ahirani / Khandeshi (Jalgaon, Dhule, Palghar)
 - D4: Varhadi / Nagpuri (Vidarbha, Amravati, Nagpur)
 
 Normalize the following single regional Marathi dialect sentence into formal Standard Pune Marathi (शुद्ध पुणेरी मराठी).
-
-MANDATORY NORMALIZATION RULES:
-1. STRICT SEMANTIC FIDELITY (ZERO HALLUCINATION & ZERO LOSS):
-   - Do NOT add any extra phrases, commentary, or assumptions (e.g. do NOT insert "हे मला माहीत नाही").
-   - Do NOT drop or omit any word, clause, domain term, or concept (e.g. convert "शिकायले" -> "शिक्षणासाठी", do NOT drop it).
-   - Maintain exact sentence structure, tense, numbers, and modality (questions remain questions, imperatives remain imperatives).
-
-2. DIALECT LEXICAL & GRAMMAR CONVERSIONS:
-   - Pronouns: Convert 'माका'/'मले' -> 'मला'; 'तुका'/'तुले' -> 'तुला'; 'आम्हाले' -> 'आम्हाला'.
-   - Postpositions: Convert 'वरसून' -> 'वरून'; 'माथून' -> 'मधून'/'वरून'; '-ले' -> '-ला'.
-   - Verbs & Auxiliaries: Convert 'भेटन'/'गावता' -> 'मिळेल'/'मिळते'; 'लागन' -> 'लागेल'; 'करस'/'करास' -> 'करतो'/'करते'; 'काढुक' -> 'काढायला'; 'असन' -> 'असेल'.
-   - Domain Spellings: Correct regional phonetic distortions (e.g. 'मासामारी' -> 'मासेमारी').
-
-3. FEW-SHOT REFERENCE EXAMPLES:
-   - Dialect Input (D1): "क्रेडिट कार्ड वरसून जास्तीत जास्त कितक्या कर्ज गावता , आणि डेबिट कार्ड वरसून जास्तीत जास्त कितके पैसे काढुक शकतू आम्ही ?"
-     Standard Output   : "क्रेडिट कार्डवरून जास्तीत जास्त किती कर्ज मिळते, आणि डेबिट कार्डवरून जास्तीत जास्त किती पैसे काढू शकतो आम्ही?"
-   - Dialect Input (D2): "देशना पुरा मासामारी उत्पादनपैकी सुमारे साठ एकर उत्पादन देशमझारला मासामारीमाथून येस"
-     Standard Output   : "देशाच्या संपूर्ण मासेमारी उत्पादनापैकी सुमारे साठ टक्के उत्पादन देशाच्या अंतर्गत मासेमारीतून येते."
-   - Dialect Input (D4): "मले शिकायले कर्ज घ्याच असन तर कुठ अर्ज करा लागन त्याची मायती मले कुठी भेटन त्यासाठी ऑनलाईन अर्ज करा लागन का ?"
-     Standard Output   : "मला शिक्षणासाठी कर्ज घ्यायचे असेल तर कुठे अर्ज करावा लागेल, त्याची माहिती मला कुठे मिळेल? त्यासाठी ऑनलाईन अर्ज करावा लागेल का?"
 
 Dialect Sentence Input:
 "{text}"
@@ -62,6 +41,23 @@ OUTPUT INSTRUCTION:
 Respond ONLY with the clean Standard Pune Marathi translation text for this single sentence.
 Do NOT use quotes, markdown fences, JSON formatting, preamble, or commentary. Output ONLY the single translated sentence.
 """
+
+
+def load_sysprompt() -> str:
+    """Reads system prompt from sysprompt.txt dynamically on every request."""
+    candidates = [
+        Path.cwd() / "sysprompt.txt",
+        Path(__file__).parent.parent.parent / "sysprompt.txt",
+    ]
+    for cand in candidates:
+        if cand.exists():
+            try:
+                content = cand.read_text(encoding="utf-8").strip()
+                if content:
+                    return content
+            except Exception as e:
+                logger.warning(f"Error reading sysprompt from {cand}: {e}")
+    return DEFAULT_PROMPT_TEMPLATE
 
 
 def setup_logger(log_dir: Path):
@@ -127,6 +123,8 @@ def check_llm_health(provider: str, model_name: str, base_url: str) -> Tuple[boo
             "messages": [{"role": "user", "content": "Hello! Confirm active status."}],
             "max_tokens": 128,
             "temperature": 0.1,
+            "cache_prompt": False,
+            "clear_cache": True,
         }
 
         t0 = time.time()
@@ -134,7 +132,7 @@ def check_llm_health(provider: str, model_name: str, base_url: str) -> Tuple[boo
             req = urllib.request.Request(
                 chat_url,
                 data=json.dumps(test_payload).encode("utf-8"),
-                headers={"Content-Type": "application/json"},
+                headers={"Content-Type": "application/json", "Connection": "close"},
                 method="POST",
             )
             with urllib.request.urlopen(req, timeout=30) as resp:
@@ -179,7 +177,8 @@ def check_llm_health(provider: str, model_name: str, base_url: str) -> Tuple[boo
             "model": model_name,
             "prompt": "Hello! Confirm active status.",
             "stream": False,
-            "options": {"temperature": 0.2, "num_predict": 128},
+            "keep_alive": 0,
+            "options": {"temperature": 0.2, "num_predict": 128, "num_keep": 0},
         }
 
         t0 = time.time()
@@ -187,7 +186,7 @@ def check_llm_health(provider: str, model_name: str, base_url: str) -> Tuple[boo
             req = urllib.request.Request(
                 generate_url,
                 data=json.dumps(test_payload).encode("utf-8"),
-                headers={"Content-Type": "application/json"},
+                headers={"Content-Type": "application/json", "Connection": "close"},
                 method="POST",
             )
             with urllib.request.urlopen(req, timeout=30) as resp:
@@ -294,14 +293,10 @@ def query_llm_batch(
     model: str = LMSTUDIO_MODEL,
     base_url: str = LMSTUDIO_BASE_URL,
 ) -> List[str]:
-    """Queries LLM for 1 sentence (or batch if configured) and returns list of translations."""
+    """Queries LLM for 1 sentence (or batch) reading sysprompt.txt dynamically with KV cache flushing."""
     expected_count = len(batch_items)
-
-    if expected_count == 1:
-        prompt_content = PROMPT_TEMPLATE.format(text=batch_items[0]["dialect_text"])
-    else:
-        # Fallback for multi-item format if used
-        prompt_content = PROMPT_TEMPLATE.format(text=batch_items[0]["dialect_text"])
+    prompt_template = load_sysprompt()
+    prompt_content = prompt_template.format(text=batch_items[0]["dialect_text"])
 
     base_url = base_url.rstrip("/")
     start_time = time.time()
@@ -319,13 +314,15 @@ def query_llm_batch(
             ],
             "temperature": 0.1,
             "max_tokens": 1024,
+            "cache_prompt": False,
+            "clear_cache": True,
         }
 
         try:
             req = urllib.request.Request(
                 chat_url,
                 data=json.dumps(payload).encode("utf-8"),
-                headers={"Content-Type": "application/json"},
+                headers={"Content-Type": "application/json", "Connection": "close"},
                 method="POST",
             )
             with urllib.request.urlopen(req, timeout=90) as resp:
@@ -335,7 +332,6 @@ def query_llm_batch(
                     message = res_data["choices"][0]["message"]
                     raw_response = message.get("content", "") or ""
                     
-                    # Fallback to reasoning_content if main content is empty
                     if not raw_response.strip():
                         raw_response = message.get("reasoning_content", "") or message.get("reasoning", "") or ""
 
@@ -355,14 +351,15 @@ def query_llm_batch(
             "model": model,
             "prompt": prompt_content,
             "stream": False,
-            "options": {"temperature": 0.1, "top_p": 0.9, "num_predict": 1024},
+            "keep_alive": 0,
+            "options": {"temperature": 0.1, "top_p": 0.9, "num_predict": 1024, "num_keep": 0},
         }
 
         try:
             req = urllib.request.Request(
                 generate_url,
                 data=json.dumps(payload).encode("utf-8"),
-                headers={"Content-Type": "application/json"},
+                headers={"Content-Type": "application/json", "Connection": "close"},
                 method="POST",
             )
             with urllib.request.urlopen(req, timeout=90) as resp:
@@ -372,14 +369,14 @@ def query_llm_batch(
                     raw_response = res_data.get("response", "").strip()
 
                     translations = _parse_response_to_translations(raw_response, expected_count)
-                    if len(translations) == expected_count:
-                        logger.info(f"[Batch {batch_idx}/{total_batches}] Ollama SUCCESS in {elapsed:.2f}s | Parsed 5 translations.")
+                    if len(translations) == expected_count and all(translations):
+                        logger.info(f"[Item {batch_idx}/{total_batches}] Ollama SUCCESS in {elapsed:.2f}s | 1:1 Translation.")
                         return translations
 
-                    logger.warning(f"[Batch {batch_idx}/{total_batches}] Response length mismatch ({len(translations)} lines vs {expected_count} expected). Raw: '{raw_response[:80]}...'")
+                    logger.warning(f"[Item {batch_idx}/{total_batches}] Response length mismatch ({len(translations)} lines vs {expected_count} expected). Raw: '{raw_response[:80]}...'")
         except Exception as e:
             elapsed = time.time() - start_time
-            logger.error(f"[Batch {batch_idx}/{total_batches}] Ollama API error ({elapsed:.2f}s): {e}")
+            logger.error(f"[Item {batch_idx}/{total_batches}] Ollama API error ({elapsed:.2f}s): {e}")
 
     return None
 
@@ -443,6 +440,7 @@ def execute_generation_pipeline(
     logger.info(f"Total Inferences Needed : {total_batches:,} (1 item/prompt)")
     logger.info(f"CSV Capacity Limit   : {rows_per_csv:,} rows/file")
     logger.info(f"Output Directory     : {output_dir.resolve()}")
+    logger.info(f"Dynamic System Prompt: sysprompt.txt")
     logger.info("=" * 70)
 
     def append_row_to_csv(csv_idx: int, row: dict):
@@ -490,7 +488,6 @@ def execute_generation_pipeline(
                         current_csv_index += 1
                         current_csv_row_count = 0
 
-            # Write checkpoint immediately after every single inference
             with open(checkpoint_file, "w", encoding="utf-8") as f:
                 json.dump({
                     "processed_count": processed_count,

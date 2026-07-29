@@ -1,0 +1,42 @@
+You are a senior computational linguist specializing in Marathi sub-dialects:
+- D1: Malvani / South Konkani (Ratnagiri, Sindhudurg)
+- D2: Ahirani / Khandeshi (Jalgaon, Dhule, Palghar)
+- D4: Varhadi / Nagpuri (Vidarbha, Amravati, Nagpur)
+
+Normalize the following single regional Marathi dialect sentence into formal Standard Pune Marathi (शुद्ध पुणेरी मराठी).
+
+MANDATORY NORMALIZATION DIRECTIVES:
+
+1. STRICT SEMANTIC FIDELITY & ZERO LOSS:
+   - Do NOT add extra phrases, commentary, or assumptions (e.g., do NOT insert "हे मला माहीत नाही").
+   - Do NOT drop or omit any word, clause, or concept (e.g. convert "शिकायले" -> "शिक्षणासाठी", do NOT drop it; convert "चुकिच्या" -> "चुकीच्या", do NOT omit it).
+   - Retain exact numbers and digits: Do NOT alter any quantity (e.g. 'ऐंशी' MUST stay '८०/ऐंशी', do NOT change to '१००/एकशे').
+
+2. SUB-DIALECT LEXICAL DISAMBIGUATION & FALSE FRIENDS:
+   - Ahirani D2 'शेतस' is a verb meaning 'असते / आहे' (it is NOT the noun 'शेतातील' / in field).
+   - Ahirani D2 'खास' (in verb context) means 'खातो / खाते / खात असेल' (it is NOT the adjective 'महत्त्वाचा' / special).
+   - Ahirani D2 'गनज' means 'अनेक / पुष्कळ' (it means many/numerous, NOT 'जगातील').
+   - Malvani D1 verb endings (-चा असात / -चो असात / करूचो) MUST be fully normalized to standard form (-ायचे असेल / करायचा). Do NOT leave dialect suffix intact.
+   - Causative Verbs: Maintain causative meaning (e.g. 'करवतत' -> 'करून घेतात', do NOT reduce to simple 'करतात').
+   - Modality Lock: Imperatives/Obligations ('वापराले पायजे' -> 'वापरायला पाहिजे') must NOT become past tense ('वापरले'). Declaratives must NOT become questions.
+
+3. GRAMMAR & PRONOUN CONVERSIONS:
+   - Pronouns: 'माका'/'मले' -> 'मला'; 'तुका'/'तुले' -> 'तुला'; 'आम्हाले' -> 'आम्हाला'.
+   - Postpositions: 'वरसून' -> 'वरून'; 'माथून' -> 'मधून'/'वरून'; '-ले' -> '-ला'.
+   - Verbs & Auxiliaries: 'भेटन'/'गावता' -> 'मिळेल'/'मिळते'; 'लागन' -> 'लागेल'; 'करस'/'करास' -> 'करतो'/'करते'; 'काढुक' -> 'काढायला'; 'असन' -> 'असेल'.
+   - Phonetic/Domain Corrections: Fix regional spellings (e.g. 'मासामारी' -> 'मासेमारी').
+
+4. FEW-SHOT REFERENCE EXAMPLES:
+   - Dialect Input (D1): "क्रेडिट कार्ड वरसून जास्तीत जास्त कितक्या कर्ज गावता , आणि डेबिट कार्ड वरसून जास्तीत जास्त कितके पैसे काढुक शकतू आम्ही ?"
+     Standard Output   : "क्रेडिट कार्डवरून जास्तीत जास्त किती कर्ज मिळते, आणि डेबिट कार्डवरून जास्तीत जास्त किती पैसे काढू शकतो आम्ही?"
+   - Dialect Input (D2): "दुन्याभरमा गनज लोकेस्ना आहार मासा शेतस , येक मानूस कितला किलो मासा खास व्हयी ?"
+     Standard Output   : "जगभरात अनेक लोकांचे अन्न मासे असते, एक व्यक्ती किती किलो मासे खात असेल?"
+   - Dialect Input (D4): "मले शिकायले कर्ज घ्याच असन तर कुठ अर्ज करा लागन त्याची मायती मले कुठी भेटन त्यासाठी ऑनलाईन अर्ज करा लागन का ?"
+     Standard Output   : "मला शिक्षणासाठी कर्ज घ्यायचे असेल तर कुठे अर्ज करावा लागेल, त्याची माहिती मला कुठे मिळेल? त्यासाठी ऑनलाईन अर्ज करावा लागेल का?"
+
+Dialect Sentence Input:
+"{text}"
+
+OUTPUT INSTRUCTION:
+Respond ONLY with the clean Standard Pune Marathi translation text for this single sentence.
+Do NOT use quotes, markdown fences, JSON formatting, preamble, or commentary. Output ONLY the single translated sentence.
