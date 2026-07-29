@@ -418,15 +418,16 @@ def execute_generation_pipeline(
 
     processed_count = 0
     current_csv_index = 1
-    current_csv_rows = []
+    current_csv_row_count = 0
 
     if checkpoint_file.exists():
         try:
             with open(checkpoint_file, "r", encoding="utf-8") as f:
                 ckpt = json.load(f)
                 processed_count = ckpt.get("processed_count", 0)
-                current_csv_index = ckpt.get("current_csv_index", 1)
-                logger.info(f"[Checkpoint] Loaded checkpoint: {processed_count:,} pairs processed. CSV Part {current_csv_index:03d}.")
+                current_csv_index = (processed_count // rows_per_csv) + 1
+                current_csv_row_count = processed_count % rows_per_csv
+                logger.info(f"[Checkpoint] Loaded checkpoint: {processed_count:,} pairs processed. Current CSV Part {current_csv_index:03d} ({current_csv_row_count}/{rows_per_csv} rows).")
         except Exception as e:
             logger.error(f"[Checkpoint] Failed to load checkpoint: {e}")
 
@@ -444,19 +445,20 @@ def execute_generation_pipeline(
     logger.info(f"Output Directory     : {output_dir.resolve()}")
     logger.info("=" * 70)
 
-    def flush_csv(csv_idx, rows):
+    def append_row_to_csv(csv_idx: int, row: dict):
         csv_path = output_dir / f"marathi_parallel_part_{csv_idx:03d}.csv"
         file_exists = csv_path.exists()
 
         with open(csv_path, "a", encoding="utf-8-sig", newline="") as f:
-            writer = csv.DictWriter(f, fieldnames=["id", "text_id", "dialect", "domain", "distortion_score", "dialect_text", "standard_text"])
+            writer = csv.DictWriter(
+                f,
+                fieldnames=["id", "text_id", "dialect", "domain", "distortion_score", "dialect_text", "standard_text"]
+            )
             if not file_exists:
                 writer.writeheader()
-            writer.writerows(rows)
-        logger.info(f"[CSV Saved] Successfully saved {len(rows):,} rows to: {csv_path.resolve()}")
-        print(f"\n[CSV Saved] Written {len(rows):,} rows to {csv_path.name}", flush=True)
+            writer.writerow(row)
 
-    batch_idx = (processed_count // ITEMS_PER_PROMPT) + 1
+    batch_idx = processed_count + 1
     i = 0
     total_remaining = len(remaining_items)
 
@@ -467,11 +469,10 @@ def execute_generation_pipeline(
         translations = query_llm_batch(batch, batch_idx, total_batches, provider=provider, model=model_name, base_url=base_url)
 
         if translations:
-            batch_added = 0
             for item, trans in zip(batch, translations):
                 if trans:
                     processed_count += 1
-                    batch_added += 1
+                    current_csv_row_count += 1
                     row = {
                         "id": processed_count,
                         "text_id": item["text_id"],
@@ -481,14 +482,15 @@ def execute_generation_pipeline(
                         "dialect_text": item["dialect_text"],
                         "standard_text": trans,
                     }
-                    current_csv_rows.append(row)
+                    append_row_to_csv(current_csv_index, row)
                     pbar.update(1)
 
-                    if len(current_csv_rows) >= rows_per_csv:
-                        flush_csv(current_csv_index, current_csv_rows)
-                        current_csv_rows = []
+                    if current_csv_row_count >= rows_per_csv:
+                        logger.info(f"[CSV Part Full] Reached {rows_per_csv:,} rows for Part {current_csv_index:03d}. Starting Part {current_csv_index + 1:03d}.")
                         current_csv_index += 1
+                        current_csv_row_count = 0
 
+            # Write checkpoint immediately after every single inference
             with open(checkpoint_file, "w", encoding="utf-8") as f:
                 json.dump({
                     "processed_count": processed_count,
@@ -497,21 +499,17 @@ def execute_generation_pipeline(
                 }, f, indent=2)
 
             pct = (processed_count / total_target) * 100.0
-            logger.info(f"[Progress] Batch {batch_idx}/{total_batches} completed. Added {batch_added} pairs. Total: {processed_count:,}/{total_target:,} ({pct:.2f}%).")
+            logger.info(f"[Progress] Inference {batch_idx}/{total_batches} completed & saved. Total: {processed_count:,}/{total_target:,} ({pct:.2f}%).")
 
             i += len(batch)
             batch_idx += 1
         else:
-            logger.warning(f"[Retry] Batch {batch_idx}/{total_batches} failed or returned empty response. Retrying in 3 seconds...")
+            logger.warning(f"[Retry] Inference {batch_idx}/{total_batches} failed or returned empty response. Retrying in 3 seconds...")
             time.sleep(3)
-
-    if current_csv_rows:
-        flush_csv(current_csv_index, current_csv_rows)
-        current_csv_rows = []
 
     pbar.close()
     logger.info("=" * 70)
     logger.info("✅ PIPELINE COMPLETED SUCCESSFULLY!")
     logger.info(f"Final Output Count : {processed_count:,} parallel pairs")
-    logger.info(f"Total CSV Files    : {current_csv_index if not current_csv_rows else current_csv_index}")
+    logger.info(f"Total CSV Files    : {current_csv_index}")
     logger.info("=" * 70)
