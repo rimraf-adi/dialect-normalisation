@@ -1,5 +1,6 @@
 """
-Unified CLI Entry Point for Gemma Synthetic Parallel Data Generation Pipeline with Ollama Health & Safety Check.
+Unified CLI Entry Point for Gemma Synthetic Parallel Data Generation Pipeline with LM Studio & Ollama Support.
+Default Backend: LM Studio (google/gemma-4-e2b at http://localhost:1234/v1).
 """
 
 import argparse
@@ -9,7 +10,7 @@ from pathlib import Path
 # Add src to sys.path
 sys.path.insert(0, str(Path(__file__).parent / "src"))
 
-from dialect_norm.gemma_pipeline import check_ollama_health, execute_generation_pipeline
+from dialect_norm.gemma_pipeline import check_llm_health, execute_generation_pipeline
 from dialect_norm.sampler import load_and_sample_dialect_dataset
 
 
@@ -18,14 +19,27 @@ def main():
         sys.stdout.reconfigure(encoding="utf-8")
 
     parser = argparse.ArgumentParser(
-        description="Gemma 4:12b Synthetic Data Generation Pipeline (10k samples per dialect: D1, D2, D4)."
+        description="Synthetic Data Generation Pipeline (10k samples per dialect: D1, D2, D4) using LM Studio / Ollama."
     )
     parser.add_argument("--meta-path", type=str, default=None, help="Path to meta_train_mr_clean.json metadata file")
     parser.add_argument(
+        "--provider",
+        type=str,
+        default="lmstudio",
+        choices=["lmstudio", "ollama"],
+        help="LLM local backend provider: lmstudio (default) or ollama",
+    )
+    parser.add_argument(
         "--model-name",
         type=str,
-        default="gemma4:12b",
-        help="Ollama target model name (default: gemma4:12b)",
+        default=None,
+        help="Target model name (default: google/gemma-4-e2b for lmstudio, gemma4:12b for ollama)",
+    )
+    parser.add_argument(
+        "--base-url",
+        type=str,
+        default=None,
+        help="Base URL endpoint (default: http://localhost:1234/v1 for lmstudio, http://localhost:11434 for ollama)",
     )
     parser.add_argument(
         "--samples-per-dialect",
@@ -49,11 +63,23 @@ def main():
 
     args = parser.parse_args()
 
-    # CRITICAL SAFETY CHECK FIRST (FAILS FAST IN <0.5s IF OLLAMA IS DOWN)
-    is_healthy, health_msg = check_ollama_health(model_name=args.model_name)
+    # Set defaults based on provider
+    provider = args.provider.lower()
+    if provider == "lmstudio":
+        model_name = args.model_name if args.model_name else "google/gemma-4-e2b"
+        base_url = args.base_url if args.base_url else "http://localhost:1234/v1"
+    else:  # ollama
+        model_name = args.model_name if args.model_name else "gemma4:12b"
+        base_url = args.base_url if args.base_url else "http://localhost:11434"
+
+    # CRITICAL SAFETY CHECK FIRST (FAILS FAST IF LOCAL SERVER IS DOWN)
+    is_healthy, health_msg = check_llm_health(provider=provider, model_name=model_name, base_url=base_url)
     if not is_healthy:
-        print(f"\n❌ OLLAMA SAFETY CHECK FAILED: {health_msg}", file=sys.stderr)
-        print("--> Make sure Ollama server is running ('ollama serve') and model is pulled.", file=sys.stderr)
+        print(f"\n❌ LLM SAFETY CHECK FAILED: {health_msg}", file=sys.stderr)
+        if provider == "lmstudio":
+            print("--> Make sure LM Studio is open, model 'google/gemma-4-e2b' is loaded, and Local Server is started on port 1234.", file=sys.stderr)
+        else:
+            print("--> Make sure Ollama server is running ('ollama serve') and model is pulled.", file=sys.stderr)
         sys.exit(1)
 
     meta_path1 = Path("IISc_RESPIN_train_mr_clean/IISc_RESPIN_train_mr_clean/meta_train_mr_clean.json")
@@ -80,12 +106,14 @@ def main():
         seed=args.seed,
     )
 
-    # Step 2: Execute Gemma generation pipeline (5 sentences/prompt, 1,000 rows/CSV)
+    # Step 2: Execute generation pipeline (5 sentences/prompt, 1,000 rows/CSV)
     execute_generation_pipeline(
         sampled_dataset=sampled_dataset,
         output_dir=output_dir,
         log_dir=log_dir,
-        model_name=args.model_name,
+        provider=provider,
+        model_name=model_name,
+        base_url=base_url,
     )
 
 

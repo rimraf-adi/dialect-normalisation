@@ -1,6 +1,7 @@
 """
-Gemma 4:12b Synthetic Data Generation Pipeline Engine with Detailed Logging & Safety Health Checks.
+LM Studio / Ollama Synthetic Data Generation Pipeline Engine with Detailed Logging & Safety Health Checks.
 Batches 5 sentences per prompt and saves output in 1,000-row CSV files.
+Supports LM Studio (google/gemma-4-e2b) and Ollama (gemma4:12b).
 """
 
 import csv
@@ -15,34 +16,52 @@ from pathlib import Path
 from typing import Dict, List, Tuple
 from tqdm import tqdm
 
-OLLAMA_BASE = "http://localhost:11434"
-OLLAMA_GENERATE_URL = f"{OLLAMA_BASE}/api/generate"
-OLLAMA_TAGS_URL = f"{OLLAMA_BASE}/api/tags"
-MODEL_NAME = "gemma4:12b"
-ITEMS_PER_PROMPT = 5
+DEFAULT_PROVIDER = "lmstudio"
+LMSTUDIO_BASE_URL = "http://localhost:1234/v1"
+LMSTUDIO_MODEL = "google/gemma-4-e2b"
+
+OLLAMA_BASE_URL = "http://localhost:11434"
+OLLAMA_MODEL = "gemma4:12b"
+
+ITEMS_PER_PROMPT = 1
 ROWS_PER_CSV = 1000
 
 logger = logging.getLogger("dialect_norm.gemma_pipeline")
 
-PROMPT_TEMPLATE = """You are an expert linguist specializing in Marathi dialects.
-Translate the following 5 regional Marathi dialect sentences into Standard Pune Marathi (शुद्ध पुणेरी मराठी).
-Preserve the exact meaning, but convert all regional dialectal words, suffixes, and non-standard grammar into standard formal Marathi.
+PROMPT_TEMPLATE = """You are a senior computational linguist specializing in Marathi sub-dialects:
+- D1: Malvani / South Konkani (Ratnagiri, Sindhudurg)
+- D2: Ahirani / Khandeshi (Jalgaon, Dhule, Palghar)
+- D4: Varhadi / Nagpuri (Vidarbha, Amravati, Nagpur)
 
-Input Dialect Sentences:
-1. {text_1}
-2. {text_2}
-3. {text_3}
-4. {text_4}
-5. {text_5}
+Normalize the following single regional Marathi dialect sentence into formal Standard Pune Marathi (शुद्ध पुणेरी मराठी).
 
-Respond ONLY with a valid JSON array of 5 strings containing the Standard Marathi translations in order:
-[
-  "Standard sentence 1",
-  "Standard sentence 2",
-  "Standard sentence 3",
-  "Standard sentence 4",
-  "Standard sentence 5"
-]"""
+MANDATORY NORMALIZATION RULES:
+1. STRICT SEMANTIC FIDELITY (ZERO HALLUCINATION & ZERO LOSS):
+   - Do NOT add any extra phrases, commentary, or assumptions (e.g. do NOT insert "हे मला माहीत नाही").
+   - Do NOT drop or omit any word, clause, domain term, or concept (e.g. convert "शिकायले" -> "शिक्षणासाठी", do NOT drop it).
+   - Maintain exact sentence structure, tense, numbers, and modality (questions remain questions, imperatives remain imperatives).
+
+2. DIALECT LEXICAL & GRAMMAR CONVERSIONS:
+   - Pronouns: Convert 'माका'/'मले' -> 'मला'; 'तुका'/'तुले' -> 'तुला'; 'आम्हाले' -> 'आम्हाला'.
+   - Postpositions: Convert 'वरसून' -> 'वरून'; 'माथून' -> 'मधून'/'वरून'; '-ले' -> '-ला'.
+   - Verbs & Auxiliaries: Convert 'भेटन'/'गावता' -> 'मिळेल'/'मिळते'; 'लागन' -> 'लागेल'; 'करस'/'करास' -> 'करतो'/'करते'; 'काढुक' -> 'काढायला'; 'असन' -> 'असेल'.
+   - Domain Spellings: Correct regional phonetic distortions (e.g. 'मासामारी' -> 'मासेमारी').
+
+3. FEW-SHOT REFERENCE EXAMPLES:
+   - Dialect Input (D1): "क्रेडिट कार्ड वरसून जास्तीत जास्त कितक्या कर्ज गावता , आणि डेबिट कार्ड वरसून जास्तीत जास्त कितके पैसे काढुक शकतू आम्ही ?"
+     Standard Output   : "क्रेडिट कार्डवरून जास्तीत जास्त किती कर्ज मिळते, आणि डेबिट कार्डवरून जास्तीत जास्त किती पैसे काढू शकतो आम्ही?"
+   - Dialect Input (D2): "देशना पुरा मासामारी उत्पादनपैकी सुमारे साठ एकर उत्पादन देशमझारला मासामारीमाथून येस"
+     Standard Output   : "देशाच्या संपूर्ण मासेमारी उत्पादनापैकी सुमारे साठ टक्के उत्पादन देशाच्या अंतर्गत मासेमारीतून येते."
+   - Dialect Input (D4): "मले शिकायले कर्ज घ्याच असन तर कुठ अर्ज करा लागन त्याची मायती मले कुठी भेटन त्यासाठी ऑनलाईन अर्ज करा लागन का ?"
+     Standard Output   : "मला शिक्षणासाठी कर्ज घ्यायचे असेल तर कुठे अर्ज करावा लागेल, त्याची माहिती मला कुठे मिळेल? त्यासाठी ऑनलाईन अर्ज करावा लागेल का?"
+
+Dialect Sentence Input:
+"{text}"
+
+OUTPUT INSTRUCTION:
+Respond ONLY with the clean Standard Pune Marathi translation text for this single sentence.
+Do NOT use quotes, markdown fences, JSON formatting, preamble, or commentary. Output ONLY the single translated sentence.
+"""
 
 
 def setup_logger(log_dir: Path):
@@ -57,7 +76,6 @@ def setup_logger(log_dir: Path):
         datefmt="%Y-%m-%d %H:%M:%S",
     )
 
-    # Clean existing handlers to prevent duplicate logs
     root_logger.handlers.clear()
 
     file_handler = logging.FileHandler(log_file, encoding="utf-8")
@@ -71,145 +89,297 @@ def setup_logger(log_dir: Path):
     root_logger.addHandler(stream_handler)
 
 
-def check_ollama_health(model_name: str = MODEL_NAME, base_url: str = OLLAMA_BASE) -> Tuple[bool, str]:
+def check_llm_health(provider: str, model_name: str, base_url: str) -> Tuple[bool, str]:
     """
-    Safety Check: Verifies Ollama server availability, model existence, and warm-up generation.
-    Returns (is_healthy, message).
+    Safety Check: Verifies server availability and warm-up generation for LM Studio or Ollama.
     """
     print("\n" + "=" * 70, flush=True)
-    print("OLLAMA SAFETY & HEALTH CHECK", flush=True)
+    print(f"LLM BACKEND SAFETY & HEALTH CHECK ({provider.upper()})", flush=True)
     print("=" * 70, flush=True)
 
-    tags_url = f"{base_url}/api/tags"
-    generate_url = f"{base_url}/api/generate"
+    base_url = base_url.rstrip("/")
 
-    # Step 1: Check Server Connectivity
-    print(f"[Health Check 1/3] Pinging Ollama server at {base_url}...", flush=True)
-    try:
-        req = urllib.request.Request(tags_url, headers={"User-Agent": "Python-OllamaHealthCheck"})
-        with urllib.request.urlopen(req, timeout=5) as resp:
-            if resp.status == 200:
-                tags_data = json.loads(resp.read().decode("utf-8"))
-                models = [m.get("name", "") for m in tags_data.get("models", [])]
-                print(f"  --> Server UP! Installed Ollama models ({len(models)}): {', '.join(models)}", flush=True)
-            else:
-                return False, f"Ollama server returned status HTTP {resp.status}"
-    except urllib.error.URLError as e:
-        return False, f"Ollama server connection failed at {tags_url}. Is Ollama running? Error: {e.reason}"
-    except Exception as e:
-        return False, f"Unexpected error connecting to Ollama: {e}"
+    if provider.lower() in ["lmstudio", "openai", "lm-studio"]:
+        models_url = f"{base_url}/models"
+        chat_url = f"{base_url}/chat/completions"
 
-    # Step 2: Check Target Model Existence
-    print(f"[Health Check 2/3] Verifying model '{model_name}' presence...", flush=True)
-    matching_models = [m for m in models if model_name.split(":")[0] in m]
-    if not matching_models and model_name not in models:
-        print(f"  ⚠️ Warning: Exact model '{model_name}' not listed in tags: {models}", flush=True)
-        print(f"  Attempting to hit '{model_name}' directly...", flush=True)
-    else:
-        print(f"  --> Model '{model_name}' found in local Ollama registry.", flush=True)
-
-    # Step 3: Warm-up Test Generation
-    print(f"[Health Check 3/3] Running warm-up test translation prompt on '{model_name}'...", flush=True)
-    test_payload = {
-        "model": model_name,
-        "prompt": "Hello! Please confirm you are active and briefly state your model identity.",
-        "stream": False,
-        "options": {"temperature": 0.2, "num_predict": 50},
-    }
-
-    t0 = time.time()
-    try:
-        req = urllib.request.Request(
-            generate_url,
-            data=json.dumps(test_payload).encode("utf-8"),
-            headers={"Content-Type": "application/json"},
-            method="POST",
-        )
-        with urllib.request.urlopen(req, timeout=45) as resp:
-            elapsed = time.time() - t0
-            if resp.status == 200:
-                res_data = json.loads(resp.read().decode("utf-8"))
-                response_text = res_data.get("response", "").strip()
-                if response_text:
-                    print(f"  --> WARM-UP SUCCESSFUL ({elapsed:.2f}s)! Ollama Response: '{response_text[:60]}...'", flush=True)
+        print(f"[Health Check 1/3] Pinging LM Studio server at {models_url}...", flush=True)
+        try:
+            req = urllib.request.Request(models_url, headers={"User-Agent": "Python-LMStudioHealthCheck"})
+            with urllib.request.urlopen(req, timeout=5) as resp:
+                if resp.status == 200:
+                    models_data = json.loads(resp.read().decode("utf-8"))
+                    installed_models = [m.get("id", "") for m in models_data.get("data", [])]
+                    print(f"  --> Server UP! Active LM Studio Models ({len(installed_models)}): {', '.join(installed_models)}", flush=True)
                 else:
-                    print(f"  --> WARM-UP STATUS OK ({elapsed:.2f}s)! Model is loaded.", flush=True)
-                print("=" * 70 + "\n", flush=True)
-                return True, f"Ollama health check passed ({elapsed:.2f}s latency)."
-            else:
-                return False, f"Generation endpoint returned status HTTP {resp.status}"
-    except Exception as e:
-        print(f"  ⚠️ Warm-up test warning: {e}. Proceeding with pipeline...", flush=True)
-        print("=" * 70 + "\n", flush=True)
-        return True, f"Ollama server is active (warm-up warning: {e})."
+                    return False, f"LM Studio server returned status HTTP {resp.status}"
+        except urllib.error.URLError as e:
+            return False, f"LM Studio server connection failed at {models_url}. Ensure LM Studio Local Server is running! Error: {e.reason}"
+        except Exception as e:
+            return False, f"Unexpected error connecting to LM Studio: {e}"
 
+        print(f"[Health Check 2/3] Verifying model '{model_name}'...", flush=True)
+        print(f"  --> LM Studio target model configured: '{model_name}'", flush=True)
 
-def query_ollama_batch(batch_items: List[dict], batch_idx: int, total_batches: int, model: str = MODEL_NAME, base_url: str = OLLAMA_GENERATE_URL) -> List[str]:
-    """Sends 5 sentences in a single prompt to Ollama gemma4:12b and parses response with retry logic."""
-    texts = [item["dialect_text"] for item in batch_items]
-    while len(texts) < ITEMS_PER_PROMPT:
-        texts.append(texts[-1])
-
-    prompt_content = PROMPT_TEMPLATE.format(
-        text_1=texts[0],
-        text_2=texts[1],
-        text_3=texts[2],
-        text_4=texts[3],
-        text_5=texts[4],
-    )
-
-    payload = {
-        "model": model,
-        "prompt": prompt_content,
-        "stream": False,
-        "options": {
+        print(f"[Health Check 3/3] Running warm-up chat completion on '{model_name}'...", flush=True)
+        test_payload = {
+            "model": model_name,
+            "messages": [{"role": "user", "content": "Hello! Confirm active status."}],
+            "max_tokens": 128,
             "temperature": 0.1,
-            "top_p": 0.9,
-            "num_predict": 512,
-        },
-    }
+        }
 
+        t0 = time.time()
+        try:
+            req = urllib.request.Request(
+                chat_url,
+                data=json.dumps(test_payload).encode("utf-8"),
+                headers={"Content-Type": "application/json"},
+                method="POST",
+            )
+            with urllib.request.urlopen(req, timeout=30) as resp:
+                elapsed = time.time() - t0
+                if resp.status == 200:
+                    res_data = json.loads(resp.read().decode("utf-8"))
+                    content = res_data["choices"][0]["message"]["content"].strip()
+                    print(f"  --> WARM-UP SUCCESSFUL ({elapsed:.2f}s)! LM Studio Response: '{content[:60]}...'", flush=True)
+                    print("=" * 70 + "\n", flush=True)
+                    return True, f"LM Studio health check passed ({elapsed:.2f}s latency)."
+                else:
+                    return False, f"LM Studio chat endpoint returned status HTTP {resp.status}"
+        except Exception as e:
+            print(f"  ⚠️ LM Studio warm-up test warning: {e}. Proceeding with pipeline...", flush=True)
+            print("=" * 70 + "\n", flush=True)
+            return True, f"LM Studio server active (warm-up warning: {e})."
+
+    else:  # Ollama Provider
+        tags_url = f"{base_url}/api/tags"
+        generate_url = f"{base_url}/api/generate"
+
+        print(f"[Health Check 1/3] Pinging Ollama server at {tags_url}...", flush=True)
+        try:
+            req = urllib.request.Request(tags_url, headers={"User-Agent": "Python-OllamaHealthCheck"})
+            with urllib.request.urlopen(req, timeout=5) as resp:
+                if resp.status == 200:
+                    tags_data = json.loads(resp.read().decode("utf-8"))
+                    models = [m.get("name", "") for m in tags_data.get("models", [])]
+                    print(f"  --> Server UP! Installed Ollama models ({len(models)}): {', '.join(models)}", flush=True)
+                else:
+                    return False, f"Ollama server returned status HTTP {resp.status}"
+        except urllib.error.URLError as e:
+            return False, f"Ollama server connection failed at {tags_url}. Error: {e.reason}"
+        except Exception as e:
+            return False, f"Unexpected error connecting to Ollama: {e}"
+
+        print(f"[Health Check 2/3] Verifying model '{model_name}'...", flush=True)
+        print(f"  --> Target Ollama model: '{model_name}'", flush=True)
+
+        print(f"[Health Check 3/3] Running warm-up prompt on '{model_name}'...", flush=True)
+        test_payload = {
+            "model": model_name,
+            "prompt": "Hello! Confirm active status.",
+            "stream": False,
+            "options": {"temperature": 0.2, "num_predict": 128},
+        }
+
+        t0 = time.time()
+        try:
+            req = urllib.request.Request(
+                generate_url,
+                data=json.dumps(test_payload).encode("utf-8"),
+                headers={"Content-Type": "application/json"},
+                method="POST",
+            )
+            with urllib.request.urlopen(req, timeout=30) as resp:
+                elapsed = time.time() - t0
+                if resp.status == 200:
+                    res_data = json.loads(resp.read().decode("utf-8"))
+                    content = res_data.get("response", "").strip()
+                    print(f"  --> WARM-UP SUCCESSFUL ({elapsed:.2f}s)! Ollama Response: '{content[:60]}...'", flush=True)
+                    print("=" * 70 + "\n", flush=True)
+                    return True, f"Ollama health check passed ({elapsed:.2f}s latency)."
+                else:
+                    return False, f"Ollama generation endpoint returned HTTP {resp.status}"
+        except Exception as e:
+            print(f"  ⚠️ Warm-up warning: {e}. Proceeding...", flush=True)
+            print("=" * 70 + "\n", flush=True)
+            return True, f"Ollama server active (warm-up warning: {e})."
+
+
+def _clean_single_translation(raw_text: str) -> str:
+    """Helper to extract clean single translated sentence from raw LLM output."""
+    if not raw_text:
+        return ""
+
+    # Strip thinking / reasoning tags
+    cleaned = re.sub(r"<(thought|think)>.*?</\1>", "", raw_text, flags=re.DOTALL).strip()
+    if not cleaned:
+        cleaned = raw_text.strip()
+
+    # Strip markdown code blocks
+    cleaned = re.sub(r"```(?:json)?", "", cleaned).strip()
+
+    # Extract JSON string if wrapped in JSON object or array
+    if cleaned.startswith("[") and cleaned.endswith("]"):
+        try:
+            parsed = json.loads(cleaned)
+            if isinstance(parsed, list) and len(parsed) > 0:
+                cleaned = str(parsed[0])
+        except Exception:
+            pass
+
+    # Clean leading "Output:", "Standard Output:", or numbers
+    cleaned = re.sub(r"^(?:Standard Output|Output|Standard Pune|Standard Marathi)\s*[:\-]\s*", "", cleaned, flags=re.IGNORECASE)
+    cleaned = re.sub(r"^\d+[\.\)]\s*", "", cleaned).strip()
+
+    # Strip outer quotes
+    cleaned = cleaned.strip(' "\'`\n\r\t')
+    return cleaned
+
+
+def _parse_response_to_translations(raw_text: str, expected_count: int) -> List[str]:
+    """Extract list of translations (handles single-sentence output or legacy batch arrays)."""
+    if expected_count == 1:
+        single_trans = _clean_single_translation(raw_text)
+        return [single_trans] if single_trans else []
+
+    if not raw_text:
+        return []
+
+    cleaned_text = re.sub(r"<(thought|think)>.*?</\1>", "", raw_text, flags=re.DOTALL).strip()
+    if not cleaned_text:
+        cleaned_text = raw_text.strip()
+
+    try:
+        parsed = json.loads(cleaned_text)
+        if isinstance(parsed, list) and len(parsed) >= expected_count:
+            return [str(x).strip() for x in parsed[:expected_count]]
+    except Exception:
+        pass
+
+    json_match = re.search(r"\[.*\]", cleaned_text, re.DOTALL)
+    if json_match:
+        json_str_clean = re.sub(r",\s*\]", "]", json_match.group(0))
+        try:
+            parsed = json.loads(json_str_clean)
+            if isinstance(parsed, list) and len(parsed) >= expected_count:
+                return [str(x).strip() for x in parsed[:expected_count]]
+        except Exception:
+            pass
+
+        quoted_items = re.findall(r'"([^"\\]*(?:\\.[^"\\]*)*)"', json_match.group(0))
+        if len(quoted_items) >= expected_count:
+            return [x.strip() for x in quoted_items[:expected_count]]
+
+    lines = [line.strip() for line in cleaned_text.split("\n") if line.strip()]
+    cleaned_lines = []
+    for line in lines:
+        if line in ["[", "]", "```", "```json"]:
+            continue
+        line_clean = re.sub(r"^\d+[\.\)]\s*", "", line).strip(' ",\t')
+        if line_clean and line_clean not in ["[", "]"]:
+            cleaned_lines.append(line_clean)
+
+    if len(cleaned_lines) >= expected_count:
+        return cleaned_lines[:expected_count]
+
+    return []
+
+
+def query_llm_batch(
+    batch_items: List[dict],
+    batch_idx: int,
+    total_batches: int,
+    provider: str = DEFAULT_PROVIDER,
+    model: str = LMSTUDIO_MODEL,
+    base_url: str = LMSTUDIO_BASE_URL,
+) -> List[str]:
+    """Queries LLM for 1 sentence (or batch if configured) and returns list of translations."""
+    expected_count = len(batch_items)
+
+    if expected_count == 1:
+        prompt_content = PROMPT_TEMPLATE.format(text=batch_items[0]["dialect_text"])
+    else:
+        # Fallback for multi-item format if used
+        prompt_content = PROMPT_TEMPLATE.format(text=batch_items[0]["dialect_text"])
+
+    base_url = base_url.rstrip("/")
     start_time = time.time()
 
-    try:
-        req = urllib.request.Request(
-            base_url,
-            data=json.dumps(payload).encode("utf-8"),
-            headers={"Content-Type": "application/json"},
-            method="POST",
-        )
-        with urllib.request.urlopen(req, timeout=90) as resp:
+    if provider.lower() in ["lmstudio", "openai", "lm-studio"]:
+        chat_url = f"{base_url}/chat/completions"
+        payload = {
+            "model": model,
+            "messages": [
+                {
+                    "role": "system",
+                    "content": "You are a senior computational linguist specializing in Marathi dialects. Respond ONLY with the requested clean translation.",
+                },
+                {"role": "user", "content": prompt_content},
+            ],
+            "temperature": 0.1,
+            "max_tokens": 1024,
+        }
+
+        try:
+            req = urllib.request.Request(
+                chat_url,
+                data=json.dumps(payload).encode("utf-8"),
+                headers={"Content-Type": "application/json"},
+                method="POST",
+            )
+            with urllib.request.urlopen(req, timeout=90) as resp:
+                elapsed = time.time() - start_time
+                if resp.status == 200:
+                    res_data = json.loads(resp.read().decode("utf-8"))
+                    message = res_data["choices"][0]["message"]
+                    raw_response = message.get("content", "") or ""
+                    
+                    # Fallback to reasoning_content if main content is empty
+                    if not raw_response.strip():
+                        raw_response = message.get("reasoning_content", "") or message.get("reasoning", "") or ""
+
+                    translations = _parse_response_to_translations(raw_response, expected_count)
+                    if len(translations) == expected_count and all(translations):
+                        logger.info(f"[Item {batch_idx}/{total_batches}] LM Studio SUCCESS in {elapsed:.2f}s | 1:1 Translation.")
+                        return translations
+
+                    logger.warning(f"[Item {batch_idx}/{total_batches}] Response parsing issue. Raw: '{raw_response[:80]}...'")
+        except Exception as e:
             elapsed = time.time() - start_time
-            if resp.status == 200:
-                res_data = json.loads(resp.read().decode("utf-8"))
-                raw_response = res_data.get("response", "").strip()
+            logger.error(f"[Item {batch_idx}/{total_batches}] LM Studio API error ({elapsed:.2f}s): {e}")
 
-                # Option 1: Parse JSON array
-                json_match = re.search(r"\[.*\]", raw_response, re.DOTALL)
-                if json_match:
-                    try:
-                        parsed = json.loads(json_match.group(0))
-                        if isinstance(parsed, list) and len(parsed) >= len(batch_items):
-                            logger.info(f"[Batch {batch_idx}/{total_batches}] SUCCESS in {elapsed:.2f}s | Parsed 5 JSON translations cleanly.")
-                            return [str(x).strip() for x in parsed[:len(batch_items)]]
-                    except json.JSONDecodeError:
-                        pass
+    else:  # Ollama Provider
+        generate_url = f"{base_url}/api/generate"
+        payload = {
+            "model": model,
+            "prompt": prompt_content,
+            "stream": False,
+            "options": {"temperature": 0.1, "top_p": 0.9, "num_predict": 1024},
+        }
 
-                # Option 2: Fallback line parsing
-                lines = [line.strip() for line in raw_response.split("\n") if line.strip() and not line.startswith("[") and not line.startswith("]")]
-                cleaned_lines = [re.sub(r"^\d+[\.\)]\s*", "", line).strip(' "') for line in lines]
-                if len(cleaned_lines) >= len(batch_items):
-                    logger.info(f"[Batch {batch_idx}/{total_batches}] SUCCESS (Fallback Line Parse) in {elapsed:.2f}s | Extracted {len(cleaned_lines)} lines.")
-                    return cleaned_lines[:len(batch_items)]
+        try:
+            req = urllib.request.Request(
+                generate_url,
+                data=json.dumps(payload).encode("utf-8"),
+                headers={"Content-Type": "application/json"},
+                method="POST",
+            )
+            with urllib.request.urlopen(req, timeout=90) as resp:
+                elapsed = time.time() - start_time
+                if resp.status == 200:
+                    res_data = json.loads(resp.read().decode("utf-8"))
+                    raw_response = res_data.get("response", "").strip()
 
-                logger.warning(f"[Batch {batch_idx}/{total_batches}] Response length mismatch ({len(cleaned_lines)} lines vs {len(batch_items)} expected). Raw snippet: '{raw_response[:80]}...'")
+                    translations = _parse_response_to_translations(raw_response, expected_count)
+                    if len(translations) == expected_count:
+                        logger.info(f"[Batch {batch_idx}/{total_batches}] Ollama SUCCESS in {elapsed:.2f}s | Parsed 5 translations.")
+                        return translations
 
-    except urllib.error.URLError as e:
-        elapsed = time.time() - start_time
-        logger.error(f"[Batch {batch_idx}/{total_batches}] Connection Error after {elapsed:.2f}s: {e}")
-    except Exception as e:
-        elapsed = time.time() - start_time
-        logger.error(f"[Batch {batch_idx}/{total_batches}] Unexpected Error after {elapsed:.2f}s: {e}")
+                    logger.warning(f"[Batch {batch_idx}/{total_batches}] Response length mismatch ({len(translations)} lines vs {expected_count} expected). Raw: '{raw_response[:80]}...'")
+        except Exception as e:
+            elapsed = time.time() - start_time
+            logger.error(f"[Batch {batch_idx}/{total_batches}] Ollama API error ({elapsed:.2f}s): {e}")
 
     return None
 
@@ -219,14 +389,21 @@ def execute_generation_pipeline(
     output_dir: Path,
     log_dir: Path = Path("logs"),
     rows_per_csv: int = ROWS_PER_CSV,
-    model_name: str = MODEL_NAME,
+    provider: str = DEFAULT_PROVIDER,
+    model_name: str = LMSTUDIO_MODEL,
+    base_url: str = LMSTUDIO_BASE_URL,
 ):
     setup_logger(log_dir)
+
+    is_healthy, health_msg = check_llm_health(provider=provider, model_name=model_name, base_url=base_url)
+    if not is_healthy:
+        logger.error(f"[Safety Check Failed] {health_msg}")
+        print(f"\n❌ CRITICAL SAFETY ERROR: {health_msg}", file=sys.stderr)
+        sys.exit(1)
 
     output_dir.mkdir(parents=True, exist_ok=True)
     checkpoint_file = output_dir / "pipeline_checkpoint.json"
 
-    # Flatten and interleave dialect items (D1, D2, D4)
     flattened_items = []
     dialects = list(sampled_dataset.keys())
     max_len = max(len(v) for v in sampled_dataset.values())
@@ -249,20 +426,22 @@ def execute_generation_pipeline(
                 ckpt = json.load(f)
                 processed_count = ckpt.get("processed_count", 0)
                 current_csv_index = ckpt.get("current_csv_index", 1)
-                logger.info(f"[Checkpoint] Loaded existing checkpoint: {processed_count:,} pairs processed. Starting at CSV Part {current_csv_index:03d}.")
+                logger.info(f"[Checkpoint] Loaded checkpoint: {processed_count:,} pairs processed. CSV Part {current_csv_index:03d}.")
         except Exception as e:
-            logger.error(f"[Checkpoint] Failed to load checkpoint file: {e}")
+            logger.error(f"[Checkpoint] Failed to load checkpoint: {e}")
 
     remaining_items = flattened_items[processed_count:]
 
     logger.info("=" * 70)
-    logger.info("GEMMA 4:12B SYNTHETIC PARALLEL DATA PIPELINE INITIALIZED")
+    logger.info(f"SYNTHETIC PARALLEL DATA PIPELINE INITIALIZED ({provider.upper()}: {model_name})")
     logger.info("=" * 70)
-    logger.info(f"Target Total Pairs    : {total_target:,}")
-    logger.info(f"Total Batches Needed  : {total_batches:,} (5 items/batch)")
-    logger.info(f"CSV Capacity Limit    : {rows_per_csv:,} rows/file")
-    logger.info(f"Output Directory      : {output_dir.resolve()}")
-    logger.info(f"Log File Location     : {(log_dir / 'gemma_pipeline.log').resolve()}")
+    logger.info(f"Provider Backend     : {provider.upper()}")
+    logger.info(f"Target Model Name    : {model_name}")
+    logger.info(f"API Endpoint URL     : {base_url}")
+    logger.info(f"Target Total Pairs   : {total_target:,}")
+    logger.info(f"Total Inferences Needed : {total_batches:,} (1 item/prompt)")
+    logger.info(f"CSV Capacity Limit   : {rows_per_csv:,} rows/file")
+    logger.info(f"Output Directory     : {output_dir.resolve()}")
     logger.info("=" * 70)
 
     def flush_csv(csv_idx, rows):
@@ -285,12 +464,12 @@ def execute_generation_pipeline(
 
     while i < total_remaining:
         batch = remaining_items[i : i + ITEMS_PER_PROMPT]
-        translations = query_ollama_batch(batch, batch_idx, total_batches, model=model_name)
+        translations = query_llm_batch(batch, batch_idx, total_batches, provider=provider, model=model_name, base_url=base_url)
 
         if translations:
             batch_added = 0
             for item, trans in zip(batch, translations):
-                if trans and trans != item["dialect_text"]:
+                if trans:
                     processed_count += 1
                     batch_added += 1
                     row = {
