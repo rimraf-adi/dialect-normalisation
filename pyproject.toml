@@ -24,6 +24,12 @@ dependencies = [
     "transformers",
 ]
 
+[project.scripts]
+dialect-norm = "dialect_norm.cli:main"
+dialect-pipeline = "dialect_norm.cli:main"
+dialect-eval = "dialect_norm.cli:main"
+
+
 [tool.setuptools.packages.find]
 where = ["src"]
 

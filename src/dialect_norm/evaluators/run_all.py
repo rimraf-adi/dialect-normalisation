@@ -1,7 +1,12 @@
+"""
+Evaluator Runner across all supported Indic languages (RESPIN datasets).
+"""
+
 import argparse
 import sys
-import torch
 from pathlib import Path
+import torch
+
 from dialect_norm.engine import evaluate_language
 
 AVAILABLE_LANGUAGES = {
@@ -17,31 +22,31 @@ AVAILABLE_LANGUAGES = {
 }
 
 
-def main():
+def run_all_evaluations(
+    langs=None,
+    decoder="both",
+    device=None,
+    max_samples=None,
+    output_dir="baseline-indic-conformer",
+    token=None,
+):
+    if langs is None:
+        langs = list(AVAILABLE_LANGUAGES.keys())
+
     if hasattr(sys.stdout, "reconfigure"):
         sys.stdout.reconfigure(encoding="utf-8")
 
-    parser = argparse.ArgumentParser(description="Evaluate IndicConformer on all available RESPIN Datasets.")
-    parser.add_argument("--langs", nargs="+", default=list(AVAILABLE_LANGUAGES.keys()), help="Languages to evaluate (default: all)")
-    parser.add_argument("--decoder", type=str, choices=["ctc", "rnnt", "both"], default="both", help="Decoding mode")
-    parser.add_argument("--device", type=str, default=None, help="Device to run inference on")
-    parser.add_argument("--max-samples", type=int, default=None, help="Maximum number of utterances per language")
-    parser.add_argument("--output-dir", type=str, default="baseline-indic-conformer", help="Directory to save output YAML files")
-    parser.add_argument("--token", type=str, default=None, help="Hugging Face access token")
-
-    args = parser.parse_args()
-
-    device = args.device if args.device else ("cuda" if torch.cuda.is_available() else "cpu")
-    decoder_modes = ["ctc", "rnnt"] if args.decoder == "both" else [args.decoder]
-    output_dir = Path(args.output_dir)
+    device = device if device else ("cuda" if torch.cuda.is_available() else "cpu")
+    decoder_modes = ["ctc", "rnnt"] if decoder == "both" else [decoder]
+    output_path = Path(output_dir)
 
     print("=" * 70)
     print("RUNNING INDIC-CONFORMER EVALUATIONS ACROSS ALL LANGUAGES")
-    print(f"Target Directory: {output_dir.resolve()}")
-    print(f"Selected Languages: {', '.join(args.langs)}")
+    print(f"Target Directory: {output_path.resolve()}")
+    print(f"Selected Languages: {', '.join(langs)}")
     print("=" * 70)
 
-    for lang in args.langs:
+    for lang in langs:
         lang_key = lang.lower().strip()
         if lang_key not in AVAILABLE_LANGUAGES:
             print(f"Warning: Language '{lang}' not recognized. Skipping.", file=sys.stderr)
@@ -68,10 +73,30 @@ def main():
             base_dir=base_dir,
             decoder_modes=decoder_modes,
             device=device,
-            max_samples=args.max_samples,
-            output_dir=output_dir,
-            token=args.token,
+            max_samples=max_samples,
+            output_dir=output_path,
+            token=token,
         )
+
+
+def main():
+    parser = argparse.ArgumentParser(description="Evaluate IndicConformer on all available RESPIN Datasets.")
+    parser.add_argument("--langs", nargs="+", default=list(AVAILABLE_LANGUAGES.keys()), help="Languages to evaluate (default: all)")
+    parser.add_argument("--decoder", type=str, choices=["ctc", "rnnt", "both"], default="both", help="Decoding mode")
+    parser.add_argument("--device", type=str, default=None, help="Device to run inference on")
+    parser.add_argument("--max-samples", type=int, default=None, help="Maximum number of utterances per language")
+    parser.add_argument("--output-dir", type=str, default="baseline-indic-conformer", help="Directory to save output YAML files")
+    parser.add_argument("--token", type=str, default=None, help="Hugging Face access token")
+
+    args = parser.parse_args()
+    run_all_evaluations(
+        langs=args.langs,
+        decoder=args.decoder,
+        device=args.device,
+        max_samples=args.max_samples,
+        output_dir=args.output_dir,
+        token=args.token,
+    )
 
 
 if __name__ == "__main__":

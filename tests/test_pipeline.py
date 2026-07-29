@@ -1,11 +1,11 @@
 r"""
-Smoke test script to verify 1-prompt-per-sentence translation quality on problematic dataset samples.
+Test script to verify 1-prompt-per-sentence translation quality on problematic dataset samples.
 """
 import sys
 from pathlib import Path
 
-# Insert src into sys.path
-sys.path.insert(0, str(Path(__file__).parent / "src"))
+# Ensure src is in sys.path
+sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
 
 if hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(encoding="utf-8")
@@ -18,15 +18,14 @@ from dialect_norm.gemma_pipeline import (
 )
 
 
-def main():
+def run_pipeline_test():
     print("=== SINGLE SENTENCE (1 PROMPT PER SENTENCE) TRANSLATION QUALITY TEST ===", flush=True)
 
     healthy, msg = check_llm_health("lmstudio", LMSTUDIO_MODEL, LMSTUDIO_BASE_URL)
     print(f"Health status: {healthy} ({msg})", flush=True)
     if not healthy:
-        return
+        return False
 
-    # Problematic sentences from marathi_parallel_part_001.csv that previously failed
     problematic_samples = [
         {"dialect": "D2", "text_id": "712936", "dialect_text": "सघन शेती आणि जास्तीनी जमीन यानामान सधन शेतीले जास्तिनी मेहनत आणि जास्तीना पैसा लागस"},
         {"dialect": "D2", "text_id": "714055", "dialect_text": "देशना पुरा मासामारी उत्पादनपैकी सुमारे साठ एकर उत्पादन देशमझारला मासामारीमाथून येस"},
@@ -60,11 +59,9 @@ def main():
         print(f"  Dialect Text  : {orig['dialect_text']}")
         print(f"  Standard Pune : {trans}")
 
-    if len(results) == len(problematic_samples):
-        print("\n✅ ALL 5 SINGLE-SENTENCE INFERENCES COMPLETED SUCCESSFULLY!", flush=True)
-    else:
-        print(f"\n⚠️ Completed {len(results)}/{len(problematic_samples)} inferences.", flush=True)
+    return len(results) == len(problematic_samples)
 
 
 if __name__ == "__main__":
-    main()
+    success = run_pipeline_test()
+    sys.exit(0 if success else 1)

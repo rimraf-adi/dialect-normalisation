@@ -1,4 +1,7 @@
-import os
+"""
+Utility script to extract dataset archives (.tar.gz / .tgz).
+"""
+
 import sys
 import tarfile
 import time
@@ -6,7 +9,6 @@ from pathlib import Path
 
 
 def extract_tar_gz_files(target_dir: Path):
-    # Find all .tar.gz and .tgz files in the target directory
     archive_files = sorted(
         [
             f
@@ -27,7 +29,6 @@ def extract_tar_gz_files(target_dir: Path):
         start_time = time.time()
         try:
             with tarfile.open(archive_path, "r:*") as tar:
-                # Support Python 3.12+ safe extraction filter if available
                 if hasattr(tarfile, "data_filter"):
                     tar.extractall(path=target_dir, filter="data")
                 else:
