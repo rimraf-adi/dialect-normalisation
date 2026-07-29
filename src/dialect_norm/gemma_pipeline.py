@@ -27,7 +27,23 @@ ROWS_PER_CSV = 1000
 
 logger = logging.getLogger("dialect_norm.gemma_pipeline")
 
-DEFAULT_PROMPT_TEMPLATE = """You are a senior computational linguist specializing in Marathi sub-dialects:
+SYSPROMPT_PATH = Path(__file__).resolve().parent.parent.parent / "sysprompt.txt"
+
+def _get_default_sysprompt() -> str:
+    """Attempts to read sysprompt.txt at root as fallback default prompt template."""
+    candidates = [
+        Path.cwd() / "sysprompt.txt",
+        SYSPROMPT_PATH,
+    ]
+    for cand in candidates:
+        if cand.exists():
+            try:
+                content = cand.read_text(encoding="utf-8").strip()
+                if content:
+                    return content
+            except Exception:
+                pass
+    return """You are a senior computational linguist specializing in Marathi sub-dialects:
 - D1: Malvani / South Konkani (Ratnagiri, Sindhudurg)
 - D2: Ahirani / Khandeshi (Jalgaon, Dhule, Palghar)
 - D4: Varhadi / Nagpuri (Vidarbha, Amravati, Nagpur)
@@ -43,11 +59,24 @@ Do NOT use quotes, markdown fences, JSON formatting, preamble, or commentary. Ou
 """
 
 
-def load_sysprompt() -> str:
+DEFAULT_PROMPT_TEMPLATE = _get_default_sysprompt()
+
+
+def load_sysprompt(sysprompt_path: str = None) -> str:
     """Reads system prompt from sysprompt.txt dynamically on every request."""
+    if sysprompt_path:
+        p = Path(sysprompt_path)
+        if p.exists():
+            try:
+                content = p.read_text(encoding="utf-8").strip()
+                if content:
+                    return content
+            except Exception as e:
+                logger.warning(f"Error reading sysprompt from {p}: {e}")
+
     candidates = [
         Path.cwd() / "sysprompt.txt",
-        Path(__file__).parent.parent.parent / "sysprompt.txt",
+        SYSPROMPT_PATH,
     ]
     for cand in candidates:
         if cand.exists():
@@ -57,7 +86,8 @@ def load_sysprompt() -> str:
                     return content
             except Exception as e:
                 logger.warning(f"Error reading sysprompt from {cand}: {e}")
-    return DEFAULT_PROMPT_TEMPLATE
+    return _get_default_sysprompt()
+
 
 
 def setup_logger(log_dir: Path):
@@ -292,10 +322,11 @@ def query_llm_batch(
     provider: str = DEFAULT_PROVIDER,
     model: str = LMSTUDIO_MODEL,
     base_url: str = LMSTUDIO_BASE_URL,
+    sysprompt_path: str = None,
 ) -> List[str]:
     """Queries LLM for 1 sentence (or batch) reading sysprompt.txt dynamically with KV cache flushing."""
     expected_count = len(batch_items)
-    prompt_template = load_sysprompt()
+    prompt_template = load_sysprompt(sysprompt_path)
     prompt_content = prompt_template.format(text=batch_items[0]["dialect_text"])
 
     base_url = base_url.rstrip("/")
@@ -312,10 +343,13 @@ def query_llm_batch(
                 },
                 {"role": "user", "content": prompt_content},
             ],
-            "temperature": 0.1,
-            "max_tokens": 1024,
+            "temperature": 0.2,
+            "max_tokens": 4096,
+            # Explicit KV Cache Flushing directives for LM Studio / llama.cpp backends
             "cache_prompt": False,
             "clear_cache": True,
+            "prompt_cache": False,
+            "slot_id": -1,
         }
 
         try:
@@ -337,7 +371,7 @@ def query_llm_batch(
 
                     translations = _parse_response_to_translations(raw_response, expected_count)
                     if len(translations) == expected_count and all(translations):
-                        logger.info(f"[Item {batch_idx}/{total_batches}] LM Studio SUCCESS in {elapsed:.2f}s | 1:1 Translation.")
+                        logger.info(f"[Item {batch_idx}/{total_batches}] LM Studio SUCCESS in {elapsed:.2f}s | 1:1 Translation (KV Cache Flushed).")
                         return translations
 
                     logger.warning(f"[Item {batch_idx}/{total_batches}] Response parsing issue. Raw: '{raw_response[:80]}...'")
@@ -351,8 +385,13 @@ def query_llm_batch(
             "model": model,
             "prompt": prompt_content,
             "stream": False,
-            "keep_alive": 0,
-            "options": {"temperature": 0.1, "top_p": 0.9, "num_predict": 1024, "num_keep": 0},
+            "keep_alive": 0,  # Immediately flush KV cache / unload context after completion
+            "options": {
+                "temperature": 0.1,
+                "top_p": 0.9,
+                "num_predict": 1024,
+                "num_keep": 0,  # Ensures 0 tokens are preserved in KV cache across requests
+            },
         }
 
         try:
@@ -389,6 +428,7 @@ def execute_generation_pipeline(
     provider: str = DEFAULT_PROVIDER,
     model_name: str = LMSTUDIO_MODEL,
     base_url: str = LMSTUDIO_BASE_URL,
+    sysprompt_path: str = None,
 ):
     setup_logger(log_dir)
 
@@ -414,19 +454,44 @@ def execute_generation_pipeline(
     total_batches = (total_target + ITEMS_PER_PROMPT - 1) // ITEMS_PER_PROMPT
 
     processed_count = 0
-    current_csv_index = 1
-    current_csv_row_count = 0
 
+    # 1. Read existing checkpoint JSON if present
     if checkpoint_file.exists():
         try:
             with open(checkpoint_file, "r", encoding="utf-8") as f:
                 ckpt = json.load(f)
                 processed_count = ckpt.get("processed_count", 0)
-                current_csv_index = (processed_count // rows_per_csv) + 1
-                current_csv_row_count = processed_count % rows_per_csv
-                logger.info(f"[Checkpoint] Loaded checkpoint: {processed_count:,} pairs processed. Current CSV Part {current_csv_index:03d} ({current_csv_row_count}/{rows_per_csv} rows).")
         except Exception as e:
-            logger.error(f"[Checkpoint] Failed to load checkpoint: {e}")
+            logger.error(f"[Checkpoint] Failed to load checkpoint file {checkpoint_file}: {e}")
+
+    # 2. Cross-verify against actual data rows saved in CSV files on disk
+    csv_row_count = 0
+    existing_csv_files = sorted(output_dir.glob("marathi_parallel_part_*.csv"))
+    for csv_path in existing_csv_files:
+        try:
+            with open(csv_path, "r", encoding="utf-8-sig") as f:
+                reader = csv.reader(f)
+                header = next(reader, None)
+                if header:
+                    valid_rows = sum(1 for row in reader if row and len(row) >= 6)
+                    csv_row_count += valid_rows
+        except Exception as e:
+            logger.warning(f"[Checkpoint] Error reading CSV {csv_path} for checkpoint validation: {e}")
+
+    # Take the max count between checkpoint JSON and disk CSV files
+    if csv_row_count > processed_count:
+        logger.info(f"[Checkpoint] CSV audit found {csv_row_count:,} valid rows on disk (higher than checkpoint JSON count {processed_count:,}). Updating resume count.")
+        processed_count = csv_row_count
+
+    current_csv_index = (processed_count // rows_per_csv) + 1
+    current_csv_row_count = processed_count % rows_per_csv
+
+    if processed_count > 0:
+        logger.info(
+            f"[Checkpoint] Successfully loaded resume state: {processed_count:,} pairs already processed "
+            f"(Verified across {len(existing_csv_files)} CSV files). "
+            f"Current CSV Part {current_csv_index:03d} ({current_csv_row_count}/{rows_per_csv} rows)."
+        )
 
     remaining_items = flattened_items[processed_count:]
 
@@ -440,7 +505,7 @@ def execute_generation_pipeline(
     logger.info(f"Total Inferences Needed : {total_batches:,} (1 item/prompt)")
     logger.info(f"CSV Capacity Limit   : {rows_per_csv:,} rows/file")
     logger.info(f"Output Directory     : {output_dir.resolve()}")
-    logger.info(f"Dynamic System Prompt: sysprompt.txt")
+    logger.info(f"Dynamic System Prompt: {sysprompt_path or 'sysprompt.txt'}")
     logger.info("=" * 70)
 
     def append_row_to_csv(csv_idx: int, row: dict):
@@ -464,7 +529,7 @@ def execute_generation_pipeline(
 
     while i < total_remaining:
         batch = remaining_items[i : i + ITEMS_PER_PROMPT]
-        translations = query_llm_batch(batch, batch_idx, total_batches, provider=provider, model=model_name, base_url=base_url)
+        translations = query_llm_batch(batch, batch_idx, total_batches, provider=provider, model=model_name, base_url=base_url, sysprompt_path=sysprompt_path)
 
         if translations:
             for item, trans in zip(batch, translations):

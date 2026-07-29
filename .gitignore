@@ -12,7 +12,8 @@ wheels/
 # Datasets and archives
 *.tar.gz
 IISc_RESPIN_*/
-data/
+data/*
+!data/synthetic_parallel/
 logs/
 *.log
 

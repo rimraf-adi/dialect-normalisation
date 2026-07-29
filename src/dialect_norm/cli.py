@@ -59,6 +59,7 @@ def run_pipeline_cmd(args):
         provider=provider,
         model_name=model_name,
         base_url=base_url,
+        sysprompt_path=args.sysprompt_path,
     )
 
 
@@ -116,6 +117,7 @@ def main():
     pipe_parser.add_argument("--samples-per-dialect", type=int, default=10000, help="Utterances per dialect")
     pipe_parser.add_argument("--output-dir", type=str, default="data/synthetic_parallel", help="Output directory")
     pipe_parser.add_argument("--log-dir", type=str, default="logs", help="Log directory")
+    pipe_parser.add_argument("--sysprompt-path", type=str, default="sysprompt.txt", help="Path to system prompt file")
     pipe_parser.add_argument("--seed", type=int, default=42, help="Random seed")
 
     # Subparser: evaluate
