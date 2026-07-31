@@ -1,5 +1,5 @@
 """
-Script to compute comprehensive dataset summary statistics for IISc RESPIN Marathi Train Set (Clean)
+Module to compute comprehensive dataset summary statistics for IISc RESPIN Marathi Train Set
 and export the results to stats_mr.yaml.
 """
 
@@ -26,14 +26,12 @@ def generate_stats_yaml(meta_path: Path, output_path: Path):
     total_utts = len(entries)
     print(f"Total utterances to process: {total_utts:,}")
 
-    # Overall Metrics Tracking
     total_duration_sec = 0.0
     all_texts = set()
     all_text_ids = set()
     all_speakers = set()
     all_pincodes = set()
 
-    # Breakdown Dictionaries
     dialect_stats = {}
     domain_stats = {}
     gender_stats = {}
@@ -62,7 +60,6 @@ def generate_stats_yaml(meta_path: Path, output_path: Path):
         if pin:
             all_pincodes.add(pin)
 
-        # Dialect Breakdown Tracker
         if dial not in dialect_stats:
             dialect_stats[dial] = {
                 "utterances": 0,
@@ -87,7 +84,6 @@ def generate_stats_yaml(meta_path: Path, output_path: Path):
         d_ref["genders"][gen] = d_ref["genders"].get(gen, 0) + 1
         d_ref["slabs"][slab] = d_ref["slabs"].get(slab, 0) + 1
 
-        # Domain Breakdown Tracker
         if dom not in domain_stats:
             domain_stats[dom] = {
                 "utterances": 0,
@@ -103,7 +99,6 @@ def generate_stats_yaml(meta_path: Path, output_path: Path):
         if spk:
             dom_ref["speakers"].add(spk)
 
-        # Global Demographics
         gender_stats[gen] = gender_stats.get(gen, 0) + 1
         age_stats[age] = age_stats.get(age, 0) + 1
         slab_stats[slab] = slab_stats.get(slab, 0) + 1
@@ -111,7 +106,6 @@ def generate_stats_yaml(meta_path: Path, output_path: Path):
     total_duration_hours = round(total_duration_sec / 3600.0, 3)
     avg_duration_sec = round(total_duration_sec / total_utts, 2) if total_utts > 0 else 0.0
 
-    # Build YAML Structure
     yaml_data = {
         "dataset_name": "IISc RESPIN Marathi Train Set (Clean)",
         "language_name": "Marathi",
@@ -136,7 +130,6 @@ def generate_stats_yaml(meta_path: Path, output_path: Path):
         },
     }
 
-    # Format Dialect Breakdown
     for dial in sorted(dialect_stats.keys()):
         d_data = dialect_stats[dial]
         d_dur_hrs = round(d_data["duration_seconds"] / 3600.0, 3)
@@ -155,7 +148,6 @@ def generate_stats_yaml(meta_path: Path, output_path: Path):
             "slab_distribution": d_data["slabs"],
         }
 
-    # Format Domain Breakdown
     for dom in sorted(domain_stats.keys()):
         dom_data = domain_stats[dom]
         dom_dur_hrs = round(dom_data["duration_seconds"] / 3600.0, 3)
@@ -169,7 +161,6 @@ def generate_stats_yaml(meta_path: Path, output_path: Path):
             "unique_speakers": len(dom_data["speakers"]),
         }
 
-    # Write output to YAML file
     output_path.parent.mkdir(parents=True, exist_ok=True)
     with open(output_path, "w", encoding="utf-8") as f:
         yaml.dump(yaml_data, f, allow_unicode=True, sort_keys=False, default_flow_style=False)
@@ -177,16 +168,6 @@ def generate_stats_yaml(meta_path: Path, output_path: Path):
     print("\n" + "=" * 70)
     print(f"✅ STATS SUCCESSFULLY GENERATED AND SAVED TO: {output_path.resolve()}")
     print("=" * 70)
-    print(f"Total Utterances     : {total_utts:,}")
-    print(f"Total Audio Duration : {total_duration_hours} hours")
-    print(f"Unique Sentences     : {len(all_texts):,}")
-    print(f"Unique Speakers      : {len(all_speakers):,}")
-    print(f"Unique Pincodes      : {len(all_pincodes):,}")
-    print("-" * 70)
-    for dial, dinfo in yaml_data["dialect_breakdown"].items():
-        print(f"  Dialect {dial:4s} : {dinfo['utterances']:6,d} utts ({dinfo['percentage_of_total_utts']:5.2f}%) | {dinfo['total_duration_hours']:6.2f} hrs | {dinfo['unique_speakers']:4d} spks | {dinfo['unique_reference_texts']:5,d} texts")
-    print("=" * 70)
-
 
 def main():
     if hasattr(sys.stdout, "reconfigure"):
@@ -205,7 +186,6 @@ def main():
 
     out_file = Path("stats_mr.yaml")
     generate_stats_yaml(meta_path, out_file)
-
 
 if __name__ == "__main__":
     main()

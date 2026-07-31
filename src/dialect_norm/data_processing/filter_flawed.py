@@ -1,19 +1,20 @@
+"""
+Advanced fine-grained linguistic filter module for dialect datasets.
+"""
+
 import csv
 import re
+import sys
 from pathlib import Path
-
-data_dir = Path("data/synthetic_parallel")
 
 def is_flawed(dialect: str, dialect_text: str, standard_text: str) -> tuple[bool, str]:
     reasons = []
 
-    # Rule 1: Hindi leakage in standard text
     hindi_words = [r"\bकी\b", r"\bऔर\b", r"\bहोती\b", r"\bहै\b", r"\bसिंचाई\b", r"\bखाद\b", r"\bबचत\b", r"\bसे\b"]
     hindi_matches = [w for w in hindi_words if re.search(w, standard_text)]
     if len(hindi_matches) >= 2 or re.search(r"की विधि से|होती है|होता है|किया जाता है|और", standard_text):
         reasons.append(f"Wrong language / Hindi leakage: {', '.join(hindi_matches)}")
 
-    # Rule 2: Standard text retains D1/D2/D4 dialect words
     d1_markers = [
         r"\bमाका\b", r"\bतुका\b", r"\bह्यो\b", r"\bह्या\b", r"\bआसा\b", r"\bआसत\b", r"\bआसतत\b",
         r"\bलागात\b", r"\bलागातला\b", r"\bकरूक\b", r"\bजावूक\b", r"\bजावक\b", r"\bदेऊक\b", r"\bघेऊक\b",
@@ -35,7 +36,6 @@ def is_flawed(dialect: str, dialect_text: str, standard_text: str) -> tuple[bool
     if found_residue:
         reasons.append(f"Standard text retains dialect residue: {', '.join(found_residue)}")
 
-    # Rule 3: Garbled translation / Severe mismatch (e.g. entities altered or garbled syntax)
     garbled_patterns = [
         r"हा पदार्थ आहे", r"सांगत आहे\.$", r"करणार आहे हा", r"किती दिसतात\?",
         r"मधुमेह", r"बटाटे"
@@ -50,11 +50,9 @@ def is_flawed(dialect: str, dialect_text: str, standard_text: str) -> tuple[bool
         elif re.search(g_pat, standard_text):
             reasons.append(f"Garbled/Incoherent structure: '{g_pat}'")
 
-    # Rule 4: Question mark in original dialect text but standard text lacks question context
     if "?" in dialect_text and "?" not in standard_text:
         reasons.append("Question mark dropped in translation")
     elif "?" in dialect_text and "?" in standard_text:
-        # Check if standard text has valid Marathi question words
         if not re.search(r"का|काय|कसे|कसा|कशी|कुठे|कोणी|केव्हा|किती|कोणत्या|कोणता|कोणती|खाय", standard_text):
             reasons.append("Question syntax lost in standard text")
 
@@ -62,14 +60,10 @@ def is_flawed(dialect: str, dialect_text: str, standard_text: str) -> tuple[bool
         return True, " | ".join(reasons)
     return False, ""
 
-def process_datasets():
+def filter_flawed_d1(data_dir: Path = Path("data/synthetic_parallel")):
     csv_files = sorted(data_dir.glob("marathi_parallel_part_*.csv"))
     
-    clean_d1 = []
-    clean_d2 = []
-    clean_d4 = []
-    flawed_list = []
-
+    clean_d1, clean_d2, clean_d4, flawed_list = [], [], [], []
     fieldnames = ["id", "text_id", "dialect", "domain", "distortion_score", "dialect_text", "standard_text"]
 
     for csv_file in csv_files:
@@ -95,25 +89,21 @@ def process_datasets():
                     else:
                         clean_d1.append(row)
 
-    # Save clean d1.csv
     with open(data_dir / "d1.csv", "w", encoding="utf-8-sig", newline="") as f:
         writer = csv.DictWriter(f, fieldnames=fieldnames)
         writer.writeheader()
         writer.writerows(clean_d1)
 
-    # Save clean d2.csv
     with open(data_dir / "d2.csv", "w", encoding="utf-8-sig", newline="") as f:
         writer = csv.DictWriter(f, fieldnames=fieldnames)
         writer.writeheader()
         writer.writerows(clean_d2)
 
-    # Save clean d4.csv
     with open(data_dir / "d4.csv", "w", encoding="utf-8-sig", newline="") as f:
         writer = csv.DictWriter(f, fieldnames=fieldnames)
         writer.writeheader()
         writer.writerows(clean_d4)
 
-    # Save flawed.csv
     flawed_fieldnames = fieldnames + ["flaw_reason"]
     with open(data_dir / "flawed.csv", "w", encoding="utf-8-sig", newline="") as f:
         writer = csv.DictWriter(f, fieldnames=flawed_fieldnames)
@@ -129,5 +119,10 @@ def process_datasets():
     print(f"Flawed Rows (flawed.csv): {len(flawed_list):,}")
     print("=" * 60)
 
+def main():
+    if hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(encoding="utf-8")
+    filter_flawed_d1()
+
 if __name__ == "__main__":
-    process_datasets()
+    main()

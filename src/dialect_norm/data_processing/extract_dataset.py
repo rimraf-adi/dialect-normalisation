@@ -1,5 +1,5 @@
 """
-Utility script to extract dataset archives (.tar.gz / .tgz).
+Utility module to extract dataset archives (.tar.gz / .tgz).
 """
 
 import sys
@@ -8,7 +8,10 @@ import time
 from pathlib import Path
 
 
-def extract_tar_gz_files(target_dir: Path):
+def extract_tar_gz_files(target_dir: Path = None):
+    if target_dir is None:
+        target_dir = Path.cwd()
+        
     archive_files = sorted(
         [
             f
@@ -39,7 +42,8 @@ def extract_tar_gz_files(target_dir: Path):
         except Exception as e:
             print(f"    Error extracting {archive_path.name}: {e}", file=sys.stderr)
 
+def main():
+    extract_tar_gz_files()
 
 if __name__ == "__main__":
-    cwd = Path.cwd()
-    extract_tar_gz_files(cwd)
+    main()

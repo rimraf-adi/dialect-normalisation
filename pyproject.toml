@@ -15,6 +15,7 @@ dependencies = [
     "jiwer",
     "librosa",
     "onnxruntime>=1.28.0",
+    "openai",
     "pyyaml",
     "soundfile",
     "torch",
@@ -28,6 +29,17 @@ dependencies = [
 dialect-norm = "dialect_norm.cli:main"
 dialect-pipeline = "dialect_norm.cli:main"
 dialect-eval = "dialect_norm.cli:main"
+
+extract-dataset = "dialect_norm.data_processing.extract_dataset:main"
+generate-stats = "dialect_norm.data_processing.generate_stats:main"
+split-clean-dataset = "dialect_norm.data_processing.split_and_clean:main"
+filter-flawed = "dialect_norm.data_processing.filter_flawed:main"
+verify-dataset-llm = "dialect_norm.data_processing.llm_verifier:main"
+
+train-indicbart-d1 = "dialect_norm.training.indicbart_trainer:cli_train_d1"
+train-indicbart-d2 = "dialect_norm.training.indicbart_trainer:cli_train_d2"
+train-indicbart-d4 = "dialect_norm.training.indicbart_trainer:cli_train_d4"
+train-indicbart-all = "dialect_norm.training.indicbart_trainer:cli_train_all"
 
 
 [tool.setuptools.packages.find]
