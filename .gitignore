@@ -14,9 +14,10 @@ wheels/
 .env.local
 *.env
 
-# Checkpoint JSON files
+# Checkpoint JSON & Model weights
 *.json
 *_checkpoint.json
+models/
 
 # Datasets and archives
 *.tar.gz

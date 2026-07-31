@@ -14,9 +14,13 @@ dependencies = [
     "evaluate",
     "jiwer",
     "librosa",
+    "numpy",
     "onnxruntime>=1.28.0",
     "openai",
+    "protobuf",
     "pyyaml",
+    "sacrebleu",
+    "sentencepiece",
     "soundfile",
     "torch",
     "torchaudio",
@@ -41,6 +45,7 @@ merge-corrected = "dialect_norm.data_processing.merge_corrected:main"
 train-indicbart-d1 = "dialect_norm.training.indicbart_trainer:cli_train_d1"
 train-indicbart-d2 = "dialect_norm.training.indicbart_trainer:cli_train_d2"
 train-indicbart-d4 = "dialect_norm.training.indicbart_trainer:cli_train_d4"
+train-indicbart-d1d2 = "dialect_norm.training.indicbart_trainer:cli_train_d1d2"
 train-indicbart-all = "dialect_norm.training.indicbart_trainer:cli_train_all"
 
 
