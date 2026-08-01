@@ -393,19 +393,42 @@ def train_indicbart_3fold_cv(
                      f"Val BLEU: {val_results.get('eval_bleu', 0.0):.2f}  "
                      f"Val chrF: {val_results.get('eval_chrf', 0.0):.2f}")
 
-        # Evaluate fold model on 25% held-out test set
-        logger.info(f"Evaluating Fold {fold} on 25% Held-Out Test Set ({len(test_set):,} samples)...")
+        # Evaluate fold model on held-out test set
+        logger.info(f"Evaluating Fold {fold} on Held-Out Test Set ({len(test_set):,} samples)...")
         test_results = trainer.evaluate(eval_dataset=test_dataset, metric_key_prefix="test")
         logger.info(f"Fold {fold} Test Loss: {test_results.get('test_loss', 0.0):.4f}  "
                      f"Test BLEU: {test_results.get('test_bleu', 0.0):.2f}  "
                      f"Test chrF: {test_results.get('test_chrf', 0.0):.2f}")
+
+        # Per-dialect breakdown evaluation if multiple dialects present in test set
+        dialect_groups = defaultdict(list)
+        for item in test_set:
+            dialect_groups[item.get("dialect", "UNK").upper()].append(item)
+
+        per_dialect_test = {}
+        if len(dialect_groups) > 1:
+            logger.info("Running per-dialect test evaluation breakdown...")
+            for dial_code, dial_samples in sorted(dialect_groups.items()):
+                dial_dataset = DialectDataset(dial_samples, tokenizer, max_input_len, max_target_len)
+                prefix = f"test_{dial_code.lower()}"
+                dial_res = trainer.evaluate(eval_dataset=dial_dataset, metric_key_prefix=prefix)
+                b_score = dial_res.get(f"{prefix}_bleu", 0.0)
+                c_score = dial_res.get(f"{prefix}_chrf", 0.0)
+                l_score = dial_res.get(f"{prefix}_loss", 0.0)
+                per_dialect_test[dial_code] = {
+                    "test_samples": len(dial_samples),
+                    "test_loss": round(l_score, 4),
+                    "test_bleu": round(b_score, 4),
+                    "test_chrf": round(c_score, 4),
+                }
+                logger.info(f"  [{dial_code}] Test Samples: {len(dial_samples):,} | Loss: {l_score:.4f} | BLEU: {b_score:.2f} | chrF: {c_score:.2f}")
 
         # Save best fold model
         fold_model_path = fold_output_dir / "best_model"
         trainer.save_model(str(fold_model_path))
         tokenizer.save_pretrained(fold_model_path)
 
-        fold_metrics.append({
+        metric_entry = {
             "fold": fold,
             "train_samples": len(fold_train_data),
             "val_samples": len(fold_val_data),
@@ -416,7 +439,11 @@ def train_indicbart_3fold_cv(
             "test_loss": round(test_results.get("test_loss", 0.0), 4),
             "test_bleu": round(test_results.get("test_bleu", 0.0), 4),
             "test_chrf": round(test_results.get("test_chrf", 0.0), 4),
-        })
+        }
+        if per_dialect_test:
+            metric_entry["per_dialect_test_metrics"] = per_dialect_test
+
+        fold_metrics.append(metric_entry)
 
         # Free GPU memory between folds
         del model, trainer, train_dataset, val_dataset, test_dataset

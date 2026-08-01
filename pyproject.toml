@@ -49,6 +49,7 @@ train-indicbart-d1d2 = "dialect_norm.training.indicbart_trainer:cli_train_d1d2"
 train-indicbart-all = "dialect_norm.training.indicbart_trainer:cli_train_all"
 
 
+
 [tool.setuptools.packages.find]
 where = ["src"]
 
