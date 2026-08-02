@@ -1,10 +1,390 @@
-[2026-08-02 12:28:35,817] [INFO] Detailed logging initialized: D:\dialect-norm\logs\augment_dataset.log
-[2026-08-02 12:28:35,817] [INFO] ================================================================================
-[2026-08-02 12:28:35,818] [INFO] GROQ 16K MULTI-DIALECT DATA AUGMENTATION WITH FLAWED & CORRECTED CLOSED-LOOP PIPELINE
-[2026-08-02 12:28:35,818] [INFO] Target Directory: D:\dialect-norm\data\synthetic-data
-[2026-08-02 12:28:35,818] [INFO] ================================================================================
-[2026-08-02 12:28:35,818] [INFO] 
-PHASE 1: Generating 5,500 candidate pairs for D1 (Malvani / South Konkani (D1))...
-[2026-08-02 12:28:35,818] [INFO]   [D1 | Agriculture] Generating ~1375 pairs in 138 batches...
-[2026-08-02 12:29:25,124] [INFO]     [D1 | Agriculture] Batch 25/138 done. Generated: 254 pairs.
-[2026-08-02 12:30:13,544] [INFO]     [D1 | Agriculture] Batch 50/138 done. Generated: 503 pairs.
+[2026-08-02 16:25:17,543] [INFO] Detailed logging initialized: D:\dialect-norm\logs\augment_dataset.log
+[2026-08-02 16:25:17,543] [INFO] ================================================================================
+[2026-08-02 16:25:17,544] [INFO] GROQ + NVIDIA NIM 16K MULTI-THREADED ROBUST DATA AUGMENTATION PIPELINE
+[2026-08-02 16:25:17,544] [INFO] Target Directory: D:\dialect-norm\data\synthetic-data
+[2026-08-02 16:25:17,544] [INFO] ================================================================================
+[2026-08-02 16:25:17,544] [INFO] 
+PHASE 1: Generating 5,500 candidate pairs for D1 (Malvani / South Konkani (D1)) with 4 workers + NIM Fallback...
+[2026-08-02 16:25:17,544] [INFO]   [D1 | Agriculture] Launching 4 parallel workers for ~1375 pairs (138 requests)...
+[2026-08-02 16:25:22,942] [INFO]     [D1 | Agriculture] Progress: 10/138 requests done. Total Pairs Generated: 95
+[2026-08-02 16:25:22,943] [INFO]       [Sample] Dialect: 'खबर ना क्षारांचा वापर शेतात किती दिवसासाठी करावा?' | Standard: 'माहिती नाही क्षाराचा वापर शेतात किती दिवसासाठी करावा?'
+[2026-08-02 16:25:40,286] [INFO]     [D1 | Agriculture] Progress: 20/138 requests done. Total Pairs Generated: 196
+[2026-08-02 16:25:40,286] [INFO]       [Sample] Dialect: 'माका गावातील बागेत कांद्या पिकासाठी किती उरभर आसा, खय गावातील कांद्या पिका नाही गावता?' | Standard: 'मला गावातील बागेत कांद्या पिकासाठी किती उरभर आहे, कुठे गावातील कांद्या पिका नाही?'
+[2026-08-02 16:26:07,747] [INFO]     [D1 | Agriculture] Progress: 30/138 requests done. Total Pairs Generated: 297
+[2026-08-02 16:26:07,747] [INFO]       [Sample] Dialect: 'खय शेतात कोणत्या पिकासाठी जैविक खताची गरज आसा, माका माहिती ना' | Standard: 'कुठे शेतात कोणत्या पिकासाठी जैविक खताची गरज आहे का ही मला माहिती नाही'
+[2026-08-02 16:26:25,390] [INFO]     [D1 | Agriculture] Progress: 40/138 requests done. Total Pairs Generated: 398
+[2026-08-02 16:26:25,391] [INFO]       [Sample] Dialect: 'माका शेतात टमाट्याची लागवड करता आसा, खय किती पैसे मागणी आसा?' | Standard: 'मला शेतात टमाट्याची लागवड करत आहे, कुठे किती पैसे मागणी आहे?'
+[2026-08-02 16:26:46,641] [INFO]     [D1 | Agriculture] Progress: 50/138 requests done. Total Pairs Generated: 500
+[2026-08-02 16:26:46,642] [INFO]       [Sample] Dialect: 'माका शेतात निर्जलीकरणाचा धोका आसा, खय हे कसे पाळावे?' | Standard: 'मला शेतात निर्जलीकरणाचा धोका आहे, कुठे हे कसे पाळावे?'
+[2026-08-02 16:27:06,153] [INFO]     [D1 | Agriculture] Progress: 60/138 requests done. Total Pairs Generated: 602
+[2026-08-02 16:27:06,154] [INFO]       [Sample] Dialect: 'चेडवा शेतकरी खताची कितकी गरज आसा, खय माहिती म्हाय गावता?' | Standard: 'मुली शेतकरी खताची किती गरज आहे, कुठे माहिती नाही?'
+[2026-08-02 16:27:26,894] [INFO]     [D1 | Agriculture] Progress: 70/138 requests done. Total Pairs Generated: 702
+[2026-08-02 16:27:26,894] [INFO]       [Sample] Dialect: 'माका शेतात जिर्याच्या पिकासाठी किती पाण्याची गरज आसा, खय माहिती गावता?' | Standard: 'मला शेतात जिर्याच्या पिकासाठी किती पाण्याची गरज आहे, कुठे माहिती मिळते?'
+[2026-08-02 16:27:43,255] [INFO]     [D1 | Agriculture] Progress: 80/138 requests done. Total Pairs Generated: 803
+[2026-08-02 16:27:43,255] [INFO]       [Sample] Dialect: 'कृषी उत्पादनाच्या शेतात किती प्रजातींची फळे पिकली आसा, खय त्या फळांची माहिती गावता?' | Standard: 'कृषी उत्पादनाच्या शेतात किती प्रजातींची फळे पिकली, कुठे त्या फळांची माहिती आहे?'
+[2026-08-02 16:28:00,753] [INFO]     [D1 | Agriculture] Progress: 90/138 requests done. Total Pairs Generated: 904
+[2026-08-02 16:28:00,753] [INFO]       [Sample] Dialect: 'माका शेतकऱ्यांची संघटनेसाठी खय माहिती गावता, खय संघटनेला कुठे मिळते?' | Standard: 'मला शेतकऱ्यांची संघटनेसाठी कुठे माहिती मिळते, तुला संघटनेला कुठे मिळते?'
+[2026-08-02 16:28:22,108] [INFO]     [D1 | Agriculture] Progress: 100/138 requests done. Total Pairs Generated: 1,004
+[2026-08-02 16:28:22,108] [INFO]       [Sample] Dialect: 'तुका शेतात किती प्रकारची जाती असती आसा?' | Standard: 'तुला शेतात किती प्रकारची जाती असते?'
+[2026-08-02 16:28:43,406] [INFO]     [D1 | Agriculture] Progress: 110/138 requests done. Total Pairs Generated: 1,105
+[2026-08-02 16:28:43,406] [INFO]       [Sample] Dialect: 'म्हाय बागेत चवदाराचे पिकावर कोणता खत द्यावय' | Standard: 'नाही बागेत चवदाराचे पिकावर कोणते खत द्यावं?'
+[2026-08-02 16:29:00,553] [INFO]     [D1 | Agriculture] Progress: 120/138 requests done. Total Pairs Generated: 1,208
+[2026-08-02 16:29:00,553] [INFO]       [Sample] Dialect: 'माका शेतात तांदळाचे पिकावर पावसाची गरज आसा, खय त्याची चांगली अंमलबजावणी केली का?' | Standard: 'मला शेतात तांदळाच्या पिकावर पावसाची गरज आहे, कुठे त्याची चांगली अंमलबजावणी केली आहे?'
+[2026-08-02 16:29:19,167] [INFO]     [D1 | Agriculture] Progress: 130/138 requests done. Total Pairs Generated: 1,308
+[2026-08-02 16:29:19,168] [INFO]       [Sample] Dialect: 'माका कोळवण पिकावर जास्त पाण्याची गरज आसा, खय?' | Standard: 'मला कोळवण पिकावर जास्त पाण्याची गरज आहे, कुठे?'
+[2026-08-02 16:29:36,407] [INFO]     [D1 | Agriculture] Progress: 138/138 requests done. Total Pairs Generated: 1,388
+[2026-08-02 16:29:36,407] [INFO]       [Sample] Dialect: 'माका शेतात कोणत्या शेतीच्या पुरवठ्यांची पातळी आसा, खय त्याची माहिती गावता?' | Standard: 'मला शेतात कोणत्या शेतीच्या पुरवठ्यांची पातळी आहे, कुठे त्याची माहिती मिळते?'
+[2026-08-02 16:29:36,408] [INFO]   [D1 | Banking_Finance] Launching 4 parallel workers for ~1375 pairs (138 requests)...
+[2026-08-02 16:29:55,214] [INFO]     [D1 | Banking_Finance] Progress: 10/138 requests done. Total Pairs Generated: 103
+[2026-08-02 16:29:55,214] [INFO]       [Sample] Dialect: 'क्रेडिट कार्डचे बिल खय भरणे करूका लागन, आणि डेबिट कार्ड वरसून किती पैसे काढुक शकतू?' | Standard: 'क्रेडिट कार्डचे बिल कुठे भरणे करावा लागेल, आणि डेबिट कार्डवरून किती पैसे काढू शकतो?'
+[2026-08-02 16:30:18,190] [INFO]     [D1 | Banking_Finance] Progress: 20/138 requests done. Total Pairs Generated: 205
+[2026-08-02 16:30:18,191] [INFO]       [Sample] Dialect: 'तुका कुठे कर्ज मिळेल, आणि आम्ही माका किती EMI चे पैसे काढू शकतू?' | Standard: 'तुला कुठे कर्ज मिळेल, आणि आम्ही मलाला किती EMI चे पैसे काढू शकतो?'
+[2026-08-02 16:30:38,697] [INFO]     [D1 | Banking_Finance] Progress: 30/138 requests done. Total Pairs Generated: 306
+[2026-08-02 16:30:38,698] [INFO]       [Sample] Dialect: 'म्हाय क्रेडिट कार्ड वरसून कर्ज मिळते, खय डेबिट कार्ड वरसून किती पैसे काढुक शकतू?' | Standard: 'नाही क्रेडिट कार्डवरून कर्ज मिळते, कुठे डेबिट कार्डवरून किती पैसे काढू शकतो?'
+[2026-08-02 16:31:04,394] [INFO]     [D1 | Banking_Finance] Progress: 40/138 requests done. Total Pairs Generated: 408
+[2026-08-02 16:31:04,394] [INFO]       [Sample] Dialect: 'जास्तीत जास्त कितक्या EMI चा बँक म्हाय देणार?' | Standard: 'जास्तीत जास्त किती EMI चा बँक नाही देणार?'
+[2026-08-02 16:31:22,282] [INFO]     [D1 | Banking_Finance] Progress: 50/138 requests done. Total Pairs Generated: 509
+[2026-08-02 16:31:22,283] [INFO]       [Sample] Dialect: 'कितीकर्ज मी क्रेडिट कार्ड वरसून काढूच शकतू, आणि कितीकर्ज मी EMI वरसून काढूच शकतू?' | Standard: 'किती कर्ज मी क्रेडिट कार्डवरून काढू शकतो, आणि किती कर्ज मी EMI वरून काढू शकतो?'
+[2026-08-02 16:31:40,905] [INFO]     [D1 | Banking_Finance] Progress: 60/138 requests done. Total Pairs Generated: 614
+[2026-08-02 16:31:40,906] [INFO]       [Sample] Dialect: 'आपल्याकडे डेबिट कार्ड आहे, त्यावर जास्तीत जास्त किती पैसे काढणे शक्य नाही, खय?' | Standard: 'आपल्याकडे डेबिट कार्ड आहे, त्यावर जास्तीत जास्त किती पैसे काढणे शक्य नाही, कुठे?'
+[2026-08-02 16:32:01,662] [INFO]     [D1 | Banking_Finance] Progress: 70/138 requests done. Total Pairs Generated: 716
+[2026-08-02 16:32:01,663] [INFO]       [Sample] Dialect: 'माका बँक खात्यात पैसे जमा करूचे आसात, तुका किती पैसे काढुक शकतो?' | Standard: 'मला बँक खात्यात पैसे जमा करायचे आहेत, तुला किती पैसे काढू शकते?'
+[2026-08-02 16:32:25,239] [INFO]     [D1 | Banking_Finance] Progress: 80/138 requests done. Total Pairs Generated: 818
+[2026-08-02 16:32:25,239] [INFO]       [Sample] Dialect: 'माका बँक खात्यात पैसे जमा करूचे आसात, तर जास्तीत जास्त किते पैसे जमा करू शकतू?' | Standard: 'मला बँक खात्यात पैसे जमा करायचे आहेत, तर जास्तीत जास्त किती पैसे जमा करू शकतो?'
+[2026-08-02 16:32:39,841] [INFO]     [D1 | Banking_Finance] Progress: 90/138 requests done. Total Pairs Generated: 920
+[2026-08-02 16:32:39,841] [INFO]       [Sample] Dialect: 'आपल्या खात्यात जास्तीत जास्त किती KYC अपडेट करूचे आसात, खय?' | Standard: 'आपल्या खात्यात जास्तीत जास्त किती KYC अपडेट करायचे आहेत, कुठे?'
+[2026-08-02 16:33:00,975] [INFO]     [D1 | Banking_Finance] Progress: 100/138 requests done. Total Pairs Generated: 1,022
+[2026-08-02 16:33:00,975] [INFO]       [Sample] Dialect: 'माका बँक खात्यात पैसे काढुक शकतू आम्ही?' | Standard: 'मला बँक खात्यात पैसे काढू शकतो आम्ही?'
+[2026-08-02 16:33:28,443] [INFO]     [D1 | Banking_Finance] Progress: 110/138 requests done. Total Pairs Generated: 1,126
+[2026-08-02 16:33:28,443] [INFO]       [Sample] Dialect: 'मी खात्यात KYC पुर्ण केल्यानंतर जास्तीत जास्त किते पैसे जमा करूच शकतो, आणि किते निकालू शकतो?' | Standard: 'मी खात्यात KYC पूर्ण केल्यानंतर जास्तीत जास्त किती पैसे जमा करू शकतो, आणि किती निकाळू शकतो?'
+[2026-08-02 16:33:47,861] [INFO]     [D1 | Banking_Finance] Progress: 120/138 requests done. Total Pairs Generated: 1,229
+[2026-08-02 16:33:47,861] [INFO]       [Sample] Dialect: 'आमची बँक खाती वर्तमान म्हाय, खय आम्ही डेबिट कार्ड चालू करू शकतू?' | Standard: 'आमची बँक खाती वर्तमान नाही, कुठे आम्ही डेबिट कार्ड चालू करू शकतो?'
+[2026-08-02 16:34:06,278] [INFO]     [D1 | Banking_Finance] Progress: 130/138 requests done. Total Pairs Generated: 1,332
+[2026-08-02 16:34:06,278] [INFO]       [Sample] Dialect: 'चेडवा क्रेडिट कार्ड खात्यात पैसे जमा करूचे आसता?' | Standard: 'मुली क्रेडिट कार्ड खात्यात पैसे जमा करायची आहे?'
+[2026-08-02 16:34:26,059] [INFO]     [D1 | Banking_Finance] Progress: 138/138 requests done. Total Pairs Generated: 1,415
+[2026-08-02 16:34:26,059] [INFO]       [Sample] Dialect: 'माका बँक खात्यात EMI चे पैसे काढुक शकतू, खय अर्ज करूका लागन?' | Standard: 'मला बँक खात्यात EMI चे पैसे काढू शकतो, कुठे अर्ज करावा लागेल?'
+[2026-08-02 16:34:26,060] [INFO]   [D1 | Civic_Governance] Launching 4 parallel workers for ~1375 pairs (138 requests)...
+[2026-08-02 16:34:42,473] [INFO]     [D1 | Civic_Governance] Progress: 10/138 requests done. Total Pairs Generated: 100
+[2026-08-02 16:34:42,473] [INFO]       [Sample] Dialect: 'ग्रामपंचायतीत नवीन घराचे बिल्डिंग परमिट मिळवूचे आसा, वरसून नमुना दाखवता का?' | Standard: 'ग्रामपंचायतीत नवीन घराचे बिल्डिंग परमिट मिळवायचे आहे, वरून नमुना दाखवावा लागतो का?'
+[2026-08-02 16:35:08,676] [INFO]     [D1 | Civic_Governance] Progress: 20/138 requests done. Total Pairs Generated: 200
+[2026-08-02 16:35:08,676] [INFO]       [Sample] Dialect: 'ग्रामपंचायतीत माझ्या नाममात्रा खय विद्युत पुरवठ्यात कोणत्या वेळी होतो?' | Standard: 'ग्रामपंचायतीत माझ्या नावावर कुठे विद्युत पुरवठ्यात कोणत्या वेळी होतो?'
+[2026-08-02 16:35:27,553] [INFO]     [D1 | Civic_Governance] Progress: 30/138 requests done. Total Pairs Generated: 303
+[2026-08-02 16:35:27,553] [INFO]       [Sample] Dialect: 'खबर ना शासकीय विद्यालयांच्या ऑनलाइन प्रवेश प्रक्रियेचा आसा, खय ऑनलाइन प्रवेश प्रक्रिया केंद्र आसा?' | Standard: 'खबर नाही शासकीय विद्यालयांच्या ऑनलाइन प्रवेश प्रक्रियेचा आहे, कुठे ऑनलाइन प्रवेश प्रक्रिया केंद्र आहे?'
+[2026-08-02 16:35:49,750] [INFO]     [D1 | Civic_Governance] Progress: 40/138 requests done. Total Pairs Generated: 404
+[2026-08-02 16:35:49,750] [INFO]       [Sample] Dialect: 'सामान्य प्रकरणांसाठी ग्रामपंचायतीत खात्री नाही, म्हाय कोणी दाखवू शकत?' | Standard: 'सामान्य प्रकरणांसाठी ग्रामपंचायतीत खात्री नाही, मला कोणी दाखवू शकत?'
+[2026-08-02 16:36:07,457] [INFO]     [D1 | Civic_Governance] Progress: 50/138 requests done. Total Pairs Generated: 506
+[2026-08-02 16:36:07,457] [INFO]       [Sample] Dialect: 'गावात स्वच्छता अभियानासाठी काय प्रक्रिया आसा, माका तुका माहिती?' | Standard: 'गावात स्वच्छता अभियानासाठी काय प्रक्रिया आहे, मला तुला माहिती?'
+[2026-08-02 16:36:29,123] [INFO]     [D1 | Civic_Governance] Progress: 60/138 requests done. Total Pairs Generated: 607
+[2026-08-02 16:36:29,124] [INFO]       [Sample] Dialect: 'नागरिक पंजीयत्र्याची खय जागा, माका नवीन पंजीयत्र्यासाठी खय दिनांक आसा?' | Standard: 'नागरिक पंजीयत्र्याची कुठे जागा, मला नवीन पंजीयत्र्यासाठी कुठे दिनांक आहे?'
+[2026-08-02 16:36:43,449] [INFO]     [D1 | Civic_Governance] Progress: 70/138 requests done. Total Pairs Generated: 698
+[2026-08-02 16:36:43,450] [INFO]       [Sample] Dialect: 'कोणत्या नागरिकांना रेशन कार्ड मिळतो ते तुका?' | Standard: 'कोणत्या नागरिकांना रेशन कार्ड मिळतो ते तुला?'
+[2026-08-02 16:36:59,202] [INFO]     [D1 | Civic_Governance] Progress: 80/138 requests done. Total Pairs Generated: 800
+[2026-08-02 16:36:59,204] [INFO]       [Sample] Dialect: 'माका ग्रामपंचायतीत नवीन ब्रीडिंग प्रोग्राम सुरू करूचे आसा, तुका फायदा होणार का?' | Standard: 'मला ग्रामपंचायतीत नवीन ब्रीडिंग प्रोग्राम सुरू करायचा आहे, तुला फायदा होणार का?'
+[2026-08-02 16:37:20,142] [INFO]     [D1 | Civic_Governance] Progress: 90/138 requests done. Total Pairs Generated: 900
+[2026-08-02 16:37:20,142] [INFO]       [Sample] Dialect: 'ग्रामपंचायतीने नवीन योग्य प्रक्रिया सुरू केली आहे जिथे आपण योग्य अर्ज करू शकतो. खय आपण कुठे योग्य अर्ज करू शकतो?' | Standard: 'ग्रामपंचायतीने नवीन योग्य प्रक्रिया सुरू केली आहे जिथे आपण योग्य अर्ज करू शकतो, कुठे आपण योग्य अर्ज करू शकतो?'
+[2026-08-02 16:37:44,132] [INFO]     [D1 | Civic_Governance] Progress: 100/138 requests done. Total Pairs Generated: 1,002
+[2026-08-02 16:37:44,132] [INFO]       [Sample] Dialect: 'आधार कार्डावर नवीन नाव टाकूचे आसा, वरसून किती दिवसास सामान्य कार्डास मिळेल?' | Standard: 'आधार कार्डावर नवीन नाव टाकायचा आहे, वरून किती दिवसास सामान्य कार्डास मिळेल?'
+[2026-08-02 16:37:58,715] [INFO]     [D1 | Civic_Governance] Progress: 110/138 requests done. Total Pairs Generated: 1,103
+[2026-08-02 16:37:58,716] [INFO]       [Sample] Dialect: 'ग्रामपंचायतीत नवीन घर निर्माणासाठी खय अर्ज करू नया?' | Standard: 'ग्रामपंचायतीत नवीन घर निर्माणासाठी कुठे अर्ज करावा लागत नाही?'
+[2026-08-02 16:38:13,751] [INFO]     [D1 | Civic_Governance] Progress: 120/138 requests done. Total Pairs Generated: 1,203
+[2026-08-02 16:38:13,752] [INFO]       [Sample] Dialect: 'ग्रामपंचायतीत खय मंत्रालयाची यंत्रणा ना, माका तुका मंत्रालयाची संपर्क नं?' | Standard: 'ग्रामपंचायतीत कुठे मंत्रालयाची यंत्रणा ना, मला तुला मंत्रालयाची संपर्क नं?'
+[2026-08-02 16:38:36,989] [INFO]     [D1 | Civic_Governance] Progress: 130/138 requests done. Total Pairs Generated: 1,305
+[2026-08-02 16:38:36,989] [INFO]       [Sample] Dialect: 'ग्रामपंचायतीत खानपान योजनेचा लाभासाठी अर्ज करताना, माका कोणत्या अटी लागतात?' | Standard: 'ग्रामपंचायतीत खानपान योजनेचा लाभासाठी अर्ज करताना, मला कोणत्या अटी पूर्ण कराव्या लागतात?'
+[2026-08-02 16:38:55,281] [INFO]     [D1 | Civic_Governance] Progress: 138/138 requests done. Total Pairs Generated: 1,387
+[2026-08-02 16:38:55,281] [INFO]       [Sample] Dialect: 'ग्रामपंचायतीत नवीन भागवधान निवडावे तुका, खय कोणती वेळची निवडास लागन?' | Standard: 'ग्रामपंचायतीत नवीन भागवधान निवडावे तुला, कुठे कोणत्या वेळची निवडास लागेल?'
+[2026-08-02 16:38:55,282] [INFO]   [D1 | Daily_Life] Launching 4 parallel workers for ~1375 pairs (138 requests)...
+[2026-08-02 16:39:09,818] [INFO]     [D1 | Daily_Life] Progress: 10/138 requests done. Total Pairs Generated: 100
+[2026-08-02 16:39:09,818] [INFO]       [Sample] Dialect: 'आम्ही कित्या भावाना घरी पाण्याची वाटपणी प्रक्रिया म्हाय?' | Standard: 'आम्हाला किती भावाने घरी पाण्याची वाटपणी प्रक्रिया नाही?'
+[2026-08-02 16:39:25,837] [INFO]     [D1 | Daily_Life] Progress: 20/138 requests done. Total Pairs Generated: 200
+[2026-08-02 16:39:25,837] [INFO]       [Sample] Dialect: 'आमच्या विद्यालयातील खेळगिरी स्पर्धेत माझ्या बाबांना वरसून दाखवली आसा.' | Standard: 'आमच्या विद्यालयातील खेळगिरी स्पर्धेत माझ्या बाबांना वरून दाखवले आहे.'
+[2026-08-02 16:39:44,132] [INFO]     [D1 | Daily_Life] Progress: 30/138 requests done. Total Pairs Generated: 300
+[2026-08-02 16:39:44,133] [INFO]       [Sample] Dialect: 'मी आजचे शाळेत जाण्याची आसा ना होती आस?' | Standard: 'मी आजचे शाळेत जाण्याची आहे नाही होती आहे?'
+[2026-08-02 16:39:57,782] [INFO]     [D1 | Daily_Life] Progress: 40/138 requests done. Total Pairs Generated: 400
+[2026-08-02 16:39:57,783] [INFO]       [Sample] Dialect: 'आम्ही नंतर ताजे मासे काय खय गावतात तुका?' | Standard: 'आम्ही नंतर ताजे मासे कुठे मिळतात?'
+[2026-08-02 16:40:12,130] [INFO]     [D1 | Daily_Life] Progress: 50/138 requests done. Total Pairs Generated: 500
+[2026-08-02 16:40:12,130] [INFO]       [Sample] Dialect: 'तुका कुठल्या शाळेत जावे लागत आसा?' | Standard: 'तुला कुठल्या शाळेत जावे लागत आहे?'
+[2026-08-02 16:40:34,352] [INFO]     [D1 | Daily_Life] Progress: 60/138 requests done. Total Pairs Generated: 601
+[2026-08-02 16:40:34,352] [INFO]       [Sample] Dialect: 'माझी सावत्री माका कशाने आली?' | Standard: 'माझी सावत्री मला कशाने आली?'
+[2026-08-02 16:40:49,260] [INFO]     [D1 | Daily_Life] Progress: 70/138 requests done. Total Pairs Generated: 700
+[2026-08-02 16:40:49,261] [INFO]       [Sample] Dialect: 'त्यांनी कायमचा खाता बंद करण्याची आसा आसा' | Standard: 'त्यांनी कायमचा खाता बंद करायला आहे आहे'
+[2026-08-02 16:41:04,628] [INFO]     [D1 | Daily_Life] Progress: 80/138 requests done. Total Pairs Generated: 799
+[2026-08-02 16:41:04,628] [INFO]       [Sample] Dialect: 'माझ्या सासूला खय पडत आसा, ते आता मुख्य गावात जातात.' | Standard: 'माझ्या सासूला कुठे पडत आहे, ते आता मुख्य गावात जातात.'
+[2026-08-02 16:41:20,721] [INFO]     [D1 | Daily_Life] Progress: 90/138 requests done. Total Pairs Generated: 900
+[2026-08-02 16:41:20,721] [INFO]       [Sample] Dialect: 'माका वरसून आलेल्या भावाच्या घरी खय माझ्या नोकरीची कामे होत असत आसा?' | Standard: 'मला वरून आलेल्या भावाच्या घरी कुठे माझ्या नोकरीची कामे होत असत आहेत?'
+[2026-08-02 16:41:38,172] [INFO]     [D1 | Daily_Life] Progress: 100/138 requests done. Total Pairs Generated: 1,000
+[2026-08-02 16:41:38,172] [INFO]       [Sample] Dialect: 'माझ्या चुली वरसून खय गरम पानी असेल' | Standard: 'माझ्या चुली वरून कुठे गरम पाणी आहे'
+[2026-08-02 16:41:56,256] [INFO]     [D1 | Daily_Life] Progress: 110/138 requests done. Total Pairs Generated: 1,100
+[2026-08-02 16:41:56,257] [INFO]       [Sample] Dialect: 'आज माझी सावत्री आजी घरी आली आसा, किती वेळा आली?' | Standard: 'आज तुझी सावत्री आजी घरी आली आहे, किती वेळा आली?'
+[2026-08-02 16:42:10,800] [INFO]     [D1 | Daily_Life] Progress: 120/138 requests done. Total Pairs Generated: 1,199
+[2026-08-02 16:42:10,801] [INFO]       [Sample] Dialect: 'आज मी गावात पाण्याची शाळा बगत आसा, मी कुठे पाणी पिऊ शकतो?' | Standard: 'आज मी गावात पाण्याची शाळा बगत आहे, मी कुठे पाणी पिऊ शकतो?'
+[2026-08-02 16:42:28,127] [INFO]     [D1 | Daily_Life] Progress: 130/138 requests done. Total Pairs Generated: 1,299
+[2026-08-02 16:42:28,127] [INFO]       [Sample] Dialect: 'मी आज सकाळी ताज्ये पाळणे चढवल्यायचे' | Standard: 'मी आज सकाळी ताज्ये पाळणे चढवत आहे'
+[2026-08-02 16:42:41,765] [INFO]     [D1 | Daily_Life] Progress: 138/138 requests done. Total Pairs Generated: 1,379
+[2026-08-02 16:42:41,766] [INFO]       [Sample] Dialect: 'तुका हा काम कुठे आसा, किती दिवसांनी म्हाय?' | Standard: 'तुला हा काम कुठे आहे? किती दिवसांनी नाही?'
+[2026-08-02 16:42:41,767] [INFO] PHASE 2: Running LLM Verification Engine on generated candidates...
+[2026-08-02 16:42:41,771] [INFO]   Verification Complete: 5,396 Clean Pairs | 173 Flawed Pairs Segmented
+[2026-08-02 16:42:41,771] [INFO] 
+PHASE 1: Generating 5,500 candidate pairs for D2 (Ahirani / Khandeshi (D2)) with 4 workers + NIM Fallback...
+[2026-08-02 16:42:41,771] [INFO]   [D2 | Agriculture] Launching 4 parallel workers for ~1375 pairs (138 requests)...
+[2026-08-02 16:43:01,579] [INFO]     [D2 | Agriculture] Progress: 10/138 requests done. Total Pairs Generated: 100
+[2026-08-02 16:43:01,579] [INFO]       [Sample] Dialect: 'तुनाले शेतासाठी कोणते जखमा भेटन, कोणत्या जखमांवर कसे लागते?' | Standard: 'तुला शेतात खात असेल तर कोणते जखमा मिळतील, कोणत्या जखमांवर कसे लागते?'
+[2026-08-02 16:43:16,650] [INFO]     [D2 | Agriculture] Progress: 20/138 requests done. Total Pairs Generated: 200
+[2026-08-02 16:43:16,650] [INFO]       [Sample] Dialect: 'कोळंबी पिकावर रोग पडना शेतस, मनाले कोळंबी पिकाला औषध देवाले?' | Standard: 'कोळंबी पिकावर रोग पडला आहे, मला कोळंबी पिकाला औषध द्यायचे आहे?'
+[2026-08-02 16:43:36,518] [INFO]     [D2 | Agriculture] Progress: 30/138 requests done. Total Pairs Generated: 301
+[2026-08-02 16:43:36,518] [INFO]       [Sample] Dialect: 'तुनाले बागायतीला तांदूळ शेतस, कितलं भाजी भेटन?' | Standard: 'तुला बागायतीला तांदूळ असते का? किती भाजी मिळेल?'
+[2026-08-02 16:43:51,822] [INFO]     [D2 | Agriculture] Progress: 40/138 requests done. Total Pairs Generated: 401
+[2026-08-02 16:43:51,823] [INFO]       [Sample] Dialect: 'मनाले पामा पिकाले शेतस, पिकणार्‍या गावात पामाच्या पानांनी कितलं शेतस?' | Standard: 'मला पामा पिकाला आहे, पिकणार्‍या गावात पामाच्या पानांनी किती आहेत?'
+[2026-08-02 16:44:14,578] [INFO]     [D2 | Agriculture] Progress: 50/138 requests done. Total Pairs Generated: 501
+[2026-08-02 16:44:14,578] [INFO]       [Sample] Dialect: 'भेटन शेतकळी पिकाले मका पिकाले शेतस, तुनाले मकाची किती पाती शेतस?' | Standard: 'मिळाली शेतकळी पिकाला मका पिकाला आहे, तुला मकाची किती पाती आहे?'
+[2026-08-02 16:44:31,578] [INFO]     [D2 | Agriculture] Progress: 60/138 requests done. Total Pairs Generated: 601
+[2026-08-02 16:44:31,578] [INFO]       [Sample] Dialect: 'शेतस पिकाला शेतकऱ्यांना सल्ला देवाले शेतस, मनाले मी कुठे शेतस?' | Standard: 'असते पिकाला शेतकऱ्यांना सल्ला देते असते, मला मी कुठे शेतात आहे?'
+[2026-08-02 16:44:47,712] [INFO]     [D2 | Agriculture] Progress: 70/138 requests done. Total Pairs Generated: 701
+[2026-08-02 16:44:47,712] [INFO]       [Sample] Dialect: 'मनाले बागायत पिकाले पाणी देवाले शेतस, विहीरमा पाणी कितलं शेतस?' | Standard: 'मला बागायत पिकाला पाणी द्यायचे आहे, विहिरीत पाणी किती आहे?'
+[2026-08-02 16:45:03,049] [INFO]     [D2 | Agriculture] Progress: 80/138 requests done. Total Pairs Generated: 801
+[2026-08-02 16:45:03,049] [INFO]       [Sample] Dialect: 'तोरणी पिकांसाठी शेतस, तुनाले कितलं पैसा खरेदी करस?' | Standard: 'तोरणी पिकांसाठी असते का?, तुला किती पैसा खरेदी करावे?'
+[2026-08-02 16:45:20,080] [INFO]     [D2 | Agriculture] Progress: 90/138 requests done. Total Pairs Generated: 901
+[2026-08-02 16:45:20,081] [INFO]       [Sample] Dialect: 'गनज शेतकळा UPI भेटना शेतस, मनाले किती तरतूद करस?' | Standard: 'पुष्कळ शेतकळांना UPI मिळेल, मला किती तरतूद करायची आहे?'
+[2026-08-02 16:45:40,756] [INFO]     [D2 | Agriculture] Progress: 100/138 requests done. Total Pairs Generated: 1,002
+[2026-08-02 16:45:40,757] [INFO]       [Sample] Dialect: 'गावात तुनाले शेतस कितलं पीकाले पाणी देवाले वीज पुरवठा शेतस?' | Standard: 'तुला किती पीकाला पाणी द्यायचे आहे आणि ते कुठे आहे आणि शेतकरी देण्याचा वीज पुरवठा कसा करतात?'
+[2026-08-02 16:45:53,922] [INFO]     [D2 | Agriculture] Progress: 110/138 requests done. Total Pairs Generated: 1,102
+[2026-08-02 16:45:53,922] [INFO]       [Sample] Dialect: 'गनज गावात शेतकरी शेतस, कुठे येतो शेतस?' | Standard: 'पुष्कळ गावात शेतकरी आहे, कुठे येतो?'
+[2026-08-02 16:46:12,008] [INFO]     [D2 | Agriculture] Progress: 120/138 requests done. Total Pairs Generated: 1,201
+[2026-08-02 16:46:12,009] [INFO]       [Sample] Dialect: 'तुनाले फणस पिकाले किती दिवस गळनारे शेतस?' | Standard: 'तुला फणस पिकाले किती दिवस गळणारे आहेत?'
+[2026-08-02 16:46:29,216] [INFO]     [D2 | Agriculture] Progress: 130/138 requests done. Total Pairs Generated: 1,301
+[2026-08-02 16:46:29,216] [INFO]       [Sample] Dialect: 'शेतकऱ्यांना कुठे गवताचे बीज भेटन, शेतस त्याचा फायदा शेतस?' | Standard: 'शेतकऱ्यांना कुठे गवताचे बीज मिळेल, शेतकऱ्यांना त्याचा फायदा किती आहे?'
+[2026-08-02 16:46:49,916] [INFO]     [D2 | Agriculture] Progress: 138/138 requests done. Total Pairs Generated: 1,381
+[2026-08-02 16:46:49,916] [INFO]       [Sample] Dialect: 'तुनाले शेतात कितले किलो गोळा शेतस, खास गोळ्याची पातळी शेतस?' | Standard: 'तुला शेतात किती किलो गोळा आहे, खात्यात गोळ्याची किती पातळी आहे?'
+[2026-08-02 16:46:49,917] [INFO]   [D2 | Banking_Finance] Launching 4 parallel workers for ~1375 pairs (138 requests)...
+[2026-08-02 16:47:02,129] [INFO]     [D2 | Banking_Finance] Progress: 10/138 requests done. Total Pairs Generated: 100
+[2026-08-02 16:47:02,129] [INFO]       [Sample] Dialect: 'मनाले बँकमधल्या शिक्षण लोनशी संबंधित माहिती शेतस, तुनाले कितला दिवसा लागन?' | Standard: 'मला बँकेतील शिक्षण लोनशी संबंधित माहिती कसे मिळेल? तुला किती दिवस लागेल?'
+[2026-08-02 16:47:20,941] [INFO]     [D2 | Banking_Finance] Progress: 20/138 requests done. Total Pairs Generated: 200
+[2026-08-02 16:47:20,942] [INFO]       [Sample] Dialect: 'मनाले बँकमा किती दिवस सार्वजनिक बँकेचे खाते उघडण्यासाठी लागन?' | Standard: 'मला बँकेत किती दिवस सार्वजनिक बँकेचे खाते उघडायचे आहे, कुठे जावे लागेल?'
+[2026-08-02 16:47:42,006] [INFO]     [D2 | Banking_Finance] Progress: 30/138 requests done. Total Pairs Generated: 300
+[2026-08-02 16:47:42,006] [INFO]       [Sample] Dialect: 'मनाले बँकमध्ये जाण्यासाठी नवीन खाता उघडुक शेतस, कठे जाई लागन?' | Standard: 'मला बँकेत जाण्यासाठी नवीन खाते उघडायचे आहे, कुठे जावे लागेल?'
+[2026-08-02 16:47:56,615] [INFO]     [D2 | Banking_Finance] Progress: 40/138 requests done. Total Pairs Generated: 401
+[2026-08-02 16:47:56,615] [INFO]       [Sample] Dialect: 'तुनाले काय करावे की EMI मध्ये किती किलो शेतस?' | Standard: 'तुला काय करावे की, EMI मध्ये किती किलो मासे खात असेल?'
+[2026-08-02 16:48:10,513] [INFO]     [D2 | Banking_Finance] Progress: 50/138 requests done. Total Pairs Generated: 501
+[2026-08-02 16:48:10,514] [INFO]       [Sample] Dialect: 'मनाले बँकमा मासा खास करण्यासाठी काय कठे जाई लागन?' | Standard: 'मला बँकेत मासे खाण्यासाठी कुठे जावे लागते?'
+[2026-08-02 16:48:31,874] [INFO]     [D2 | Banking_Finance] Progress: 60/138 requests done. Total Pairs Generated: 601
+[2026-08-02 16:48:31,874] [INFO]       [Sample] Dialect: 'येक व्यक्तीला त्याच्या खात्यात किती टक्के बँक शिश्टा असेल?' | Standard: 'एक व्यक्तीला त्याच्या खात्यात किती टक्के बँक शिश्टा असेल?'
+[2026-08-02 16:48:51,028] [INFO]     [D2 | Banking_Finance] Progress: 70/138 requests done. Total Pairs Generated: 701
+[2026-08-02 16:48:51,028] [INFO]       [Sample] Dialect: 'बँकमारे माझ्या खात्यात कितला रुपये शेतस, येक मासा कितला रुपये खास व्हयी?' | Standard: 'बँकेत माझ्या खात्यात किती रुपये असतात, एका महिन्यात किती रुपये खाल्ली पाहिजेत?'
+[2026-08-02 16:49:07,305] [INFO]     [D2 | Banking_Finance] Progress: 80/138 requests done. Total Pairs Generated: 801
+[2026-08-02 16:49:07,306] [INFO]       [Sample] Dialect: 'तुनाले कुठे बँकिंग सेवा शेतस, कितला किलो पैसे शेतस?' | Standard: 'तुला कुठे बँकिंग सेवा असते, किती किलो पैसे असते?'
+[2026-08-02 16:49:22,911] [INFO]     [D2 | Banking_Finance] Progress: 90/138 requests done. Total Pairs Generated: 901
+[2026-08-02 16:49:22,912] [INFO]       [Sample] Dialect: 'दुन्याभरमा गनज लोकेस्ना बँक खाती असते, त्यांना कितला रुपया प्रतिदिन करस?' | Standard: 'जगभरात अनेक लोकांचे बँक खाती असते, त्यांना किती रुपये प्रतिदिन करेल?'
+[2026-08-02 16:49:39,962] [INFO]     [D2 | Banking_Finance] Progress: 100/138 requests done. Total Pairs Generated: 1,001
+[2026-08-02 16:49:39,962] [INFO]       [Sample] Dialect: 'गनज लोकेस्ना बँकिंग सेवा शेतस, मनाले उधारी केली कितली रुपया खास व्हयी?' | Standard: 'अनेक लोकांना बँकिंग सेवा असते, मलाला उधार केलेले किती रुपये असते?'
+[2026-08-02 16:50:01,799] [INFO]     [D2 | Banking_Finance] Progress: 110/138 requests done. Total Pairs Generated: 1,101
+[2026-08-02 16:50:01,800] [INFO]       [Sample] Dialect: 'दुन्याभरमा गनज लोकेस्ना बँकिंग शेतस, मनाले कितला लाभ शेतस?' | Standard: 'जगभरात अनेक लोकांच्या बँकिंग असते, मला किती लाभ असते?'
+[2026-08-02 16:50:16,539] [INFO]     [D2 | Banking_Finance] Progress: 120/138 requests done. Total Pairs Generated: 1,201
+[2026-08-02 16:50:16,540] [INFO]       [Sample] Dialect: 'तुनाले EMI च्या किंमती शेतस, मनाले किती वेळा लागन?' | Standard: 'तुला EMI च्या किंमती आहेत, मला किती वेळा लागेल?'
+[2026-08-02 16:50:33,187] [INFO]     [D2 | Banking_Finance] Progress: 130/138 requests done. Total Pairs Generated: 1,292
+[2026-08-02 16:50:33,187] [INFO]       [Sample] Dialect: 'तुनाले बँकमध्ये खात उघडुक शेतस, कितला रुपया खास व्हयी?' | Standard: 'तुला बँकेत खात उघडायला आहे, खात असेल किती रुपये?'
+[2026-08-02 16:50:46,978] [INFO]     [D2 | Banking_Finance] Progress: 138/138 requests done. Total Pairs Generated: 1,372
+[2026-08-02 16:50:46,978] [INFO]       [Sample] Dialect: 'मनाले बँकमध्ये खाती उघडण्यासाठी कशी काळजी घ्यावी?' | Standard: 'मला बँकेत खात उघडण्यासाठी कशी काळजी घ्यावी?'
+[2026-08-02 16:50:46,979] [INFO]   [D2 | Civic_Governance] Launching 4 parallel workers for ~1375 pairs (138 requests)...
+[2026-08-02 16:51:09,728] [INFO]     [D2 | Civic_Governance] Progress: 10/138 requests done. Total Pairs Generated: 101
+[2026-08-02 16:51:09,729] [INFO]       [Sample] Dialect: 'ग्रामपंचायतीच्या अधिकाऱ्याकडे शिक्षित लोकांच्या संख्येचा तपशील काढुक शेतस.' | Standard: 'ग्रामपंचायतीच्या अधिकाऱ्याकडे शिक्षित लोकांच्या संख्येचा तपशील काढायचा आहे.'
+[2026-08-02 16:51:29,599] [INFO]     [D2 | Civic_Governance] Progress: 20/138 requests done. Total Pairs Generated: 202
+[2026-08-02 16:51:29,599] [INFO]       [Sample] Dialect: 'ग्रामीण भागात UPI पेमेंट चालू केले आहे तुनाले काय तंत्रज्ञान लागन?' | Standard: 'ग्रामीण भागात UPI पेमेंट चालू केले आहे, तुला काय तंत्रज्ञान लागतील?'
+[2026-08-02 16:51:47,062] [INFO]     [D2 | Civic_Governance] Progress: 30/138 requests done. Total Pairs Generated: 305
+[2026-08-02 16:51:47,062] [INFO]       [Sample] Dialect: 'ग्रामपंचायती कार्यालयात कागदपत्रे भेटन द्यावी, मनाले काय काय कागदपत्र लागन?' | Standard: 'ग्रामपंचायती कार्यालयात कागदपत्रे मिळेल द्यावी, मला काय काय कागदपत्रे लागतील?'
+[2026-08-02 16:52:04,477] [INFO]     [D2 | Civic_Governance] Progress: 40/138 requests done. Total Pairs Generated: 408
+[2026-08-02 16:52:04,477] [INFO]       [Sample] Dialect: 'कोणत्या कागदपत्रांची आवश्यकता आहे तुम्ही शाळेमध्ये नोकरी मिळवण्यासाठी?' | Standard: 'कोणते कागदपत्र तुम्हाला शाळेमध्ये नोकरी मिळवण्यासाठी लागतील?'
+[2026-08-02 16:52:27,105] [INFO]     [D2 | Civic_Governance] Progress: 50/138 requests done. Total Pairs Generated: 508
+[2026-08-02 16:52:27,106] [INFO]       [Sample] Dialect: 'गावातील शेतकऱ्यांच्या बाबतीत काय कागदपत्रे लागन, तुला काय हवे?' | Standard: 'गावातील शेतकऱ्यांच्या बाबतीत काय कागदपत्रे लागतील, तुम्हाला काय हवे आहे?'
+[2026-08-02 16:52:44,992] [INFO]     [D2 | Civic_Governance] Progress: 60/138 requests done. Total Pairs Generated: 609
+[2026-08-02 16:52:44,992] [INFO]       [Sample] Dialect: 'गावातील नागरिकांच्या समस्यांची साध्या करस, त्यासाठी शेतस काय काय कागदपत्र लागन?' | Standard: 'गावातील नागरिकांच्या समस्यांची साध्या कराव्यात, त्यासाठी शेतस काय काय कागदपत्रे लागतील?'
+[2026-08-02 16:53:02,917] [INFO]     [D2 | Civic_Governance] Progress: 70/138 requests done. Total Pairs Generated: 712
+[2026-08-02 16:53:02,917] [INFO]       [Sample] Dialect: 'ग्रामपंचायतीच्या कार्यालयात माझ्या शेतीच्या कागदपत्राची चौकशी कुठे करस?' | Standard: 'ग्रामपंचायतीच्या कार्यालयात माझ्या शेतीच्या कागदपत्राची चौकशी कुठे करावी?'
+[2026-08-02 16:53:21,920] [INFO]     [D2 | Civic_Governance] Progress: 80/138 requests done. Total Pairs Generated: 812
+[2026-08-02 16:53:21,920] [INFO]       [Sample] Dialect: 'ग्रामपंचायतमा सार्वजनिक कक्षेची स्थापना करण्यासाठी काय काय कागदपत्र लागन?' | Standard: 'ग्रामपंचायतीत सार्वजनिक कक्षेची स्थापना करण्यासाठी काय काय कागदपत्रे लागतील?'
+[2026-08-02 16:53:39,111] [INFO]     [D2 | Civic_Governance] Progress: 90/138 requests done. Total Pairs Generated: 912
+[2026-08-02 16:53:39,111] [INFO]       [Sample] Dialect: 'जमीनीच्या पट्ट्याचे मालकी हक्क भेटन का, कठे पुन्हा नोंदवण्याची करस?' | Standard: 'जमीनीच्या पट्ट्याचे मालकी हक्क मिळेल का, कुठे पुन्हा नोंदवण्याची काय क्रिया होती?'
+[2026-08-02 16:54:04,366] [INFO]     [D2 | Civic_Governance] Progress: 100/138 requests done. Total Pairs Generated: 1,013
+[2026-08-02 16:54:04,367] [INFO]       [Sample] Dialect: 'गावातील शाळेच्या सुधारणा काय करस?' | Standard: 'गावातील शाळेच्या सुधारणा काय करावी?'
+[2026-08-02 16:54:21,234] [INFO]     [D2 | Civic_Governance] Progress: 110/138 requests done. Total Pairs Generated: 1,114
+[2026-08-02 16:54:21,234] [INFO]       [Sample] Dialect: 'शेतकऱ्यासले प्रतिज्ञापत्राची पावती भेटन, तुनाले पावती शेतस?' | Standard: 'शेतकऱ्यांना प्रतिज्ञापत्राची पावती मिळेल का, तुला पावती असते का?'
+[2026-08-02 16:54:39,187] [INFO]     [D2 | Civic_Governance] Progress: 120/138 requests done. Total Pairs Generated: 1,217
+[2026-08-02 16:54:39,187] [INFO]       [Sample] Dialect: 'शेतस माझे खास भेटन का, गनज बाबतील अधिकारी पाहिजेत?' | Standard: 'उत्पन्नाचा दाखला काढायचा आहे, शेतकऱ्याचे खाते पासून भेटेल का, अनेक बाबतील अधिकारी पाहिजेत?'
+[2026-08-02 16:55:02,590] [INFO]     [D2 | Civic_Governance] Progress: 130/138 requests done. Total Pairs Generated: 1,319
+[2026-08-02 16:55:02,590] [INFO]       [Sample] Dialect: 'शेतकऱ्यांना योजनेचा लाभ भेटन, तुनाले कोणते प्रमाण वापरावे?' | Standard: 'शेतकऱ्यांना योजनेचा लाभ मिळेल का, तुम्हाला कोणते प्रमाण वापरावे?'
+[2026-08-02 16:55:20,034] [INFO]     [D2 | Civic_Governance] Progress: 138/138 requests done. Total Pairs Generated: 1,400
+[2026-08-02 16:55:20,034] [INFO]       [Sample] Dialect: 'गावातील सर्व शाळांमध्ये ऑनलाइन शिक्षण सुविधा तुनाले काय असणार?' | Standard: 'गावातील सर्व शाळांमध्ये ऑनलाइन शिक्षण सुविधा तुला काय असणार?'
+[2026-08-02 16:55:20,035] [INFO]   [D2 | Daily_Life] Launching 4 parallel workers for ~1375 pairs (138 requests)...
+[2026-08-02 16:55:35,381] [INFO]     [D2 | Daily_Life] Progress: 10/138 requests done. Total Pairs Generated: 100
+[2026-08-02 16:55:35,381] [INFO]       [Sample] Dialect: 'माझ्या भावाने खूप सारे पैसे करस, पण माझ्या भावाने काय पैसे शेतस?' | Standard: 'माझ्या भावाने खूप सारे पैसे आहेत, पण माझ्या खात्यात काय पैसे असते?'
+[2026-08-02 16:55:50,621] [INFO]     [D2 | Daily_Life] Progress: 20/138 requests done. Total Pairs Generated: 200
+[2026-08-02 16:55:50,622] [INFO]       [Sample] Dialect: 'आज रोजचे शिक्षण तुम्हाला कुठे भेटत शेतस?, आज शाळे कुठे व्हती?' | Standard: 'आज रोजचे शिक्षण तुला कुठे मिळेल?, आज शाळा कुठे होती?'
+[2026-08-02 16:56:10,032] [INFO]     [D2 | Daily_Life] Progress: 30/138 requests done. Total Pairs Generated: 301
+[2026-08-02 16:56:10,032] [INFO]       [Sample] Dialect: 'आज मनाले UPI किती करस म्हणजे किती करस करावयाचे?' | Standard: 'आज UPI किती कसे करावे आहे?'
+[2026-08-02 16:56:27,808] [INFO]     [D2 | Daily_Life] Progress: 40/138 requests done. Total Pairs Generated: 401
+[2026-08-02 16:56:27,809] [INFO]       [Sample] Dialect: 'आपण तुला तीन किलोमीटर अंतरावर कुठे लागन?' | Standard: 'आपण तुला तीन किलोमीटर अंतरावर कुठे मिळत आहे?'
+[2026-08-02 16:56:41,842] [INFO]     [D2 | Daily_Life] Progress: 50/138 requests done. Total Pairs Generated: 501
+[2026-08-02 16:56:41,843] [INFO]       [Sample] Dialect: 'आज बाजारमा मी जाऊन गाणी शिकायला गनज शिकस आहे.' | Standard: 'आज बाजारात जाऊन गाणी शिकायला पुष्कळ शिकत आहे.'
+[2026-08-02 16:56:55,821] [INFO]     [D2 | Daily_Life] Progress: 60/138 requests done. Total Pairs Generated: 601
+[2026-08-02 16:56:55,821] [INFO]       [Sample] Dialect: 'मनाले कुठे शाळा भरते शेतस?' | Standard: 'मला कुठे शाळा भरायची आहे?'
+[2026-08-02 16:57:11,403] [INFO]     [D2 | Daily_Life] Progress: 70/138 requests done. Total Pairs Generated: 701
+[2026-08-02 16:57:11,403] [INFO]       [Sample] Dialect: 'कुठे केलेल्या शाळेमध्ये माझ्या भावाला प्रवेश देवाले शेतस, त्याची जागा कुठे असती?' | Standard: 'कुठे केलेल्या शाळेमध्ये माझ्या भावाला प्रवेश द्यायचा आहे, त्याची जागा कुठे होती?'
+[2026-08-02 16:57:29,593] [INFO]     [D2 | Daily_Life] Progress: 80/138 requests done. Total Pairs Generated: 801
+[2026-08-02 16:57:29,593] [INFO]       [Sample] Dialect: 'गावातल्या बाजारमध्ये शेतकरी काय करीत असतात, मला काय भेटत शेतस?' | Standard: 'गावातल्या बाजारात शेतकरी काय करतात, मला काय मिळत आहे?'
+[2026-08-02 16:57:43,397] [INFO]     [D2 | Daily_Life] Progress: 90/138 requests done. Total Pairs Generated: 901
+[2026-08-02 16:57:43,397] [INFO]       [Sample] Dialect: 'तुला सोमवारी कुठे जाणार आहेस, मला काय भेटन?' | Standard: 'तुला सोमवारी कुठे जाणार आहेस, मला काय मिळेल?'
+[2026-08-02 16:58:05,114] [INFO]     [D2 | Daily_Life] Progress: 100/138 requests done. Total Pairs Generated: 1,001
+[2026-08-02 16:58:05,114] [INFO]       [Sample] Dialect: 'आज बाजारात जायला काय वेळा आहे, तुनाले काय भावाने भेटत शेतस?' | Standard: 'आज बाजारात जायला काय वेळा आहे? तुला काय भावाने मिळत आहे?'
+[2026-08-02 16:58:17,596] [INFO]     [D2 | Daily_Life] Progress: 110/138 requests done. Total Pairs Generated: 1,101
+[2026-08-02 16:58:17,596] [INFO]       [Sample] Dialect: 'माझ्या त्याच्या शिवाय एकूण बाजारात किती पैसे अनेक जात असतील?' | Standard: 'माझ्या त्याच्या शिवाय एकूण बाजारात किती पैसे अनेक जात आहेत?'
+[2026-08-02 16:58:33,335] [INFO]     [D2 | Daily_Life] Progress: 120/138 requests done. Total Pairs Generated: 1,201
+[2026-08-02 16:58:33,336] [INFO]       [Sample] Dialect: 'मला गावातल्या खाजगी डॉक्टरांच्या भेटीला गनज लोकांना शिव्या मिळत असतील.' | Standard: 'मला गावातल्या खाजगी डॉक्टरांच्या भेटीला गावात अनेक लोकांना शिव्या मिळत असतील.'
+[2026-08-02 16:58:49,635] [INFO]     [D2 | Daily_Life] Progress: 130/138 requests done. Total Pairs Generated: 1,301
+[2026-08-02 16:58:49,636] [INFO]       [Sample] Dialect: 'आज संध्याकाळी पारंपारिक भोजन काय भावाने भेटत शेतस?' | Standard: 'आज संध्याकाळी पारंपारिक भोजन काय भावाने मिळते?'
+[2026-08-02 16:59:12,670] [INFO]     [D2 | Daily_Life] Progress: 138/138 requests done. Total Pairs Generated: 1,381
+[2026-08-02 16:59:12,670] [INFO]       [Sample] Dialect: 'कुठे तयार केलेल्या खाजगी बससेवेसाठी भाव किती आहे?' | Standard: 'कुठे तयार केलेल्या खाजगी बससेवेसाठी भाव किती आहे?'
+[2026-08-02 16:59:12,671] [INFO] PHASE 2: Running LLM Verification Engine on generated candidates...
+[2026-08-02 16:59:12,676] [INFO]   Verification Complete: 5,356 Clean Pairs | 178 Flawed Pairs Segmented
+[2026-08-02 16:59:12,676] [INFO] 
+PHASE 1: Generating 5,000 candidate pairs for D4 (Varhadi / Nagpuri (D4)) with 4 workers + NIM Fallback...
+[2026-08-02 16:59:12,676] [INFO]   [D4 | Agriculture] Launching 4 parallel workers for ~1250 pairs (125 requests)...
+[2026-08-02 16:59:17,977] [INFO]     [D4 | Agriculture] Progress: 10/125 requests done. Total Pairs Generated: 101
+[2026-08-02 16:59:17,978] [INFO]       [Sample] Dialect: 'बागेत पानाचे पाने म्हाजी पायजे हाय, पोरगा.' | Standard: 'बागेत पानाचे पाने माझ्या पाहिजे आहे.'
+[2026-08-02 16:59:43,027] [INFO]     [D4 | Agriculture] Progress: 20/125 requests done. Total Pairs Generated: 199
+[2026-08-02 16:59:43,027] [INFO]       [Sample] Dialect: 'म्हालया शेतात कोणती काळजी पाहिजे हाय?' | Standard: 'माझ्या शेतात कोणती काळजी पाहिजे आहे?'
+[2026-08-02 17:00:00,318] [INFO]     [D4 | Agriculture] Progress: 30/125 requests done. Total Pairs Generated: 300
+[2026-08-02 17:00:00,318] [INFO]       [Sample] Dialect: 'म्हाजी शेतात धान्याची कापणी झाली हाय, काय काय वापरले पोरगा?' | Standard: 'माझ्या शेतात धान्याची कापणी झाली आहे, काय काय वापरले पाहिजे?'
+[2026-08-02 17:00:16,379] [INFO]     [D4 | Agriculture] Progress: 40/125 requests done. Total Pairs Generated: 401
+[2026-08-02 17:00:16,380] [INFO]       [Sample] Dialect: 'म्हाजी शेतात म्हाजी पिकाची काढणी म्हाजी माथून करत हाय, काय फळे म्हाजी पिकात पाहिजे?' | Standard: 'माझ्या शेतात माझ्या पिकाची काढणी मधून करत आहे, जिर्याच्या पिकात काय फळे असतात?'
+[2026-08-02 17:00:36,430] [INFO]     [D4 | Agriculture] Progress: 50/125 requests done. Total Pairs Generated: 502
+[2026-08-02 17:00:36,431] [INFO]       [Sample] Dialect: 'बाजारात शेंगदाण्याचा भाव काय भेटत हाय, म्हाले काय स्टॉक घेतले पायजे?' | Standard: 'बाजारात शेंगदाण्याचा भाव काय मिळत आहे, तुम्हाला काय स्टॉक घ्यावे पाहिजे?'
+[2026-08-02 17:00:56,341] [INFO]     [D4 | Agriculture] Progress: 60/125 requests done. Total Pairs Generated: 603
+[2026-08-02 17:00:56,342] [INFO]       [Sample] Dialect: 'म्हाजी शेतात कोणते प्रकारची कीटकनाशक कशा जोडतात हाय, योग्य कोणता प्रकारचा कीटकनाशक वापरावा पायजे?' | Standard: 'माझ्या शेतात कोणते प्रकारची कीटकनाशक कशा जोडतात आहे, योग्य कोणता प्रकारचा कीटकनाशक वापरावा पाहिजा?'
+[2026-08-02 17:01:15,600] [INFO]     [D4 | Agriculture] Progress: 70/125 requests done. Total Pairs Generated: 703
+[2026-08-02 17:01:15,600] [INFO]       [Sample] Dialect: 'शेतात पिकांचे संरक्षण करण्यासाठी काय उपाय आहेत हाय, काय प्रकारे करावे हाय?' | Standard: 'शेतात पिकांचे संरक्षण करण्यासाठी काय उपाय आहेत आहेत, काय प्रकारे करावे आहे?'
+[2026-08-02 17:01:35,266] [INFO]     [D4 | Agriculture] Progress: 80/125 requests done. Total Pairs Generated: 805
+[2026-08-02 17:01:35,266] [INFO]       [Sample] Dialect: 'कायले शेतात बियांची लावणी केली पायजे?' | Standard: 'कशामुळे शेतात बियांची लावणी केली पाहिजे?'
+[2026-08-02 17:01:54,458] [INFO]     [D4 | Agriculture] Progress: 90/125 requests done. Total Pairs Generated: 906
+[2026-08-02 17:01:54,459] [INFO]       [Sample] Dialect: 'कृषि उर्जा पुरवठा चालू केला हाय, शेतातील कामाची कार्यक्षमता वाढणार हाय.' | Standard: 'कृषि उर्जा पुरवठा चालू केला आहे, शेतातील कामाची कार्यक्षमता वाढणार आहे.'
+[2026-08-02 17:02:10,011] [INFO]     [D4 | Agriculture] Progress: 100/125 requests done. Total Pairs Generated: 1,008
+[2026-08-02 17:02:10,012] [INFO]       [Sample] Dialect: 'कायले शेतात बटाटा पिका घेतला हाय, बटाटा पिका घेतल्यावर काय काम करावे हाय?' | Standard: 'कशामुळे शेतात बटाटा पीक घेतले आहे, बटाटा पीक घेतल्यावर काय काम करावे आहे?'
+[2026-08-02 17:02:31,281] [INFO]     [D4 | Agriculture] Progress: 110/125 requests done. Total Pairs Generated: 1,109
+[2026-08-02 17:02:31,282] [INFO]       [Sample] Dialect: 'म्हाजी शेतात पाण्याच्या साठवणीसाठी काय पायजे करावे?' | Standard: 'माझ्या शेतात पाण्याच्या साठवणीसाठी काय पाहिजे करावे?'
+[2026-08-02 17:02:47,938] [INFO]     [D4 | Agriculture] Progress: 120/125 requests done. Total Pairs Generated: 1,211
+[2026-08-02 17:02:47,938] [INFO]       [Sample] Dialect: 'म्हाले शेतात फणसाचे पिक काढले हाय, काय प्रकारा खाद्य पावले हाय?' | Standard: 'मला शेतात फणसाचे पिक काढले आहे, काय प्रकारा खाद्य पावले आहेत?'
+[2026-08-02 17:03:06,930] [INFO]     [D4 | Agriculture] Progress: 125/125 requests done. Total Pairs Generated: 1,261
+[2026-08-02 17:03:06,931] [INFO]       [Sample] Dialect: 'म्हाजी कृषी शेती सेवा कोणत्या वेळी मिळत हाय?' | Standard: 'माझ्या कृषी शेती सेवा कोणत्या वेळी मिळत आहे?'
+[2026-08-02 17:03:06,931] [INFO]   [D4 | Banking_Finance] Launching 4 parallel workers for ~1250 pairs (125 requests)...
+[2026-08-02 17:03:11,663] [INFO]     [D4 | Banking_Finance] Progress: 10/125 requests done. Total Pairs Generated: 103
+[2026-08-02 17:03:11,663] [INFO]       [Sample] Dialect: 'मला डेबिट कार्ड वापरण्याची मायती कुठी भेटन, पायजे मला त्या वापरणे पाहिजे?' | Standard: 'मला डेबिट कार्ड वापरण्याची माहिती कुठे मिळेल? मला त्या वापरणे पाहिजे का?'
+[2026-08-02 17:03:32,991] [INFO]     [D4 | Banking_Finance] Progress: 20/125 requests done. Total Pairs Generated: 204
+[2026-08-02 17:03:32,991] [INFO]       [Sample] Dialect: 'मले UPI च्या माध्यमातून PPI पैसे भेटवा लागन पोरग्यासाठी पोरगा कुठे अर्ज करा लागन?' | Standard: 'मला UPI च्या माध्यमातून PPI पैसे भेटवा लागतील मुलग्यासाठी मुलगा कुठे अर्ज करावा लागतील?'
+[2026-08-02 17:03:48,615] [INFO]     [D4 | Banking_Finance] Progress: 30/125 requests done. Total Pairs Generated: 306
+[2026-08-02 17:03:48,615] [INFO]       [Sample] Dialect: 'मले या ऑनलाईन बँकींग सुविधा वरून EMI चे भरण्यासाठी पोरगा हाय, पायजे मला या म्हाले काय करूं?' | Standard: 'मला या ऑनलाइन बँकिंग सुविधा वरून EMI चे भरण्यासाठी माझा पोरगा आहे, पाहिजे मला या मला काय करावे?'
+[2026-08-02 17:04:17,201] [INFO]     [D4 | Banking_Finance] Progress: 40/125 requests done. Total Pairs Generated: 409
+[2026-08-02 17:04:17,201] [INFO]       [Sample] Dialect: 'काय तुमाले म्हाळे बँकेचे काय काय कागदपत्रे द्या लागन काय तुम्ही म्हणता?' | Standard: 'काय तुम्हाला म्हणता? काय काय बँकेचे कागदपत्रे द्यावी लागतील?'
+[2026-08-02 17:04:35,497] [INFO]     [D4 | Banking_Finance] Progress: 50/125 requests done. Total Pairs Generated: 509
+[2026-08-02 17:04:35,497] [INFO]       [Sample] Dialect: 'मले बँकेतून शेतकरी कर्ज किंवा पीक कर्ज मिळवण्यासाठी काय काय अटी पायजे असते?' | Standard: 'मलाला बँकेतून शेतकरी कर्ज किंवा पीक कर्ज मिळवण्यासाठी काय काय अटी लागणार?'
+[2026-08-02 17:04:53,340] [INFO]     [D4 | Banking_Finance] Progress: 60/125 requests done. Total Pairs Generated: 609
+[2026-08-02 17:04:53,340] [INFO]       [Sample] Dialect: 'मले बँकिंग सेवा वापरायचे असेल तर कुठे पायजे आहे?' | Standard: 'मल्याला बँकिंग सेवा वापरण्याची पाहिजे आहे, मला कुठे माहिती मिळेल?'
+[2026-08-02 17:05:11,401] [INFO]     [D4 | Banking_Finance] Progress: 70/125 requests done. Total Pairs Generated: 710
+[2026-08-02 17:05:11,401] [INFO]       [Sample] Dialect: 'मले पोरगा म्हणजे मुलगा क्रेडिट कार्ड तयार करायचे असेल तर काय करा लागन?' | Standard: 'मला मुला म्हणजे पोरगा क्रेडिट कार्ड तयार करायचे असेल तर काय करावे लागेल?'
+[2026-08-02 17:05:36,429] [INFO]     [D4 | Banking_Finance] Progress: 80/125 requests done. Total Pairs Generated: 811
+[2026-08-02 17:05:36,430] [INFO]       [Sample] Dialect: 'मले वित्तीय सेवा नेटवर्कमधून KYC पूर्ण करा लागन हाय?' | Standard: 'मला वित्तीय सेवा नेटवर्कमधून KYC पूर्ण करावा लागेल आहे?'
+[2026-08-02 17:05:54,592] [INFO]     [D4 | Banking_Finance] Progress: 90/125 requests done. Total Pairs Generated: 912
+[2026-08-02 17:05:54,593] [INFO]       [Sample] Dialect: 'बँकेतून मला काय काय प्रकारच्या लोना मिळण्या साठी अर्ज करावा लागन?' | Standard: 'बँकेतून मला काय काय प्रकारच्या लोन मिळण्यासाठी अर्ज करावा लागेल?'
+[2026-08-02 17:06:11,421] [INFO]     [D4 | Banking_Finance] Progress: 100/125 requests done. Total Pairs Generated: 1,012
+[2026-08-02 17:06:11,422] [INFO]       [Sample] Dialect: 'तुमाले KYC म्हाजी आहे का हाय, काय काय दस्तळे द्या लागन पोरगा?' | Standard: 'तुम्हाला KYC माझी आहे का? मुलगा काय काय दस्तळे द्यावी लागतील?'
+[2026-08-02 17:06:31,388] [INFO]     [D4 | Banking_Finance] Progress: 110/125 requests done. Total Pairs Generated: 1,114
+[2026-08-02 17:06:31,389] [INFO]       [Sample] Dialect: 'मले बँकेतून पीक कर्ज घ्यायचे हाय, काय काय कागदपत्रे द्या लागन?' | Standard: 'मला बँकेतून पीक कर्ज घ्यायचे आहे, काय काय कागदपत्रे द्यावी लागतील?'
+[2026-08-02 17:06:52,975] [INFO]     [D4 | Banking_Finance] Progress: 120/125 requests done. Total Pairs Generated: 1,214
+[2026-08-02 17:06:52,975] [INFO]       [Sample] Dialect: 'हाय, मला बँकिंग सेवा तयार करायची असेल तर काय कागदपत्रे द्या लागन आणि कुठे अर्ज करा लागन?' | Standard: 'हाय, मला बँकिंग सेवा तयार करायची असेल तर काय कागदपत्रे द्यावी लागतील आणि कुठे अर्ज करावा लागेल?'
+[2026-08-02 17:07:04,169] [INFO]     [D4 | Banking_Finance] Progress: 125/125 requests done. Total Pairs Generated: 1,264
+[2026-08-02 17:07:04,169] [INFO]       [Sample] Dialect: 'मले म्हाले नोकरीतून EMI ची रक्कम द्यायला पायजे असतील तर पोरगांना काय काय रक्कम द्या लागन?' | Standard: 'मला नोकरीतून EMI ची रक्कम द्यावी लागतील तर मुलांना काय काय रक्कम द्यावी लागतील?'
+[2026-08-02 17:07:04,170] [INFO]   [D4 | Civic_Governance] Launching 4 parallel workers for ~1250 pairs (125 requests)...
+[2026-08-02 17:07:21,739] [INFO]     [D4 | Civic_Governance] Progress: 10/125 requests done. Total Pairs Generated: 100
+[2026-08-02 17:07:21,739] [INFO]       [Sample] Dialect: 'कॉल सेंटरात रजिस्टर करायची हाय, कुठे हाय सेवा केंद्र?' | Standard: 'कॉल सेंटरात रजिस्टर करायची आहे, कुठे आहे सेवा केंद्र?'
+[2026-08-02 17:07:38,745] [INFO]     [D4 | Civic_Governance] Progress: 20/125 requests done. Total Pairs Generated: 205
+[2026-08-02 17:07:38,745] [INFO]       [Sample] Dialect: 'पोलीस स्टेशनातील शिक्षा प्रारंभ करायची हाय, पोरगा म्हाले काय हाय?' | Standard: 'पोलीस स्टेशनातील शिक्षा प्रारंभ करायची आहे, मुलगा मला काय आहे?'
+[2026-08-02 17:08:05,785] [INFO]     [D4 | Civic_Governance] Progress: 30/125 requests done. Total Pairs Generated: 307
+[2026-08-02 17:08:05,786] [INFO]       [Sample] Dialect: 'आधार कार्ड दुरुस्ती करायची हाय, पासबुक कुठे हाय म्हाजे त्यामुळे काय व्हायचे हाय?' | Standard: 'आधार कार्ड दुरुस्ती करायची आहे, पासबुक कुठे आहे माझे त्यामुळे काय व्हायचे आहे?'
+[2026-08-02 17:08:22,722] [INFO]     [D4 | Civic_Governance] Progress: 40/125 requests done. Total Pairs Generated: 408
+[2026-08-02 17:08:22,722] [INFO]       [Sample] Dialect: 'प्राथमिक शाळेच्या विद्यार्थ्यांना मोफत भोजनाची व्यवस्था कशी होते हाय, कायले तरी कोणत्या शाळांना?' | Standard: 'प्राथमिक शाळेच्या विद्यार्थ्यांना मोफत भोजनाची व्यवस्था कशी होते आहे, कशामुळे तरी कोणत्या शाळांना?'
+[2026-08-02 17:08:40,975] [INFO]     [D4 | Civic_Governance] Progress: 50/125 requests done. Total Pairs Generated: 508
+[2026-08-02 17:08:40,975] [INFO]       [Sample] Dialect: 'कायदा तुमाले प्रतिदिन कोणी हाय किती हाय वेळी पार पडतो हाय?' | Standard: 'कायदा तुम्हाला प्रतिदिन कोणी ह्या किती ह्या वेळी पार पडतो आहे?'
+[2026-08-02 17:08:57,797] [INFO]     [D4 | Civic_Governance] Progress: 60/125 requests done. Total Pairs Generated: 611
+[2026-08-02 17:08:57,797] [INFO]       [Sample] Dialect: 'ग्रामपंचायतीला कोणत्या योजनेची यादी आली हाय, पायजे ती कुठे दाखवायची हाय?' | Standard: 'ग्रामपंचायतीला कोणत्या योजनेची यादी आली आहे का, पाहिजे ती कुठे दाखवायला आहे?'
+[2026-08-02 17:09:23,861] [INFO]     [D4 | Civic_Governance] Progress: 70/125 requests done. Total Pairs Generated: 713
+[2026-08-02 17:09:23,862] [INFO]       [Sample] Dialect: 'नागरी स्वीकार्यता शिवाय तुम्ही मले काय काम करतात हय, हाय!' | Standard: 'नागरी स्वीकार्यता शिवाय तुम्ही मला काय काम करतात आहे, आहे!'
+[2026-08-02 17:09:46,607] [INFO]     [D4 | Civic_Governance] Progress: 80/125 requests done. Total Pairs Generated: 817
+[2026-08-02 17:09:46,607] [INFO]       [Sample] Dialect: 'कोणत्या वेळेस ग्रामपंचायतीच्या सार्वजनिक सभा खूप विलंबाने होतात हाय, पायजे आम्हाला कशाने पळून जातात?' | Standard: 'कोणत्या वेळेस ग्रामपंचायतीच्या सार्वजनिक सभा खूप विलंबाने होतात आहे?, पाहिजे आम्हाला कशाने पळून जातात?'
+[2026-08-02 17:10:07,015] [INFO]     [D4 | Civic_Governance] Progress: 90/125 requests done. Total Pairs Generated: 919
+[2026-08-02 17:10:07,016] [INFO]       [Sample] Dialect: 'ग्रामपंचायतीत नागरिकांना प्रशासनाच्या निर्णयांची माहिती देण्याची हाय, पोरगांना शिक्षित करण्याची करवतत हाय काय?' | Standard: 'ग्रामपंचायतीत नागरिकांना प्रशासनाच्या निर्णयांची माहिती देण्याची आहे, पोरगांना शिक्षित करण्याची करून घेतात काय?'
+[2026-08-02 17:10:25,799] [INFO]     [D4 | Civic_Governance] Progress: 100/125 requests done. Total Pairs Generated: 1,022
+[2026-08-02 17:10:25,799] [INFO]       [Sample] Dialect: 'शहरातील नागरिकांच्या सुविधांची अधिकृतपणे पुरवठा करायची हाय, तुमाले म्हाजे नाव म्हाले आहे?' | Standard: 'शहरातील नागरिकांच्या सुविधांची अधिकृतपणे पुरवठा करायची आहे, तुम्हाला माझे नाव मला आहे?'
+[2026-08-02 17:10:45,458] [INFO]     [D4 | Civic_Governance] Progress: 110/125 requests done. Total Pairs Generated: 1,125
+[2026-08-02 17:10:45,458] [INFO]       [Sample] Dialect: 'कोणत्या घरकुलाला बँक खाती पाहिजे हाय, तुमाले कोणत्या घरकुलाला बँक खाती दिले आहे हाय?' | Standard: 'कोणत्या घरकुलाला बँक खाती पाहिजे आहे, तुम्हाला कोणत्या घरकुलाला बँक खाती दिले आहे?'
+[2026-08-02 17:11:05,919] [INFO]     [D4 | Civic_Governance] Progress: 120/125 requests done. Total Pairs Generated: 1,225
+[2026-08-02 17:11:05,919] [INFO]       [Sample] Dialect: 'पानी पुरवठा देयकाची यादी मले पाहिजे हाय, कायले तुमाले काय काम पाहिजे आहे?' | Standard: 'पानी पुरवठा देयकाची यादी मला पाहिजे आहे आणि तुम्हाला काय काम करावे लागते?'
+[2026-08-02 17:11:18,156] [INFO]     [D4 | Civic_Governance] Progress: 125/125 requests done. Total Pairs Generated: 1,275
+[2026-08-02 17:11:18,156] [INFO]       [Sample] Dialect: 'आमच्या ग्रामपंचायतेतील स्वीकृत विद्यार्थ्यांची यादी म्हाले पोचली नाहीत का, तुमाले काय म्हणाले हाय?' | Standard: 'आमच्या ग्रामपंचायतेतील स्वीकृत विद्यार्थ्यांची यादी माझी पोचली नाहीत का, तुम्हाला काय म्हणाले आहे?'
+[2026-08-02 17:11:18,157] [INFO]   [D4 | Daily_Life] Launching 4 parallel workers for ~1250 pairs (125 requests)...
+[2026-08-02 17:11:35,975] [INFO]     [D4 | Daily_Life] Progress: 10/125 requests done. Total Pairs Generated: 101
+[2026-08-02 17:11:35,975] [INFO]       [Sample] Dialect: 'पोरगा पुसा करून म्हाजी क्षुधा तोडली हाय.' | Standard: 'मुलगा पुसा करून माझी क्षुधा तोडली आहे.'
+[2026-08-02 17:11:51,834] [INFO]     [D4 | Daily_Life] Progress: 20/125 requests done. Total Pairs Generated: 203
+[2026-08-02 17:11:51,834] [INFO]       [Sample] Dialect: 'आज सायंकाळी पोरगा आणि बहिणीने दुकानात खूप स्वस्त भाजीपाला म्हाजी देव्हाळी घेवून गेले हाय.' | Standard: 'आज सायंकाळी मुला आणि बहिणीने दुकानात खूप स्वस्त भाजीपाला माझ्या देव्हाळी घेऊन गेले आहे.'
+[2026-08-02 17:12:17,938] [INFO]     [D4 | Daily_Life] Progress: 30/125 requests done. Total Pairs Generated: 306
+[2026-08-02 17:12:17,938] [INFO]       [Sample] Dialect: 'आज म्हाले शाळेत मुलींच्या स्पर्धा हाय, मला म्हणजे मला मुलींच्या प्राणी हाय.' | Standard: 'आज मुलगा शाळेत मुलींच्या स्पर्धा आहे, मला म्हणजे मला मुलींच्या प्राणी आहे.'
+[2026-08-02 17:12:40,162] [INFO]     [D4 | Daily_Life] Progress: 40/125 requests done. Total Pairs Generated: 406
+[2026-08-02 17:12:40,162] [INFO]       [Sample] Dialect: 'म्हाले दादाच्या बाबतीत काय हाय, तुमाले सांगा हाय.' | Standard: 'मला दादाच्या बाबतीत काय आहे, तुम्हाला सांगा.'
+[2026-08-02 17:12:58,747] [INFO]     [D4 | Daily_Life] Progress: 50/125 requests done. Total Pairs Generated: 507
+[2026-08-02 17:12:58,747] [INFO]       [Sample] Dialect: 'गावातील सारे मित्राला भेटायला जायला म्हाजी हाय, तुमाले खूप आनंद हाय.' | Standard: 'गावातील सारे मित्राला भेटायला जायला आहे, तुम्हाला खूप आनंद आहे.'
+[2026-08-02 17:13:18,940] [INFO]     [D4 | Daily_Life] Progress: 60/125 requests done. Total Pairs Generated: 608
+[2026-08-02 17:13:18,940] [INFO]       [Sample] Dialect: 'माझ्या देवीला आता तिचा प्राथमिक शाळा पूर्ण झाला हाय, तिची सारा स्कूल चांगलीच हाय.' | Standard: 'माझ्या देवीला आता तिचा प्राथमिक शाळा पूर्ण झाला आहे, तिची सारा स्कूल चांगलीच आहे.'
+[2026-08-02 17:13:38,413] [INFO]     [D4 | Daily_Life] Progress: 70/125 requests done. Total Pairs Generated: 709
+[2026-08-02 17:13:38,413] [INFO]       [Sample] Dialect: 'म्हाजी मावशी हाय, ज्यांनी मला नंतरच्या सुमारास शाळेमध्ये घेऊन गेल्या हाय.' | Standard: 'माझ्या मावशी आहेत, ज्यांनी मला नंतरच्या सुमारास शाळेमध्ये घेऊन गेली आहेत.'
+[2026-08-02 17:13:54,162] [INFO]     [D4 | Daily_Life] Progress: 80/125 requests done. Total Pairs Generated: 810
+[2026-08-02 17:13:54,162] [INFO]       [Sample] Dialect: 'आज घरी कोणता सांगतात काय हाय?' | Standard: 'आज घरी कोणता सांगतात काय आहे?'
+[2026-08-02 17:14:21,519] [INFO]     [D4 | Daily_Life] Progress: 90/125 requests done. Total Pairs Generated: 911
+[2026-08-02 17:14:21,520] [INFO]       [Sample] Dialect: 'आम्ही हाय गावातील हाय मित्रांशी संवाद करायचे हाय, आम्ही ते पोरगाला पोरगाला कोणत्याही प्रकारची संस्कृत सांगतो हाय.' | Standard: 'आम्ही गावातील मित्रांशी संवाद करायचे आहे, आम्ही मुलाला कोणत्याही प्रकारची संस्कृत सांगतो.'
+[2026-08-02 17:14:38,563] [INFO]     [D4 | Daily_Life] Progress: 100/125 requests done. Total Pairs Generated: 1,013
+[2026-08-02 17:14:38,563] [INFO]       [Sample] Dialect: 'आज माझ्या सासूने माझ्या कामात मदत केली हाय, म्हाले खूप पायजे हाय.' | Standard: 'आज माझ्या सासूने माझ्या कामात मदत केली आहे, मला खूप पाहिजे आहे.'
+[2026-08-02 17:14:54,349] [INFO]     [D4 | Daily_Life] Progress: 110/125 requests done. Total Pairs Generated: 1,116
+[2026-08-02 17:14:54,350] [INFO]       [Sample] Dialect: 'आज माझ्या मित्राने मला खूप मोठी गाडी देऊन दिली हाय, म्हाजी खूप आनंद झाला हाय.' | Standard: 'आज माझ्या मित्राने मला खूप मोठी गाडी दिली आहे, माझ्या खूप आनंद झाला आहे.'
+[2026-08-02 17:15:16,028] [INFO]     [D4 | Daily_Life] Progress: 120/125 requests done. Total Pairs Generated: 1,217
+[2026-08-02 17:15:16,028] [INFO]       [Sample] Dialect: 'आजच्या जागेत फिरत असतो कोणी कायले हाय, म्हणून दहावीचा इव्हेंट तिथेच ठेवावा हाय.' | Standard: 'आजच्या जागेत फिरत असतो कोणी कायम आहे, म्हणून दहावीचा इव्हेंट तिथेच ठेवावा आहे.'
+[2026-08-02 17:15:33,204] [INFO]     [D4 | Daily_Life] Progress: 125/125 requests done. Total Pairs Generated: 1,270
+[2026-08-02 17:15:33,204] [INFO]       [Sample] Dialect: 'आम्ही गावात एक नवीन स्टोरी खुला करणार आहे, म्हाजी काय विकत घेतले हाय.' | Standard: 'आम्ही गावात एक नवीन स्टोरी खुला करणार आहे, माझ्यावर काय विकत घेतले आहे.'
+[2026-08-02 17:15:33,205] [INFO] PHASE 2: Running LLM Verification Engine on generated candidates...
+[2026-08-02 17:15:33,210] [INFO]   Verification Complete: 4,546 Clean Pairs | 524 Flawed Pairs Segmented
+[2026-08-02 17:15:33,221] [INFO] Saved 875 flagged pairs to D:\dialect-norm\data\synthetic-data\flawed.csv
+[2026-08-02 17:15:33,222] [INFO] PHASE 3: Running 4-Worker Parallel 2-Step Correction on 875 flawed pairs...
+[2026-08-02 17:15:43,468] [INFO]   Correction Progress: 50/875 done. Recovered: 50 pairs.
+[2026-08-02 17:15:56,292] [INFO]   Correction Progress: 100/875 done. Recovered: 100 pairs.
+[2026-08-02 17:16:09,208] [INFO]   Correction Progress: 150/875 done. Recovered: 150 pairs.
+[2026-08-02 17:16:23,180] [INFO]   Correction Progress: 200/875 done. Recovered: 200 pairs.
+[2026-08-02 17:16:37,246] [INFO]   Correction Progress: 250/875 done. Recovered: 250 pairs.
+[2026-08-02 17:16:51,682] [INFO]   Correction Progress: 300/875 done. Recovered: 300 pairs.
+[2026-08-02 17:17:04,670] [INFO]   Correction Progress: 350/875 done. Recovered: 350 pairs.
+[2026-08-02 17:17:22,103] [INFO]   Correction Progress: 400/875 done. Recovered: 400 pairs.
+[2026-08-02 17:17:38,796] [INFO]   Correction Progress: 450/875 done. Recovered: 450 pairs.
+[2026-08-02 17:17:52,580] [INFO]   Correction Progress: 500/875 done. Recovered: 500 pairs.
+[2026-08-02 17:18:08,289] [INFO]   Correction Progress: 550/875 done. Recovered: 550 pairs.
+[2026-08-02 17:18:23,978] [INFO]   Correction Progress: 600/875 done. Recovered: 600 pairs.
+[2026-08-02 17:18:40,016] [INFO]   Correction Progress: 650/875 done. Recovered: 650 pairs.
+[2026-08-02 17:18:56,643] [INFO]   Correction Progress: 700/875 done. Recovered: 700 pairs.
+[2026-08-02 17:19:10,153] [INFO]   Correction Progress: 750/875 done. Recovered: 750 pairs.
+[2026-08-02 17:19:26,373] [INFO]   Correction Progress: 800/875 done. Recovered: 800 pairs.
+[2026-08-02 17:19:43,221] [INFO]   Correction Progress: 850/875 done. Recovered: 849 pairs.
+[2026-08-02 17:19:52,852] [INFO]   Correction Progress: 875/875 done. Recovered: 874 pairs.
+[2026-08-02 17:19:52,860] [INFO] Saved 874 double-verified corrected pairs to D:\dialect-norm\data\synthetic-data\corrected.csv
+[2026-08-02 17:19:52,904] [INFO] Final Export D1: 5,569 pairs saved to D:\dialect-norm\data\synthetic-data\d1_aug.csv
+[2026-08-02 17:19:52,943] [INFO] Final Export D2: 5,534 pairs saved to D:\dialect-norm\data\synthetic-data\d2_aug.csv
+[2026-08-02 17:19:52,983] [INFO] Final Export D4: 5,069 pairs saved to D:\dialect-norm\data\synthetic-data\d4_aug.csv
+[2026-08-02 17:19:53,090] [INFO] 
+================================================================================
+[2026-08-02 17:19:53,090] [INFO] FULL 16K ROBUST PIPELINE COMPLETED SUCCESSFULLY!
+[2026-08-02 17:19:53,090] [INFO] Initial Clean Pairs     : 15,298
+[2026-08-02 17:19:53,090] [INFO] Flagged Flawed Pairs    : 875
+[2026-08-02 17:19:53,090] [INFO] Recovered Corrected     : 874
+[2026-08-02 17:19:53,090] [INFO] TOTAL CLEAN SUITE       : 16,172 parallel pairs
+[2026-08-02 17:19:53,091] [INFO] Combined File Saved To  : D:\dialect-norm\data\synthetic-data\all_aug.csv
+[2026-08-02 17:19:53,091] [INFO] ================================================================================

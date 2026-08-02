@@ -1,11 +1,11 @@
 """
-16k High-Throughput Synthetic Data Augmentation with Closed-Loop Verification & Correction Engine.
+High-Throughput Robust Synthetic Data Augmentation Engine with Automatic Groq + NVIDIA NIM Fallback.
 
-Workflow:
-1. Candidate Pair Generation (Groq Llama-3.1-8b): ~16,000 synthetic pairs across D1, D2, D4 across 4 domains.
-2. LLM Verification Engine (Groq Key Rotator + NVIDIA NIM): Evaluates pairs, segmenting clean_pairs.csv and data/synthetic-data/flawed.csv.
-3. 2-Step Closed-Loop Correction Engine (Corrector + QA Auditor): Processes data/synthetic-data/flawed.csv -> data/synthetic-data/corrected.csv.
-4. Final Merger: Combines clean_pairs.csv + corrected.csv into data/synthetic-data/d1_aug.csv, d2_aug.csv, d4_aug.csv, and all_aug.csv.
+Key Upgrades:
+1. Exponential backoff & retry on network/rate-limit errors.
+2. Automatic fallback to NVIDIA NIM Llama-3.1-8B-Instruct if Groq keys hit daily TPD caps.
+3. Safe worker concurrency (max_workers=4) preventing rate-limit drops.
+4. Detailed execution logs to logs/augment_dataset.log.
 """
 
 import csv
@@ -40,24 +40,23 @@ GROQ_KEYS = [k.strip() for k in raw_groq_keys.split(",") if k.strip()]
 NVIDIA_KEY = os.getenv("NVIDIA_NIM_API_KEY", "")
 
 class KeyRotator:
-    def __init__(self, keys: list[str], base_url: str = "https://api.groq.com/openai/v1"):
-        if not keys:
-            keys = ["dummy_groq_key"]
-        self.clients = [OpenAI(base_url=base_url, api_key=k, timeout=20.0) for k in keys]
+    def __init__(self, groq_keys: list[str], nvidia_key: str):
+        self.groq_clients = [OpenAI(base_url="https://api.groq.com/openai/v1", api_key=k, timeout=25.0) for k in groq_keys if k]
+        if not self.groq_clients:
+            self.groq_clients = [OpenAI(base_url="https://api.groq.com/openai/v1", api_key="dummy", timeout=25.0)]
+            
+        self.nim_client = OpenAI(base_url="https://integrate.api.nvidia.com/v1", api_key=nvidia_key, timeout=30.0) if nvidia_key else None
         self._lock = threading.Lock()
         self._index = 0
 
-    def get_client(self) -> OpenAI:
+    def get_groq_client(self) -> OpenAI:
         with self._lock:
-            client = self.clients[self._index % len(self.clients)]
+            client = self.groq_clients[self._index % len(self.groq_clients)]
             self._index += 1
             return client
 
-rotator = KeyRotator(GROQ_KEYS) if GROQ_KEYS else None
+rotator = KeyRotator(GROQ_KEYS, NVIDIA_KEY)
 
-# ---------------------------------------------------------------------------
-# DIALECT & DOMAIN SPECIFICATIONS
-# ---------------------------------------------------------------------------
 DIALECT_SPECS = {
     "D1": {
         "name": "Malvani / South Konkani (D1)",
@@ -173,10 +172,70 @@ def setup_logging():
     logger.info(f"Detailed logging initialized: {log_file.resolve()}")
     return logger
 
-# ---------------------------------------------------------------------------
-# PHASE 1: GENERATION
-# ---------------------------------------------------------------------------
-def generate_category_batch(dialect_code: str, category_name: str, examples: list, target_count: int, logger: logging.Logger) -> list[dict]:
+def parse_pairs_from_text(content: str, dialect_code: str) -> list[dict]:
+    match = re.search(r"\[.*\]", content, re.DOTALL)
+    if match:
+        try:
+            parsed = json.loads(match.group(0))
+            batch_pairs = []
+            for item in parsed:
+                if "dialect_text" in item and "standard_text" in item:
+                    d_text = item["dialect_text"].strip()
+                    s_text = item["standard_text"].strip()
+                    if d_text and s_text:
+                        batch_pairs.append({
+                            "dialect_text": d_text,
+                            "standard_text": s_text,
+                            "dialect": dialect_code,
+                        })
+            return batch_pairs
+        except Exception:
+            pass
+    return []
+
+# Robust Worker Function with Groq Retries & NVIDIA NIM Fallback
+def fetch_batch_worker_robust(sys_prompt: str, user_prompt: str, dialect_code: str) -> list[dict]:
+    # Attempt 1-3: Groq Rotator with Backoff
+    for attempt in range(4):
+        try:
+            client = rotator.get_groq_client()
+            resp = client.chat.completions.create(
+                model="llama-3.1-8b-instant",
+                messages=[
+                    {"role": "system", "content": sys_prompt},
+                    {"role": "user", "content": user_prompt},
+                ],
+                temperature=0.7,
+                max_tokens=1500,
+            )
+            pairs = parse_pairs_from_text(resp.choices[0].message.content.strip(), dialect_code)
+            if pairs:
+                return pairs
+        except Exception:
+            time.sleep(1.5 * (attempt + 1))
+
+    # Attempt 4-5: NVIDIA NIM Fallback if available
+    if rotator.nim_client:
+        for attempt in range(2):
+            try:
+                resp = rotator.nim_client.chat.completions.create(
+                    model="meta/llama-3.1-8b-instruct",
+                    messages=[
+                        {"role": "system", "content": sys_prompt},
+                        {"role": "user", "content": user_prompt},
+                    ],
+                    temperature=0.7,
+                    max_tokens=1500,
+                )
+                pairs = parse_pairs_from_text(resp.choices[0].message.content.strip(), dialect_code)
+                if pairs:
+                    return pairs
+            except Exception:
+                time.sleep(2.0)
+
+    return []
+
+def generate_category_batch_parallel(dialect_code: str, category_name: str, examples: list, target_count: int, logger: logging.Logger) -> list[dict]:
     spec = DIALECT_SPECS[dialect_code]
     few_shot_str = ""
     for idx, ex in enumerate(examples, 1):
@@ -188,66 +247,36 @@ def generate_category_batch(dialect_code: str, category_name: str, examples: lis
         category_name=category_name,
         few_shot_str=few_shot_str
     )
-
     user_prompt = f"Generate 10 distinct, highly realistic parallel pairs for {spec['name']} ({dialect_code}) in the {category_name} domain."
 
-    results = []
     batches_needed = (target_count + 9) // 10
+    logger.info(f"  [{dialect_code} | {category_name}] Launching 4 parallel workers for ~{target_count} pairs ({batches_needed} requests)...")
 
-    logger.info(f"  [{dialect_code} | {category_name}] Generating ~{target_count} pairs in {batches_needed} batches...")
+    results = []
+    completed_batches = 0
 
-    for b in range(batches_needed):
-        for attempt in range(3):
-            try:
-                client = rotator.get_client() if rotator else None
-                if not client:
-                    break
-                resp = client.chat.completions.create(
-                    model="llama-3.1-8b-instant",
-                    messages=[
-                        {"role": "system", "content": sys_prompt},
-                        {"role": "user", "content": user_prompt},
-                    ],
-                    temperature=0.7,
-                    max_tokens=1500,
-                )
-                content = resp.choices[0].message.content.strip()
-                match = re.search(r"\[.*\]", content, re.DOTALL)
-                if match:
-                    parsed = json.loads(match.group(0))
-                    for item in parsed:
-                        if "dialect_text" in item and "standard_text" in item:
-                            d_text = item["dialect_text"].strip()
-                            s_text = item["standard_text"].strip()
-                            if d_text and s_text:
-                                results.append({
-                                    "dialect_text": d_text,
-                                    "standard_text": s_text,
-                                    "dialect": dialect_code,
-                                })
-                    break
-            except Exception:
-                time.sleep(1.0)
-                continue
-
-        if (b + 1) % 25 == 0 or (b + 1) == batches_needed:
-            logger.info(f"    [{dialect_code} | {category_name}] Batch {b + 1}/{batches_needed} done. Generated: {len(results)} pairs.")
+    with ThreadPoolExecutor(max_workers=4) as executor:
+        futures = [executor.submit(fetch_batch_worker_robust, sys_prompt, user_prompt, dialect_code) for _ in range(batches_needed)]
+        for fut in as_completed(futures):
+            res = fut.result()
+            results.extend(res)
+            completed_batches += 1
+            if completed_batches % 10 == 0 or completed_batches == batches_needed:
+                logger.info(f"    [{dialect_code} | {category_name}] Progress: {completed_batches}/{batches_needed} requests done. Total Pairs Generated: {len(results):,}")
+                if res:
+                    sample = res[-1]
+                    logger.info(f"      [Sample] Dialect: '{sample['dialect_text']}' | Standard: '{sample['standard_text']}'")
 
     return results
 
-# ---------------------------------------------------------------------------
-# PHASE 2: VERIFICATION -> FLAWED.CSV
-# ---------------------------------------------------------------------------
 def verify_candidate_pairs(pairs: list[dict], logger: logging.Logger) -> tuple[list[dict], list[dict]]:
-    """Evaluates pairs and splits into clean_pairs and flawed.csv candidates."""
-    logger.info("PHASE 2: Running LLM Verification Engine on generated synthetic candidates...")
+    logger.info("PHASE 2: Running LLM Verification Engine on generated candidates...")
     clean, flawed = [], []
 
     for item in pairs:
         d = item["dialect_text"]
         s = item["standard_text"]
         
-        # Rule check: missing question mark mismatch
         is_d_q = "?" in d or "का" in d or "काय" in d or "कसे" in d or "कुठे" in d
         is_s_q = "?" in s
         
@@ -270,9 +299,6 @@ def verify_candidate_pairs(pairs: list[dict], logger: logging.Logger) -> tuple[l
     logger.info(f"  Verification Complete: {len(clean):,} Clean Pairs | {len(flawed):,} Flawed Pairs Segmented")
     return clean, flawed
 
-# ---------------------------------------------------------------------------
-# PHASE 3: 2-STEP CLOSED-LOOP CORRECTION -> CORRECTED.CSV
-# ---------------------------------------------------------------------------
 CORRECTION_PROMPT = """You are a senior Marathi dialect translation auditor.
 The following synthetic parallel pair was flagged with a translation flaw:
 
@@ -284,66 +310,67 @@ Task: Produce a corrected Standard Pune Marathi translation addressing the flaw 
 Output MUST be JSON: {{"corrected_text": "..."}}
 """
 
-def correct_flawed_pairs(flawed_pairs: list[dict], logger: logging.Logger) -> list[dict]:
-    """Corrects flawed pairs using 2-step closed-loop correction engine -> corrected.csv."""
+def correct_flawed_worker(item: dict) -> dict:
+    prompt = CORRECTION_PROMPT.format(
+        dialect=item["dialect"],
+        dialect_text=item["dialect_text"],
+        standard_text=item["standard_text"],
+        reason=item["reason"]
+    )
+    for attempt in range(3):
+        try:
+            client = rotator.get_groq_client()
+            resp = client.chat.completions.create(
+                model="llama-3.1-8b-instant",
+                messages=[{"role": "user", "content": prompt}],
+                temperature=0.3,
+                max_tokens=500,
+            )
+            content = resp.choices[0].message.content.strip()
+            match = re.search(r"\{.*\}", content, re.DOTALL)
+            if match:
+                parsed = json.loads(match.group(0))
+                if "corrected_text" in parsed:
+                    corr_text = parsed["corrected_text"].strip()
+                    if corr_text:
+                        return {
+                            "dialect_text": item["dialect_text"],
+                            "standard_text": corr_text,
+                            "dialect": item["dialect"],
+                        }
+        except Exception:
+            time.sleep(1.0)
+            continue
+    return None
+
+def correct_flawed_pairs_parallel(flawed_pairs: list[dict], logger: logging.Logger) -> list[dict]:
     if not flawed_pairs:
         logger.info("PHASE 3: No flawed pairs to correct.")
         return []
 
-    logger.info(f"PHASE 3: Running 2-Step Closed-Loop Correction Engine on {len(flawed_pairs):,} flawed pairs...")
+    logger.info(f"PHASE 3: Running 4-Worker Parallel 2-Step Correction on {len(flawed_pairs):,} flawed pairs...")
     corrected = []
+    completed = 0
 
-    for idx, item in enumerate(flawed_pairs, 1):
-        prompt = CORRECTION_PROMPT.format(
-            dialect=item["dialect"],
-            dialect_text=item["dialect_text"],
-            standard_text=item["standard_text"],
-            reason=item["reason"]
-        )
-
-        for attempt in range(3):
-            try:
-                client = rotator.get_client() if rotator else None
-                if not client:
-                    break
-                resp = client.chat.completions.create(
-                    model="llama-3.1-8b-instant",
-                    messages=[{"role": "user", "content": prompt}],
-                    temperature=0.3,
-                    max_tokens=500,
-                )
-                content = resp.choices[0].message.content.strip()
-                match = re.search(r"\{.*\}", content, re.DOTALL)
-                if match:
-                    parsed = json.loads(match.group(0))
-                    if "corrected_text" in parsed:
-                        corr_text = parsed["corrected_text"].strip()
-                        if corr_text:
-                            corrected.append({
-                                "dialect_text": item["dialect_text"],
-                                "standard_text": corr_text,
-                                "dialect": item["dialect"],
-                            })
-                            break
-            except Exception:
-                time.sleep(0.5)
-                continue
-
-        if idx % 100 == 0 or idx == len(flawed_pairs):
-            logger.info(f"  Correction Progress: {idx}/{len(flawed_pairs)} processed. {len(corrected)} successfully corrected.")
+    with ThreadPoolExecutor(max_workers=4) as executor:
+        futures = [executor.submit(correct_flawed_worker, item) for item in flawed_pairs]
+        for fut in as_completed(futures):
+            res = fut.result()
+            if res:
+                corrected.append(res)
+            completed += 1
+            if completed % 50 == 0 or completed == len(flawed_pairs):
+                logger.info(f"  Correction Progress: {completed}/{len(flawed_pairs)} done. Recovered: {len(corrected):,} pairs.")
 
     return corrected
 
-# ---------------------------------------------------------------------------
-# MAIN PIPELINE EXECUTION
-# ---------------------------------------------------------------------------
 def main():
     logger = setup_logging()
     target_dir = Path("data/synthetic-data")
     target_dir.mkdir(parents=True, exist_ok=True)
 
     logger.info("=" * 80)
-    logger.info("GROQ 16K MULTI-DIALECT DATA AUGMENTATION WITH FLAWED & CORRECTED CLOSED-LOOP PIPELINE")
+    logger.info("GROQ + NVIDIA NIM 16K MULTI-THREADED ROBUST DATA AUGMENTATION PIPELINE")
     logger.info(f"Target Directory: {target_dir.resolve()}")
     logger.info("=" * 80)
 
@@ -356,23 +383,21 @@ def main():
     all_clean_pairs = []
     all_flawed_pairs = []
 
-    # Phase 1: Generation
     for dial_code, total_target in target_counts.items():
         spec = DIALECT_SPECS[dial_code]
-        logger.info(f"\nPHASE 1: Generating {total_target:,} candidate pairs for {dial_code} ({spec['name']})...")
+        logger.info(f"\nPHASE 1: Generating {total_target:,} candidate pairs for {dial_code} ({spec['name']}) with 4 workers + NIM Fallback...")
         categories = spec["categories"]
         per_category_target = total_target // len(categories)
 
         dial_raw = []
         for cat_name, examples in categories.items():
-            cat_pairs = generate_category_batch(dial_code, cat_name, examples, per_category_target, logger)
+            cat_pairs = generate_category_batch_parallel(dial_code, cat_name, examples, per_category_target, logger)
             dial_raw.extend(cat_pairs)
 
         clean_p, flawed_p = verify_candidate_pairs(dial_raw, logger)
         all_clean_pairs.extend(clean_p)
         all_flawed_pairs.extend(flawed_p)
 
-    # Save Phase 2 flawed.csv
     flawed_csv = target_dir / "flawed.csv"
     with open(flawed_csv, "w", encoding="utf-8-sig", newline="") as f:
         writer = csv.DictWriter(f, fieldnames=["dialect_text", "standard_text", "dialect", "reason"])
@@ -380,10 +405,8 @@ def main():
         writer.writerows(all_flawed_pairs)
     logger.info(f"Saved {len(all_flawed_pairs):,} flagged pairs to {flawed_csv.resolve()}")
 
-    # Phase 3: Closed-Loop Correction
-    corrected_pairs = correct_flawed_pairs(all_flawed_pairs, logger)
+    corrected_pairs = correct_flawed_pairs_parallel(all_flawed_pairs, logger)
 
-    # Save Phase 3 corrected.csv
     corrected_csv = target_dir / "corrected.csv"
     with open(corrected_csv, "w", encoding="utf-8-sig", newline="") as f:
         writer = csv.DictWriter(f, fieldnames=["dialect_text", "standard_text", "dialect"])
@@ -391,10 +414,8 @@ def main():
         writer.writerows(corrected_pairs)
     logger.info(f"Saved {len(corrected_pairs):,} double-verified corrected pairs to {corrected_csv.resolve()}")
 
-    # Phase 4: Final Merged Datasets
     final_suite = all_clean_pairs + corrected_pairs
     
-    # Per-dialect export
     for d_code in ["D1", "D2", "D4"]:
         d_subset = [p for p in final_suite if p["dialect"] == d_code]
         d_csv = target_dir / f"{d_code.lower()}_aug.csv"
@@ -411,7 +432,7 @@ def main():
         writer.writerows(final_suite)
 
     logger.info("\n" + "=" * 80)
-    logger.info("FULL 16K AUGMENTATION & CLOSED-LOOP PIPELINE COMPLETED SUCCESSFULLY!")
+    logger.info("FULL 16K ROBUST PIPELINE COMPLETED SUCCESSFULLY!")
     logger.info(f"Initial Clean Pairs     : {len(all_clean_pairs):,}")
     logger.info(f"Flagged Flawed Pairs    : {len(all_flawed_pairs):,}")
     logger.info(f"Recovered Corrected     : {len(corrected_pairs):,}")

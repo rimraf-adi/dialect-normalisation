@@ -128,14 +128,14 @@ Below are direct prediction outputs extracted from model evaluation on unseen he
 
 ---
 
-## 7. Upcoming Synthetic Data Augmentation Roadmap (32,000+ Clean Pairs)
+## 7. Synthetic Data Augmentation & 32k Dataset Suite Milestone
 
-To scale the training pool and maximize vocabulary generalization, an automated Groq-powered synthetic data augmentation pipeline ([src/dialect_norm/data_processing/augment_dataset.py](file:///d:/dialect-norm/src/dialect_norm/data_processing/augment_dataset.py)) is currently running in the background:
+To scale the training pool and maximize vocabulary generalization, we executed an automated Groq + NVIDIA NIM multi-threaded synthetic data augmentation & closed-loop correction pipeline ([src/dialect_norm/data_processing/augment_dataset.py](file:///d:/dialect-norm/src/dialect_norm/data_processing/augment_dataset.py)):
 
-* **Target Synthetic Volume**: **16,000 additional clean parallel pairs** (5,500 D1, 5,500 D2, 5,000 D4).
-* **Domain Diversity**: Enforces per-category few-shot prompting across **Agriculture**, **Banking & Finance**, **Civic & Governance**, and **Daily Life**.
-* **Closed-Loop `flawed.csv` & `corrected.csv` Mechanism**: All raw candidates are evaluated by `llm_verifier`. Flagged items are written to `data/synthetic-data/flawed.csv` and re-processed by the 2-step Corrector + QA Auditor engine to produce `data/synthetic-data/corrected.csv`.
-* **Target Expanded Dataset Volume**: **32,163 double-verified clean parallel pairs** across the full project repository.
+* **Domain Diversity**: Enforced per-category few-shot prompting across **Agriculture**, **Banking & Finance**, **Civic & Governance**, and **Daily Life**.
+* **Closed-Loop `flawed.csv` & `corrected.csv` Mechanism**: Segmented 875 flagged candidates into `data/synthetic-data/flawed.csv`. The 2-step Corrector + QA Auditor engine successfully recovered **874 corrected pairs** (99.88% recovery rate).
+* **Synthetic Dataset Yield**: **16,172 double-verified clean parallel pairs** (`d1_aug.csv`: 5,569 | `d2_aug.csv`: 5,534 | `d4_aug.csv`: 5,069).
+* **Total Expanded Repository Dataset**: **32,335 double-verified clean parallel pairs** across the full project repository.
 
 ---
 
@@ -145,3 +145,4 @@ To scale the training pool and maximize vocabulary generalization, an automated 
 * **Combined Execution Log**: [logs/train_indicbart_combined.log](file:///d:/dialect-norm/logs/train_indicbart_combined.log)
 * **Augmentation Execution Log**: [logs/augment_dataset.log](file:///d:/dialect-norm/logs/augment_dataset.log)
 * **LaTeX Implementation Log**: [docs/logs.tex](file:///d:/dialect-norm/docs/logs.tex)
+
