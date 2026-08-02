@@ -41,6 +41,7 @@ filter-flawed = "dialect_norm.data_processing.filter_flawed:main"
 verify-dataset-llm = "dialect_norm.data_processing.llm_verifier:main"
 correct-flawed = "dialect_norm.data_processing.correct_flawed:main"
 merge-corrected = "dialect_norm.data_processing.merge_corrected:main"
+augment-dataset = "dialect_norm.data_processing.augment_dataset:main"
 
 train-indicbart-d1 = "dialect_norm.training.indicbart_trainer:cli_train_d1"
 train-indicbart-d2 = "dialect_norm.training.indicbart_trainer:cli_train_d2"

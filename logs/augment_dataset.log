@@ -1,0 +1,10 @@
+[2026-08-02 12:28:35,817] [INFO] Detailed logging initialized: D:\dialect-norm\logs\augment_dataset.log
+[2026-08-02 12:28:35,817] [INFO] ================================================================================
+[2026-08-02 12:28:35,818] [INFO] GROQ 16K MULTI-DIALECT DATA AUGMENTATION WITH FLAWED & CORRECTED CLOSED-LOOP PIPELINE
+[2026-08-02 12:28:35,818] [INFO] Target Directory: D:\dialect-norm\data\synthetic-data
+[2026-08-02 12:28:35,818] [INFO] ================================================================================
+[2026-08-02 12:28:35,818] [INFO] 
+PHASE 1: Generating 5,500 candidate pairs for D1 (Malvani / South Konkani (D1))...
+[2026-08-02 12:28:35,818] [INFO]   [D1 | Agriculture] Generating ~1375 pairs in 138 batches...
+[2026-08-02 12:29:25,124] [INFO]     [D1 | Agriculture] Batch 25/138 done. Generated: 254 pairs.
+[2026-08-02 12:30:13,544] [INFO]     [D1 | Agriculture] Batch 50/138 done. Generated: 503 pairs.
