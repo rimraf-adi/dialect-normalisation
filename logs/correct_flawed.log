@@ -1,0 +1,95 @@
+[2026-07-31 14:54:51] [INFO] ======================================================================
+[2026-07-31 14:54:51] [INFO] HIGH-SPEED TWO-STEP CLOSED-LOOP CORRECTION ENGINE STARTED
+[2026-07-31 14:54:51] [INFO] ======================================================================
+[2026-07-31 14:54:51] [INFO] Primary Model      : llama-3.1-8b-instant (Groq 8-Key Pool)
+[2026-07-31 14:54:51] [INFO] Fallback Model     : meta/llama-3.1-8b-instruct (NVIDIA NIM)
+[2026-07-31 14:54:51] [INFO] Batch Size         : 8 rows/prompt
+[2026-07-31 14:54:51] [INFO] Concurrent Workers : 4 threads
+[2026-07-31 14:54:51] [INFO] Flawed CSV File    : D:\dialect-norm\data\synthetic_parallel\flawed.csv
+[2026-07-31 14:54:51] [INFO] ======================================================================
+[2026-07-31 14:54:51] [INFO] Total Flawed Rows to Process: 5,842
+[2026-07-31 14:54:51] [INFO] Remaining Flawed Rows to Process: 5,842
+[2026-07-31 14:56:44] [INFO] [Two-Step Progress 80/5,842] Verified Clean: 72 | Remaining Flawed: 8 | Speed: 0.7 rows/sec | ETA: 135.5 min
+[2026-07-31 14:58:09] [INFO] [Two-Step Progress 160/5,842] Verified Clean: 147 | Remaining Flawed: 13 | Speed: 0.8 rows/sec | ETA: 117.4 min
+[2026-07-31 14:59:34] [INFO] [Two-Step Progress 240/5,842] Verified Clean: 220 | Remaining Flawed: 20 | Speed: 0.8 rows/sec | ETA: 110.4 min
+[2026-07-31 15:00:54] [INFO] [Two-Step Progress 320/5,842] Verified Clean: 294 | Remaining Flawed: 26 | Speed: 0.9 rows/sec | ETA: 104.4 min
+[2026-07-31 15:02:30] [INFO] [Two-Step Progress 400/5,842] Verified Clean: 364 | Remaining Flawed: 36 | Speed: 0.9 rows/sec | ETA: 104.2 min
+[2026-07-31 15:04:39] [INFO] [Two-Step Progress 480/5,842] Verified Clean: 440 | Remaining Flawed: 40 | Speed: 0.8 rows/sec | ETA: 109.5 min
+[2026-07-31 15:06:31] [INFO] [Two-Step Progress 560/5,842] Verified Clean: 514 | Remaining Flawed: 46 | Speed: 0.8 rows/sec | ETA: 110.1 min
+[2026-07-31 15:09:15] [WARNING] NVIDIA Fallback Call Error: Request timed out.
+[2026-07-31 15:10:59] [INFO] [Two-Step Progress 640/5,842] Verified Clean: 585 | Remaining Flawed: 55 | Speed: 0.7 rows/sec | ETA: 131.1 min
+[2026-07-31 15:13:11] [INFO] [Two-Step Progress 720/5,842] Verified Clean: 653 | Remaining Flawed: 67 | Speed: 0.7 rows/sec | ETA: 130.5 min
+[2026-07-31 15:15:25] [INFO] [Two-Step Progress 800/5,842] Verified Clean: 722 | Remaining Flawed: 78 | Speed: 0.6 rows/sec | ETA: 129.6 min
+[2026-07-31 15:17:23] [INFO] [Two-Step Progress 880/5,842] Verified Clean: 795 | Remaining Flawed: 85 | Speed: 0.7 rows/sec | ETA: 127.1 min
+[2026-07-31 15:19:28] [INFO] [Two-Step Progress 960/5,842] Verified Clean: 864 | Remaining Flawed: 96 | Speed: 0.6 rows/sec | ETA: 125.2 min
+[2026-07-31 15:22:41] [INFO] [Two-Step Progress 1,040/5,842] Verified Clean: 936 | Remaining Flawed: 104 | Speed: 0.6 rows/sec | ETA: 128.5 min
+[2026-07-31 15:24:59] [INFO] [Two-Step Progress 1,120/5,842] Verified Clean: 1,001 | Remaining Flawed: 119 | Speed: 0.6 rows/sec | ETA: 127.1 min
+[2026-07-31 15:26:27] [INFO] [Two-Step Progress 1,200/5,842] Verified Clean: 1,072 | Remaining Flawed: 128 | Speed: 0.6 rows/sec | ETA: 122.3 min
+[2026-07-31 15:28:17] [INFO] [Two-Step Progress 1,280/5,842] Verified Clean: 1,139 | Remaining Flawed: 141 | Speed: 0.6 rows/sec | ETA: 119.2 min
+[2026-07-31 15:29:41] [INFO] [Two-Step Progress 1,360/5,842] Verified Clean: 1,214 | Remaining Flawed: 146 | Speed: 0.7 rows/sec | ETA: 114.8 min
+[2026-07-31 15:31:20] [INFO] [Two-Step Progress 1,440/5,842] Verified Clean: 1,284 | Remaining Flawed: 156 | Speed: 0.7 rows/sec | ETA: 111.5 min
+[2026-07-31 15:32:52] [INFO] [Two-Step Progress 1,520/5,842] Verified Clean: 1,353 | Remaining Flawed: 167 | Speed: 0.7 rows/sec | ETA: 108.1 min
+[2026-07-31 15:34:29] [INFO] [Two-Step Progress 1,600/5,842] Verified Clean: 1,415 | Remaining Flawed: 185 | Speed: 0.7 rows/sec | ETA: 105.1 min
+[2026-07-31 15:35:49] [INFO] [Two-Step Progress 1,680/5,842] Verified Clean: 1,490 | Remaining Flawed: 190 | Speed: 0.7 rows/sec | ETA: 101.5 min
+[2026-07-31 15:37:27] [INFO] [Two-Step Progress 1,760/5,842] Verified Clean: 1,564 | Remaining Flawed: 196 | Speed: 0.7 rows/sec | ETA: 98.8 min
+[2026-07-31 15:38:59] [INFO] [Two-Step Progress 1,840/5,842] Verified Clean: 1,629 | Remaining Flawed: 211 | Speed: 0.7 rows/sec | ETA: 96.0 min
+[2026-07-31 15:40:24] [INFO] [Two-Step Progress 1,920/5,842] Verified Clean: 1,702 | Remaining Flawed: 218 | Speed: 0.7 rows/sec | ETA: 93.1 min
+[2026-07-31 15:42:00] [INFO] [Two-Step Progress 2,000/5,842] Verified Clean: 1,774 | Remaining Flawed: 226 | Speed: 0.7 rows/sec | ETA: 90.6 min
+[2026-07-31 15:43:09] [INFO] [Two-Step Progress 2,080/5,842] Verified Clean: 1,844 | Remaining Flawed: 236 | Speed: 0.7 rows/sec | ETA: 87.4 min
+[2026-07-31 15:44:40] [INFO] [Two-Step Progress 2,160/5,842] Verified Clean: 1,919 | Remaining Flawed: 241 | Speed: 0.7 rows/sec | ETA: 84.9 min
+[2026-07-31 15:45:54] [INFO] [Two-Step Progress 2,240/5,842] Verified Clean: 1,987 | Remaining Flawed: 253 | Speed: 0.7 rows/sec | ETA: 82.1 min
+[2026-07-31 15:47:29] [INFO] [Two-Step Progress 2,320/5,842] Verified Clean: 2,056 | Remaining Flawed: 264 | Speed: 0.7 rows/sec | ETA: 79.9 min
+[2026-07-31 15:48:40] [INFO] [Two-Step Progress 2,400/5,842] Verified Clean: 2,128 | Remaining Flawed: 272 | Speed: 0.7 rows/sec | ETA: 77.2 min
+[2026-07-31 15:49:56] [INFO] [Two-Step Progress 2,480/5,842] Verified Clean: 2,195 | Remaining Flawed: 285 | Speed: 0.8 rows/sec | ETA: 74.7 min
+[2026-07-31 15:51:36] [INFO] [Two-Step Progress 2,560/5,842] Verified Clean: 2,252 | Remaining Flawed: 308 | Speed: 0.8 rows/sec | ETA: 72.8 min
+[2026-07-31 15:53:18] [INFO] [Two-Step Progress 2,640/5,842] Verified Clean: 2,325 | Remaining Flawed: 315 | Speed: 0.8 rows/sec | ETA: 70.9 min
+[2026-07-31 15:55:54] [WARNING] NVIDIA Fallback Call Error: Request timed out.
+[2026-07-31 15:56:25] [INFO] [Two-Step Progress 2,720/5,842] Verified Clean: 2,397 | Remaining Flawed: 323 | Speed: 0.7 rows/sec | ETA: 70.7 min
+[2026-07-31 15:58:00] [INFO] [Two-Step Progress 2,800/5,842] Verified Clean: 2,463 | Remaining Flawed: 337 | Speed: 0.7 rows/sec | ETA: 68.6 min
+[2026-07-31 15:59:32] [INFO] [Two-Step Progress 2,880/5,842] Verified Clean: 2,537 | Remaining Flawed: 343 | Speed: 0.7 rows/sec | ETA: 66.5 min
+[2026-07-31 16:01:08] [INFO] [Two-Step Progress 2,960/5,842] Verified Clean: 2,612 | Remaining Flawed: 348 | Speed: 0.7 rows/sec | ETA: 64.5 min
+[2026-07-31 16:02:48] [INFO] [Two-Step Progress 3,040/5,842] Verified Clean: 2,681 | Remaining Flawed: 359 | Speed: 0.7 rows/sec | ETA: 62.6 min
+[2026-07-31 16:04:17] [INFO] [Two-Step Progress 3,120/5,842] Verified Clean: 2,750 | Remaining Flawed: 370 | Speed: 0.7 rows/sec | ETA: 60.6 min
+[2026-07-31 16:06:09] [INFO] [Two-Step Progress 3,200/5,842] Verified Clean: 2,812 | Remaining Flawed: 388 | Speed: 0.7 rows/sec | ETA: 58.9 min
+[2026-07-31 16:07:50] [INFO] [Two-Step Progress 3,280/5,842] Verified Clean: 2,878 | Remaining Flawed: 402 | Speed: 0.7 rows/sec | ETA: 57.0 min
+[2026-07-31 16:09:23] [INFO] [Two-Step Progress 3,360/5,842] Verified Clean: 2,948 | Remaining Flawed: 412 | Speed: 0.8 rows/sec | ETA: 55.1 min
+[2026-07-31 16:10:41] [INFO] [Two-Step Progress 3,440/5,842] Verified Clean: 3,020 | Remaining Flawed: 420 | Speed: 0.8 rows/sec | ETA: 53.0 min
+[2026-07-31 16:12:48] [INFO] [Two-Step Progress 3,520/5,842] Verified Clean: 3,087 | Remaining Flawed: 433 | Speed: 0.8 rows/sec | ETA: 51.4 min
+[2026-07-31 16:14:39] [INFO] [Two-Step Progress 3,600/5,842] Verified Clean: 3,153 | Remaining Flawed: 447 | Speed: 0.8 rows/sec | ETA: 49.7 min
+[2026-07-31 16:16:00] [INFO] [Two-Step Progress 3,680/5,842] Verified Clean: 3,215 | Remaining Flawed: 465 | Speed: 0.8 rows/sec | ETA: 47.7 min
+[2026-07-31 16:18:04] [INFO] [Two-Step Progress 3,760/5,842] Verified Clean: 3,281 | Remaining Flawed: 479 | Speed: 0.8 rows/sec | ETA: 46.1 min
+[2026-07-31 16:19:27] [INFO] [Two-Step Progress 3,840/5,842] Verified Clean: 3,347 | Remaining Flawed: 493 | Speed: 0.8 rows/sec | ETA: 44.1 min
+[2026-07-31 16:21:10] [INFO] [Two-Step Progress 3,920/5,842] Verified Clean: 3,417 | Remaining Flawed: 503 | Speed: 0.8 rows/sec | ETA: 42.3 min
+[2026-07-31 16:22:42] [INFO] [Two-Step Progress 4,000/5,842] Verified Clean: 3,484 | Remaining Flawed: 516 | Speed: 0.8 rows/sec | ETA: 40.5 min
+[2026-07-31 16:23:57] [INFO] [Two-Step Progress 4,080/5,842] Verified Clean: 3,550 | Remaining Flawed: 530 | Speed: 0.8 rows/sec | ETA: 38.5 min
+[2026-07-31 16:25:22] [INFO] [Two-Step Progress 4,160/5,842] Verified Clean: 3,624 | Remaining Flawed: 536 | Speed: 0.8 rows/sec | ETA: 36.6 min
+[2026-07-31 16:26:48] [INFO] [Two-Step Progress 4,240/5,842] Verified Clean: 3,692 | Remaining Flawed: 548 | Speed: 0.8 rows/sec | ETA: 34.7 min
+[2026-07-31 16:28:19] [INFO] [Two-Step Progress 4,320/5,842] Verified Clean: 3,765 | Remaining Flawed: 555 | Speed: 0.8 rows/sec | ETA: 32.9 min
+[2026-07-31 16:29:42] [INFO] [Two-Step Progress 4,400/5,842] Verified Clean: 3,835 | Remaining Flawed: 565 | Speed: 0.8 rows/sec | ETA: 31.1 min
+[2026-07-31 16:31:15] [INFO] [Two-Step Progress 4,480/5,842] Verified Clean: 3,904 | Remaining Flawed: 576 | Speed: 0.8 rows/sec | ETA: 29.3 min
+[2026-07-31 16:32:52] [INFO] [Two-Step Progress 4,560/5,842] Verified Clean: 3,975 | Remaining Flawed: 585 | Speed: 0.8 rows/sec | ETA: 27.6 min
+[2026-07-31 16:34:15] [INFO] [Two-Step Progress 4,640/5,842] Verified Clean: 4,040 | Remaining Flawed: 600 | Speed: 0.8 rows/sec | ETA: 25.8 min
+[2026-07-31 16:35:52] [INFO] [Two-Step Progress 4,720/5,842] Verified Clean: 4,106 | Remaining Flawed: 614 | Speed: 0.8 rows/sec | ETA: 24.0 min
+[2026-07-31 16:37:33] [INFO] [Two-Step Progress 4,800/5,842] Verified Clean: 4,162 | Remaining Flawed: 638 | Speed: 0.8 rows/sec | ETA: 22.3 min
+[2026-07-31 16:39:25] [INFO] [Two-Step Progress 4,880/5,842] Verified Clean: 4,222 | Remaining Flawed: 658 | Speed: 0.8 rows/sec | ETA: 20.6 min
+[2026-07-31 16:40:47] [INFO] [Two-Step Progress 4,960/5,842] Verified Clean: 4,282 | Remaining Flawed: 678 | Speed: 0.8 rows/sec | ETA: 18.8 min
+[2026-07-31 16:42:16] [INFO] [Two-Step Progress 5,040/5,842] Verified Clean: 4,348 | Remaining Flawed: 692 | Speed: 0.8 rows/sec | ETA: 17.1 min
+[2026-07-31 16:44:01] [INFO] [Two-Step Progress 5,120/5,842] Verified Clean: 4,419 | Remaining Flawed: 701 | Speed: 0.8 rows/sec | ETA: 15.4 min
+[2026-07-31 16:45:48] [INFO] [Two-Step Progress 5,200/5,842] Verified Clean: 4,481 | Remaining Flawed: 719 | Speed: 0.8 rows/sec | ETA: 13.7 min
+[2026-07-31 16:47:28] [INFO] [Two-Step Progress 5,280/5,842] Verified Clean: 4,547 | Remaining Flawed: 733 | Speed: 0.8 rows/sec | ETA: 12.0 min
+[2026-07-31 16:49:19] [INFO] [Two-Step Progress 5,360/5,842] Verified Clean: 4,612 | Remaining Flawed: 748 | Speed: 0.8 rows/sec | ETA: 10.3 min
+[2026-07-31 16:50:57] [INFO] [Two-Step Progress 5,440/5,842] Verified Clean: 4,681 | Remaining Flawed: 759 | Speed: 0.8 rows/sec | ETA: 8.6 min
+[2026-07-31 16:52:16] [INFO] [Two-Step Progress 5,520/5,842] Verified Clean: 4,747 | Remaining Flawed: 773 | Speed: 0.8 rows/sec | ETA: 6.9 min
+[2026-07-31 16:54:04] [INFO] [Two-Step Progress 5,600/5,842] Verified Clean: 4,811 | Remaining Flawed: 789 | Speed: 0.8 rows/sec | ETA: 5.2 min
+[2026-07-31 16:55:28] [INFO] [Two-Step Progress 5,680/5,842] Verified Clean: 4,876 | Remaining Flawed: 804 | Speed: 0.8 rows/sec | ETA: 3.4 min
+[2026-07-31 16:56:49] [INFO] [Two-Step Progress 5,760/5,842] Verified Clean: 4,942 | Remaining Flawed: 818 | Speed: 0.8 rows/sec | ETA: 1.7 min
+[2026-07-31 16:58:13] [INFO] [Two-Step Progress 5,840/5,842] Verified Clean: 5,004 | Remaining Flawed: 830 | Speed: 0.8 rows/sec | ETA: 0.0 min
+[2026-07-31 16:58:17] [INFO] [Two-Step Progress 5,848/5,842] Verified Clean: 5,012 | Remaining Flawed: 830 | Speed: 0.8 rows/sec | ETA: 0.0 min
+[2026-07-31 16:58:17] [INFO] ======================================================================
+[2026-07-31 16:58:17] [INFO] CLOSED-LOOP CORRECTION COMPLETE! SAVING TO corrected.csv...
+[2026-07-31 16:58:17] [INFO] ======================================================================
+[2026-07-31 16:58:17] [INFO] Saved 5,842 corrected rows to D:\dialect-norm\data\synthetic_parallel\corrected.csv.
+[2026-07-31 16:58:17] [INFO] Double-Verified Clean Rows: 5,012
+[2026-07-31 16:58:17] [INFO] Remaining Flawed Rows: 830
+[2026-07-31 16:58:17] [INFO] Note: Dataset files (d1.csv, d2.csv, d4.csv) were NOT modified.
+[2026-07-31 16:58:17] [INFO] ======================================================================
