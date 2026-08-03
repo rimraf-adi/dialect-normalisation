@@ -17,7 +17,12 @@ wheels/
 # Checkpoint JSON & Model weights
 *.json
 *_checkpoint.json
-models/
+models/**/best_model/
+models/**/checkpoint-*/
+models/**/base_model/
+models/**/logs/
+!models/**/cv_summary.json
+!models/**/cv_summary.yaml
 
 # Datasets and archives
 *.tar.gz

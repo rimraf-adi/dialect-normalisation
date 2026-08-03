@@ -1,0 +1,155 @@
+dataset_files:
+- data\synthetic_parallel\d1.csv
+- data\synthetic_parallel\d2.csv
+- data\synthetic_parallel\d4.csv
+total_samples: 16163
+train_pool_size: 13737
+test_set_size: 2426
+model_name: ai4bharat/IndicBART
+hyperparameters:
+  epochs: 5
+  batch_size: 16
+  gradient_accumulation_steps: 2
+  effective_batch_size: 32
+  learning_rate: 5.0e-05
+  weight_decay: 0.01
+  warmup_ratio: 0.1
+  early_stopping_patience: 2
+n_folds: 5
+avg_val_loss: 0.6914
+avg_val_bleu: 47.9261
+avg_val_chrf: 68.2778
+avg_test_loss: 0.6881
+avg_test_bleu: 48.1737
+avg_test_chrf: 68.5807
+fold_metrics:
+- fold: 1
+  train_samples: 10990
+  val_samples: 2747
+  train_loss: 2.2524
+  val_loss: 0.6923
+  val_bleu: 48.9187
+  val_chrf: 68.8728
+  test_loss: 0.6879
+  test_bleu: 48.3349
+  test_chrf: 68.7185
+  per_dialect_test_metrics:
+    D1:
+      test_samples: 837
+      test_loss: 0.8144
+      test_bleu: 26.0834
+      test_chrf: 52.9791
+    D2:
+      test_samples: 826
+      test_loss: 0.8302
+      test_bleu: 47.9192
+      test_chrf: 67.3621
+    D4:
+      test_samples: 763
+      test_loss: 0.4021
+      test_bleu: 73.0356
+      test_chrf: 85.9934
+- fold: 2
+  train_samples: 10990
+  val_samples: 2747
+  train_loss: 2.2419
+  val_loss: 0.7103
+  val_bleu: 46.366
+  val_chrf: 67.3571
+  test_loss: 0.6891
+  test_bleu: 48.1948
+  test_chrf: 68.669
+  per_dialect_test_metrics:
+    D1:
+      test_samples: 837
+      test_loss: 0.8165
+      test_bleu: 26.648
+      test_chrf: 53.5991
+    D2:
+      test_samples: 826
+      test_loss: 0.8315
+      test_bleu: 47.4816
+      test_chrf: 67.2026
+    D4:
+      test_samples: 763
+      test_loss: 0.4025
+      test_bleu: 72.4421
+      test_chrf: 85.4163
+- fold: 3
+  train_samples: 10990
+  val_samples: 2747
+  train_loss: 2.2514
+  val_loss: 0.6858
+  val_bleu: 47.6068
+  val_chrf: 68.086
+  test_loss: 0.6874
+  test_bleu: 48.2342
+  test_chrf: 68.5963
+  per_dialect_test_metrics:
+    D1:
+      test_samples: 837
+      test_loss: 0.8141
+      test_bleu: 26.4162
+      test_chrf: 53.3213
+    D2:
+      test_samples: 826
+      test_loss: 0.8301
+      test_bleu: 47.5608
+      test_chrf: 67.0559
+    D4:
+      test_samples: 763
+      test_loss: 0.4009
+      test_bleu: 72.7153
+      test_chrf: 85.6007
+- fold: 4
+  train_samples: 10990
+  val_samples: 2747
+  train_loss: 2.2524
+  val_loss: 0.6953
+  val_bleu: 48.5706
+  val_chrf: 68.7995
+  test_loss: 0.6886
+  test_bleu: 48.0611
+  test_chrf: 68.4507
+  per_dialect_test_metrics:
+    D1:
+      test_samples: 837
+      test_loss: 0.8161
+      test_bleu: 25.9508
+      test_chrf: 52.8152
+    D2:
+      test_samples: 826
+      test_loss: 0.8295
+      test_bleu: 47.6982
+      test_chrf: 67.3451
+    D4:
+      test_samples: 763
+      test_loss: 0.4031
+      test_bleu: 72.6723
+      test_chrf: 85.4007
+- fold: 5
+  train_samples: 10988
+  val_samples: 2749
+  train_loss: 2.2519
+  val_loss: 0.6735
+  val_bleu: 48.1686
+  val_chrf: 68.2736
+  test_loss: 0.6877
+  test_bleu: 48.0434
+  test_chrf: 68.4692
+  per_dialect_test_metrics:
+    D1:
+      test_samples: 837
+      test_loss: 0.8161
+      test_bleu: 25.9513
+      test_chrf: 53.0193
+    D2:
+      test_samples: 826
+      test_loss: 0.8278
+      test_bleu: 47.2945
+      test_chrf: 66.8427
+    D4:
+      test_samples: 763
+      test_loss: 0.4022
+      test_bleu: 72.8719
+      test_chrf: 85.7161

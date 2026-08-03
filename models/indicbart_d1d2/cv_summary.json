@@ -1,0 +1,89 @@
+{
+  "dataset_files": [
+    "data\\synthetic_parallel\\d1.csv",
+    "data\\synthetic_parallel\\d2.csv"
+  ],
+  "total_samples": 11077,
+  "train_pool_size": 9414,
+  "test_set_size": 1663,
+  "model_name": "ai4bharat/IndicBART",
+  "hyperparameters": {
+    "epochs": 5,
+    "batch_size": 16,
+    "gradient_accumulation_steps": 2,
+    "effective_batch_size": 32,
+    "learning_rate": 5e-05,
+    "weight_decay": 0.01,
+    "warmup_ratio": 0.1,
+    "early_stopping_patience": 2
+  },
+  "n_folds": 5,
+  "avg_val_loss": 0.8357,
+  "avg_val_bleu": 34.9653,
+  "avg_val_chrf": 58.2118,
+  "avg_test_loss": 0.8361,
+  "avg_test_bleu": 34.8277,
+  "avg_test_chrf": 58.4241,
+  "fold_metrics": [
+    {
+      "fold": 1,
+      "train_samples": 7532,
+      "val_samples": 1882,
+      "train_loss": 2.8161,
+      "val_loss": 0.8302,
+      "val_bleu": 36.9122,
+      "val_chrf": 59.6056,
+      "test_loss": 0.8361,
+      "test_bleu": 34.9835,
+      "test_chrf": 58.5637
+    },
+    {
+      "fold": 2,
+      "train_samples": 7532,
+      "val_samples": 1882,
+      "train_loss": 2.8075,
+      "val_loss": 0.848,
+      "val_bleu": 33.2598,
+      "val_chrf": 56.7745,
+      "test_loss": 0.8365,
+      "test_bleu": 34.6843,
+      "test_chrf": 58.2909
+    },
+    {
+      "fold": 3,
+      "train_samples": 7532,
+      "val_samples": 1882,
+      "train_loss": 2.8246,
+      "val_loss": 0.8274,
+      "val_bleu": 35.523,
+      "val_chrf": 58.8132,
+      "test_loss": 0.8355,
+      "test_bleu": 34.8174,
+      "test_chrf": 58.4143
+    },
+    {
+      "fold": 4,
+      "train_samples": 7532,
+      "val_samples": 1882,
+      "train_loss": 2.8059,
+      "val_loss": 0.8539,
+      "val_bleu": 33.3573,
+      "val_chrf": 56.925,
+      "test_loss": 0.8358,
+      "test_bleu": 34.718,
+      "test_chrf": 58.2945
+    },
+    {
+      "fold": 5,
+      "train_samples": 7528,
+      "val_samples": 1886,
+      "train_loss": 2.8351,
+      "val_loss": 0.8192,
+      "val_bleu": 35.7744,
+      "val_chrf": 58.9407,
+      "test_loss": 0.8367,
+      "test_bleu": 34.9352,
+      "test_chrf": 58.557
+    }
+  ]
+}

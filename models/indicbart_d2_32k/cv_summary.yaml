@@ -1,0 +1,74 @@
+dataset_files:
+- data\synthetic_parallel\d2.csv
+- data\synthetic-data\d2_aug.csv
+total_samples: 11035
+train_pool_size: 9379
+test_set_size: 1656
+model_name: ai4bharat/IndicBART
+hyperparameters:
+  epochs: 5
+  batch_size: 16
+  gradient_accumulation_steps: 2
+  effective_batch_size: 32
+  learning_rate: 5.0e-05
+  weight_decay: 0.01
+  warmup_ratio: 0.1
+  early_stopping_patience: 2
+n_folds: 5
+avg_val_loss: 0.8082
+avg_val_bleu: 42.9667
+avg_val_chrf: 63.8238
+avg_test_loss: 0.8423
+avg_test_bleu: 40.512
+avg_test_chrf: 62.2076
+fold_metrics:
+- fold: 1
+  train_samples: 7504
+  val_samples: 1875
+  train_loss: 2.8457
+  val_loss: 0.8156
+  val_bleu: 42.0249
+  val_chrf: 63.0282
+  test_loss: 0.8419
+  test_bleu: 39.7509
+  test_chrf: 61.5165
+- fold: 2
+  train_samples: 7504
+  val_samples: 1875
+  train_loss: 2.8527
+  val_loss: 0.8147
+  val_bleu: 42.9595
+  val_chrf: 63.5639
+  test_loss: 0.8433
+  test_bleu: 40.7435
+  test_chrf: 62.38
+- fold: 3
+  train_samples: 7504
+  val_samples: 1875
+  train_loss: 2.8481
+  val_loss: 0.8088
+  val_bleu: 42.9494
+  val_chrf: 64.2676
+  test_loss: 0.8419
+  test_bleu: 40.6373
+  test_chrf: 62.2798
+- fold: 4
+  train_samples: 7504
+  val_samples: 1875
+  train_loss: 2.8594
+  val_loss: 0.7989
+  val_bleu: 44.1514
+  val_chrf: 64.5991
+  test_loss: 0.842
+  test_bleu: 40.8139
+  test_chrf: 62.4977
+- fold: 5
+  train_samples: 7500
+  val_samples: 1879
+  train_loss: 2.85
+  val_loss: 0.8032
+  val_bleu: 42.7483
+  val_chrf: 63.6603
+  test_loss: 0.8423
+  test_bleu: 40.6144
+  test_chrf: 62.3642

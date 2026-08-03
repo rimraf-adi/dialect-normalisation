@@ -1,0 +1,64 @@
+{
+  "dataset_files": [
+    "data\\synthetic_parallel\\d1.csv"
+  ],
+  "total_samples": 5576,
+  "train_pool_size": 4182,
+  "test_set_size": 1394,
+  "model_name": "ai4bharat/IndicBART",
+  "hyperparameters": {
+    "epochs": 5,
+    "batch_size": 16,
+    "gradient_accumulation_steps": 2,
+    "effective_batch_size": 32,
+    "learning_rate": 5e-05,
+    "weight_decay": 0.01,
+    "warmup_ratio": 0.1,
+    "early_stopping_patience": 2
+  },
+  "n_folds": 3,
+  "avg_val_loss": 1.3727,
+  "avg_val_bleu": 25.3449,
+  "avg_val_chrf": 69.2136,
+  "avg_test_loss": 1.3632,
+  "avg_test_bleu": 26.802,
+  "avg_test_chrf": 69.9535,
+  "fold_metrics": [
+    {
+      "fold": 1,
+      "train_samples": 2788,
+      "val_samples": 1394,
+      "train_loss": 4.3636,
+      "val_loss": 1.3922,
+      "val_bleu": 26.4144,
+      "val_chrf": 69.8925,
+      "test_loss": 1.3638,
+      "test_bleu": 28.1593,
+      "test_chrf": 70.8778
+    },
+    {
+      "fold": 2,
+      "train_samples": 2788,
+      "val_samples": 1394,
+      "train_loss": 4.3684,
+      "val_loss": 1.363,
+      "val_bleu": 28.314,
+      "val_chrf": 71.3343,
+      "test_loss": 1.3608,
+      "test_bleu": 29.6367,
+      "test_chrf": 71.9935
+    },
+    {
+      "fold": 3,
+      "train_samples": 2788,
+      "val_samples": 1394,
+      "train_loss": 4.3917,
+      "val_loss": 1.3629,
+      "val_bleu": 21.3062,
+      "val_chrf": 66.4139,
+      "test_loss": 1.3649,
+      "test_bleu": 22.61,
+      "test_chrf": 66.9891
+    }
+  ]
+}
