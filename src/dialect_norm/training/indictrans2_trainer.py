@@ -1,7 +1,11 @@
 """
 AI4Bharat IndicTrans2 (dist-200M) Fine-tuning Engine for Marathi Dialect Normalization.
+Official Tokenization & Loading Standards:
+- Uses official AI4Bharat `IndicProcessor` from `IndicTransToolkit`.
+- Language tag: `mar_Deva` (Marathi Devanagari).
+- `IndicProcessor.preprocess_batch` handles Devanagari script normalization and language tagging.
 Supports 85/15 Stratified Train-Test Split and 5-Fold Cross-Validation.
-Computes BLEU, chrF++, Test Loss, and per-dialect breakdown (D1, D2, D4).
+Computes BLEU, chrF++, Test Loss.
 """
 
 import csv
@@ -27,31 +31,45 @@ from transformers import (
     Seq2SeqTrainingArguments,
 )
 
+try:
+    from IndicTransToolkit.processor import IndicProcessor
+    HAS_INDIC_PROCESSOR = True
+except ImportError:
+    HAS_INDIC_PROCESSOR = False
+
 logger = logging.getLogger("dialect_norm.training.indictrans2")
 
 # ---------------------------------------------------------------------------
-# Dataset for IndicTrans2
+# Dataset for IndicTrans2 using official IndicProcessor
 # ---------------------------------------------------------------------------
 
 class IndicTrans2DialectDataset(Dataset):
     """
-    IndicTrans2 dataset using 'mar_Deva' language tag.
+    IndicTrans2 dataset using IndicProcessor for 'mar_Deva'.
     """
     def __init__(self, data: List[Dict[str, str]], tokenizer, max_input_len: int = 128, max_target_len: int = 128):
         self.data = data
         self.tokenizer = tokenizer
         self.max_input_len = max_input_len
         self.max_target_len = max_target_len
+        
+        if HAS_INDIC_PROCESSOR:
+            self.ip = IndicProcessor(inference=False)
+            src_texts = [d['dialect_text'] for d in data]
+            tgt_texts = [d['standard_text'] for d in data]
+            self.processed_src = self.ip.preprocess_batch(src_texts, src_lang="mar_Deva", tgt_lang="mar_Deva")
+            self.processed_tgt = self.ip.preprocess_batch(tgt_texts, src_lang="mar_Deva", tgt_lang="mar_Deva")
+        else:
+            self.processed_src = [d['dialect_text'] for d in data]
+            self.processed_tgt = [d['standard_text'] for d in data]
 
     def __len__(self):
         return len(self.data)
 
     def __getitem__(self, idx):
-        item = self.data[idx]
-        src_text = item['dialect_text']
-        tgt_text = item['standard_text']
+        src_text = self.processed_src[idx]
+        tgt_text = self.processed_tgt[idx]
 
-        # Ensure language tags are set on tokenizer if supported
         if hasattr(self.tokenizer, "src_lang"):
             self.tokenizer.src_lang = "mar_Deva"
         if hasattr(self.tokenizer, "tgt_lang"):
@@ -126,6 +144,14 @@ def compute_metrics_builder(tokenizer):
         decoded_preds = tokenizer.batch_decode(preds, skip_special_tokens=True)
         decoded_labels = tokenizer.batch_decode(labels, skip_special_tokens=True)
 
+        # Post-process with IndicProcessor if available
+        if HAS_INDIC_PROCESSOR:
+            ip = IndicProcessor(inference=True)
+            try:
+                decoded_preds = ip.postprocess_batch(decoded_preds, lang="mar_Deva")
+            except Exception:
+                pass
+
         decoded_preds = [p.strip() for p in decoded_preds]
         decoded_labels = [[l.strip()] for l in decoded_labels]
 
@@ -172,6 +198,7 @@ def run_cross_validation_indictrans2(
 
     output_dir.mkdir(parents=True, exist_ok=True)
     logger.info(f"=== Starting IndicTrans2 Fine-tuning ({model_name}) ===")
+    logger.info(f"IndicProcessor Active: {HAS_INDIC_PROCESSOR}")
     logger.info(f"Total Dataset Size: {len(data):,} pairs")
 
     # 1. Stratified / Random Split into 85% Train Pool and 15% Held-out Test

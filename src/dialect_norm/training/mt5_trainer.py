@@ -1,7 +1,11 @@
 """
 google/mT5 Fine-tuning Engine for Marathi Dialect Normalization.
+Official Tokenization & Loading Standards:
+- mT5 (Multilingual T5) was pre-trained without task prefixes on raw mC4 corpus.
+- Input: raw dialect_text (e.g. 'माका शेतात बाजरी पिकावण्यासाठी खय जागा आसा?')
+- Target: raw standard_text (e.g. 'मला शेतात बाजरी पिकण्यासाठी कुठे जागा आहे?')
 Supports 85/15 Stratified Train-Test Split and 5-Fold Cross-Validation.
-Computes BLEU, chrF++, Test Loss, and per-dialect breakdown (D1, D2, D4).
+Computes BLEU, chrF++, Test Loss.
 """
 
 import csv
@@ -30,12 +34,12 @@ from transformers import (
 logger = logging.getLogger("dialect_norm.training.mt5")
 
 # ---------------------------------------------------------------------------
-# Dataset for mT5
+# Dataset for mT5 (Standard Raw Sentence Pair Mapping)
 # ---------------------------------------------------------------------------
 
 class MT5DialectDataset(Dataset):
     """
-    mT5 text-to-text dataset with task prefix 'normalize Marathi dialect to standard: '.
+    mT5 dataset using clean raw sentence pair mapping.
     """
     def __init__(self, data: List[Dict[str, str]], tokenizer, max_input_len: int = 128, max_target_len: int = 128):
         self.data = data
@@ -48,7 +52,7 @@ class MT5DialectDataset(Dataset):
 
     def __getitem__(self, idx):
         item = self.data[idx]
-        src_text = f"normalize Marathi dialect to standard: {item['dialect_text']}"
+        src_text = item['dialect_text']
         tgt_text = item['standard_text']
 
         inputs = self.tokenizer(
@@ -171,7 +175,7 @@ def run_cross_validation_mt5(
     # 1. Stratified / Random Split into 85% Train Pool and 15% Held-out Test
     indices = list(range(len(data)))
     random.shuffle(indices)
-    
+
     test_size = int(len(data) * test_ratio)
     test_indices = indices[:test_size]
     train_pool_indices = indices[test_size:]
@@ -207,7 +211,7 @@ def run_cross_validation_mt5(
         val_dataset = MT5DialectDataset(val_data, tokenizer)
 
         model = AutoModelForSeq2SeqLM.from_pretrained(model_name)
-        
+
         fold_output_dir = output_dir / f"fold_{fold + 1}"
         fold_output_dir.mkdir(parents=True, exist_ok=True)
 
