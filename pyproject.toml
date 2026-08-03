@@ -53,6 +53,9 @@ train-indicbart-d2-32k = "dialect_norm.training.indicbart_trainer:cli_train_d2_3
 train-indicbart-d4-32k = "dialect_norm.training.indicbart_trainer:cli_train_d4_32k"
 train-indicbart-all-32k = "dialect_norm.training.indicbart_trainer:cli_train_all_32k"
 
+train-mt5-all-32k = "dialect_norm.training.mt5_trainer:train_mt5_all_32k"
+train-indictrans2-all-32k = "dialect_norm.training.indictrans2_trainer:train_indictrans2_all_32k"
+
 
 
 [tool.setuptools.packages.find]
