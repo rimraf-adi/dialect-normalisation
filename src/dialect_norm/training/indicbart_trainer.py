@@ -553,3 +553,42 @@ def cli_train_all():
         csv_paths=[DATA_DIR / "d1.csv", DATA_DIR / "d2.csv", DATA_DIR / "d4.csv"],
         output_dir=Path("models/indicbart_combined"),
     )
+
+
+def cli_train_d1_32k():
+    """Train IndicBART on D1 Malvani Original (5,576) + Synthetic (5,569) Combined (11,145 clean pairs)."""
+    train_indicbart_3fold_cv(
+        csv_paths=[DATA_DIR / "d1.csv", Path("data/synthetic-data/d1_aug.csv")],
+        output_dir=Path("models/indicbart_d1_32k"),
+    )
+
+
+def cli_train_d2_32k():
+    """Train IndicBART on D2 Ahirani Original (5,501) + Synthetic (5,534) Combined (11,035 clean pairs)."""
+    train_indicbart_3fold_cv(
+        csv_paths=[DATA_DIR / "d2.csv", Path("data/synthetic-data/d2_aug.csv")],
+        output_dir=Path("models/indicbart_d2_32k"),
+    )
+
+
+def cli_train_d4_32k():
+    """Train IndicBART on D4 Varhadi Original (5,086) + Synthetic (5,069) Combined (10,155 clean pairs)."""
+    train_indicbart_3fold_cv(
+        csv_paths=[DATA_DIR / "d4.csv", Path("data/synthetic-data/d4_aug.csv")],
+        output_dir=Path("models/indicbart_d4_32k"),
+    )
+
+
+def cli_train_all_32k():
+    """Train IndicBART on D1 + D2 + D4 Original (16,163) + Synthetic (16,172) Combined (32,335 clean pairs)."""
+    train_indicbart_3fold_cv(
+        csv_paths=[
+            DATA_DIR / "d1.csv",
+            DATA_DIR / "d2.csv",
+            DATA_DIR / "d4.csv",
+            Path("data/synthetic-data/all_aug.csv"),
+        ],
+        output_dir=Path("models/indicbart_combined_32k"),
+    )
+
+

@@ -48,6 +48,10 @@ train-indicbart-d2 = "dialect_norm.training.indicbart_trainer:cli_train_d2"
 train-indicbart-d4 = "dialect_norm.training.indicbart_trainer:cli_train_d4"
 train-indicbart-d1d2 = "dialect_norm.training.indicbart_trainer:cli_train_d1d2"
 train-indicbart-all = "dialect_norm.training.indicbart_trainer:cli_train_all"
+train-indicbart-d1-32k = "dialect_norm.training.indicbart_trainer:cli_train_d1_32k"
+train-indicbart-d2-32k = "dialect_norm.training.indicbart_trainer:cli_train_d2_32k"
+train-indicbart-d4-32k = "dialect_norm.training.indicbart_trainer:cli_train_d4_32k"
+train-indicbart-all-32k = "dialect_norm.training.indicbart_trainer:cli_train_all_32k"
 
 
 

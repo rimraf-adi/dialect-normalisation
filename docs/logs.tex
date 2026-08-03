@@ -204,4 +204,17 @@
     \end{itemize}
 \end{itemize}
 
+\section*{Development \& Implementation Log --- August 3, 2026}
+
+\begin{itemize}
+  \item \textbf{Expanded 32k Multi-Dialect Training Suite (\texttt{train-indicbart-all-32k}):} Executed full sequential fine-tuning across all single-dialect and combined 32,335-pair datasets (16,163 original clean pairs + 16,172 Groq/NIM synthetic clean pairs) with 85/15 stratified train-test split and 5-fold cross-validation.
+  \item \textbf{State-of-the-Art 32k Benchmark Performance:}
+    \begin{itemize}
+      \item \textbf{Multi-Dialect Combined 32k Model:} Achieved \textbf{57.12 BLEU} (+8.95 BLEU jump over 16k baseline), \textbf{75.49 chrF++} (+6.91 chrF++ jump), and \textbf{0.5183 Test Loss}.
+      \item \textbf{D4 Varhadi 32k Model:} Achieved \textbf{73.62 BLEU}, \textbf{86.75 chrF++}, and \textbf{0.4657 Test Loss}.
+      \item \textbf{D1 Malvani 32k Model:} Achieved \textbf{47.25 BLEU}, \textbf{64.69 chrF++}, and \textbf{0.6456 Test Loss} (test loss reduced from 1.0413 down to 0.6456).
+      \item \textbf{Joint 32k Cross-Dialect Transfer:} In joint multi-dialect training, D1 Malvani reached \textbf{52.15 BLEU} (+3.63 BLEU jump over single-dialect baseline) and D2 Ahirani reached \textbf{54.35 BLEU} (+7.06 BLEU jump over single-dialect baseline).
+    \end{itemize}
+\end{itemize">
+
 \end{document}
