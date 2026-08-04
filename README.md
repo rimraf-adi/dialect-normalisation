@@ -11,7 +11,7 @@ An automated evaluation and fine-tuning framework for benchmarking:
 | Model Architecture | Combined 16k BLEU | **Combined 32k BLEU** | **Varhadi D4 Peak BLEU** | **Malvani D1 Peak BLEU** | **Ahirani D2 Peak BLEU** |
 | :--- | :---: | :---: | :---: | :---: | :---: |
 | `ai4bharat/IndicBART` (244M) | 48.17 | **57.12** | 73.62 | 52.15 | 54.35 |
-| **`google/mt5-small` (300M)** | **63.29** 🚀 | **69.67** 🚀 | **80.99** 🔥 | **65.10** 🚀 | **62.07** 🚀 |
+| **`google/mt5-small` (300M)** | **63.29** 🚀 | **69.51** 🚀 | **80.99** 🔥 | **65.10** 🚀 | **62.07** 🚀 |
 
 *Detailed comparative analysis is documented in [docs/results.md](file:///d:/dialect-norm/docs/results.md).*
 
