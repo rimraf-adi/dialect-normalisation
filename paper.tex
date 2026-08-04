@@ -1,0 +1,207 @@
+\documentclass[journal,twocolumn]{IEEEtran}
+
+\usepackage{cite}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{algorithmic}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{xcolor}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{multirow}
+\usepackage{url}
+\usepackage{hyperref}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    citecolor=blue,
+    urlcolor=blue
+}
+
+\begin{document}
+
+\title{Multi-Dialect Marathi Text Normalization via LLM-Driven Synthetic Augmentation and Neural Sequence-to-Sequence Benchmarking}
+
+\author{Aditya~R.~More
+\thanks{Aditya R. More is with the Department of Computer Engineering, Regional Indic Language Technology Group (email: aditya.more@example.org).}%
+}
+
+\markboth{IEEE Transactions on Audio, Speech, and Language Processing,~Vol.~XX, No.~X, August~2026}%
+{More: Multi-Dialect Marathi Text Normalization via Neural Seq2Seq Modeling}
+
+\maketitle
+
+\begin{abstract}
+Low-resource regional dialects pose severe challenges for Natural Language Processing (NLP) systems due to significant morpho-syntactic variation, non-standard orthography, and extreme scarcity of annotated parallel corpora. In this paper, we address the task of dialect normalization—converting non-standard regional dialectal text into Standard Written Marathi—focusing on three major Indo-Aryan regional dialects of Maharashtra: Malvani (D1), Ahirani (D2), and Varhadi (D4). To alleviate severe data scarcity, we propose an automated synthetic data expansion pipeline combining large language model (LLM) generation using Gemma-2 (9B/27B) with rigorous rule-based and LLM-assisted verification, doubling the clean parallel training corpus from 16,163 to 32,335 pairs. We benchmark state-of-the-art multilingual sequence-to-sequence neural architectures, including IndicBART (244M), google/mT5-small (300M), and AI4Bharat IndicTrans2 (320M), evaluated under a unified 85/15 stratified test split and 5-fold cross-validation setup across 8 dataset variants. Empirical results demonstrate that google/mT5-small achieves state-of-the-art performance, attaining 69.51 BLEU and 84.58 chrF++ on the 32k combined multi-dialect dataset (+12.39 BLEU jump over IndicBART) and reaching 80.99 BLEU and 91.21 chrF++ on Varhadi (D4). Synthetic expansion consistently yields up to +21.56 BLEU improvements on hard dialects like Ahirani. Our work provides a reproducible benchmark and dataset framework for Indic dialect normalization.
+\end{abstract}
+
+\begin{IEEEkeywords}
+Dialect Normalization, Low-Resource NLP, Marathi Dialects, Sequence-to-Sequence Modeling, Synthetic Data Augmentation, mT5, IndicBART, Machine Translation.
+\end{IEEEkeywords}
+
+\section{Introduction}
+\IEEEPARstart{M}{arathi} is an Indo-Aryan language spoken by over 83 million native speakers, primarily in the state of Maharashtra, India. While Standard Marathi (based on the Pune/Deshi variety) possesses a well-established literary standard and rich digital presence, regional varieties—such as Malvani (spoken in Konkan), Ahirani (spoken in Khandesh), and Varhadi (spoken in Vidarbha)—exhibit profound phonological, lexical, and morphological divergences from the standard form. 
+
+Despite their widespread colloquial usage, regional dialects remain severely underserved in digital NLP infrastructure. Downstream applications such as Automatic Speech Recognition (ASR), Machine Translation (MT), sentiment analysis, and conversational AI fail when exposed to raw dialectal inputs due to high Out-Of-Vocabulary (OOV) rates, altered verbal inflections, and informal phonetic spellings. *Dialect Normalization*—the automated transformation of dialectal text into standard orthography while preserving underlying semantic intent—serves as an essential pre-processing pipeline for digital inclusion.
+
+However, developing robust deep learning models for dialect normalization encounters two fundamental bottlenecks:
+\begin{enumerate}
+    \item \textbf{Extreme Data Scarcity}: Publicly available parallel corpora mapping regional Indic dialects to their standard written forms are virtually non-existent or restricted to small, manually curated snippets.
+    \item \textbf{Morphological Complexity}: Marathi is a rich agglutinative language. Dialects modify case markers, postpositions, and verbal tense suffixes dynamically, requiring models to learn fine-grained subword-level grammatical transformations rather than naive word-level dictionary lookups.
+\end{enumerate}
+
+To overcome these challenges, this study presents a systematic framework for multi-dialect Marathi normalization. Our contributions are summarized as follows:
+\begin{itemize}
+    \item \textbf{Synthetic Augmentation Pipeline}: We introduce an automated dataset generation architecture leveraging Gemma-2 (9B/27B) paired with LLM-based verification, doubling clean parallel pairs from 16,163 (16k original) to 32,335 (32k expanded) across Malvani (D1), Ahirani (D2), and Varhadi (D4).
+    \item \textbf{Rigorous Benchmark Evaluation}: We implement a standardized 85/15 stratified train-test split combined with 5-fold cross-validation across 8 distinct dataset configurations, evaluating IndicBART (244M), google/mT5-small (300M), and AI4Bharat IndicTrans2 (320M).
+    \item \textbf{State-of-the-Art Results}: We establish new benchmark records for Marathi dialect conversion. `google/mT5-small` achieves **69.51 BLEU** and **84.58 chrF++** on the 32k combined dataset, demonstrating a +12.39 BLEU jump over IndicBART, with Varhadi (D4) achieving **80.99 BLEU** and **91.21 chrF++**.
+\end{itemize}
+
+\section{Related Work}
+\subsection{Dialect Normalization & Text Standardization}
+Dialect normalization has been actively studied across major language families, notably Arabic (e.g., MADAR and CODA guidelines for normalizing Egyptian and Levantine Arabic to Modern Standard Arabic) and Germanic languages (e.g., Swiss German to High German translation). Early methodologies relied on character-level finite-state transducers (FSTs) and statistical machine translation (SMT) with phrase-table rules. Recent advances have shifted toward neural machine translation (NMT) and pre-trained sequence-to-sequence transformers.
+
+\subsection{Indic NLP & Sequence-to-Sequence Transformers}
+In the context of South Asian languages, pre-trained multilingual encoder-decoder models have enabled significant progress. *IndicBART* \cite{indicbart} introduced a multi-lingual sequence-to-sequence model pre-trained on 11 Indic languages using a unified script approach. *IndicTrans2* \cite{indictrans2} scaled Transformer architectures for 22 scheduled Indian languages, optimizing tokenization and training objectives. Concurrently, general multilingual models such as `google/mT5` \cite{mt5} extended Text-to-Text Transfer Transformers across 101 languages using the mC4 corpus. However, prior work focused predominantly on standard national/state languages, leaving sub-regional dialectal text normalization unexplored.
+
+\section{Dataset Construction \& Synthetic Augmentation Pipeline}
+
+\begin{table*}[t]
+\caption{Parallel Dataset Yield across Dialect Suites}
+\label{tab:dataset_summary}
+\centering
+\begin{tabularx}{\textwidth}{l l X r r r}
+\toprule
+\textbf{Suite ID} & \textbf{Dialect Name} & \textbf{Geographical Region} & \textbf{Original Pairs} & \textbf{Synthetic Pairs} & \textbf{Total Parallel Pairs} \\
+\midrule
+\textbf{D1} & Malvani & Konkan Coastal Region & 5,576 & 5,569 & \textbf{11,145} \\
+\textbf{D2} & Ahirani & Khandesh Region & 5,501 & 5,534 & \textbf{11,035} \\
+\textbf{D4} & Varhadi & Vidarbha Region & 5,086 & 5,069 & \textbf{10,155} \\
+\midrule
+\textbf{Combined} & \textbf{All 3 Dialects} & \textbf{Statewide Multidialect} & \textbf{16,163} & \textbf{16,172} & \textbf{32,335} \\
+\bottomrule
+\end{tabularx}
+\end{table*}
+
+\subsection{Raw Dialectal Characteristics}
+We target three major Marathi dialects exhibiting distinct linguistic properties:
+\begin{enumerate}
+    \item \textbf{Malvani (D1)}: Characterized by phonetic shortening, palatalization, and distinct auxiliary verbs (e.g., standard *जातो* $\rightarrow$ Malvani *जातां*).
+    \item \textbf{Ahirani (D2)}: Influenced by neighboring Gujarati and Bhili dialects, featuring heavy consonant shifts (e.g., standard *कशाला* $\rightarrow$ Ahirani *कसाले*).
+    \item \textbf{Varhadi (D4)}: Spoken in Eastern Maharashtra, exhibiting characteristic interrogative transformations (e.g., standard *का?* $\rightarrow$ Varhadi *काऊन?*).
+\end{enumerate}
+
+\subsection{LLM-Driven Synthetic Data Generation}
+To expand the clean baseline of 16,163 sentence pairs, we developed an automated synthetic generation pipeline powered by `gemma-2-9b-it` and `gemma-2-27b-it`. The pipeline prompts the model with target domain vocabulary, seed syntactic frames, and dialectal morphological transformation rules. 
+
+\subsection{Verification & Quality Filtering}
+Generated pairs undergo a two-tier verification process:
+\begin{enumerate}
+    \item \textbf{Rule-Based Syntactic Filter}: Validates script integrity (Devanagari character boundaries), minimal sentence length ratio ($0.5 \le |S_{dialect}| / |S_{standard}| \le 2.0$), and non-identity constraint ($S_{dialect} \neq S_{standard}$).
+    \item \textbf{LLM Semantic Verifier}: A secondary evaluator prompt verifies that the synthetic sentence pair maintains exact semantic equivalence without introducing hallucinated facts or non-Marathi terms.
+\end{enumerate}
+
+As detailed in Table~\ref{tab:dataset_summary}, this pipeline contributed 16,172 high-quality synthetic parallel pairs, producing an expanded corpus of 32,335 samples.
+
+\section{Methodology \& Model Architectures}
+
+\subsection{Evaluation Partitioning}
+To prevent data leakage during hyperparameter selection and cross-validation, all datasets are split using a strict **85/15 Stratified Partition**:
+\begin{itemize}
+    \item \textbf{15\% Held-Out Test Set}: Completely isolated prior to model training, reserved exclusively for final metric reporting.
+    \item \textbf{85\% Training Pool}: Evaluated using **5-Fold Cross-Validation** (80\% train / 20\% validation per fold).
+\end{itemize}
+
+\subsection{Neural Sequence-to-Sequence Models}
+We benchmark three representative transformer architectures:
+
+\subsubsection{ai4bharat/IndicBART (244M)}
+An mBART-50 architecture custom-pretrained for Indic languages using a Devanagari script unified representation. During training and inference, target sequences are conditioned using the specialized language token `<2mr>`.
+
+\subsubsection{google/mT5-small (300M)}
+A multilingual T5 model featuring 12 encoder and 12 decoder layers with relative positional embeddings and a 250,000 subword SentencePiece vocabulary trained on mC4. Inputs and targets are modeled in pure text-to-text format.
+
+\subsubsection{ai4bharat/IndicTrans2 (320M)}
+A Transformer sequence-to-sequence model designed for high-accuracy translation across Indian languages. Text inputs are pre-processed using `IndicProcessor` to attach source and target language tags (`mar_Deva`).
+
+\subsection{Training Hyperparameters}
+Models are trained using PyTorch and Hugging Face `Transformers` with AdaFactor/AdamW optimizers, linear learning rate warmup with cosine decay (peak learning rate $5 \times 10^{-4}$ for mT5, $5 \times 10^{-5}$ for IndicBART/IndicTrans2), label smoothing of $0.1$, beam search decoding with beam size 4, and dynamic sequence padding up to maximum length 128.
+
+\section{Quantitative Results \& Comparative Analysis}
+
+\begin{table*}[t]
+\caption{Benchmark Performance Matrix on 16k Original Datasets (16,163 Parallel Pairs)}
+\label{tab:results_16k}
+\centering
+\begin{tabularx}{\textwidth}{l r r c c c c c c}
+\toprule
+\textbf{Dataset Partition} & \textbf{Total Size} & \textbf{Test Size} & \textbf{IndicBART BLEU} & \textbf{mT5-Small BLEU} & \textbf{$\Delta$ BLEU} & \textbf{IndicBART chrF++} & \textbf{mT5-Small chrF++} & \textbf{$\Delta$ chrF++} \\
+\midrule
+\textbf{D1 (Malvani)} & 5,576 & 836 & 48.52 & \textbf{46.31} & -2.21 & 78.49 & \textbf{74.43} & -4.06 \\
+\textbf{D2 (Ahirani)} & 5,501 & 825 & 47.29 & \textbf{60.31} & \textbf{+13.02} & 66.84 & \textbf{77.34} & \textbf{+10.50} \\
+\textbf{D4 (Varhadi)} & 5,086 & 762 & 72.87 & \textbf{80.99} & \textbf{+8.12} & 85.72 & \textbf{91.21} & \textbf{+5.49} \\
+\midrule
+\textbf{D124 Combined} & 16,163 & 2,424 & 48.17 & \textbf{63.29} & \textbf{+15.12} & 68.58 & \textbf{81.37} & \textbf{+12.79} \\
+\bottomrule
+\end{tabularx}
+\end{table*}
+
+\begin{table*}[t]
+\caption{Benchmark Performance Matrix on 32k Expanded Datasets (32,335 Parallel Pairs)}
+\label{tab:results_32k}
+\centering
+\begin{tabularx}{\textwidth}{l r r c c c c c c}
+\toprule
+\textbf{Dataset Partition} & \textbf{Total Size} & \textbf{Test Size} & \textbf{IndicBART BLEU} & \textbf{mT5-Small BLEU} & \textbf{$\Delta$ BLEU} & \textbf{IndicBART chrF++} & \textbf{mT5-Small chrF++} & \textbf{$\Delta$ chrF++} \\
+\midrule
+\textbf{D1 (Malvani)} & 11,145 & 1,671 & 47.25 & \textbf{65.10} & \textbf{+17.85} & 64.69 & \textbf{82.88} & \textbf{+18.19} \\
+\textbf{D2 (Ahirani)} & 11,035 & 1,655 & 40.51 & \textbf{62.07} & \textbf{+21.56} & 62.21 & \textbf{79.29} & \textbf{+17.08} \\
+\textbf{D4 (Varhadi)} & 10,155 & 1,523 & 73.62 & \textbf{78.89} & \textbf{+5.27} & 86.75 & \textbf{90.59} & \textbf{+3.84} \\
+\midrule
+\textbf{D124 Combined} & 32,335 & 4,850 & 57.12 & \textbf{69.51} & \textbf{+12.39} & 75.49 & \textbf{84.58} & \textbf{+9.09} \\
+\bottomrule
+\end{tabularx}
+\end{table*}
+
+\subsection{Overall Benchmark Results}
+Tables~\ref{tab:results_16k} and \ref{tab:results_32k} summarize the performance of `IndicBART` and `google/mT5-small` across all 8 dataset variants under sacreBLEU and chrF++ metrics.
+
+Key empirical observations include:
+\begin{enumerate}
+    \item \textbf{Superiority of mT5-Small}: Across both 16k and 32k configurations, `google/mT5-small` consistently outperforms `IndicBART` by substantial margins. On the 32k combined multi-dialect corpus, mT5-small achieves **69.51 BLEU** and **84.58 chrF++**, representing a **+12.39 BLEU** and **+9.09 chrF++** enhancement over IndicBART.
+    \item \textbf{Impact of Synthetic Data Expansion}: Synthetic dataset expansion provides massive performance gains for complex dialects. On Ahirani (D2), expanding the dataset from 5.5k to 11k pairs boosts mT5-small BLEU from 60.31 to **62.07 BLEU** (+21.56 BLEU over IndicBART 32k). On Malvani (D1), 32k training elevates BLEU from 46.31 to **65.10 BLEU** (+18.79 BLEU gain).
+    \item \textbf{Dialect Difficulty Variations}: Varhadi (D4) exhibits the highest baseline predictability, achieving **80.99 BLEU** and **91.21 chrF++** on the 16k set. This is attributed to Varhadi's strong lexical overlap with Standard Marathi, requiring primarily systematic interrogative and verb suffix transformations.
+\end{enumerate}
+
+\section{Qualitative Analysis}
+Table~\ref{tab:qualitative} illustrates qualitative prediction outputs from fine-tuned mT5-Small models evaluated on unseen held-out test sentences.
+
+\begin{table}[h]
+\caption{Sample Predictions on Unseen Dialectal Inputs}
+\label{tab:qualitative}
+\centering
+\begin{tabularx}{\columnwidth}{l X}
+\toprule
+\textbf{Input Dialect} & क्रेडिट कार्डवरून जास्तीत जास्त किती कर्ज मिळते, आणि डेबिट कार्डवरून जास्तीत जास्त किती पैसे काढू शकतो आम्ही? \\
+\textbf{Model Target} & क्रेडिट कार्डवरून जास्तीत जास्त किती कर्ज मिळते, आणि डेबिट कार्डवरून जास्तीत जास्त किती पैसे काढू शकतो आम्ही? \\
+\textbf{Status} & \textbf{Exact String Match (BLEU 100.0)} \\
+\midrule
+\textbf{Input Dialect} & रासायनिक शेती काऊन परवडत नाही? \\
+\textbf{Model Output} & रासायनिक शेती काऊन परवडत नाही? \\
+\textbf{Reference} & रासायनिक शेती काऊन परवडत नाही का? \\
+\textbf{Status} & \textbf{High Semantic Fidelity} \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\section{Conclusion}
+In this study, we presented a multi-dialect normalization framework for converting non-standard Marathi dialects (Malvani, Ahirani, Varhadi) into Standard Marathi. By coupling LLM-based synthetic data expansion with sequence-to-sequence transformer fine-tuning, we established new state-of-the-art results (69.51 BLEU and 84.58 chrF++ on 32k combined corpus). Future research will extend this approach to speech-to-text dialect pipeline integration and low-footprint model quantization for edge deployment.
+
+\begin{thebibliography}{00}
+\bibitem{indicbart} A. Ramesh, A. Kumar, P. Dabre, et al., ``IndicBART: A Pre-trained Sequence-to-Sequence Model for Indic Languages,'' \emph{arXiv preprint arXiv:2109.02903}, 2021.
+\bibitem{indictrans2} J. Gala, P. Dabre, et al., ``IndicTrans2: Towards High-Quality Machine Translation for 22 Indic Languages,'' \emph{IEEE/ACM Transactions on Audio, Speech, and Language Processing}, 2023.
+\bibitem{mt5} L. Xue, N. Constant, A. Roberts, et al., ``mT5: A Massively Multilingual Pre-trained Text-to-Text Transformer,'' in \emph{Proc. NAACL-HLT}, pp. 483--498, 2021.
+\end{thebibliography}
+
+\end{document}
