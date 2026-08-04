@@ -1,9 +1,11 @@
 """
 Sequential Runner Suite for IndicTrans2 across all 16k and 32k variants (D1, D2, D4, D124).
+Skips variants that already have a completed cv_summary.yaml.
 """
 
 import sys
 import logging
+from pathlib import Path
 from dialect_norm.training.indictrans2_trainer import (
     train_indictrans2_d1_16k,
     train_indictrans2_d2_16k,
@@ -20,14 +22,14 @@ logger = logging.getLogger("sequential_indictrans2_suite")
 
 def main():
     variants = [
-        ("D1 16k (Malvani Original)", train_indictrans2_d1_16k),
-        ("D2 16k (Ahirani Original)", train_indictrans2_d2_16k),
-        ("D4 16k (Varhadi Original)", train_indictrans2_d4_16k),
-        ("D124 16k (Combined Original)", train_indictrans2_all_16k),
-        ("D1 32k (Malvani Expanded)", train_indictrans2_d1_32k),
-        ("D2 32k (Ahirani Expanded)", train_indictrans2_d2_32k),
-        ("D4 32k (Varhadi Expanded)", train_indictrans2_d4_32k),
-        ("D124 32k (Combined Expanded)", train_indictrans2_all_32k),
+        ("D1 16k (Malvani Original)", train_indictrans2_d1_16k, Path("models/indictrans2_d1_16k/cv_summary.yaml")),
+        ("D2 16k (Ahirani Original)", train_indictrans2_d2_16k, Path("models/indictrans2_d2_16k/cv_summary.yaml")),
+        ("D4 16k (Varhadi Original)", train_indictrans2_d4_16k, Path("models/indictrans2_d4_16k/cv_summary.yaml")),
+        ("D124 16k (Combined Original)", train_indictrans2_all_16k, Path("models/indictrans2_combined_16k/cv_summary.yaml")),
+        ("D1 32k (Malvani Expanded)", train_indictrans2_d1_32k, Path("models/indictrans2_d1_32k/cv_summary.yaml")),
+        ("D2 32k (Ahirani Expanded)", train_indictrans2_d2_32k, Path("models/indictrans2_d2_32k/cv_summary.yaml")),
+        ("D4 32k (Varhadi Expanded)", train_indictrans2_d4_32k, Path("models/indictrans2_d4_32k/cv_summary.yaml")),
+        ("D124 32k (Combined Expanded)", train_indictrans2_all_32k, Path("models/indictrans2_combined_32k/cv_summary.yaml")),
     ]
 
     total = len(variants)
@@ -36,7 +38,11 @@ def main():
     logger.info(f"================================================================================")
 
     completed = 0
-    for name, func in variants:
+    for name, func, summary_path in variants:
+        if summary_path.exists():
+            logger.info(f"---> Skipping already completed variant: {name} (summary found at {summary_path})")
+            completed += 1
+            continue
         logger.info(f"\n---> Starting Variant {completed + 1}/{total}: {name}")
         try:
             func()

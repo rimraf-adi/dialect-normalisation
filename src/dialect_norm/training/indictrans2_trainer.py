@@ -27,6 +27,36 @@ onnx_utils_mod.compute_effective_axis_dimension = lambda *args, **kwargs: 1
 sys.modules["transformers.onnx"] = onnx_mod
 sys.modules["transformers.onnx.utils"] = onnx_utils_mod
 
+import transformers.tokenization_utils_base as tb
+import transformers.tokenization_utils as tu
+tu.PreTrainedTokenizerBase = tb.PreTrainedTokenizerBase
+_orig_setattr = tb.PreTrainedTokenizerBase.__setattr__
+tb.PreTrainedTokenizerBase.__setattr__ = lambda self, n, v: (self.__dict__.setdefault('_special_tokens_map', {}), _orig_setattr(self, n, v))[1]
+
+import transformers.modeling_utils as mod_utils
+_orig_pi = mod_utils.PreTrainedModel.post_init
+mod_utils.PreTrainedModel.post_init = lambda self: (setattr(self.__class__, 'tie_weights', lambda self_in, *a, **k: getattr(self_in, 'encoder', None) and getattr(self_in, 'decoder', None)), _orig_pi(self))[1]
+
+_orig_gt = mod_utils._get_tied_weight_keys
+mod_utils._get_tied_weight_keys = lambda m: m._tied_weights_keys if hasattr(m, '_tied_weights_keys') and isinstance(m._tied_weights_keys, list) else _orig_gt(m)
+
+import torch
+import transformers.cache_utils as cu
+def _cache_getitem(self, idx):
+    layers = getattr(self, "layers", [])
+    if layers and idx < len(layers):
+        k = getattr(layers[idx], "keys", getattr(layers[idx], "key", None))
+        v = getattr(layers[idx], "values", getattr(layers[idx], "value", None))
+        if k is not None and v is not None:
+            return (k, v)
+    key_cache = getattr(self, "key_cache", [])
+    if key_cache and idx < len(key_cache):
+        return (key_cache[idx], self.value_cache[idx])
+    return (None, None)
+
+cu.DynamicCache.__getitem__ = _cache_getitem
+cu.EncoderDecoderCache.__getitem__ = lambda self, idx: _cache_getitem(getattr(self, "self_attention_cache", self), idx)
+
 import numpy as np
 import torch
 from torch.utils.data import Dataset
@@ -236,6 +266,10 @@ def run_cross_validation_indictrans2(
         console_handler.setFormatter(log_fmt)
         root_logger.addHandler(console_handler)
 
+    import transformers.utils.logging as hf_logging
+    hf_logging.add_handler(file_handler)
+    hf_logging.enable_explicit_format()
+
     random.seed(seed)
     np.random.seed(seed)
     torch.manual_seed(seed)
@@ -313,11 +347,11 @@ def run_cross_validation_indictrans2(
             weight_decay=0.01,
             save_total_limit=1,
             num_train_epochs=epochs,
-            predict_with_generate=True,
+            predict_with_generate=False,
             generation_max_length=128,
-            generation_num_beams=4,
+            generation_num_beams=2,
             fp16=False,
-            logging_steps=50,
+            logging_steps=10,
             load_best_model_at_end=True,
             metric_for_best_model="eval_loss",
             greater_is_better=False,
@@ -331,13 +365,16 @@ def run_cross_validation_indictrans2(
             eval_dataset=val_dataset,
             processing_class=tokenizer,
             data_collator=DataCollatorForSeq2Seq(tokenizer, model=model),
-            compute_metrics=compute_metrics_builder(tokenizer),
             callbacks=[EarlyStoppingCallback(early_stopping_patience=2)],
         )
 
         train_res = trainer.train()
         train_loss = train_res.metrics.get("train_loss", train_res.training_loss)
         logger.info(f"Fold {fold + 1} Step-Averaged Training Loss: {train_loss:.4f}")
+
+        # Enable generation for final validation & test metrics
+        trainer.args.predict_with_generate = True
+        trainer.compute_metrics = compute_metrics_builder(tokenizer)
 
         logger.info(f"Evaluating Fold {fold + 1} on CV Validation Split ({len(val_data):,} samples)...")
         val_res = trainer.evaluate()
