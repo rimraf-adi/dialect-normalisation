@@ -1,0 +1,76 @@
+[2026-08-04 04:40:18,329] [INFO] ======================================================================
+[2026-08-04 04:40:18,329] [INFO] mT5 FINE-TUNING (OPTION B: 85/15 STRATIFIED SPLIT + 5-FOLD CV)
+[2026-08-04 04:40:18,329] [INFO] ======================================================================
+[2026-08-04 04:40:18,329] [INFO] Target Model            : google/mt5-small
+[2026-08-04 04:40:18,330] [INFO] Output Directory        : D:\dialect-norm\models\mt5_combined_32k
+[2026-08-04 04:40:18,330] [INFO] Log File                : D:\dialect-norm\logs\train_mt5_combined_32k.log
+[2026-08-04 04:40:18,330] [INFO] Total Dataset Size      : 32,335 pairs
+[2026-08-04 04:40:18,330] [INFO] ======================================================================
+[2026-08-04 04:40:18,350] [INFO] 85% Training Pool: 27,485 pairs
+[2026-08-04 04:40:18,350] [INFO] 15% Held-Out Test : 4,850 pairs
+[2026-08-04 04:40:18,711] [INFO] HTTP Request: HEAD https://huggingface.co/google/mt5-small/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+[2026-08-04 04:40:18,728] [INFO] HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/google/mt5-small/73fb5dbe4756edadc8fbe8c769b0a109493acf7a/config.json "HTTP/1.1 200 OK"
+[2026-08-04 04:40:18,953] [INFO] HTTP Request: HEAD https://huggingface.co/google/mt5-small/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+[2026-08-04 04:40:18,970] [INFO] HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/google/mt5-small/73fb5dbe4756edadc8fbe8c769b0a109493acf7a/tokenizer_config.json "HTTP/1.1 200 OK"
+[2026-08-04 04:40:19,194] [INFO] HTTP Request: GET https://huggingface.co/api/models/google/mt5-small/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
+[2026-08-04 04:40:19,416] [INFO] HTTP Request: GET https://huggingface.co/api/models/google/mt5-small/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+[2026-08-04 04:40:20,392] [INFO] HTTP Request: GET https://huggingface.co/api/models/google/mt5-small "HTTP/1.1 200 OK"
+[2026-08-04 04:40:20,393] [INFO] 
+======================================================================
+[2026-08-04 04:40:20,394] [INFO] RUNNING mT5 CROSS-VALIDATION: FOLD 1/5
+[2026-08-04 04:40:20,394] [INFO] ======================================================================
+[2026-08-04 04:40:20,613] [INFO] HTTP Request: HEAD https://huggingface.co/google/mt5-small/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+[2026-08-04 04:40:20,631] [INFO] HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/google/mt5-small/73fb5dbe4756edadc8fbe8c769b0a109493acf7a/config.json "HTTP/1.1 200 OK"
+[2026-08-04 04:40:20,857] [INFO] HTTP Request: HEAD https://huggingface.co/google/mt5-small/resolve/main/model.safetensors "HTTP/1.1 404 Not Found"
+[2026-08-04 04:40:21,074] [INFO] HTTP Request: GET https://huggingface.co/api/models/google/mt5-small "HTTP/1.1 200 OK"
+[2026-08-04 04:40:21,318] [INFO] HTTP Request: GET https://huggingface.co/api/models/google/mt5-small/commits/main "HTTP/1.1 200 OK"
+[2026-08-04 04:40:21,581] [INFO] HTTP Request: GET https://huggingface.co/api/models/google/mt5-small/discussions?p=0 "HTTP/1.1 200 OK"
+[2026-08-04 04:40:21,819] [INFO] HTTP Request: GET https://huggingface.co/api/models/google/mt5-small/commits/refs%2Fpr%2F15 "HTTP/1.1 200 OK"
+[2026-08-04 04:40:22,039] [INFO] HTTP Request: HEAD https://huggingface.co/google/mt5-small/resolve/refs%2Fpr%2F15/model.safetensors.index.json "HTTP/1.1 404 Not Found"
+[2026-08-04 04:40:22,279] [INFO] HTTP Request: HEAD https://huggingface.co/google/mt5-small/resolve/refs%2Fpr%2F15/model.safetensors "HTTP/1.1 302 Found"
+[2026-08-04 04:40:22,443] [INFO] HTTP Request: HEAD https://huggingface.co/google/mt5-small/resolve/main/generation_config.json "HTTP/1.1 307 Temporary Redirect"
+[2026-08-04 04:40:22,460] [INFO] HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/google/mt5-small/73fb5dbe4756edadc8fbe8c769b0a109493acf7a/generation_config.json "HTTP/1.1 200 OK"
+[2026-08-04 04:53:36,949] [INFO] Generation Length Check: Avg Pred Words = 9.4 | Avg Ref Words = 9.4
+[2026-08-04 04:53:36,949] [INFO] [Sample 1] Pred: 'क्रेडिट कार्डवरून जास्तीत जास्त किती कर्ज मिळते, आणि डेबिट कार्डवरून जास्तीत जास्त किती पैसे काढू शकतो आम्ही?' | Ref: 'क्रेडिट कार्डवरून जास्तीत जास्त किती कर्ज मिळते, आणि डेबिट कार्डवरून जास्तीत जास्त किती पैसे काढू शकतो आम्ही?'
+[2026-08-04 04:53:36,949] [INFO] [Sample 2] Pred: 'रासायनिक शेती काऊन परवडत नाही?' | Ref: 'रासायनिक शेती काऊन परवडत नाही का?'
+[2026-08-04 04:53:36,950] [INFO] [Sample 3] Pred: 'पास्या गालाा सिवमा पाधावा विलिवा?' | Ref: 'या योजनेच्या मागण्यांची कुठे दाखला करावी?'
+[2026-08-04 05:06:50,769] [INFO] Generation Length Check: Avg Pred Words = 9.4 | Avg Ref Words = 9.4
+[2026-08-04 05:06:50,769] [INFO] [Sample 1] Pred: 'क्रेडिट कार्डवरून जास्तीत जास्त किती कर्ज मिळते, आणि डेबिट कार्डवरून जास्तीत जास्त किती पैसे काढू शकतो आम्ही?' | Ref: 'क्रेडिट कार्डवरून जास्तीत जास्त किती कर्ज मिळते, आणि डेबिट कार्डवरून जास्तीत जास्त किती पैसे काढू शकतो आम्ही?'
+[2026-08-04 05:06:50,770] [INFO] [Sample 2] Pred: 'रासायनिक शेती काऊन परवडत नाही?' | Ref: 'रासायनिक शेती काऊन परवडत नाही का?'
+[2026-08-04 05:06:50,770] [INFO] [Sample 3] Pred: 'पाला गालाा सिवमा पाधावा विलिवा?' | Ref: 'या योजनेच्या मागण्यांची कुठे दाखला करावी?'
+[2026-08-04 05:20:01,898] [INFO] Generation Length Check: Avg Pred Words = 9.4 | Avg Ref Words = 9.4
+[2026-08-04 05:20:01,898] [INFO] [Sample 1] Pred: 'क्रेडिट कार्डवरून जास्तीत जास्त किती कर्ज मिळते, आणि डेबिट कार्डवरून जास्तीत जास्त किती पैसे काढू शकतो आम्ही?' | Ref: 'क्रेडिट कार्डवरून जास्तीत जास्त किती कर्ज मिळते, आणि डेबिट कार्डवरून जास्तीत जास्त किती पैसे काढू शकतो आम्ही?'
+[2026-08-04 05:20:01,898] [INFO] [Sample 2] Pred: 'रासायनिक शेती काऊन परवडत नाही?' | Ref: 'रासायनिक शेती काऊन परवडत नाही का?'
+[2026-08-04 05:20:01,898] [INFO] [Sample 3] Pred: 'पाला गाला सिवमा पाधावा विलिवा?' | Ref: 'या योजनेच्या मागण्यांची कुठे दाखला करावी?'
+[2026-08-04 05:33:23,523] [INFO] Generation Length Check: Avg Pred Words = 9.4 | Avg Ref Words = 9.4
+[2026-08-04 05:33:23,523] [INFO] [Sample 1] Pred: 'क्रेडिट कार्डवरून जास्तीत जास्त किती कर्ज मिळते, आणि डेबिट कार्डवरून जास्तीत जास्त किती पैसे काढू शकतो आम्ही?' | Ref: 'क्रेडिट कार्डवरून जास्तीत जास्त किती कर्ज मिळते, आणि डेबिट कार्डवरून जास्तीत जास्त किती पैसे काढू शकतो आम्ही?'
+[2026-08-04 05:33:23,523] [INFO] [Sample 2] Pred: 'रासायनिक शेती काऊन परवडत नाही?' | Ref: 'रासायनिक शेती काऊन परवडत नाही का?'
+[2026-08-04 05:33:23,523] [INFO] [Sample 3] Pred: 'पावसाने गालाला सिवमा पाधावा विलिवा?' | Ref: 'या योजनेच्या मागण्यांची कुठे दाखला करावी?'
+[2026-08-04 05:46:36,261] [INFO] Generation Length Check: Avg Pred Words = 9.4 | Avg Ref Words = 9.4
+[2026-08-04 05:46:36,261] [INFO] [Sample 1] Pred: 'क्रेडिट कार्डवरून जास्तीत जास्त किती कर्ज मिळते, आणि डेबिट कार्डवरून जास्तीत जास्त किती पैसे काढू शकतो आम्ही?' | Ref: 'क्रेडिट कार्डवरून जास्तीत जास्त किती कर्ज मिळते, आणि डेबिट कार्डवरून जास्तीत जास्त किती पैसे काढू शकतो आम्ही?'
+[2026-08-04 05:46:36,261] [INFO] [Sample 2] Pred: 'रासायनिक शेती काऊन परवडत नाही?' | Ref: 'रासायनिक शेती काऊन परवडत नाही का?'
+[2026-08-04 05:46:36,261] [INFO] [Sample 3] Pred: 'पावसाने गालाला सिवमा पाधावा विलिवा?' | Ref: 'या योजनेच्या मागण्यांची कुठे दाखला करावी?'
+[2026-08-04 05:47:04,686] [INFO] Fold 1 Step-Averaged Training Loss: 0.5958
+[2026-08-04 05:47:04,686] [INFO] Evaluating Fold 1 on CV Validation Split (5,497 samples)...
+[2026-08-04 05:52:51,820] [INFO] Generation Length Check: Avg Pred Words = 9.4 | Avg Ref Words = 9.4
+[2026-08-04 05:52:51,820] [INFO] [Sample 1] Pred: 'क्रेडिट कार्डवरून जास्तीत जास्त किती कर्ज मिळते, आणि डेबिट कार्डवरून जास्तीत जास्त किती पैसे काढू शकतो आम्ही?' | Ref: 'क्रेडिट कार्डवरून जास्तीत जास्त किती कर्ज मिळते, आणि डेबिट कार्डवरून जास्तीत जास्त किती पैसे काढू शकतो आम्ही?'
+[2026-08-04 05:52:51,820] [INFO] [Sample 2] Pred: 'रासायनिक शेती काऊन परवडत नाही?' | Ref: 'रासायनिक शेती काऊन परवडत नाही का?'
+[2026-08-04 05:52:51,820] [INFO] [Sample 3] Pred: 'पावसाने गालाला सिवमा पाधावा विलिवा?' | Ref: 'या योजनेच्या मागण्यांची कुठे दाखला करावी?'
+[2026-08-04 05:52:54,560] [INFO] Fold 1 Val Loss: 0.4441  Val BLEU: 69.75  Val chrF: 84.59
+[2026-08-04 05:52:54,560] [INFO] Evaluating Fold 1 on Held-Out Test Set (4,850 samples)...
+[2026-08-04 05:57:55,912] [INFO] Generation Length Check: Avg Pred Words = 9.4 | Avg Ref Words = 9.4
+[2026-08-04 05:57:55,912] [INFO] [Sample 1] Pred: 'मला आज माझ्या मित्राला माझ्या मुलाला बरोबर खेळायला गेलो आहे, तुम्हाला ते मुलगे नेमका किती वर्षाचे आहे?' | Ref: 'आज मला मित्राला मुला बरोबर खेळण्यासाठी गेलो आहे, तुम्हाले ते मुल किती वर्षाचे आहे?'
+[2026-08-04 05:57:55,912] [INFO] [Sample 2] Pred: 'मला बँकेत क्रेडिट कार्ड काढण्यासाठी असते, तुला काय कागदपत्रे लागतील?' | Ref: 'मला बँकेत क्रेडिट कार्ड काढायचे आहे, तुला काय कागदपत्रे लागतील?'
+[2026-08-04 05:57:55,912] [INFO] [Sample 3] Pred: 'काय भेटले लवकरी येणार असते की कुठे?' | Ref: 'काय भेटले लवकरी येणार आहे की कुठे?'
+[2026-08-04 05:57:57,959] [INFO] Fold 1 Test Loss: 0.4427  Test BLEU: 69.67  Test chrF: 84.62
+[2026-08-04 05:57:57,962] [INFO] Running independent per-dialect test evaluation breakdown...
+[2026-08-04 05:59:46,900] [INFO] Generation Length Check: Avg Pred Words = 9.7 | Avg Ref Words = 9.7
+[2026-08-04 05:59:46,900] [INFO] [Sample 1] Pred: 'मुली कोणत्या नागरिकांना पुरवठा करता येईल, तुला कोणत्या वेळी पुरवठा करता येईल?' | Ref: 'कोणत्या नागरिकांना पुरवठा करता येईल, तुला कोणत्या वेळी पुरवठा करता येईल?'
+[2026-08-04 05:59:46,900] [INFO] [Sample 2] Pred: 'मला सावल्या क्रेडिट कार्डवरून जास्तीत जास्त किती कर्ज मिळते, आणि डेबिट कार्डवरून जास्तीत जास्त किती पैसे काढू शकतो आम्ही?' | Ref: 'मला सावल्या क्रेडिट कार्डवरून जास्तीत जास्त किती कर्ज मिळते, आणि डेबिट कार्डवरून जास्तीत जास्त किती पैसे काढू शकतो आम्ही?'
+[2026-08-04 05:59:46,900] [INFO] [Sample 3] Pred: 'नागरिकांना पासपोर्ट मिळवण्यासाठी कोणत्या नागरी देशांमध्ये जाण्याची आवश्यकता आहे, कुठे माहिती नाही?' | Ref: 'नागरिकांना पासपोर्ट मिळवण्यासाठी कोणत्या नागरी देशांमध्ये जाण्याची आवश्यकता आहे, कुठे माहिती नाही?'
+[2026-08-04 05:59:47,670] [INFO]   [D1] Test Samples: 1,710 | Loss: 0.4675 | BLEU: 66.7532 | chrF: 83.5558
+[2026-08-04 06:01:25,539] [INFO] Generation Length Check: Avg Pred Words = 8.7 | Avg Ref Words = 8.8
+[2026-08-04 06:01:25,539] [INFO] [Sample 1] Pred: 'मला बँकेत क्रेडिट कार्ड काढण्यासाठी असते, तुला काय कागदपत्रे लागतील?' | Ref: 'मला बँकेत क्रेडिट कार्ड काढायचे आहे, तुला काय कागदपत्रे लागतील?'
+[2026-08-04 06:01:25,540] [INFO] [Sample 2] Pred: 'काय भेटले लवकरी येणार असते की कुठे?' | Ref: 'काय भेटले लवकरी येणार आहे की कुठे?'
+[2026-08-04 06:01:25,540] [INFO] [Sample 3] Pred: 'ग्रामपंचायतीच्या सार्वजनिक कामात भाग घेण्यासाठी मला काय कागदपत्रे लागतील?' | Ref: 'ग्रामपंचायतीच्या सार्वजनिक कामात भाग घेण्यासाठी मला काय कागदपत्रे लागतील?'
+[2026-08-04 06:01:26,267] [INFO]   [D2] Test Samples: 1,627 | Loss: 0.5797 | BLEU: 62.9455 | chrF: 79.7084

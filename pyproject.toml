@@ -53,7 +53,22 @@ train-indicbart-d2-32k = "dialect_norm.training.indicbart_trainer:cli_train_d2_3
 train-indicbart-d4-32k = "dialect_norm.training.indicbart_trainer:cli_train_d4_32k"
 train-indicbart-all-32k = "dialect_norm.training.indicbart_trainer:cli_train_all_32k"
 
+train-mt5-d1-16k = "dialect_norm.training.mt5_trainer:train_mt5_d1_16k"
+train-mt5-d2-16k = "dialect_norm.training.mt5_trainer:train_mt5_d2_16k"
+train-mt5-d4-16k = "dialect_norm.training.mt5_trainer:train_mt5_d4_16k"
+train-mt5-all-16k = "dialect_norm.training.mt5_trainer:train_mt5_all_16k"
+train-mt5-d1-32k = "dialect_norm.training.mt5_trainer:train_mt5_d1_32k"
+train-mt5-d2-32k = "dialect_norm.training.mt5_trainer:train_mt5_d2_32k"
+train-mt5-d4-32k = "dialect_norm.training.mt5_trainer:train_mt5_d4_32k"
 train-mt5-all-32k = "dialect_norm.training.mt5_trainer:train_mt5_all_32k"
+
+train-indictrans2-d1-16k = "dialect_norm.training.indictrans2_trainer:train_indictrans2_d1_16k"
+train-indictrans2-d2-16k = "dialect_norm.training.indictrans2_trainer:train_indictrans2_d2_16k"
+train-indictrans2-d4-16k = "dialect_norm.training.indictrans2_trainer:train_indictrans2_d4_16k"
+train-indictrans2-all-16k = "dialect_norm.training.indictrans2_trainer:train_indictrans2_all_16k"
+train-indictrans2-d1-32k = "dialect_norm.training.indictrans2_trainer:train_indictrans2_d1_32k"
+train-indictrans2-d2-32k = "dialect_norm.training.indictrans2_trainer:train_indictrans2_d2_32k"
+train-indictrans2-d4-32k = "dialect_norm.training.indictrans2_trainer:train_indictrans2_d4_32k"
 train-indictrans2-all-32k = "dialect_norm.training.indictrans2_trainer:train_indictrans2_all_32k"
 
 

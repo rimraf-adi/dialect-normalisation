@@ -1,0 +1,51 @@
+avg_test_bleu: 78.8919
+avg_test_chrf: 90.5857
+avg_test_loss: 0.3276
+avg_val_bleu: 79.231
+avg_val_chrf: 90.6305
+avg_val_loss: 0.3316
+best_test_bleu: 79.1331
+dataset_files:
+- data\synthetic_parallel\d4.csv
+- data\synthetic-data\d4_aug.csv
+fold_metrics:
+- fold: 1
+  test_bleu: 79.1331
+  test_chrf: 90.6399
+  test_loss: 0.3246
+  val_bleu: 78.9569
+  val_chrf: 90.6586
+  val_loss: 0.3345
+- fold: 2
+  test_bleu: 78.8829
+  test_chrf: 90.5776
+  test_loss: 0.3253
+  val_bleu: 80.1654
+  val_chrf: 91.0606
+  val_loss: 0.3178
+- fold: 3
+  test_bleu: 78.9747
+  test_chrf: 90.6175
+  test_loss: 0.3319
+  val_bleu: 79.0776
+  val_chrf: 90.6631
+  val_loss: 0.3364
+- fold: 4
+  test_bleu: 78.9627
+  test_chrf: 90.5838
+  test_loss: 0.3296
+  val_bleu: 78.8768
+  val_chrf: 90.4024
+  val_loss: 0.3326
+- fold: 5
+  test_bleu: 78.5061
+  test_chrf: 90.5096
+  test_loss: 0.3268
+  val_bleu: 79.0784
+  val_chrf: 90.3676
+  val_loss: 0.3365
+model_name: google/mt5-small
+n_folds: 5
+test_set_size: 1523
+total_samples: 10155
+train_pool_size: 8632

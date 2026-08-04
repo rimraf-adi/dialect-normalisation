@@ -1,0 +1,265 @@
+[2026-08-03 16:33:13,146] [INFO] ======================================================================
+[2026-08-03 16:33:13,146] [INFO] mT5 FINE-TUNING (OPTION B: 85/15 STRATIFIED SPLIT + 5-FOLD CV)
+[2026-08-03 16:33:13,146] [INFO] ======================================================================
+[2026-08-03 16:33:13,146] [INFO] Target Model            : google/mt5-small
+[2026-08-03 16:33:13,147] [INFO] Output Directory        : D:\dialect-norm\models\mt5_d4_16k
+[2026-08-03 16:33:13,147] [INFO] Log File                : D:\dialect-norm\logs\train_mt5_d4_16k.log
+[2026-08-03 16:33:13,147] [INFO] Total Dataset Size      : 5,086 pairs
+[2026-08-03 16:33:13,148] [INFO] ======================================================================
+[2026-08-03 16:33:13,151] [INFO] 85% Training Pool: 4,324 pairs
+[2026-08-03 16:33:13,151] [INFO] 15% Held-Out Test : 762 pairs
+[2026-08-03 16:33:13,462] [INFO] HTTP Request: HEAD https://huggingface.co/google/mt5-small/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+[2026-08-03 16:33:13,484] [INFO] HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/google/mt5-small/73fb5dbe4756edadc8fbe8c769b0a109493acf7a/config.json "HTTP/1.1 200 OK"
+[2026-08-03 16:33:13,725] [INFO] HTTP Request: HEAD https://huggingface.co/google/mt5-small/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+[2026-08-03 16:33:13,749] [INFO] HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/google/mt5-small/73fb5dbe4756edadc8fbe8c769b0a109493acf7a/tokenizer_config.json "HTTP/1.1 200 OK"
+[2026-08-03 16:33:13,988] [INFO] HTTP Request: GET https://huggingface.co/api/models/google/mt5-small/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
+[2026-08-03 16:33:14,220] [INFO] HTTP Request: GET https://huggingface.co/api/models/google/mt5-small/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+[2026-08-03 16:33:15,230] [INFO] HTTP Request: GET https://huggingface.co/api/models/google/mt5-small "HTTP/1.1 200 OK"
+[2026-08-03 16:33:15,231] [INFO] 
+======================================================================
+[2026-08-03 16:33:15,231] [INFO] RUNNING mT5 CROSS-VALIDATION: FOLD 1/5
+[2026-08-03 16:33:15,231] [INFO] ======================================================================
+[2026-08-03 16:33:15,453] [INFO] HTTP Request: HEAD https://huggingface.co/google/mt5-small/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+[2026-08-03 16:33:15,473] [INFO] HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/google/mt5-small/73fb5dbe4756edadc8fbe8c769b0a109493acf7a/config.json "HTTP/1.1 200 OK"
+[2026-08-03 16:33:15,718] [INFO] HTTP Request: HEAD https://huggingface.co/google/mt5-small/resolve/main/model.safetensors "HTTP/1.1 404 Not Found"
+[2026-08-03 16:33:15,942] [INFO] HTTP Request: GET https://huggingface.co/api/models/google/mt5-small "HTTP/1.1 200 OK"
+[2026-08-03 16:33:16,186] [INFO] HTTP Request: GET https://huggingface.co/api/models/google/mt5-small/commits/main "HTTP/1.1 200 OK"
+[2026-08-03 16:33:16,450] [INFO] HTTP Request: GET https://huggingface.co/api/models/google/mt5-small/discussions?p=0 "HTTP/1.1 200 OK"
+[2026-08-03 16:33:16,688] [INFO] HTTP Request: GET https://huggingface.co/api/models/google/mt5-small/commits/refs%2Fpr%2F15 "HTTP/1.1 200 OK"
+[2026-08-03 16:33:16,915] [INFO] HTTP Request: HEAD https://huggingface.co/google/mt5-small/resolve/refs%2Fpr%2F15/model.safetensors.index.json "HTTP/1.1 404 Not Found"
+[2026-08-03 16:33:17,159] [INFO] HTTP Request: HEAD https://huggingface.co/google/mt5-small/resolve/refs%2Fpr%2F15/model.safetensors "HTTP/1.1 302 Found"
+[2026-08-03 16:33:17,289] [INFO] HTTP Request: HEAD https://huggingface.co/google/mt5-small/resolve/main/generation_config.json "HTTP/1.1 307 Temporary Redirect"
+[2026-08-03 16:33:17,309] [INFO] HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/google/mt5-small/73fb5dbe4756edadc8fbe8c769b0a109493acf7a/generation_config.json "HTTP/1.1 200 OK"
+[2026-08-03 16:35:45,305] [INFO] Generation Length Check: Avg Pred Words = 9.1 | Avg Ref Words = 8.9
+[2026-08-03 16:35:45,306] [INFO] [Sample 1] Pred: 'पूर आणि शेतीवरील परिणाम केवळ शेती समुदायासाठीच नाही' | Ref: 'पूर आणि शेतीवरील परिणाम केवळ शेती समुदायासाठीच नाही'
+[2026-08-03 16:35:45,306] [INFO] [Sample 2] Pred: 'पडताळणीसाठी ग्राहक त्यांची के.वाय.सी कागदपत्रे, पत्ता आणि ओळखीचा पुरावा सादर करतात' | Ref: 'पडताळणीसाठी ग्राहक त्यांची के.वाय.सी कागदपत्रे, पत्ता आणि ओळखीचा पुरावा सादर करतात'
+[2026-08-03 16:35:45,306] [INFO] [Sample 3] Pred: 'नाणी अनेकदा सरकारद्वारे जारी केल्या जातात' | Ref: 'नाणी अनेकदा सरकारद्वारे जारी केल्या जातात'
+[2026-08-03 16:38:16,766] [INFO] Generation Length Check: Avg Pred Words = 9.0 | Avg Ref Words = 8.9
+[2026-08-03 16:38:16,767] [INFO] [Sample 1] Pred: 'पूर आणि शेतीवरील परिणाम केवळ शेती समुदायासाठीच नाही' | Ref: 'पूर आणि शेतीवरील परिणाम केवळ शेती समुदायासाठीच नाही'
+[2026-08-03 16:38:16,767] [INFO] [Sample 2] Pred: 'पडताळणीसाठी ग्राहक त्यांची के.वाय.सी कागदपत्रे पत्ता आणि ओळखीचा पुरावा सादर करतात' | Ref: 'पडताळणीसाठी ग्राहक त्यांची के.वाय.सी कागदपत्रे, पत्ता आणि ओळखीचा पुरावा सादर करतात'
+[2026-08-03 16:38:16,767] [INFO] [Sample 3] Pred: 'नाणी अनेकदा सरकारद्वारे जारी केल्या जातात' | Ref: 'नाणी अनेकदा सरकारद्वारे जारी केल्या जातात'
+[2026-08-03 16:40:47,181] [INFO] Generation Length Check: Avg Pred Words = 9.0 | Avg Ref Words = 8.9
+[2026-08-03 16:40:47,181] [INFO] [Sample 1] Pred: 'पूर आणि शेतीवरील परिणाम केवळ शेती समुदायासाठीच नाही' | Ref: 'पूर आणि शेतीवरील परिणाम केवळ शेती समुदायासाठीच नाही'
+[2026-08-03 16:40:47,181] [INFO] [Sample 2] Pred: 'पडताळणीसाठी ग्राहक त्यांची केवायसी कागदपत्रे पत्ता आणि ओळखीचा पुरावा सादर करतात' | Ref: 'पडताळणीसाठी ग्राहक त्यांची के.वाय.सी कागदपत्रे, पत्ता आणि ओळखीचा पुरावा सादर करतात'
+[2026-08-03 16:40:47,181] [INFO] [Sample 3] Pred: 'नाणी अनेकदा सरकारद्वारे जारी केल्या जातात' | Ref: 'नाणी अनेकदा सरकारद्वारे जारी केल्या जातात'
+[2026-08-03 16:43:21,487] [INFO] Generation Length Check: Avg Pred Words = 9.1 | Avg Ref Words = 8.9
+[2026-08-03 16:43:21,487] [INFO] [Sample 1] Pred: 'पूर आणि शेतीवरील परिणाम केवळ शेती समुदायासाठीच नाही' | Ref: 'पूर आणि शेतीवरील परिणाम केवळ शेती समुदायासाठीच नाही'
+[2026-08-03 16:43:21,487] [INFO] [Sample 2] Pred: 'पडताळणीसाठी ग्राहक त्यांची केवायसी कागदपत्रे पत्ता आणि ओळखीचा पुरावा सादर करतात' | Ref: 'पडताळणीसाठी ग्राहक त्यांची के.वाय.सी कागदपत्रे, पत्ता आणि ओळखीचा पुरावा सादर करतात'
+[2026-08-03 16:43:21,488] [INFO] [Sample 3] Pred: 'नाणी अनेकदा सरकारद्वारे जारी केल्या जातात' | Ref: 'नाणी अनेकदा सरकारद्वारे जारी केल्या जातात'
+[2026-08-03 16:45:53,778] [INFO] Generation Length Check: Avg Pred Words = 9.1 | Avg Ref Words = 8.9
+[2026-08-03 16:45:53,778] [INFO] [Sample 1] Pred: 'पूर आणि शेतीवरील परिणाम केवळ शेती समुदायासाठीच नाही' | Ref: 'पूर आणि शेतीवरील परिणाम केवळ शेती समुदायासाठीच नाही'
+[2026-08-03 16:45:53,778] [INFO] [Sample 2] Pred: 'पडताळणीसाठी ग्राहक त्यांची के.वाय.सी कागदपत्रे पत्ता आणि ओळखीचा पुरावा सादर करतात' | Ref: 'पडताळणीसाठी ग्राहक त्यांची के.वाय.सी कागदपत्रे, पत्ता आणि ओळखीचा पुरावा सादर करतात'
+[2026-08-03 16:45:53,778] [INFO] [Sample 3] Pred: 'नाणी अनेकदा सरकारद्वारे जारी केल्या जातात' | Ref: 'नाणी अनेकदा सरकारद्वारे जारी केल्या जातात'
+[2026-08-03 16:46:21,295] [INFO] Fold 1 Step-Averaged Training Loss: 0.9056
+[2026-08-03 16:46:21,295] [INFO] Evaluating Fold 1 on CV Validation Split (864 samples)...
+[2026-08-03 16:47:23,197] [INFO] Generation Length Check: Avg Pred Words = 9.1 | Avg Ref Words = 8.9
+[2026-08-03 16:47:23,197] [INFO] [Sample 1] Pred: 'पूर आणि शेतीवरील परिणाम केवळ शेती समुदायासाठीच नाही' | Ref: 'पूर आणि शेतीवरील परिणाम केवळ शेती समुदायासाठीच नाही'
+[2026-08-03 16:47:23,197] [INFO] [Sample 2] Pred: 'पडताळणीसाठी ग्राहक त्यांची के.वाय.सी कागदपत्रे पत्ता आणि ओळखीचा पुरावा सादर करतात' | Ref: 'पडताळणीसाठी ग्राहक त्यांची के.वाय.सी कागदपत्रे, पत्ता आणि ओळखीचा पुरावा सादर करतात'
+[2026-08-03 16:47:23,197] [INFO] [Sample 3] Pred: 'नाणी अनेकदा सरकारद्वारे जारी केल्या जातात' | Ref: 'नाणी अनेकदा सरकारद्वारे जारी केल्या जातात'
+[2026-08-03 16:47:23,602] [INFO] Fold 1 Val Loss: 0.4032  Val BLEU: 77.95  Val chrF: 89.92
+[2026-08-03 16:47:23,602] [INFO] Evaluating Fold 1 on Held-Out Test Set (762 samples)...
+[2026-08-03 16:48:16,667] [INFO] Generation Length Check: Avg Pred Words = 9.0 | Avg Ref Words = 8.9
+[2026-08-03 16:48:16,667] [INFO] [Sample 1] Pred: 'रासायनिक खतामंदी सर्वात चांगले रासायनिक खत कोणते?' | Ref: 'सर्वात चांगले रासायनिक खत कोणते?'
+[2026-08-03 16:48:16,667] [INFO] [Sample 2] Pred: 'तुम्ही मोबाईलवरून ऍपद्वारे बँक तपशील देखील तपासू शकता' | Ref: 'तुम्ही ॲपद्वारे बँक तपशील देखील तपासू शकता'
+[2026-08-03 16:48:16,667] [INFO] [Sample 3] Pred: 'मी महाराष्ट्रातील बागनी यामी स्वीट्समध्ये आलो आहे' | Ref: 'मी महाराष्ट्रात बागनी यामी स्वीट्समध्ये आलो आहे'
+[2026-08-03 16:48:17,031] [INFO] Fold 1 Test Loss: 0.3740  Test BLEU: 81.27  Test chrF: 91.22
+[2026-08-03 16:48:17,032] [INFO] New Best Fold (1) Test BLEU: 81.27! Saving local model to: models\mt5_d4_16k\best_model
+[2026-08-03 16:48:26,714] [INFO] 
+======================================================================
+[2026-08-03 16:48:26,714] [INFO] RUNNING mT5 CROSS-VALIDATION: FOLD 2/5
+[2026-08-03 16:48:26,714] [INFO] ======================================================================
+[2026-08-03 16:48:27,056] [INFO] HTTP Request: HEAD https://huggingface.co/google/mt5-small/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+[2026-08-03 16:48:27,078] [INFO] HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/google/mt5-small/73fb5dbe4756edadc8fbe8c769b0a109493acf7a/config.json "HTTP/1.1 200 OK"
+[2026-08-03 16:48:27,314] [INFO] HTTP Request: HEAD https://huggingface.co/google/mt5-small/resolve/main/model.safetensors "HTTP/1.1 404 Not Found"
+[2026-08-03 16:48:27,544] [INFO] HTTP Request: GET https://huggingface.co/api/models/google/mt5-small "HTTP/1.1 200 OK"
+[2026-08-03 16:48:27,788] [INFO] HTTP Request: GET https://huggingface.co/api/models/google/mt5-small/commits/main "HTTP/1.1 200 OK"
+[2026-08-03 16:48:28,068] [INFO] HTTP Request: GET https://huggingface.co/api/models/google/mt5-small/discussions?p=0 "HTTP/1.1 200 OK"
+[2026-08-03 16:48:28,309] [INFO] HTTP Request: GET https://huggingface.co/api/models/google/mt5-small/commits/refs%2Fpr%2F15 "HTTP/1.1 200 OK"
+[2026-08-03 16:48:28,541] [INFO] HTTP Request: HEAD https://huggingface.co/google/mt5-small/resolve/refs%2Fpr%2F15/model.safetensors.index.json "HTTP/1.1 404 Not Found"
+[2026-08-03 16:48:28,779] [INFO] HTTP Request: HEAD https://huggingface.co/google/mt5-small/resolve/refs%2Fpr%2F15/model.safetensors "HTTP/1.1 302 Found"
+[2026-08-03 16:48:28,787] [INFO] HTTP Request: HEAD https://huggingface.co/google/mt5-small/resolve/main/generation_config.json "HTTP/1.1 307 Temporary Redirect"
+[2026-08-03 16:48:28,809] [INFO] HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/google/mt5-small/73fb5dbe4756edadc8fbe8c769b0a109493acf7a/generation_config.json "HTTP/1.1 200 OK"
+[2026-08-03 16:50:52,110] [INFO] Generation Length Check: Avg Pred Words = 9.0 | Avg Ref Words = 8.8
+[2026-08-03 16:50:52,110] [INFO] [Sample 1] Pred: 'यूपीआय चा कसा अन कुटी वापर करायचा?' | Ref: 'युनिटी पेमेंट आइडेंटिफायरचा कसा वापर करायचा?'
+[2026-08-03 16:50:52,110] [INFO] [Sample 2] Pred: 'लाकडाच्या किड्याचे लक्षण म्हणजे झाडांना भोक' | Ref: 'लाकडाच्या किड्याचे लक्षण म्हणजे झाडांना भोक'
+[2026-08-03 16:50:52,111] [INFO] [Sample 3] Pred: 'तीन आर्थिक स्टेटमेंट्स म्हणजे उत्पन्नाचे स्टेटमेंट बॅलन्सशीट आणि कॅश फ्लो स्टेटमेंट' | Ref: 'तीन आर्थिक स्टेटमेंट्स म्हणजे उत्पन्नाचे स्टेटमेंट, बॅलन्सशीट आणि कॅश फ्लो स्टेटमेंट'
+[2026-08-03 16:53:21,069] [INFO] Generation Length Check: Avg Pred Words = 8.8 | Avg Ref Words = 8.8
+[2026-08-03 16:53:21,069] [INFO] [Sample 1] Pred: 'यू.पी.आयचा कसा कुटी वापर करायचा?' | Ref: 'युनिटी पेमेंट आइडेंटिफायरचा कसा वापर करायचा?'
+[2026-08-03 16:53:21,069] [INFO] [Sample 2] Pred: 'लाकडाच्या किड्याचे लक्षण म्हणजे झाडांना भोक' | Ref: 'लाकडाच्या किड्याचे लक्षण म्हणजे झाडांना भोक'
+[2026-08-03 16:53:21,069] [INFO] [Sample 3] Pred: 'तीन आर्थिक स्टेटमेंट्स म्हणजे उत्पन्नाचे स्टेटमेंट बॅलन्सशीट आणि कॅश फ्लो स्टेटमेंट' | Ref: 'तीन आर्थिक स्टेटमेंट्स म्हणजे उत्पन्नाचे स्टेटमेंट, बॅलन्सशीट आणि कॅश फ्लो स्टेटमेंट'
+[2026-08-03 16:55:48,697] [INFO] Generation Length Check: Avg Pred Words = 8.9 | Avg Ref Words = 8.8
+[2026-08-03 16:55:48,697] [INFO] [Sample 1] Pred: 'यू.पी.आयचा कसा आणि कुटी वापर करायचा?' | Ref: 'युनिटी पेमेंट आइडेंटिफायरचा कसा वापर करायचा?'
+[2026-08-03 16:55:48,697] [INFO] [Sample 2] Pred: 'लाकडाच्या किड्याचे लक्षण म्हणजे झाडांना भोक' | Ref: 'लाकडाच्या किड्याचे लक्षण म्हणजे झाडांना भोक'
+[2026-08-03 16:55:48,697] [INFO] [Sample 3] Pred: 'तीन आर्थिक स्टेटमेंट्स म्हणजे उत्पन्नाचे स्टेटमेंट बॅलन्सशीट आणि कॅश फ्लो स्टेटमेंट' | Ref: 'तीन आर्थिक स्टेटमेंट्स म्हणजे उत्पन्नाचे स्टेटमेंट, बॅलन्सशीट आणि कॅश फ्लो स्टेटमेंट'
+[2026-08-03 16:58:17,141] [INFO] Generation Length Check: Avg Pred Words = 8.9 | Avg Ref Words = 8.8
+[2026-08-03 16:58:17,141] [INFO] [Sample 1] Pred: 'यू.पी.आयचा कसा अन कुटी वापर करायचा?' | Ref: 'युनिटी पेमेंट आइडेंटिफायरचा कसा वापर करायचा?'
+[2026-08-03 16:58:17,141] [INFO] [Sample 2] Pred: 'लाकडाच्या किड्याचे लक्षण म्हणजे झाडांना भोक' | Ref: 'लाकडाच्या किड्याचे लक्षण म्हणजे झाडांना भोक'
+[2026-08-03 16:58:17,141] [INFO] [Sample 3] Pred: 'तीन आर्थिक स्टेटमेंट्स म्हणजे उत्पन्नाचे स्टेटमेंट बॅलन्सशीट आणि कॅश फ्लो स्टेटमेंट' | Ref: 'तीन आर्थिक स्टेटमेंट्स म्हणजे उत्पन्नाचे स्टेटमेंट, बॅलन्सशीट आणि कॅश फ्लो स्टेटमेंट'
+[2026-08-03 17:00:44,318] [INFO] Generation Length Check: Avg Pred Words = 8.9 | Avg Ref Words = 8.8
+[2026-08-03 17:00:44,318] [INFO] [Sample 1] Pred: 'यू.पी.आयचा कसा कुटी वापर करायचा?' | Ref: 'युनिटी पेमेंट आइडेंटिफायरचा कसा वापर करायचा?'
+[2026-08-03 17:00:44,318] [INFO] [Sample 2] Pred: 'लाकडाच्या किड्याचे लक्षण म्हणजे झाडांना भोक' | Ref: 'लाकडाच्या किड्याचे लक्षण म्हणजे झाडांना भोक'
+[2026-08-03 17:00:44,318] [INFO] [Sample 3] Pred: 'तीन आर्थिक स्टेटमेंट्स म्हणजे उत्पन्नाचे स्टेटमेंट बॅलन्सशीट आणि कॅश फ्लो स्टेटमेंट' | Ref: 'तीन आर्थिक स्टेटमेंट्स म्हणजे उत्पन्नाचे स्टेटमेंट, बॅलन्सशीट आणि कॅश फ्लो स्टेटमेंट'
+[2026-08-03 17:01:10,456] [INFO] Fold 2 Step-Averaged Training Loss: 0.8666
+[2026-08-03 17:01:10,456] [INFO] Evaluating Fold 2 on CV Validation Split (864 samples)...
+[2026-08-03 17:02:07,375] [INFO] Generation Length Check: Avg Pred Words = 8.9 | Avg Ref Words = 8.8
+[2026-08-03 17:02:07,375] [INFO] [Sample 1] Pred: 'यू.पी.आयचा कसा कुटी वापर करायचा?' | Ref: 'युनिटी पेमेंट आइडेंटिफायरचा कसा वापर करायचा?'
+[2026-08-03 17:02:07,375] [INFO] [Sample 2] Pred: 'लाकडाच्या किड्याचे लक्षण म्हणजे झाडांना भोक' | Ref: 'लाकडाच्या किड्याचे लक्षण म्हणजे झाडांना भोक'
+[2026-08-03 17:02:07,375] [INFO] [Sample 3] Pred: 'तीन आर्थिक स्टेटमेंट्स म्हणजे उत्पन्नाचे स्टेटमेंट बॅलन्सशीट आणि कॅश फ्लो स्टेटमेंट' | Ref: 'तीन आर्थिक स्टेटमेंट्स म्हणजे उत्पन्नाचे स्टेटमेंट, बॅलन्सशीट आणि कॅश फ्लो स्टेटमेंट'
+[2026-08-03 17:02:07,785] [INFO] Fold 2 Val Loss: 0.4165  Val BLEU: 79.51  Val chrF: 90.48
+[2026-08-03 17:02:07,785] [INFO] Evaluating Fold 2 on Held-Out Test Set (762 samples)...
+[2026-08-03 17:02:59,676] [INFO] Generation Length Check: Avg Pred Words = 9.0 | Avg Ref Words = 8.9
+[2026-08-03 17:02:59,676] [INFO] [Sample 1] Pred: 'रासायनिक खतामंदी सर्वात चांगले रासायनिक खत कोणते?' | Ref: 'सर्वात चांगले रासायनिक खत कोणते?'
+[2026-08-03 17:02:59,676] [INFO] [Sample 2] Pred: 'तुम्ही मोबाईलवरून ऍपद्वारे बँक तपशील देखील तपासू शकता' | Ref: 'तुम्ही ॲपद्वारे बँक तपशील देखील तपासू शकता'
+[2026-08-03 17:02:59,676] [INFO] [Sample 3] Pred: 'मी महाराष्ट्रातील बागनी यामी स्वीट्समध्ये आलो आहे' | Ref: 'मी महाराष्ट्रात बागनी यामी स्वीट्समध्ये आलो आहे'
+[2026-08-03 17:03:00,043] [INFO] Fold 2 Test Loss: 0.3697  Test BLEU: 81.02  Test chrF: 91.19
+[2026-08-03 17:03:00,528] [INFO] 
+======================================================================
+[2026-08-03 17:03:00,528] [INFO] RUNNING mT5 CROSS-VALIDATION: FOLD 3/5
+[2026-08-03 17:03:00,529] [INFO] ======================================================================
+[2026-08-03 17:03:01,166] [INFO] HTTP Request: HEAD https://huggingface.co/google/mt5-small/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+[2026-08-03 17:03:01,189] [INFO] HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/google/mt5-small/73fb5dbe4756edadc8fbe8c769b0a109493acf7a/config.json "HTTP/1.1 200 OK"
+[2026-08-03 17:03:01,467] [INFO] HTTP Request: HEAD https://huggingface.co/google/mt5-small/resolve/main/model.safetensors "HTTP/1.1 404 Not Found"
+[2026-08-03 17:03:01,695] [INFO] HTTP Request: GET https://huggingface.co/api/models/google/mt5-small "HTTP/1.1 200 OK"
+[2026-08-03 17:03:01,937] [INFO] HTTP Request: GET https://huggingface.co/api/models/google/mt5-small/commits/main "HTTP/1.1 200 OK"
+[2026-08-03 17:03:02,195] [INFO] HTTP Request: GET https://huggingface.co/api/models/google/mt5-small/discussions?p=0 "HTTP/1.1 200 OK"
+[2026-08-03 17:03:02,439] [INFO] HTTP Request: GET https://huggingface.co/api/models/google/mt5-small/commits/refs%2Fpr%2F15 "HTTP/1.1 200 OK"
+[2026-08-03 17:03:02,830] [INFO] HTTP Request: HEAD https://huggingface.co/google/mt5-small/resolve/refs%2Fpr%2F15/model.safetensors.index.json "HTTP/1.1 404 Not Found"
+[2026-08-03 17:03:03,027] [INFO] HTTP Request: HEAD https://huggingface.co/google/mt5-small/resolve/main/generation_config.json "HTTP/1.1 307 Temporary Redirect"
+[2026-08-03 17:03:03,049] [INFO] HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/google/mt5-small/73fb5dbe4756edadc8fbe8c769b0a109493acf7a/generation_config.json "HTTP/1.1 200 OK"
+[2026-08-03 17:03:03,054] [INFO] HTTP Request: HEAD https://huggingface.co/google/mt5-small/resolve/refs%2Fpr%2F15/model.safetensors "HTTP/1.1 302 Found"
+[2026-08-03 17:05:41,441] [INFO] Generation Length Check: Avg Pred Words = 9.4 | Avg Ref Words = 8.9
+[2026-08-03 17:05:41,441] [INFO] [Sample 1] Pred: 'आर्थिक प्रभाव हा देशाच्या आर्थिक विकासावर कमी दराच्या गुंतवणुकीचा प्रभाव असतो' | Ref: 'आर्थिक प्रभाव हा देशाच्या आर्थिक विकासावर कमी दराच्या गुंतवणुकीचा परिणाम असतो.'
+[2026-08-03 17:05:41,441] [INFO] [Sample 2] Pred: 'मी काकांना शेतीत नफ्यासाठी चांगल्या प्रतीचे बिया निवडण्याचा सल्ला दिला' | Ref: 'मी काकांना शेतीत नफ्यासाठी चांगल्या प्रतीचे बिया निवडण्याचा सल्ला दिला'
+[2026-08-03 17:05:41,442] [INFO] [Sample 3] Pred: 'वाढती लोकसंख्या जमिनीची मागणी हे देखील जंगलतोडीचे कारण आहे' | Ref: 'वाढती लोकसंख्या, जमिनीची मागणी हे देखील जंगलतोडीचे कारण आहे'
+[2026-08-03 17:08:14,781] [INFO] Generation Length Check: Avg Pred Words = 8.9 | Avg Ref Words = 8.9
+[2026-08-03 17:08:14,782] [INFO] [Sample 1] Pred: 'आर्थिक प्रभाव हा देशाच्या आर्थिक विकासावर कमी दराच्या गुंतवणुकीचा प्रभाव असतो' | Ref: 'आर्थिक प्रभाव हा देशाच्या आर्थिक विकासावर कमी दराच्या गुंतवणुकीचा परिणाम असतो.'
+[2026-08-03 17:08:14,782] [INFO] [Sample 2] Pred: 'मी काकांना शेतीत नफ्यासाठी चांगल्या प्रतीचे बिया निवडण्याचा सल्ला दिला' | Ref: 'मी काकांना शेतीत नफ्यासाठी चांगल्या प्रतीचे बिया निवडण्याचा सल्ला दिला'
+[2026-08-03 17:08:14,782] [INFO] [Sample 3] Pred: 'वाढती लोकसंख्या जमिनीची मागणी हे देखील जंगलतोडीचे कारण आहे' | Ref: 'वाढती लोकसंख्या, जमिनीची मागणी हे देखील जंगलतोडीचे कारण आहे'
+[2026-08-03 17:10:43,242] [INFO] Generation Length Check: Avg Pred Words = 8.9 | Avg Ref Words = 8.9
+[2026-08-03 17:10:43,243] [INFO] [Sample 1] Pred: 'आर्थिक प्रभाव हा देशाच्या आर्थिक विकासावर कमी दराच्या गुंतवणुकीचा प्रभाव असतो' | Ref: 'आर्थिक प्रभाव हा देशाच्या आर्थिक विकासावर कमी दराच्या गुंतवणुकीचा परिणाम असतो.'
+[2026-08-03 17:10:43,243] [INFO] [Sample 2] Pred: 'मी काकांना शेतीत नफ्यासाठी चांगल्या प्रतीचे बिया निवडण्याचा सल्ला दिला' | Ref: 'मी काकांना शेतीत नफ्यासाठी चांगल्या प्रतीचे बिया निवडण्याचा सल्ला दिला'
+[2026-08-03 17:10:43,243] [INFO] [Sample 3] Pred: 'वाढती लोकसंख्या जमिनीची मागणी हे देखील जंगलतोडीचे कारण आहे' | Ref: 'वाढती लोकसंख्या, जमिनीची मागणी हे देखील जंगलतोडीचे कारण आहे'
+[2026-08-03 17:13:11,199] [INFO] Generation Length Check: Avg Pred Words = 8.9 | Avg Ref Words = 8.9
+[2026-08-03 17:13:11,199] [INFO] [Sample 1] Pred: 'आर्थिक प्रभाव हा देशाच्या आर्थिक विकासावर कमी दराच्या गुंतवणुकीचा प्रभाव असतो' | Ref: 'आर्थिक प्रभाव हा देशाच्या आर्थिक विकासावर कमी दराच्या गुंतवणुकीचा परिणाम असतो.'
+[2026-08-03 17:13:11,199] [INFO] [Sample 2] Pred: 'मी काकांना शेतीत नफ्यासाठी चांगल्या प्रतीचे बिया निवडण्याचा सल्ला दिला' | Ref: 'मी काकांना शेतीत नफ्यासाठी चांगल्या प्रतीचे बिया निवडण्याचा सल्ला दिला'
+[2026-08-03 17:13:11,199] [INFO] [Sample 3] Pred: 'वाढती लोकसंख्या जमिनीची मागणी हे देखील जंगलतोडीचे कारण आहे' | Ref: 'वाढती लोकसंख्या, जमिनीची मागणी हे देखील जंगलतोडीचे कारण आहे'
+[2026-08-03 17:15:40,466] [INFO] Generation Length Check: Avg Pred Words = 8.9 | Avg Ref Words = 8.9
+[2026-08-03 17:15:40,466] [INFO] [Sample 1] Pred: 'आर्थिक प्रभाव हा देशाच्या आर्थिक विकासावर कमी दराच्या गुंतवणुकीचा प्रभाव असतो' | Ref: 'आर्थिक प्रभाव हा देशाच्या आर्थिक विकासावर कमी दराच्या गुंतवणुकीचा परिणाम असतो.'
+[2026-08-03 17:15:40,467] [INFO] [Sample 2] Pred: 'मी काकांना शेतीत नफ्यासाठी चांगल्या प्रतीचे बिया निवडण्याचा सल्ला दिला' | Ref: 'मी काकांना शेतीत नफ्यासाठी चांगल्या प्रतीचे बिया निवडण्याचा सल्ला दिला'
+[2026-08-03 17:15:40,467] [INFO] [Sample 3] Pred: 'वाढती लोकसंख्या, जमिनीची मागणी हे देखील जंगलतोडीचे कारण आहे' | Ref: 'वाढती लोकसंख्या, जमिनीची मागणी हे देखील जंगलतोडीचे कारण आहे'
+[2026-08-03 17:16:05,196] [INFO] Fold 3 Step-Averaged Training Loss: 1.0265
+[2026-08-03 17:16:05,197] [INFO] Evaluating Fold 3 on CV Validation Split (864 samples)...
+[2026-08-03 17:17:05,624] [INFO] Generation Length Check: Avg Pred Words = 8.9 | Avg Ref Words = 8.9
+[2026-08-03 17:17:05,625] [INFO] [Sample 1] Pred: 'आर्थिक प्रभाव हा देशाच्या आर्थिक विकासावर कमी दराच्या गुंतवणुकीचा प्रभाव असतो' | Ref: 'आर्थिक प्रभाव हा देशाच्या आर्थिक विकासावर कमी दराच्या गुंतवणुकीचा परिणाम असतो.'
+[2026-08-03 17:17:05,625] [INFO] [Sample 2] Pred: 'मी काकांना शेतीत नफ्यासाठी चांगल्या प्रतीचे बिया निवडण्याचा सल्ला दिला' | Ref: 'मी काकांना शेतीत नफ्यासाठी चांगल्या प्रतीचे बिया निवडण्याचा सल्ला दिला'
+[2026-08-03 17:17:05,625] [INFO] [Sample 3] Pred: 'वाढती लोकसंख्या, जमिनीची मागणी हे देखील जंगलतोडीचे कारण आहे' | Ref: 'वाढती लोकसंख्या, जमिनीची मागणी हे देखील जंगलतोडीचे कारण आहे'
+[2026-08-03 17:17:06,035] [INFO] Fold 3 Val Loss: 0.4046  Val BLEU: 81.34  Val chrF: 91.30
+[2026-08-03 17:17:06,036] [INFO] Evaluating Fold 3 on Held-Out Test Set (762 samples)...
+[2026-08-03 17:17:58,414] [INFO] Generation Length Check: Avg Pred Words = 9.0 | Avg Ref Words = 8.9
+[2026-08-03 17:17:58,414] [INFO] [Sample 1] Pred: 'रासायनिक खतामंदी सर्वात चांगले रासायनिक खत कोणते?' | Ref: 'सर्वात चांगले रासायनिक खत कोणते?'
+[2026-08-03 17:17:58,415] [INFO] [Sample 2] Pred: 'तुम्ही मोबाईलवरून ऍपद्वारे बँक तपशील देखील तपासू शकता' | Ref: 'तुम्ही ॲपद्वारे बँक तपशील देखील तपासू शकता'
+[2026-08-03 17:17:58,415] [INFO] [Sample 3] Pred: 'मी महाराष्ट्रातील बागनी यामी स्वीट्समध्ये आलो आहे' | Ref: 'मी महाराष्ट्रात बागनी यामी स्वीट्समध्ये आलो आहे'
+[2026-08-03 17:17:58,781] [INFO] Fold 3 Test Loss: 0.3780  Test BLEU: 80.89  Test chrF: 91.22
+[2026-08-03 17:17:59,294] [INFO] 
+======================================================================
+[2026-08-03 17:17:59,294] [INFO] RUNNING mT5 CROSS-VALIDATION: FOLD 4/5
+[2026-08-03 17:17:59,294] [INFO] ======================================================================
+[2026-08-03 17:17:59,678] [INFO] HTTP Request: HEAD https://huggingface.co/google/mt5-small/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+[2026-08-03 17:17:59,699] [INFO] HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/google/mt5-small/73fb5dbe4756edadc8fbe8c769b0a109493acf7a/config.json "HTTP/1.1 200 OK"
+[2026-08-03 17:17:59,949] [INFO] HTTP Request: HEAD https://huggingface.co/google/mt5-small/resolve/main/model.safetensors "HTTP/1.1 404 Not Found"
+[2026-08-03 17:18:00,191] [INFO] HTTP Request: GET https://huggingface.co/api/models/google/mt5-small "HTTP/1.1 200 OK"
+[2026-08-03 17:18:00,432] [INFO] HTTP Request: GET https://huggingface.co/api/models/google/mt5-small/commits/main "HTTP/1.1 200 OK"
+[2026-08-03 17:18:00,716] [INFO] HTTP Request: GET https://huggingface.co/api/models/google/mt5-small/discussions?p=0 "HTTP/1.1 200 OK"
+[2026-08-03 17:18:00,961] [INFO] HTTP Request: GET https://huggingface.co/api/models/google/mt5-small/commits/refs%2Fpr%2F15 "HTTP/1.1 200 OK"
+[2026-08-03 17:18:01,194] [INFO] HTTP Request: HEAD https://huggingface.co/google/mt5-small/resolve/refs%2Fpr%2F15/model.safetensors.index.json "HTTP/1.1 404 Not Found"
+[2026-08-03 17:18:01,425] [INFO] HTTP Request: HEAD https://huggingface.co/google/mt5-small/resolve/refs%2Fpr%2F15/model.safetensors "HTTP/1.1 302 Found"
+[2026-08-03 17:18:01,493] [INFO] HTTP Request: HEAD https://huggingface.co/google/mt5-small/resolve/main/generation_config.json "HTTP/1.1 307 Temporary Redirect"
+[2026-08-03 17:18:01,515] [INFO] HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/google/mt5-small/73fb5dbe4756edadc8fbe8c769b0a109493acf7a/generation_config.json "HTTP/1.1 200 OK"
+[2026-08-03 17:20:47,419] [INFO] Generation Length Check: Avg Pred Words = 9.5 | Avg Ref Words = 8.9
+[2026-08-03 17:20:47,419] [INFO] [Sample 1] Pred: 'कर्जासाठी मला ऑनलाईन फारम भरन जरुरीच आहे का?' | Ref: 'कर्जासाठी मला ऑनलाईन फॉर्म भरणे जरुरीच आहे का?'
+[2026-08-03 17:20:47,419] [INFO] [Sample 2] Pred: 'खासगी बँकांमध्ये ए.टी.एम मधून पैसे काढण्यासाठी जास्त शुल्क आकारले जाते' | Ref: 'खासगी बँकांमध्ये एटीएममधून पैसे काढण्यासाठी जास्त शुल्क आकारले जाते'
+[2026-08-03 17:20:47,419] [INFO] [Sample 3] Pred: 'आर.टी.जी.एस कायले आहे?' | Ref: 'आर.टी.जी.एस म्हणजे काय?'
+[2026-08-03 17:23:16,507] [INFO] Generation Length Check: Avg Pred Words = 8.9 | Avg Ref Words = 8.9
+[2026-08-03 17:23:16,507] [INFO] [Sample 1] Pred: 'कर्जासाठी मला ऑनलाईन फॉर्म भरायला जरुरी आहे का?' | Ref: 'कर्जासाठी मला ऑनलाईन फॉर्म भरणे जरुरीच आहे का?'
+[2026-08-03 17:23:16,507] [INFO] [Sample 2] Pred: 'खासगी बँकांमध्ये ए.टी.एम मधून पैसे काढण्यासाठी जास्त शुल्क आकारले जाते' | Ref: 'खासगी बँकांमध्ये एटीएममधून पैसे काढण्यासाठी जास्त शुल्क आकारले जाते'
+[2026-08-03 17:23:16,507] [INFO] [Sample 3] Pred: 'आर.टी.जी.एस काय आहे?' | Ref: 'आर.टी.जी.एस म्हणजे काय?'
+[2026-08-03 17:25:43,402] [INFO] Generation Length Check: Avg Pred Words = 8.9 | Avg Ref Words = 8.9
+[2026-08-03 17:25:43,402] [INFO] [Sample 1] Pred: 'कर्जासाठी मला ऑनलाईन फॉर्म भरणे गरजेचे आहे का?' | Ref: 'कर्जासाठी मला ऑनलाईन फॉर्म भरणे जरुरीच आहे का?'
+[2026-08-03 17:25:43,402] [INFO] [Sample 2] Pred: 'खासगी बँकांमध्ये ए.टी.एम मधून पैसे काढण्यासाठी जास्त शुल्क आकारले जाते' | Ref: 'खासगी बँकांमध्ये एटीएममधून पैसे काढण्यासाठी जास्त शुल्क आकारले जाते'
+[2026-08-03 17:25:43,402] [INFO] [Sample 3] Pred: 'आर.टी.जी.एस काय आहे?' | Ref: 'आर.टी.जी.एस म्हणजे काय?'
+[2026-08-03 17:28:12,430] [INFO] Generation Length Check: Avg Pred Words = 8.9 | Avg Ref Words = 8.9
+[2026-08-03 17:28:12,430] [INFO] [Sample 1] Pred: 'कर्जासाठी मला ऑनलाईन फॉर्म भरणे गरजेचे आहे का?' | Ref: 'कर्जासाठी मला ऑनलाईन फॉर्म भरणे जरुरीच आहे का?'
+[2026-08-03 17:28:12,430] [INFO] [Sample 2] Pred: 'खासगी बँकांमध्ये एटीएम मधून पैसे काढण्यासाठी जास्त शुल्क आकारले जाते' | Ref: 'खासगी बँकांमध्ये एटीएममधून पैसे काढण्यासाठी जास्त शुल्क आकारले जाते'
+[2026-08-03 17:28:12,430] [INFO] [Sample 3] Pred: 'आर.टी.जी.एस काय आहे?' | Ref: 'आर.टी.जी.एस म्हणजे काय?'
+[2026-08-03 17:30:40,059] [INFO] Generation Length Check: Avg Pred Words = 8.9 | Avg Ref Words = 8.9
+[2026-08-03 17:30:40,059] [INFO] [Sample 1] Pred: 'कर्जासाठी मला ऑनलाईन फॉर्म भरणे गरजेचे आहे का?' | Ref: 'कर्जासाठी मला ऑनलाईन फॉर्म भरणे जरुरीच आहे का?'
+[2026-08-03 17:30:40,059] [INFO] [Sample 2] Pred: 'खासगी बँकांमध्ये ए.टी.एम मधून पैसे काढण्यासाठी जास्त शुल्क आकारले जाते' | Ref: 'खासगी बँकांमध्ये एटीएममधून पैसे काढण्यासाठी जास्त शुल्क आकारले जाते'
+[2026-08-03 17:30:40,059] [INFO] [Sample 3] Pred: 'आर.टी.जी.एस काय आहे?' | Ref: 'आर.टी.जी.एस म्हणजे काय?'
+[2026-08-03 17:31:05,133] [INFO] Fold 4 Step-Averaged Training Loss: 0.8550
+[2026-08-03 17:31:05,133] [INFO] Evaluating Fold 4 on CV Validation Split (864 samples)...
+[2026-08-03 17:32:03,623] [INFO] Generation Length Check: Avg Pred Words = 8.9 | Avg Ref Words = 8.9
+[2026-08-03 17:32:03,623] [INFO] [Sample 1] Pred: 'कर्जासाठी मला ऑनलाईन फॉर्म भरणे गरजेचे आहे का?' | Ref: 'कर्जासाठी मला ऑनलाईन फॉर्म भरणे जरुरीच आहे का?'
+[2026-08-03 17:32:03,623] [INFO] [Sample 2] Pred: 'खासगी बँकांमध्ये ए.टी.एम मधून पैसे काढण्यासाठी जास्त शुल्क आकारले जाते' | Ref: 'खासगी बँकांमध्ये एटीएममधून पैसे काढण्यासाठी जास्त शुल्क आकारले जाते'
+[2026-08-03 17:32:03,623] [INFO] [Sample 3] Pred: 'आर.टी.जी.एस काय आहे?' | Ref: 'आर.टी.जी.एस म्हणजे काय?'
+[2026-08-03 17:32:04,042] [INFO] Fold 4 Val Loss: 0.4390  Val BLEU: 78.43  Val chrF: 90.25
+[2026-08-03 17:32:04,042] [INFO] Evaluating Fold 4 on Held-Out Test Set (762 samples)...
+[2026-08-03 17:32:57,493] [INFO] Generation Length Check: Avg Pred Words = 9.0 | Avg Ref Words = 8.9
+[2026-08-03 17:32:57,493] [INFO] [Sample 1] Pred: 'रासायनिक खतामंदी सर्वात चांगले रासायनिक खत कोणते?' | Ref: 'सर्वात चांगले रासायनिक खत कोणते?'
+[2026-08-03 17:32:57,493] [INFO] [Sample 2] Pred: 'तुम्ही मोबाईलवरून ऍपद्वारे बँक तपशील देखील तपासू शकता' | Ref: 'तुम्ही ॲपद्वारे बँक तपशील देखील तपासू शकता'
+[2026-08-03 17:32:57,493] [INFO] [Sample 3] Pred: 'मी महाराष्ट्रातील बागनी यामी स्वीट्समध्ये आलो आहे' | Ref: 'मी महाराष्ट्रात बागनी यामी स्वीट्समध्ये आलो आहे'
+[2026-08-03 17:32:57,858] [INFO] Fold 4 Test Loss: 0.3715  Test BLEU: 80.97  Test chrF: 91.26
+[2026-08-03 17:32:58,401] [INFO] 
+======================================================================
+[2026-08-03 17:32:58,401] [INFO] RUNNING mT5 CROSS-VALIDATION: FOLD 5/5
+[2026-08-03 17:32:58,401] [INFO] ======================================================================
+[2026-08-03 17:32:58,999] [INFO] HTTP Request: HEAD https://huggingface.co/google/mt5-small/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+[2026-08-03 17:32:59,021] [INFO] HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/google/mt5-small/73fb5dbe4756edadc8fbe8c769b0a109493acf7a/config.json "HTTP/1.1 200 OK"
+[2026-08-03 17:32:59,260] [INFO] HTTP Request: HEAD https://huggingface.co/google/mt5-small/resolve/main/model.safetensors "HTTP/1.1 404 Not Found"
+[2026-08-03 17:32:59,501] [INFO] HTTP Request: GET https://huggingface.co/api/models/google/mt5-small "HTTP/1.1 200 OK"
+[2026-08-03 17:32:59,745] [INFO] HTTP Request: GET https://huggingface.co/api/models/google/mt5-small/commits/main "HTTP/1.1 200 OK"
+[2026-08-03 17:33:00,022] [INFO] HTTP Request: GET https://huggingface.co/api/models/google/mt5-small/discussions?p=0 "HTTP/1.1 200 OK"
+[2026-08-03 17:33:00,308] [INFO] HTTP Request: GET https://huggingface.co/api/models/google/mt5-small/commits/refs%2Fpr%2F15 "HTTP/1.1 200 OK"
+[2026-08-03 17:33:00,532] [INFO] HTTP Request: HEAD https://huggingface.co/google/mt5-small/resolve/refs%2Fpr%2F15/model.safetensors.index.json "HTTP/1.1 404 Not Found"
+[2026-08-03 17:33:00,759] [INFO] HTTP Request: HEAD https://huggingface.co/google/mt5-small/resolve/refs%2Fpr%2F15/model.safetensors "HTTP/1.1 302 Found"
+[2026-08-03 17:33:00,776] [INFO] HTTP Request: HEAD https://huggingface.co/google/mt5-small/resolve/main/generation_config.json "HTTP/1.1 307 Temporary Redirect"
+[2026-08-03 17:33:00,797] [INFO] HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/google/mt5-small/73fb5dbe4756edadc8fbe8c769b0a109493acf7a/generation_config.json "HTTP/1.1 200 OK"
+[2026-08-03 17:36:07,333] [INFO] Generation Length Check: Avg Pred Words = 9.8 | Avg Ref Words = 8.9
+[2026-08-03 17:36:07,333] [INFO] [Sample 1] Pred: 'नाग अळीचं लक्षण कोणते?' | Ref: 'नागाच्या अळीचं लक्षण कोणते?'
+[2026-08-03 17:36:07,333] [INFO] [Sample 2] Pred: 'प्रत्येक प्रकारच्या कंपनी आपले शेअर्स शेअर बाजारात विकतात' | Ref: 'प्रत्येक प्रकारची कंपनी आपले शेअर्स शेअर बाजारात विकते'
+[2026-08-03 17:36:07,333] [INFO] [Sample 3] Pred: 'तांदूळ आणि गहू सर्वात जास्त पंजाब आणि हरियाणामध्ये वाढतात' | Ref: 'तांदूळ आणि गहू सर्वात जास्त पंजाब आणि हरियाणामध्ये वाढतात'
+[2026-08-03 17:38:42,469] [INFO] Generation Length Check: Avg Pred Words = 9.1 | Avg Ref Words = 8.9
+[2026-08-03 17:38:42,469] [INFO] [Sample 1] Pred: 'नाग अळीचे लक्षण कोणते?' | Ref: 'नागाच्या अळीचं लक्षण कोणते?'
+[2026-08-03 17:38:42,469] [INFO] [Sample 2] Pred: 'प्रत्येक प्रकारच्या कंपनी आपले शेअर्स शेअर बाजारात विकतात' | Ref: 'प्रत्येक प्रकारची कंपनी आपले शेअर्स शेअर बाजारात विकते'
+[2026-08-03 17:38:42,469] [INFO] [Sample 3] Pred: 'तांदूळ आणि गहू सर्वात जास्त पंजाब आणि हरियाणामध्ये वाढतात' | Ref: 'तांदूळ आणि गहू सर्वात जास्त पंजाब आणि हरियाणामध्ये वाढतात'
+[2026-08-03 17:41:08,392] [INFO] Generation Length Check: Avg Pred Words = 9.0 | Avg Ref Words = 8.9
+[2026-08-03 17:41:08,392] [INFO] [Sample 1] Pred: 'नाग अळीचे लक्षण कोणते?' | Ref: 'नागाच्या अळीचं लक्षण कोणते?'
+[2026-08-03 17:41:08,392] [INFO] [Sample 2] Pred: 'प्रत्येक प्रकारच्या कंपनी आपले शेअर्स शेअर बाजारात विकतात' | Ref: 'प्रत्येक प्रकारची कंपनी आपले शेअर्स शेअर बाजारात विकते'
+[2026-08-03 17:41:08,392] [INFO] [Sample 3] Pred: 'तांदूळ आणि गहू सर्वात जास्त पंजाब आणि हरियाणामध्ये वाढतात' | Ref: 'तांदूळ आणि गहू सर्वात जास्त पंजाब आणि हरियाणामध्ये वाढतात'
+[2026-08-03 17:43:34,165] [INFO] Generation Length Check: Avg Pred Words = 9.0 | Avg Ref Words = 8.9
+[2026-08-03 17:43:34,165] [INFO] [Sample 1] Pred: 'नाग अळीचे लक्षण कोणते?' | Ref: 'नागाच्या अळीचं लक्षण कोणते?'
+[2026-08-03 17:43:34,166] [INFO] [Sample 2] Pred: 'प्रत्येक प्रकारच्या कंपनी आपले शेअर्स शेअर बाजारात विकतात' | Ref: 'प्रत्येक प्रकारची कंपनी आपले शेअर्स शेअर बाजारात विकते'
+[2026-08-03 17:43:34,166] [INFO] [Sample 3] Pred: 'तांदूळ आणि गहू सर्वात जास्त पंजाब आणि हरियाणामध्ये वाढतात' | Ref: 'तांदूळ आणि गहू सर्वात जास्त पंजाब आणि हरियाणामध्ये वाढतात'
+[2026-08-03 17:46:00,068] [INFO] Generation Length Check: Avg Pred Words = 9.0 | Avg Ref Words = 8.9
+[2026-08-03 17:46:00,069] [INFO] [Sample 1] Pred: 'नाग अळीचे लक्षण कोणते?' | Ref: 'नागाच्या अळीचं लक्षण कोणते?'
+[2026-08-03 17:46:00,069] [INFO] [Sample 2] Pred: 'प्रत्येक प्रकारच्या कंपनी आपले शेअर्स शेअर बाजारात विकतात' | Ref: 'प्रत्येक प्रकारची कंपनी आपले शेअर्स शेअर बाजारात विकते'
+[2026-08-03 17:46:00,069] [INFO] [Sample 3] Pred: 'तांदूळ आणि गहू सर्वात जास्त पंजाब आणि हरियाणामध्ये वाढतात' | Ref: 'तांदूळ आणि गहू सर्वात जास्त पंजाब आणि हरियाणामध्ये वाढतात'
+[2026-08-03 17:46:24,894] [INFO] Fold 5 Step-Averaged Training Loss: 1.5047
+[2026-08-03 17:46:24,894] [INFO] Evaluating Fold 5 on CV Validation Split (868 samples)...
+[2026-08-03 17:47:20,408] [INFO] Generation Length Check: Avg Pred Words = 9.0 | Avg Ref Words = 8.9
+[2026-08-03 17:47:20,408] [INFO] [Sample 1] Pred: 'नाग अळीचे लक्षण कोणते?' | Ref: 'नागाच्या अळीचं लक्षण कोणते?'
+[2026-08-03 17:47:20,408] [INFO] [Sample 2] Pred: 'प्रत्येक प्रकारच्या कंपनी आपले शेअर्स शेअर बाजारात विकतात' | Ref: 'प्रत्येक प्रकारची कंपनी आपले शेअर्स शेअर बाजारात विकते'
+[2026-08-03 17:47:20,408] [INFO] [Sample 3] Pred: 'तांदूळ आणि गहू सर्वात जास्त पंजाब आणि हरियाणामध्ये वाढतात' | Ref: 'तांदूळ आणि गहू सर्वात जास्त पंजाब आणि हरियाणामध्ये वाढतात'
+[2026-08-03 17:47:20,819] [INFO] Fold 5 Val Loss: 0.4587  Val BLEU: 77.73  Val chrF: 89.68
+[2026-08-03 17:47:20,819] [INFO] Evaluating Fold 5 on Held-Out Test Set (762 samples)...
+[2026-08-03 17:48:10,622] [INFO] Generation Length Check: Avg Pred Words = 9.0 | Avg Ref Words = 8.9
+[2026-08-03 17:48:10,622] [INFO] [Sample 1] Pred: 'रासायनिक खतामंदी सर्वात चांगले रासायनिक खत कोणते?' | Ref: 'सर्वात चांगले रासायनिक खत कोणते?'
+[2026-08-03 17:48:10,622] [INFO] [Sample 2] Pred: 'तुम्ही मोबाईलवरून ऍपद्वारे बँक तपशील देखील तपासू शकता' | Ref: 'तुम्ही ॲपद्वारे बँक तपशील देखील तपासू शकता'
+[2026-08-03 17:48:10,622] [INFO] [Sample 3] Pred: 'मी महाराष्ट्रातील बागनी यामी स्वीट्समध्ये आलो आहे' | Ref: 'मी महाराष्ट्रात बागनी यामी स्वीट्समध्ये आलो आहे'
+[2026-08-03 17:48:10,987] [INFO] Fold 5 Test Loss: 0.3723  Test BLEU: 80.82  Test chrF: 91.14
+[2026-08-03 17:48:11,477] [INFO] === mT5 CROSS VALIDATION COMPLETED ===
+[2026-08-03 17:48:11,477] [INFO] Avg Test Loss: 0.3731 | BLEU: 80.9962 | chrF++: 91.2073
+[2026-08-03 17:48:11,478] [INFO] Best Fine-Tuned Model Saved to: models\mt5_d4_16k\best_model
+[2026-08-03 17:48:11,673] [INFO] --- [OK] Successfully completed: D4 16k (Varhadi Original)
+[2026-08-03 17:48:11,673] [INFO] 
+---> Starting Variant 4/8: D124 16k (Combined Original)
+[2026-08-03 17:48:11,832] [INFO] Loaded 16,163 parallel samples from 3 CSV file(s).

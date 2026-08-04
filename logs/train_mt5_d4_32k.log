@@ -1,0 +1,265 @@
+[2026-08-04 02:30:23,014] [INFO] ======================================================================
+[2026-08-04 02:30:23,014] [INFO] mT5 FINE-TUNING (OPTION B: 85/15 STRATIFIED SPLIT + 5-FOLD CV)
+[2026-08-04 02:30:23,014] [INFO] ======================================================================
+[2026-08-04 02:30:23,014] [INFO] Target Model            : google/mt5-small
+[2026-08-04 02:30:23,014] [INFO] Output Directory        : D:\dialect-norm\models\mt5_d4_32k
+[2026-08-04 02:30:23,015] [INFO] Log File                : D:\dialect-norm\logs\train_mt5_d4_32k.log
+[2026-08-04 02:30:23,015] [INFO] Total Dataset Size      : 10,155 pairs
+[2026-08-04 02:30:23,015] [INFO] ======================================================================
+[2026-08-04 02:30:23,022] [INFO] 85% Training Pool: 8,632 pairs
+[2026-08-04 02:30:23,022] [INFO] 15% Held-Out Test : 1,523 pairs
+[2026-08-04 02:30:23,367] [INFO] HTTP Request: HEAD https://huggingface.co/google/mt5-small/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+[2026-08-04 02:30:23,386] [INFO] HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/google/mt5-small/73fb5dbe4756edadc8fbe8c769b0a109493acf7a/config.json "HTTP/1.1 200 OK"
+[2026-08-04 02:30:23,616] [INFO] HTTP Request: HEAD https://huggingface.co/google/mt5-small/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+[2026-08-04 02:30:23,639] [INFO] HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/google/mt5-small/73fb5dbe4756edadc8fbe8c769b0a109493acf7a/tokenizer_config.json "HTTP/1.1 200 OK"
+[2026-08-04 02:30:23,867] [INFO] HTTP Request: GET https://huggingface.co/api/models/google/mt5-small/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
+[2026-08-04 02:30:24,090] [INFO] HTTP Request: GET https://huggingface.co/api/models/google/mt5-small/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+[2026-08-04 02:30:25,069] [INFO] HTTP Request: GET https://huggingface.co/api/models/google/mt5-small "HTTP/1.1 200 OK"
+[2026-08-04 02:30:25,070] [INFO] 
+======================================================================
+[2026-08-04 02:30:25,070] [INFO] RUNNING mT5 CROSS-VALIDATION: FOLD 1/5
+[2026-08-04 02:30:25,070] [INFO] ======================================================================
+[2026-08-04 02:30:25,289] [INFO] HTTP Request: HEAD https://huggingface.co/google/mt5-small/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+[2026-08-04 02:30:25,309] [INFO] HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/google/mt5-small/73fb5dbe4756edadc8fbe8c769b0a109493acf7a/config.json "HTTP/1.1 200 OK"
+[2026-08-04 02:30:25,548] [INFO] HTTP Request: HEAD https://huggingface.co/google/mt5-small/resolve/main/model.safetensors "HTTP/1.1 404 Not Found"
+[2026-08-04 02:30:25,774] [INFO] HTTP Request: GET https://huggingface.co/api/models/google/mt5-small "HTTP/1.1 200 OK"
+[2026-08-04 02:30:26,015] [INFO] HTTP Request: GET https://huggingface.co/api/models/google/mt5-small/commits/main "HTTP/1.1 200 OK"
+[2026-08-04 02:30:26,328] [INFO] HTTP Request: GET https://huggingface.co/api/models/google/mt5-small/discussions?p=0 "HTTP/1.1 200 OK"
+[2026-08-04 02:30:26,612] [INFO] HTTP Request: GET https://huggingface.co/api/models/google/mt5-small/commits/refs%2Fpr%2F15 "HTTP/1.1 200 OK"
+[2026-08-04 02:30:26,838] [INFO] HTTP Request: HEAD https://huggingface.co/google/mt5-small/resolve/refs%2Fpr%2F15/model.safetensors.index.json "HTTP/1.1 404 Not Found"
+[2026-08-04 02:30:27,067] [INFO] HTTP Request: HEAD https://huggingface.co/google/mt5-small/resolve/refs%2Fpr%2F15/model.safetensors "HTTP/1.1 302 Found"
+[2026-08-04 02:30:27,164] [INFO] HTTP Request: HEAD https://huggingface.co/google/mt5-small/resolve/main/generation_config.json "HTTP/1.1 307 Temporary Redirect"
+[2026-08-04 02:30:27,183] [INFO] HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/google/mt5-small/73fb5dbe4756edadc8fbe8c769b0a109493acf7a/generation_config.json "HTTP/1.1 200 OK"
+[2026-08-04 02:34:37,239] [INFO] Generation Length Check: Avg Pred Words = 9.8 | Avg Ref Words = 9.8
+[2026-08-04 02:34:37,240] [INFO] [Sample 1] Pred: 'रीपर बाइंडर त्याच्या वापरासाठी गुरेढोरे किंवा मशीनशी जोडलेले असते' | Ref: 'रीपर बाइंडर त्याच्या वापरासाठी गुरेढोरे किंवा मशीनशी जोडलेले असते'
+[2026-08-04 02:34:37,240] [INFO] [Sample 2] Pred: 'महेशच्या भावाने महेशला वेल लागवड सुरू करण्याची सूचना केली' | Ref: 'महेशच्या भावाने महेशला वेल लागवड सुरू करण्याची सूचना केली'
+[2026-08-04 02:34:37,240] [INFO] [Sample 3] Pred: 'माझ्या शेतात तांदूळाची काळजी माथून केली आहे, मुलगा त्याच्या पीकला काय काय दिले आहे?' | Ref: 'माझ्या शेतात तांदूळाची काळजी घेतली आहे, मुलाला त्याच्या पीकला काय काय दिले आहे?'
+[2026-08-04 02:39:07,019] [INFO] Generation Length Check: Avg Pred Words = 9.9 | Avg Ref Words = 9.8
+[2026-08-04 02:39:07,019] [INFO] [Sample 1] Pred: 'रीपर बाइंडर त्याच्या वापरासाठी गुरेढोरे किंवा मशीनशी जोडलेले असते' | Ref: 'रीपर बाइंडर त्याच्या वापरासाठी गुरेढोरे किंवा मशीनशी जोडलेले असते'
+[2026-08-04 02:39:07,019] [INFO] [Sample 2] Pred: 'महेशच्या भावाने महेशला वेल लागवड सुरू करण्याची सूचना केली' | Ref: 'महेशच्या भावाने महेशला वेल लागवड सुरू करण्याची सूचना केली'
+[2026-08-04 02:39:07,019] [INFO] [Sample 3] Pred: 'माझ्या शेतात तांदूळाची काळजी माथून केली आहे, मुलगा त्याच्या पीकला काय काय दिले आहे?' | Ref: 'माझ्या शेतात तांदूळाची काळजी घेतली आहे, मुलाला त्याच्या पीकला काय काय दिले आहे?'
+[2026-08-04 02:43:35,738] [INFO] Generation Length Check: Avg Pred Words = 9.9 | Avg Ref Words = 9.8
+[2026-08-04 02:43:35,738] [INFO] [Sample 1] Pred: 'रीपर बाइंडर त्याच्या वापरासाठी गुरेढोरे किंवा मशीनशी जोडलेले असते' | Ref: 'रीपर बाइंडर त्याच्या वापरासाठी गुरेढोरे किंवा मशीनशी जोडलेले असते'
+[2026-08-04 02:43:35,738] [INFO] [Sample 2] Pred: 'महेशच्या भावाने महेशला वेल लागवड सुरू करण्याची सूचना केली' | Ref: 'महेशच्या भावाने महेशला वेल लागवड सुरू करण्याची सूचना केली'
+[2026-08-04 02:43:35,739] [INFO] [Sample 3] Pred: 'माझ्या शेतात तांदूळाची काळजी मधून केली आहे, मुलगा त्याच्या पीकला काय काय दिले आहे?' | Ref: 'माझ्या शेतात तांदूळाची काळजी घेतली आहे, मुलाला त्याच्या पीकला काय काय दिले आहे?'
+[2026-08-04 02:48:00,841] [INFO] Generation Length Check: Avg Pred Words = 9.9 | Avg Ref Words = 9.8
+[2026-08-04 02:48:00,841] [INFO] [Sample 1] Pred: 'रीपर बाइंडर त्याच्या वापरासाठी गुरेढोरे किंवा मशीनशी जोडलेले असते' | Ref: 'रीपर बाइंडर त्याच्या वापरासाठी गुरेढोरे किंवा मशीनशी जोडलेले असते'
+[2026-08-04 02:48:00,841] [INFO] [Sample 2] Pred: 'महेशच्या भावाने महेशला वेल लागवड सुरू करण्याची सूचना केली' | Ref: 'महेशच्या भावाने महेशला वेल लागवड सुरू करण्याची सूचना केली'
+[2026-08-04 02:48:00,841] [INFO] [Sample 3] Pred: 'माझ्या शेतात तांदूळाची काळजी मधून केली आहे, मुलगा त्याच्या पीकला काय काय दिले आहे?' | Ref: 'माझ्या शेतात तांदूळाची काळजी घेतली आहे, मुलाला त्याच्या पीकला काय काय दिले आहे?'
+[2026-08-04 02:52:27,853] [INFO] Generation Length Check: Avg Pred Words = 9.9 | Avg Ref Words = 9.8
+[2026-08-04 02:52:27,853] [INFO] [Sample 1] Pred: 'रीपर बाइंडर त्याच्या वापरासाठी गुरेढोरे किंवा मशीनशी जोडलेले असते' | Ref: 'रीपर बाइंडर त्याच्या वापरासाठी गुरेढोरे किंवा मशीनशी जोडलेले असते'
+[2026-08-04 02:52:27,853] [INFO] [Sample 2] Pred: 'महेशच्या भावाने महेशला वेल लागवड सुरू करण्याची सूचना केली' | Ref: 'महेशच्या भावाने महेशला वेल लागवड सुरू करण्याची सूचना केली'
+[2026-08-04 02:52:27,854] [INFO] [Sample 3] Pred: 'माझ्या शेतात तांदूळाची काळजी मधून केली आहे, मुलगा त्याच्या पीकला काय काय दिले आहे?' | Ref: 'माझ्या शेतात तांदूळाची काळजी घेतली आहे, मुलाला त्याच्या पीकला काय काय दिले आहे?'
+[2026-08-04 02:52:55,461] [INFO] Fold 1 Step-Averaged Training Loss: 0.6550
+[2026-08-04 02:52:55,462] [INFO] Evaluating Fold 1 on CV Validation Split (1,726 samples)...
+[2026-08-04 02:54:44,529] [INFO] Generation Length Check: Avg Pred Words = 9.9 | Avg Ref Words = 9.8
+[2026-08-04 02:54:44,529] [INFO] [Sample 1] Pred: 'रीपर बाइंडर त्याच्या वापरासाठी गुरेढोरे किंवा मशीनशी जोडलेले असते' | Ref: 'रीपर बाइंडर त्याच्या वापरासाठी गुरेढोरे किंवा मशीनशी जोडलेले असते'
+[2026-08-04 02:54:44,529] [INFO] [Sample 2] Pred: 'महेशच्या भावाने महेशला वेल लागवड सुरू करण्याची सूचना केली' | Ref: 'महेशच्या भावाने महेशला वेल लागवड सुरू करण्याची सूचना केली'
+[2026-08-04 02:54:44,529] [INFO] [Sample 3] Pred: 'माझ्या शेतात तांदूळाची काळजी मधून केली आहे, मुलगा त्याच्या पीकला काय काय दिले आहे?' | Ref: 'माझ्या शेतात तांदूळाची काळजी घेतली आहे, मुलाला त्याच्या पीकला काय काय दिले आहे?'
+[2026-08-04 02:54:45,646] [INFO] Fold 1 Val Loss: 0.3345  Val BLEU: 78.96  Val chrF: 90.66
+[2026-08-04 02:54:45,646] [INFO] Evaluating Fold 1 on Held-Out Test Set (1,523 samples)...
+[2026-08-04 02:56:22,381] [INFO] Generation Length Check: Avg Pred Words = 9.9 | Avg Ref Words = 9.8
+[2026-08-04 02:56:22,382] [INFO] [Sample 1] Pred: 'ग्रामसेवा केंद्राचे मुख्य अधिकारी कोण आहे, त्यांचे फोन नंबर आहे?' | Ref: 'ग्रामसेवा केंद्राचे मुख्य अधिकारी कोण आहे, त्यांचे फोन नंबर कोण आहे?'
+[2026-08-04 02:56:22,382] [INFO] [Sample 2] Pred: 'महेशने छिन्नीच्या नांगरासह बैलांच्या मदतीने जमीन नांगरली' | Ref: 'महेशने छिन्नीच्या नांगरासह बैलांच्या मदतीने जमीन नांगरली'
+[2026-08-04 02:56:22,382] [INFO] [Sample 3] Pred: 'ग्रामपंचायतीच्या कार्यकारी समितीने कार्यक्रम अधिकृत केला पाहिजे, कशामुळे हे नवीन कोणते प्रकल्प आहे?' | Ref: 'ग्रामपंचायतीच्या कार्यकारी समितीने कार्यक्रम अधिकृत केला पाहिजे, कशामुळे हे नवीन कोणते प्रकल्प आहे?'
+[2026-08-04 02:56:23,074] [INFO] Fold 1 Test Loss: 0.3246  Test BLEU: 79.13  Test chrF: 90.64
+[2026-08-04 02:56:23,075] [INFO] New Best Fold (1) Test BLEU: 79.13! Saving local model to: models\mt5_d4_32k\best_model
+[2026-08-04 02:56:30,942] [INFO] 
+======================================================================
+[2026-08-04 02:56:30,942] [INFO] RUNNING mT5 CROSS-VALIDATION: FOLD 2/5
+[2026-08-04 02:56:30,942] [INFO] ======================================================================
+[2026-08-04 02:56:31,245] [INFO] HTTP Request: HEAD https://huggingface.co/google/mt5-small/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+[2026-08-04 02:56:31,264] [INFO] HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/google/mt5-small/73fb5dbe4756edadc8fbe8c769b0a109493acf7a/config.json "HTTP/1.1 200 OK"
+[2026-08-04 02:56:31,494] [INFO] HTTP Request: HEAD https://huggingface.co/google/mt5-small/resolve/main/model.safetensors "HTTP/1.1 404 Not Found"
+[2026-08-04 02:56:31,721] [INFO] HTTP Request: GET https://huggingface.co/api/models/google/mt5-small "HTTP/1.1 200 OK"
+[2026-08-04 02:56:31,963] [INFO] HTTP Request: GET https://huggingface.co/api/models/google/mt5-small/commits/main "HTTP/1.1 200 OK"
+[2026-08-04 02:56:32,235] [INFO] HTTP Request: GET https://huggingface.co/api/models/google/mt5-small/discussions?p=0 "HTTP/1.1 200 OK"
+[2026-08-04 02:56:32,513] [INFO] HTTP Request: GET https://huggingface.co/api/models/google/mt5-small/commits/refs%2Fpr%2F15 "HTTP/1.1 200 OK"
+[2026-08-04 02:56:32,799] [INFO] HTTP Request: HEAD https://huggingface.co/google/mt5-small/resolve/refs%2Fpr%2F15/model.safetensors.index.json "HTTP/1.1 404 Not Found"
+[2026-08-04 02:56:32,983] [INFO] HTTP Request: HEAD https://huggingface.co/google/mt5-small/resolve/main/generation_config.json "HTTP/1.1 307 Temporary Redirect"
+[2026-08-04 02:56:33,005] [INFO] HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/google/mt5-small/73fb5dbe4756edadc8fbe8c769b0a109493acf7a/generation_config.json "HTTP/1.1 200 OK"
+[2026-08-04 02:56:33,027] [INFO] HTTP Request: HEAD https://huggingface.co/google/mt5-small/resolve/refs%2Fpr%2F15/model.safetensors "HTTP/1.1 302 Found"
+[2026-08-04 03:00:39,783] [INFO] Generation Length Check: Avg Pred Words = 9.8 | Avg Ref Words = 9.7
+[2026-08-04 03:00:39,783] [INFO] [Sample 1] Pred: 'आज माझ्या मुलगा बाजारातील भाजीपाला पाहिला आहे, ते खूप स्वस्त आहे.' | Ref: 'आज मुलाला बाजारातील भाजीपाला पाहिला आहे, ते खूप स्वस्त आहे.'
+[2026-08-04 03:00:39,783] [INFO] [Sample 2] Pred: 'वित्तीय सेवा किती परकारच्या असतात व मला त्या कशा मिळेल?' | Ref: 'वित्तीय सेवा किती आवश्यक आहेत आणि मला ते कशा मिळतील?'
+[2026-08-04 03:00:39,783] [INFO] [Sample 3] Pred: 'मला ऑनलाईन गेल्या बगर बँकेत खात खोलता येईल का?' | Ref: 'मला ऑनलाईन गेल्यावर बँकेत खाते उघडता येईल का?'
+[2026-08-04 03:05:05,968] [INFO] Generation Length Check: Avg Pred Words = 9.8 | Avg Ref Words = 9.7
+[2026-08-04 03:05:05,968] [INFO] [Sample 1] Pred: 'आज माझ्या मुलगा बाजारातील भाजीपाला पाहिला आहे, ते खूप स्वस्त आहे.' | Ref: 'आज मुलाला बाजारातील भाजीपाला पाहिला आहे, ते खूप स्वस्त आहे.'
+[2026-08-04 03:05:05,969] [INFO] [Sample 2] Pred: 'वित्तीय सेवा किती परकारच्या असतात व मला त्या कशा मिळेल?' | Ref: 'वित्तीय सेवा किती आवश्यक आहेत आणि मला ते कशा मिळतील?'
+[2026-08-04 03:05:05,969] [INFO] [Sample 3] Pred: 'मला ऑनलाईन गेल्या बगर बँकेत खात खोलता येईल का?' | Ref: 'मला ऑनलाईन गेल्यावर बँकेत खाते उघडता येईल का?'
+[2026-08-04 03:09:30,438] [INFO] Generation Length Check: Avg Pred Words = 9.8 | Avg Ref Words = 9.7
+[2026-08-04 03:09:30,439] [INFO] [Sample 1] Pred: 'आज माझ्या मुलगा बाजारातील भाजीपाला पाहिला आहे, ते खूप स्वस्त आहे.' | Ref: 'आज मुलाला बाजारातील भाजीपाला पाहिला आहे, ते खूप स्वस्त आहे.'
+[2026-08-04 03:09:30,439] [INFO] [Sample 2] Pred: 'वित्तीय सेवा किती परकारच्या असतात व मला त्या कशा मिळेल?' | Ref: 'वित्तीय सेवा किती आवश्यक आहेत आणि मला ते कशा मिळतील?'
+[2026-08-04 03:09:30,439] [INFO] [Sample 3] Pred: 'मला ऑनलाईन गेल्या बँकेत खात खोलता येईल का?' | Ref: 'मला ऑनलाईन गेल्यावर बँकेत खाते उघडता येईल का?'
+[2026-08-04 03:13:54,830] [INFO] Generation Length Check: Avg Pred Words = 9.8 | Avg Ref Words = 9.7
+[2026-08-04 03:13:54,830] [INFO] [Sample 1] Pred: 'आज माझ्या मुलाला बाजारातील भाजीपाला पाहिला आहे, ते खूप स्वस्त आहे.' | Ref: 'आज मुलाला बाजारातील भाजीपाला पाहिला आहे, ते खूप स्वस्त आहे.'
+[2026-08-04 03:13:54,830] [INFO] [Sample 2] Pred: 'वित्तीय सेवा किती परकारच्या असतात व मला त्या कशा मिळेल?' | Ref: 'वित्तीय सेवा किती आवश्यक आहेत आणि मला ते कशा मिळतील?'
+[2026-08-04 03:13:54,830] [INFO] [Sample 3] Pred: 'मला ऑनलाईन गेल्या बगर बँकेत खात खोलता येईल का?' | Ref: 'मला ऑनलाईन गेल्यावर बँकेत खाते उघडता येईल का?'
+[2026-08-04 03:18:19,465] [INFO] Generation Length Check: Avg Pred Words = 9.8 | Avg Ref Words = 9.7
+[2026-08-04 03:18:19,465] [INFO] [Sample 1] Pred: 'आज माझ्या मुलाला बाजारातील भाजीपाला पाहिला आहे, ते खूप स्वस्त आहे.' | Ref: 'आज मुलाला बाजारातील भाजीपाला पाहिला आहे, ते खूप स्वस्त आहे.'
+[2026-08-04 03:18:19,466] [INFO] [Sample 2] Pred: 'वित्तीय सेवा किती परकारच्या असतात व मला त्या कशा मिळेल?' | Ref: 'वित्तीय सेवा किती आवश्यक आहेत आणि मला ते कशा मिळतील?'
+[2026-08-04 03:18:19,466] [INFO] [Sample 3] Pred: 'मला ऑनलाईन गेल्या बगर बँकेत खात खोलता येईल का?' | Ref: 'मला ऑनलाईन गेल्यावर बँकेत खाते उघडता येईल का?'
+[2026-08-04 03:18:47,296] [INFO] Fold 2 Step-Averaged Training Loss: 0.6808
+[2026-08-04 03:18:47,296] [INFO] Evaluating Fold 2 on CV Validation Split (1,726 samples)...
+[2026-08-04 03:20:34,820] [INFO] Generation Length Check: Avg Pred Words = 9.8 | Avg Ref Words = 9.7
+[2026-08-04 03:20:34,820] [INFO] [Sample 1] Pred: 'आज माझ्या मुलाला बाजारातील भाजीपाला पाहिला आहे, ते खूप स्वस्त आहे.' | Ref: 'आज मुलाला बाजारातील भाजीपाला पाहिला आहे, ते खूप स्वस्त आहे.'
+[2026-08-04 03:20:34,820] [INFO] [Sample 2] Pred: 'वित्तीय सेवा किती परकारच्या असतात व मला त्या कशा मिळेल?' | Ref: 'वित्तीय सेवा किती आवश्यक आहेत आणि मला ते कशा मिळतील?'
+[2026-08-04 03:20:34,820] [INFO] [Sample 3] Pred: 'मला ऑनलाईन गेल्या बगर बँकेत खात खोलता येईल का?' | Ref: 'मला ऑनलाईन गेल्यावर बँकेत खाते उघडता येईल का?'
+[2026-08-04 03:20:35,928] [INFO] Fold 2 Val Loss: 0.3178  Val BLEU: 80.17  Val chrF: 91.06
+[2026-08-04 03:20:35,928] [INFO] Evaluating Fold 2 on Held-Out Test Set (1,523 samples)...
+[2026-08-04 03:22:14,034] [INFO] Generation Length Check: Avg Pred Words = 9.9 | Avg Ref Words = 9.8
+[2026-08-04 03:22:14,034] [INFO] [Sample 1] Pred: 'ग्रामसेवा केंद्राचे मुख्य अधिकारी कोण आहे, त्यांचे फोन नंबर आहे?' | Ref: 'ग्रामसेवा केंद्राचे मुख्य अधिकारी कोण आहे, त्यांचे फोन नंबर कोण आहे?'
+[2026-08-04 03:22:14,034] [INFO] [Sample 2] Pred: 'महेशने छिन्नीच्या नांगरासह बैलांच्या मदतीने जमीन नांगरली' | Ref: 'महेशने छिन्नीच्या नांगरासह बैलांच्या मदतीने जमीन नांगरली'
+[2026-08-04 03:22:14,034] [INFO] [Sample 3] Pred: 'ग्रामपंचायतीच्या कार्यकारी समितीने कार्यक्रम अधिकृत केला पाहिजे, कशामुळे हे नवीन कोणते प्रकल्प आहे?' | Ref: 'ग्रामपंचायतीच्या कार्यकारी समितीने कार्यक्रम अधिकृत केला पाहिजे, कशामुळे हे नवीन कोणते प्रकल्प आहे?'
+[2026-08-04 03:22:14,729] [INFO] Fold 2 Test Loss: 0.3253  Test BLEU: 78.88  Test chrF: 90.58
+[2026-08-04 03:22:15,252] [INFO] 
+======================================================================
+[2026-08-04 03:22:15,252] [INFO] RUNNING mT5 CROSS-VALIDATION: FOLD 3/5
+[2026-08-04 03:22:15,252] [INFO] ======================================================================
+[2026-08-04 03:22:15,590] [INFO] HTTP Request: HEAD https://huggingface.co/google/mt5-small/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+[2026-08-04 03:22:15,611] [INFO] HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/google/mt5-small/73fb5dbe4756edadc8fbe8c769b0a109493acf7a/config.json "HTTP/1.1 200 OK"
+[2026-08-04 03:22:15,844] [INFO] HTTP Request: HEAD https://huggingface.co/google/mt5-small/resolve/main/model.safetensors "HTTP/1.1 404 Not Found"
+[2026-08-04 03:22:16,071] [INFO] HTTP Request: GET https://huggingface.co/api/models/google/mt5-small "HTTP/1.1 200 OK"
+[2026-08-04 03:22:16,326] [INFO] HTTP Request: GET https://huggingface.co/api/models/google/mt5-small/commits/main "HTTP/1.1 200 OK"
+[2026-08-04 03:22:16,620] [INFO] HTTP Request: GET https://huggingface.co/api/models/google/mt5-small/discussions?p=0 "HTTP/1.1 200 OK"
+[2026-08-04 03:22:16,873] [INFO] HTTP Request: GET https://huggingface.co/api/models/google/mt5-small/commits/refs%2Fpr%2F15 "HTTP/1.1 200 OK"
+[2026-08-04 03:22:17,102] [INFO] HTTP Request: HEAD https://huggingface.co/google/mt5-small/resolve/refs%2Fpr%2F15/model.safetensors.index.json "HTTP/1.1 404 Not Found"
+[2026-08-04 03:22:17,339] [INFO] HTTP Request: HEAD https://huggingface.co/google/mt5-small/resolve/refs%2Fpr%2F15/model.safetensors "HTTP/1.1 302 Found"
+[2026-08-04 03:22:17,353] [INFO] HTTP Request: HEAD https://huggingface.co/google/mt5-small/resolve/main/generation_config.json "HTTP/1.1 307 Temporary Redirect"
+[2026-08-04 03:22:17,374] [INFO] HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/google/mt5-small/73fb5dbe4756edadc8fbe8c769b0a109493acf7a/generation_config.json "HTTP/1.1 200 OK"
+[2026-08-04 03:26:30,865] [INFO] Generation Length Check: Avg Pred Words = 9.9 | Avg Ref Words = 9.8
+[2026-08-04 03:26:30,865] [INFO] [Sample 1] Pred: 'पी.एम कृषी सिंचाई योजनेअंतर्गत उत्पादकतेला चालना देण्याचे काम केले जाते' | Ref: 'पी.एम कृषी सिंचाई योजनेअंतर्गत उत्पादकतेला चालना देण्याचे काम केले जाते'
+[2026-08-04 03:26:30,865] [INFO] [Sample 2] Pred: 'बँकेतून EMIs करावी लागतात, काय काय कागदपत्रे द्यावी लागतील?' | Ref: 'बँकेतून EMIs करावी लागतात, काय काय कागदपत्रे द्यावी लागतील?'
+[2026-08-04 03:26:30,865] [INFO] [Sample 3] Pred: 'नागरी शाळेच्या शिक्षकांची नियुक्ती होती आहे, तुम्हाला नाव आहे त्यात?' | Ref: 'नागरी शाळेच्या शिक्षकांची नियुक्ती होती आहे, तुम्हाला नाव आहे का त्यात?'
+[2026-08-04 03:30:57,491] [INFO] Generation Length Check: Avg Pred Words = 9.8 | Avg Ref Words = 9.8
+[2026-08-04 03:30:57,491] [INFO] [Sample 1] Pred: 'पी.एम कृषी सिंचाई योजनेअंतर्गत उत्पादकतेला चालना देण्याचे काम केले जाते' | Ref: 'पी.एम कृषी सिंचाई योजनेअंतर्गत उत्पादकतेला चालना देण्याचे काम केले जाते'
+[2026-08-04 03:30:57,491] [INFO] [Sample 2] Pred: 'बँकेतून EMIs करावी लागतात, काय काय कागदपत्रे द्यावी लागतील?' | Ref: 'बँकेतून EMIs करावी लागतात, काय काय कागदपत्रे द्यावी लागतील?'
+[2026-08-04 03:30:57,492] [INFO] [Sample 3] Pred: 'नागरी शाळेच्या शिक्षकांची नियुक्ती होती आहे, तुम्हाला नाव आहे त्यात?' | Ref: 'नागरी शाळेच्या शिक्षकांची नियुक्ती होती आहे, तुम्हाला नाव आहे का त्यात?'
+[2026-08-04 03:35:21,404] [INFO] Generation Length Check: Avg Pred Words = 9.9 | Avg Ref Words = 9.8
+[2026-08-04 03:35:21,404] [INFO] [Sample 1] Pred: 'पी.एम कृषी सिंचाई योजनेअंतर्गत उत्पादकतेला चालना देण्याचे काम केले जाते' | Ref: 'पी.एम कृषी सिंचाई योजनेअंतर्गत उत्पादकतेला चालना देण्याचे काम केले जाते'
+[2026-08-04 03:35:21,404] [INFO] [Sample 2] Pred: 'बँकेतून EMIs करावी लागतात, काय काय कागदपत्रे द्यावी लागतील?' | Ref: 'बँकेतून EMIs करावी लागतात, काय काय कागदपत्रे द्यावी लागतील?'
+[2026-08-04 03:35:21,404] [INFO] [Sample 3] Pred: 'नागरी शाळेच्या शिक्षकांची नियुक्ती होती आहे, तुम्हाला नाव आहे त्यात?' | Ref: 'नागरी शाळेच्या शिक्षकांची नियुक्ती होती आहे, तुम्हाला नाव आहे का त्यात?'
+[2026-08-04 03:39:48,627] [INFO] Generation Length Check: Avg Pred Words = 9.9 | Avg Ref Words = 9.8
+[2026-08-04 03:39:48,628] [INFO] [Sample 1] Pred: 'पी.एम कृषी सिंचाई योजनेअंतर्गत उत्पादकतेला चालना देण्याचे काम केले जाते' | Ref: 'पी.एम कृषी सिंचाई योजनेअंतर्गत उत्पादकतेला चालना देण्याचे काम केले जाते'
+[2026-08-04 03:39:48,628] [INFO] [Sample 2] Pred: 'बँकेतून EMIs करावी लागतात, काय काय कागदपत्रे द्यावी लागतील?' | Ref: 'बँकेतून EMIs करावी लागतात, काय काय कागदपत्रे द्यावी लागतील?'
+[2026-08-04 03:39:48,628] [INFO] [Sample 3] Pred: 'नागरी शाळेच्या शिक्षकांची नियुक्ती होती आहे, तुम्हाला नाव आहे त्यात?' | Ref: 'नागरी शाळेच्या शिक्षकांची नियुक्ती होती आहे, तुम्हाला नाव आहे का त्यात?'
+[2026-08-04 03:44:13,118] [INFO] Generation Length Check: Avg Pred Words = 9.8 | Avg Ref Words = 9.8
+[2026-08-04 03:44:13,119] [INFO] [Sample 1] Pred: 'पी.एम कृषी सिंचाई योजनेअंतर्गत उत्पादकतेला चालना देण्याचे काम केले जाते' | Ref: 'पी.एम कृषी सिंचाई योजनेअंतर्गत उत्पादकतेला चालना देण्याचे काम केले जाते'
+[2026-08-04 03:44:13,119] [INFO] [Sample 2] Pred: 'बँकेतून EMIs करावी लागतात, काय काय कागदपत्रे द्यावी लागतील?' | Ref: 'बँकेतून EMIs करावी लागतात, काय काय कागदपत्रे द्यावी लागतील?'
+[2026-08-04 03:44:13,119] [INFO] [Sample 3] Pred: 'नागरी शाळेच्या शिक्षकांची नियुक्ती होती आहे, तुम्हाला नाव आहे त्यात?' | Ref: 'नागरी शाळेच्या शिक्षकांची नियुक्ती होती आहे, तुम्हाला नाव आहे का त्यात?'
+[2026-08-04 03:44:40,000] [INFO] Fold 3 Step-Averaged Training Loss: 0.6172
+[2026-08-04 03:44:40,000] [INFO] Evaluating Fold 3 on CV Validation Split (1,726 samples)...
+[2026-08-04 03:46:29,320] [INFO] Generation Length Check: Avg Pred Words = 9.8 | Avg Ref Words = 9.8
+[2026-08-04 03:46:29,320] [INFO] [Sample 1] Pred: 'पी.एम कृषी सिंचाई योजनेअंतर्गत उत्पादकतेला चालना देण्याचे काम केले जाते' | Ref: 'पी.एम कृषी सिंचाई योजनेअंतर्गत उत्पादकतेला चालना देण्याचे काम केले जाते'
+[2026-08-04 03:46:29,320] [INFO] [Sample 2] Pred: 'बँकेतून EMIs करावी लागतात, काय काय कागदपत्रे द्यावी लागतील?' | Ref: 'बँकेतून EMIs करावी लागतात, काय काय कागदपत्रे द्यावी लागतील?'
+[2026-08-04 03:46:29,321] [INFO] [Sample 3] Pred: 'नागरी शाळेच्या शिक्षकांची नियुक्ती होती आहे, तुम्हाला नाव आहे त्यात?' | Ref: 'नागरी शाळेच्या शिक्षकांची नियुक्ती होती आहे, तुम्हाला नाव आहे का त्यात?'
+[2026-08-04 03:46:30,447] [INFO] Fold 3 Val Loss: 0.3364  Val BLEU: 79.08  Val chrF: 90.66
+[2026-08-04 03:46:30,447] [INFO] Evaluating Fold 3 on Held-Out Test Set (1,523 samples)...
+[2026-08-04 03:48:07,866] [INFO] Generation Length Check: Avg Pred Words = 9.9 | Avg Ref Words = 9.8
+[2026-08-04 03:48:07,866] [INFO] [Sample 1] Pred: 'ग्रामसेवा केंद्राचे मुख्य अधिकारी कोण आहे, त्यांचे फोन नंबर आहे?' | Ref: 'ग्रामसेवा केंद्राचे मुख्य अधिकारी कोण आहे, त्यांचे फोन नंबर कोण आहे?'
+[2026-08-04 03:48:07,866] [INFO] [Sample 2] Pred: 'महेशने छिन्नीच्या नांगरासह बैलांच्या मदतीने जमीन नांगरली' | Ref: 'महेशने छिन्नीच्या नांगरासह बैलांच्या मदतीने जमीन नांगरली'
+[2026-08-04 03:48:07,866] [INFO] [Sample 3] Pred: 'ग्रामपंचायतीच्या कार्यकारी समितीने कार्यक्रम अधिकृत केला पाहिजे, कशामुळे हे नवीन कोणते प्रकल्प आहे?' | Ref: 'ग्रामपंचायतीच्या कार्यकारी समितीने कार्यक्रम अधिकृत केला पाहिजे, कशामुळे हे नवीन कोणते प्रकल्प आहे?'
+[2026-08-04 03:48:08,566] [INFO] Fold 3 Test Loss: 0.3319  Test BLEU: 78.97  Test chrF: 90.62
+[2026-08-04 03:48:09,083] [INFO] 
+======================================================================
+[2026-08-04 03:48:09,084] [INFO] RUNNING mT5 CROSS-VALIDATION: FOLD 4/5
+[2026-08-04 03:48:09,084] [INFO] ======================================================================
+[2026-08-04 03:48:09,433] [INFO] HTTP Request: HEAD https://huggingface.co/google/mt5-small/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+[2026-08-04 03:48:09,452] [INFO] HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/google/mt5-small/73fb5dbe4756edadc8fbe8c769b0a109493acf7a/config.json "HTTP/1.1 200 OK"
+[2026-08-04 03:48:09,681] [INFO] HTTP Request: HEAD https://huggingface.co/google/mt5-small/resolve/main/model.safetensors "HTTP/1.1 404 Not Found"
+[2026-08-04 03:48:09,908] [INFO] HTTP Request: GET https://huggingface.co/api/models/google/mt5-small "HTTP/1.1 200 OK"
+[2026-08-04 03:48:10,147] [INFO] HTTP Request: GET https://huggingface.co/api/models/google/mt5-small/commits/main "HTTP/1.1 200 OK"
+[2026-08-04 03:48:10,411] [INFO] HTTP Request: GET https://huggingface.co/api/models/google/mt5-small/discussions?p=0 "HTTP/1.1 200 OK"
+[2026-08-04 03:48:10,669] [INFO] HTTP Request: GET https://huggingface.co/api/models/google/mt5-small/commits/refs%2Fpr%2F15 "HTTP/1.1 200 OK"
+[2026-08-04 03:48:10,906] [INFO] HTTP Request: HEAD https://huggingface.co/google/mt5-small/resolve/refs%2Fpr%2F15/model.safetensors.index.json "HTTP/1.1 404 Not Found"
+[2026-08-04 03:48:11,132] [INFO] HTTP Request: HEAD https://huggingface.co/google/mt5-small/resolve/refs%2Fpr%2F15/model.safetensors "HTTP/1.1 302 Found"
+[2026-08-04 03:48:11,186] [INFO] HTTP Request: HEAD https://huggingface.co/google/mt5-small/resolve/main/generation_config.json "HTTP/1.1 307 Temporary Redirect"
+[2026-08-04 03:48:11,205] [INFO] HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/google/mt5-small/73fb5dbe4756edadc8fbe8c769b0a109493acf7a/generation_config.json "HTTP/1.1 200 OK"
+[2026-08-04 03:52:32,616] [INFO] Generation Length Check: Avg Pred Words = 9.9 | Avg Ref Words = 9.7
+[2026-08-04 03:52:32,617] [INFO] [Sample 1] Pred: 'मला दर महिन्याला माझ्या क्रेडिट कार्डची बिले तपासावी लागतात' | Ref: 'मला दर महिन्याला माझ्या क्रेडिट कार्डची बिले तपासावी लागतात'
+[2026-08-04 03:52:32,617] [INFO] [Sample 2] Pred: 'पार्किंग बांधकामाचे अनुमती प्राप्त करायची आहे, माझे काय प्रक्रिया आहे?' | Ref: 'पार्किंग बांधकामाचे अनुमती प्राप्त करायची आहे, मला काय प्रक्रिया आहे?'
+[2026-08-04 03:52:32,617] [INFO] [Sample 3] Pred: 'मी फरवरी मईन्यात किती पैसा खर्च केला, हे मला कसे पायता येईल?' | Ref: 'मी फेब्रुवारी महिन्यात किती पैसा खर्च केला, हे मला कसे कळेल?'
+[2026-08-04 03:57:00,483] [INFO] Generation Length Check: Avg Pred Words = 9.8 | Avg Ref Words = 9.7
+[2026-08-04 03:57:00,484] [INFO] [Sample 1] Pred: 'मला दर महिन्याला माझ्या क्रेडिट कार्डची बिले तपासावी लागतात' | Ref: 'मला दर महिन्याला माझ्या क्रेडिट कार्डची बिले तपासावी लागतात'
+[2026-08-04 03:57:00,484] [INFO] [Sample 2] Pred: 'पार्किंग बांधकामाचे अनुमती प्राप्त करायची आहे, मला काय प्रक्रिया आहे?' | Ref: 'पार्किंग बांधकामाचे अनुमती प्राप्त करायची आहे, मला काय प्रक्रिया आहे?'
+[2026-08-04 03:57:00,484] [INFO] [Sample 3] Pred: 'मी फरवरी मईन्यात किती पैसा खर्च केला, हे मला कसे पायता येईल?' | Ref: 'मी फेब्रुवारी महिन्यात किती पैसा खर्च केला, हे मला कसे कळेल?'
+[2026-08-04 04:01:27,282] [INFO] Generation Length Check: Avg Pred Words = 9.8 | Avg Ref Words = 9.7
+[2026-08-04 04:01:27,282] [INFO] [Sample 1] Pred: 'मला दर महिन्याला माझ्या क्रेडिट कार्डची बिले तपासावी लागतात' | Ref: 'मला दर महिन्याला माझ्या क्रेडिट कार्डची बिले तपासावी लागतात'
+[2026-08-04 04:01:27,282] [INFO] [Sample 2] Pred: 'पार्किंग बांधकामाचे अनुमती प्राप्त करायची आहे, मला काय प्रक्रिया आहे?' | Ref: 'पार्किंग बांधकामाचे अनुमती प्राप्त करायची आहे, मला काय प्रक्रिया आहे?'
+[2026-08-04 04:01:27,282] [INFO] [Sample 3] Pred: 'मी फरवरी मईन्यात किती पैसा खर्च केला, हे मला कसे पायता येईल?' | Ref: 'मी फेब्रुवारी महिन्यात किती पैसा खर्च केला, हे मला कसे कळेल?'
+[2026-08-04 04:05:51,383] [INFO] Generation Length Check: Avg Pred Words = 9.8 | Avg Ref Words = 9.7
+[2026-08-04 04:05:51,383] [INFO] [Sample 1] Pred: 'मला दर महिन्याला माझ्या क्रेडिट कार्डची बिले तपासावी लागतात' | Ref: 'मला दर महिन्याला माझ्या क्रेडिट कार्डची बिले तपासावी लागतात'
+[2026-08-04 04:05:51,383] [INFO] [Sample 2] Pred: 'पार्किंग बांधकामाचे अनुमती प्राप्त करायची आहे, मला काय प्रक्रिया आहे?' | Ref: 'पार्किंग बांधकामाचे अनुमती प्राप्त करायची आहे, मला काय प्रक्रिया आहे?'
+[2026-08-04 04:05:51,383] [INFO] [Sample 3] Pred: 'मी फरवरी मईन्यात किती पैसा खर्च केला, हे मला कसे पायता येईल?' | Ref: 'मी फेब्रुवारी महिन्यात किती पैसा खर्च केला, हे मला कसे कळेल?'
+[2026-08-04 04:10:14,452] [INFO] Generation Length Check: Avg Pred Words = 9.8 | Avg Ref Words = 9.7
+[2026-08-04 04:10:14,452] [INFO] [Sample 1] Pred: 'मला दर महिन्याला माझ्या क्रेडिट कार्डची बिले तपासावी लागतात' | Ref: 'मला दर महिन्याला माझ्या क्रेडिट कार्डची बिले तपासावी लागतात'
+[2026-08-04 04:10:14,452] [INFO] [Sample 2] Pred: 'पार्किंग बांधकामाचे अनुमती प्राप्त करायची आहे, मला काय प्रक्रिया आहे?' | Ref: 'पार्किंग बांधकामाचे अनुमती प्राप्त करायची आहे, मला काय प्रक्रिया आहे?'
+[2026-08-04 04:10:14,452] [INFO] [Sample 3] Pred: 'मी फरवरी मईन्यात किती पैसा खर्च केला, हे मला कसे पायता येईल?' | Ref: 'मी फेब्रुवारी महिन्यात किती पैसा खर्च केला, हे मला कसे कळेल?'
+[2026-08-04 04:10:40,688] [INFO] Fold 4 Step-Averaged Training Loss: 0.6690
+[2026-08-04 04:10:40,688] [INFO] Evaluating Fold 4 on CV Validation Split (1,726 samples)...
+[2026-08-04 04:12:28,211] [INFO] Generation Length Check: Avg Pred Words = 9.8 | Avg Ref Words = 9.7
+[2026-08-04 04:12:28,211] [INFO] [Sample 1] Pred: 'मला दर महिन्याला माझ्या क्रेडिट कार्डची बिले तपासावी लागतात' | Ref: 'मला दर महिन्याला माझ्या क्रेडिट कार्डची बिले तपासावी लागतात'
+[2026-08-04 04:12:28,212] [INFO] [Sample 2] Pred: 'पार्किंग बांधकामाचे अनुमती प्राप्त करायची आहे, मला काय प्रक्रिया आहे?' | Ref: 'पार्किंग बांधकामाचे अनुमती प्राप्त करायची आहे, मला काय प्रक्रिया आहे?'
+[2026-08-04 04:12:28,212] [INFO] [Sample 3] Pred: 'मी फरवरी मईन्यात किती पैसा खर्च केला, हे मला कसे पायता येईल?' | Ref: 'मी फेब्रुवारी महिन्यात किती पैसा खर्च केला, हे मला कसे कळेल?'
+[2026-08-04 04:12:29,330] [INFO] Fold 4 Val Loss: 0.3326  Val BLEU: 78.88  Val chrF: 90.40
+[2026-08-04 04:12:29,330] [INFO] Evaluating Fold 4 on Held-Out Test Set (1,523 samples)...
+[2026-08-04 04:14:08,226] [INFO] Generation Length Check: Avg Pred Words = 9.9 | Avg Ref Words = 9.8
+[2026-08-04 04:14:08,226] [INFO] [Sample 1] Pred: 'ग्रामसेवा केंद्राचे मुख्य अधिकारी कोण आहे, त्यांचे फोन नंबर आहे?' | Ref: 'ग्रामसेवा केंद्राचे मुख्य अधिकारी कोण आहे, त्यांचे फोन नंबर कोण आहे?'
+[2026-08-04 04:14:08,226] [INFO] [Sample 2] Pred: 'महेशने छिन्नीच्या नांगरासह बैलांच्या मदतीने जमीन नांगरली' | Ref: 'महेशने छिन्नीच्या नांगरासह बैलांच्या मदतीने जमीन नांगरली'
+[2026-08-04 04:14:08,227] [INFO] [Sample 3] Pred: 'ग्रामपंचायतीच्या कार्यकारी समितीने कार्यक्रम अधिकृत केला पाहिजे, कशामुळे हे नवीन कोणते प्रकल्प आहे?' | Ref: 'ग्रामपंचायतीच्या कार्यकारी समितीने कार्यक्रम अधिकृत केला पाहिजे, कशामुळे हे नवीन कोणते प्रकल्प आहे?'
+[2026-08-04 04:14:08,924] [INFO] Fold 4 Test Loss: 0.3296  Test BLEU: 78.96  Test chrF: 90.58
+[2026-08-04 04:14:09,445] [INFO] 
+======================================================================
+[2026-08-04 04:14:09,445] [INFO] RUNNING mT5 CROSS-VALIDATION: FOLD 5/5
+[2026-08-04 04:14:09,445] [INFO] ======================================================================
+[2026-08-04 04:14:09,731] [INFO] HTTP Request: HEAD https://huggingface.co/google/mt5-small/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+[2026-08-04 04:14:09,753] [INFO] HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/google/mt5-small/73fb5dbe4756edadc8fbe8c769b0a109493acf7a/config.json "HTTP/1.1 200 OK"
+[2026-08-04 04:14:09,985] [INFO] HTTP Request: HEAD https://huggingface.co/google/mt5-small/resolve/main/model.safetensors "HTTP/1.1 404 Not Found"
+[2026-08-04 04:14:10,216] [INFO] HTTP Request: GET https://huggingface.co/api/models/google/mt5-small "HTTP/1.1 200 OK"
+[2026-08-04 04:14:10,465] [INFO] HTTP Request: GET https://huggingface.co/api/models/google/mt5-small/commits/main "HTTP/1.1 200 OK"
+[2026-08-04 04:14:10,727] [INFO] HTTP Request: GET https://huggingface.co/api/models/google/mt5-small/discussions?p=0 "HTTP/1.1 200 OK"
+[2026-08-04 04:14:11,030] [INFO] HTTP Request: GET https://huggingface.co/api/models/google/mt5-small/commits/refs%2Fpr%2F15 "HTTP/1.1 200 OK"
+[2026-08-04 04:14:11,256] [INFO] HTTP Request: HEAD https://huggingface.co/google/mt5-small/resolve/refs%2Fpr%2F15/model.safetensors.index.json "HTTP/1.1 404 Not Found"
+[2026-08-04 04:14:11,488] [INFO] HTTP Request: HEAD https://huggingface.co/google/mt5-small/resolve/refs%2Fpr%2F15/model.safetensors "HTTP/1.1 302 Found"
+[2026-08-04 04:14:11,508] [INFO] HTTP Request: HEAD https://huggingface.co/google/mt5-small/resolve/main/generation_config.json "HTTP/1.1 307 Temporary Redirect"
+[2026-08-04 04:14:11,530] [INFO] HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/google/mt5-small/73fb5dbe4756edadc8fbe8c769b0a109493acf7a/generation_config.json "HTTP/1.1 200 OK"
+[2026-08-04 04:18:29,761] [INFO] Generation Length Check: Avg Pred Words = 9.9 | Avg Ref Words = 9.7
+[2026-08-04 04:18:29,761] [INFO] [Sample 1] Pred: 'तुम्हाला खाते खुले करायचे तो तुम्हाला खाते बंद करायचे नाही, आहे, काय काय शास्त्रे तुम्हाला पाहिजे?' | Ref: 'तुम्हाला खाते खुले करावे लागतील तर तुम्हाला खाते बंद करावे नाही, आहे, काय काय शास्त्रे तुम्हाला पाहिजे?'
+[2026-08-04 04:18:29,761] [INFO] [Sample 2] Pred: 'आर्थिक सेवा कंपन्या सर्व आर्थिक दृष्ट्या विकसित भौगोलिक ठिकाणी उपस्थित आहेत' | Ref: 'आर्थिक सेवा कंपन्या सर्व आर्थिक दृष्ट्या विकसित भौगोलिक ठिकाणी उपस्थित आहेत'
+[2026-08-04 04:18:29,761] [INFO] [Sample 3] Pred: 'एस.बी.आय मधी खाते आहे, मला बँक ऑफ इंडियामध्ये आर.टी.जी.एस कराच आहे, होऊ शकते का?' | Ref: 'एस.बी.आय मध्ये खाते आहे, मला बँक ऑफ इंडियामध्ये आर.टी.जी.एस करायचे आहे, होऊ शकते का?'
+[2026-08-04 04:23:00,866] [INFO] Generation Length Check: Avg Pred Words = 9.8 | Avg Ref Words = 9.7
+[2026-08-04 04:23:00,866] [INFO] [Sample 1] Pred: 'तुम्हाला खाते खुले करायचे तो तुम्हाला खाते बंद करायचे नाही, आहे, काय काय शास्त्रे तुम्हाला पाहिजे?' | Ref: 'तुम्हाला खाते खुले करावे लागतील तर तुम्हाला खाते बंद करावे नाही, आहे, काय काय शास्त्रे तुम्हाला पाहिजे?'
+[2026-08-04 04:23:00,866] [INFO] [Sample 2] Pred: 'आर्थिक सेवा कंपन्या सर्व आर्थिक दृष्ट्या विकसित भौगोलिक ठिकाणी उपस्थित आहेत' | Ref: 'आर्थिक सेवा कंपन्या सर्व आर्थिक दृष्ट्या विकसित भौगोलिक ठिकाणी उपस्थित आहेत'
+[2026-08-04 04:23:00,867] [INFO] [Sample 3] Pred: 'एस.बी.आय मधी खाते आहे, मला बँक ऑफ इंडियामध्ये आर.टी.जी.एस कराच आहे, होऊ शकते का?' | Ref: 'एस.बी.आय मध्ये खाते आहे, मला बँक ऑफ इंडियामध्ये आर.टी.जी.एस करायचे आहे, होऊ शकते का?'
+[2026-08-04 04:27:28,073] [INFO] Generation Length Check: Avg Pred Words = 9.8 | Avg Ref Words = 9.7
+[2026-08-04 04:27:28,074] [INFO] [Sample 1] Pred: 'तुम्हाला खाते खुले करायचे तो तुम्हाला खाते बंद करायचे नाही, आहे, काय काय शास्त्रे तुम्हाला पाहिजे?' | Ref: 'तुम्हाला खाते खुले करावे लागतील तर तुम्हाला खाते बंद करावे नाही, आहे, काय काय शास्त्रे तुम्हाला पाहिजे?'
+[2026-08-04 04:27:28,074] [INFO] [Sample 2] Pred: 'आर्थिक सेवा कंपन्या सर्व आर्थिक दृष्ट्या विकसित भौगोलिक ठिकाणी उपस्थित आहेत' | Ref: 'आर्थिक सेवा कंपन्या सर्व आर्थिक दृष्ट्या विकसित भौगोलिक ठिकाणी उपस्थित आहेत'
+[2026-08-04 04:27:28,074] [INFO] [Sample 3] Pred: 'एस.बी.आय मधी खाते आहे, मला बँक ऑफ इंडियामध्ये आर.टी.जी.एस कराच आहे, होऊ शकते का?' | Ref: 'एस.बी.आय मध्ये खाते आहे, मला बँक ऑफ इंडियामध्ये आर.टी.जी.एस करायचे आहे, होऊ शकते का?'
+[2026-08-04 04:31:54,868] [INFO] Generation Length Check: Avg Pred Words = 9.8 | Avg Ref Words = 9.7
+[2026-08-04 04:31:54,868] [INFO] [Sample 1] Pred: 'तुम्हाला खाते खुले करायचे तो तुम्हाला खाते बंद करायचे नाही, आहे, काय काय शास्त्रे तुम्हाला पाहिजे?' | Ref: 'तुम्हाला खाते खुले करावे लागतील तर तुम्हाला खाते बंद करावे नाही, आहे, काय काय शास्त्रे तुम्हाला पाहिजे?'
+[2026-08-04 04:31:54,868] [INFO] [Sample 2] Pred: 'आर्थिक सेवा कंपन्या सर्व आर्थिक दृष्ट्या विकसित भौगोलिक ठिकाणी उपस्थित आहेत' | Ref: 'आर्थिक सेवा कंपन्या सर्व आर्थिक दृष्ट्या विकसित भौगोलिक ठिकाणी उपस्थित आहेत'
+[2026-08-04 04:31:54,868] [INFO] [Sample 3] Pred: 'एस.बी.आय मधी खाते आहे, मला बँक ऑफ इंडियामध्ये आर.टी.जी.एस कराच आहे, होऊ शकते का?' | Ref: 'एस.बी.आय मध्ये खाते आहे, मला बँक ऑफ इंडियामध्ये आर.टी.जी.एस करायचे आहे, होऊ शकते का?'
+[2026-08-04 04:36:19,575] [INFO] Generation Length Check: Avg Pred Words = 9.8 | Avg Ref Words = 9.7
+[2026-08-04 04:36:19,575] [INFO] [Sample 1] Pred: 'तुम्हाला खाते खुले करायचे तो तुम्हाला खाते बंद करायचे नाही, आहे, काय काय शास्त्रे तुम्हाला पाहिजे?' | Ref: 'तुम्हाला खाते खुले करावे लागतील तर तुम्हाला खाते बंद करावे नाही, आहे, काय काय शास्त्रे तुम्हाला पाहिजे?'
+[2026-08-04 04:36:19,575] [INFO] [Sample 2] Pred: 'आर्थिक सेवा कंपन्या सर्व आर्थिक दृष्ट्या विकसित भौगोलिक ठिकाणी उपस्थित आहेत' | Ref: 'आर्थिक सेवा कंपन्या सर्व आर्थिक दृष्ट्या विकसित भौगोलिक ठिकाणी उपस्थित आहेत'
+[2026-08-04 04:36:19,575] [INFO] [Sample 3] Pred: 'एस.बी.आय मधी खाते आहे, मला बँक ऑफ इंडियामध्ये आर.टी.जी.एस कराच आहे, होऊ शकते का?' | Ref: 'एस.बी.आय मध्ये खाते आहे, मला बँक ऑफ इंडियामध्ये आर.टी.जी.एस करायचे आहे, होऊ शकते का?'
+[2026-08-04 04:36:46,667] [INFO] Fold 5 Step-Averaged Training Loss: 0.6593
+[2026-08-04 04:36:46,667] [INFO] Evaluating Fold 5 on CV Validation Split (1,728 samples)...
+[2026-08-04 04:38:37,426] [INFO] Generation Length Check: Avg Pred Words = 9.8 | Avg Ref Words = 9.7
+[2026-08-04 04:38:37,426] [INFO] [Sample 1] Pred: 'तुम्हाला खाते खुले करायचे तो तुम्हाला खाते बंद करायचे नाही, आहे, काय काय शास्त्रे तुम्हाला पाहिजे?' | Ref: 'तुम्हाला खाते खुले करावे लागतील तर तुम्हाला खाते बंद करावे नाही, आहे, काय काय शास्त्रे तुम्हाला पाहिजे?'
+[2026-08-04 04:38:37,426] [INFO] [Sample 2] Pred: 'आर्थिक सेवा कंपन्या सर्व आर्थिक दृष्ट्या विकसित भौगोलिक ठिकाणी उपस्थित आहेत' | Ref: 'आर्थिक सेवा कंपन्या सर्व आर्थिक दृष्ट्या विकसित भौगोलिक ठिकाणी उपस्थित आहेत'
+[2026-08-04 04:38:37,426] [INFO] [Sample 3] Pred: 'एस.बी.आय मधी खाते आहे, मला बँक ऑफ इंडियामध्ये आर.टी.जी.एस कराच आहे, होऊ शकते का?' | Ref: 'एस.बी.आय मध्ये खाते आहे, मला बँक ऑफ इंडियामध्ये आर.टी.जी.एस करायचे आहे, होऊ शकते का?'
+[2026-08-04 04:38:38,543] [INFO] Fold 5 Val Loss: 0.3365  Val BLEU: 79.08  Val chrF: 90.37
+[2026-08-04 04:38:38,543] [INFO] Evaluating Fold 5 on Held-Out Test Set (1,523 samples)...
+[2026-08-04 04:40:16,569] [INFO] Generation Length Check: Avg Pred Words = 9.9 | Avg Ref Words = 9.8
+[2026-08-04 04:40:16,569] [INFO] [Sample 1] Pred: 'ग्रामसेवा केंद्राचे मुख्य अधिकारी कोण आहे, त्यांचे फोन नंबर आहे?' | Ref: 'ग्रामसेवा केंद्राचे मुख्य अधिकारी कोण आहे, त्यांचे फोन नंबर कोण आहे?'
+[2026-08-04 04:40:16,569] [INFO] [Sample 2] Pred: 'महेशने छिन्नीच्या नांगरासह बैलांच्या मदतीने जमीन नांगरली' | Ref: 'महेशने छिन्नीच्या नांगरासह बैलांच्या मदतीने जमीन नांगरली'
+[2026-08-04 04:40:16,569] [INFO] [Sample 3] Pred: 'ग्रामपंचायतीच्या कार्यकारी समितीने कार्यक्रम अधिकृत केला पाहिजे, कशामुळे हे नवीन कोणते प्रकल्प आहे?' | Ref: 'ग्रामपंचायतीच्या कार्यकारी समितीने कार्यक्रम अधिकृत केला पाहिजे, कशामुळे हे नवीन कोणते प्रकल्प आहे?'
+[2026-08-04 04:40:17,282] [INFO] Fold 5 Test Loss: 0.3268  Test BLEU: 78.51  Test chrF: 90.51
+[2026-08-04 04:40:17,801] [INFO] === mT5 CROSS VALIDATION COMPLETED ===
+[2026-08-04 04:40:17,801] [INFO] Avg Test Loss: 0.3276 | BLEU: 78.8919 | chrF++: 90.5857
+[2026-08-04 04:40:17,802] [INFO] Best Fine-Tuned Model Saved to: models\mt5_d4_32k\best_model
+[2026-08-04 04:40:17,992] [INFO] --- [OK] Successfully completed: D4 32k (Varhadi Expanded)
+[2026-08-04 04:40:17,992] [INFO] 
+---> Starting Variant 8/8: D124 32k (Combined Expanded)
+[2026-08-04 04:40:18,327] [INFO] Loaded 32,335 parallel samples from 4 CSV file(s).

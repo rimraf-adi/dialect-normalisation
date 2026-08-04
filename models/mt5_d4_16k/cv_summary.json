@@ -1,0 +1,64 @@
+{
+  "model_name": "google/mt5-small",
+  "dataset_files": [
+    "data\\synthetic_parallel\\d4.csv"
+  ],
+  "total_samples": 5086,
+  "train_pool_size": 4324,
+  "test_set_size": 762,
+  "n_folds": 5,
+  "avg_val_loss": 0.4244,
+  "avg_val_bleu": 78.9909,
+  "avg_val_chrf": 90.3234,
+  "avg_test_loss": 0.3731,
+  "avg_test_bleu": 80.9962,
+  "avg_test_chrf": 91.2073,
+  "best_test_bleu": 81.2749,
+  "fold_metrics": [
+    {
+      "fold": 1,
+      "val_loss": 0.4032,
+      "val_bleu": 77.947,
+      "val_chrf": 89.9162,
+      "test_loss": 0.374,
+      "test_bleu": 81.2749,
+      "test_chrf": 91.225
+    },
+    {
+      "fold": 2,
+      "val_loss": 0.4165,
+      "val_bleu": 79.5053,
+      "val_chrf": 90.4819,
+      "test_loss": 0.3697,
+      "test_bleu": 81.0196,
+      "test_chrf": 91.1878
+    },
+    {
+      "fold": 3,
+      "val_loss": 0.4046,
+      "val_bleu": 81.3368,
+      "val_chrf": 91.2956,
+      "test_loss": 0.378,
+      "test_bleu": 80.8889,
+      "test_chrf": 91.2204
+    },
+    {
+      "fold": 4,
+      "val_loss": 0.439,
+      "val_bleu": 78.4331,
+      "val_chrf": 90.2451,
+      "test_loss": 0.3715,
+      "test_bleu": 80.9742,
+      "test_chrf": 91.2588
+    },
+    {
+      "fold": 5,
+      "val_loss": 0.4587,
+      "val_bleu": 77.7322,
+      "val_chrf": 89.6783,
+      "test_loss": 0.3723,
+      "test_bleu": 80.8234,
+      "test_chrf": 91.1447
+    }
+  ]
+}

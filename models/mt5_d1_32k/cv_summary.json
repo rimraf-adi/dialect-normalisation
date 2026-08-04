@@ -1,0 +1,65 @@
+{
+  "model_name": "google/mt5-small",
+  "dataset_files": [
+    "data\\synthetic_parallel\\d1.csv",
+    "data\\synthetic-data\\d1_aug.csv"
+  ],
+  "total_samples": 11145,
+  "train_pool_size": 9474,
+  "test_set_size": 1671,
+  "n_folds": 5,
+  "avg_val_loss": 0.5122,
+  "avg_val_bleu": 65.9518,
+  "avg_val_chrf": 83.232,
+  "avg_test_loss": 0.5308,
+  "avg_test_bleu": 65.096,
+  "avg_test_chrf": 82.8804,
+  "best_test_bleu": 65.6034,
+  "fold_metrics": [
+    {
+      "fold": 1,
+      "val_loss": 0.5134,
+      "val_bleu": 66.2395,
+      "val_chrf": 83.2381,
+      "test_loss": 0.5313,
+      "test_bleu": 64.8599,
+      "test_chrf": 82.8238
+    },
+    {
+      "fold": 2,
+      "val_loss": 0.5103,
+      "val_bleu": 65.7737,
+      "val_chrf": 82.9666,
+      "test_loss": 0.5279,
+      "test_bleu": 64.8549,
+      "test_chrf": 82.7297
+    },
+    {
+      "fold": 3,
+      "val_loss": 0.5135,
+      "val_bleu": 65.9463,
+      "val_chrf": 83.32,
+      "test_loss": 0.5229,
+      "test_bleu": 65.0115,
+      "test_chrf": 82.8329
+    },
+    {
+      "fold": 4,
+      "val_loss": 0.5183,
+      "val_bleu": 65.7579,
+      "val_chrf": 83.1753,
+      "test_loss": 0.5375,
+      "test_bleu": 65.1504,
+      "test_chrf": 82.7878
+    },
+    {
+      "fold": 5,
+      "val_loss": 0.5056,
+      "val_bleu": 66.0417,
+      "val_chrf": 83.4599,
+      "test_loss": 0.5342,
+      "test_bleu": 65.6034,
+      "test_chrf": 83.2278
+    }
+  ]
+}

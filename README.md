@@ -1,10 +1,23 @@
 # Dialect Normalisation & Indic ASR Benchmarking Suite
 
-An automated evaluation framework for benchmarking **IndicConformer** (`ai4bharat/indic-conformer-600m-multilingual`) across Indian languages and dialect variations using the **IISc RESPIN** datasets.
+An automated evaluation and fine-tuning framework for benchmarking:
+1. **IndicConformer** (`ai4bharat/indic-conformer-600m-multilingual`) ASR across Indian languages and dialect variations using **IISc RESPIN** datasets.
+2. **Seq2Seq Dialect Normalization** (`google/mt5-small` & `ai4bharat/IndicBART`) fine-tuned across 32,335 clean parallel pairs for non-standard Marathi dialects (**D1 Malvani**, **D2 Ahirani**, **D4 Varhadi**) into Standard Marathi.
 
 ---
 
-## 🌟 Supported Languages & Datasets
+## 🏆 Key Benchmark Highlights (Seq2Seq Dialect Normalization)
+
+| Model Architecture | Combined 16k BLEU | **Combined 32k BLEU** | **Varhadi D4 Peak BLEU** | **Malvani D1 Peak BLEU** | **Ahirani D2 Peak BLEU** |
+| :--- | :---: | :---: | :---: | :---: | :---: |
+| `ai4bharat/IndicBART` (244M) | 48.17 | **57.12** | 73.62 | 52.15 | 54.35 |
+| **`google/mt5-small` (300M)** | **63.29** 🚀 | **69.67** 🚀 | **80.99** 🔥 | **65.10** 🚀 | **62.07** 🚀 |
+
+*Detailed comparative analysis is documented in [docs/results.md](file:///d:/dialect-norm/docs/results.md).*
+
+---
+
+## 🌟 Supported Languages & Datasets (ASR)
 
 | Language | Dataset Code | Model Language Code | RESPIN Dataset Folder | Utterances |
 | :--- | :--- | :--- | :--- | :--- |
@@ -24,32 +37,24 @@ An automated evaluation framework for benchmarking **IndicConformer** (`ai4bhara
 
 ```
 dialect-norm/
-├── pyproject.toml                         # Package configuration & dependencies
-├── README.md                              # Framework documentation
-├── evaluate.py                            # Unified CLI entry point
-├── baseline-indic-conformer/              # Output directory for YAML benchmarks
-│   ├── indic_conformer_marathi_detailed.yaml
-│   └── indic_conformer_marathi_summary.yaml
+├── pyproject.toml                         # Package configuration & CLI script entry points
+├── README.md                              # Main framework documentation
+├── docs/                                  # Benchmark documentation & logs
+│   ├── results.md                         # Full Comparative Benchmark Report
+│   └── logs.tex                           # Implementation log file
+├── evaluate.py                            # Unified ASR CLI entry point
 ├── src/                                   # Core dialect_norm Python Package
 │   └── dialect_norm/
-│       ├── __init__.py                    # Package initialization & exports
-│       ├── audio.py                       # Audio loader, mono conversion, 16kHz resampling
-│       ├── metrics.py                     # Indic text normalization, WER/CER/SER, breakdowns
-│       ├── model.py                       # Model loader, Hugging Face auth token, decoders
-│       ├── reporter.py                    # Dual YAML report generator (Detailed & Summary)
-│       └── engine.py                      # Core evaluation engine
-└── evaluators/                            # Clean language-specific evaluation scripts
-    ├── __init__.py
-    ├── bhojpuri.py
-    ├── bengali.py
-    ├── chhattisgarhi.py
-    ├── hindi.py
-    ├── kannada.py
-    ├── magahi.py
-    ├── marathi.py
-    ├── maithili.py
-    ├── telugu.py
-    └── run_all.py                         # Batch evaluation runner across all languages
+│       ├── training/                      # Seq2Seq Fine-tuning Engines & Runner Suites
+│       │   ├── mt5_trainer.py             # google/mt5-small fine-tuning engine
+│       │   ├── indicbart_trainer.py       # IndicBART fine-tuning engine
+│       │   ├── indictrans2_trainer.py     # IndicTrans2 fine-tuning engine
+│       │   ├── run_sequential_mt5_suite.py
+│       │   └── run_sequential_indictrans2_suite.py
+│       ├── audio.py                       # Audio loader & 16kHz resampling
+│       ├── metrics.py                     # Indic text normalization & WER/CER
+│       └── model.py                       # Model loader
+└── models/                                # Fine-tuned model checkpoints & cv_summary.yaml
 ```
 
 ---
@@ -63,8 +68,7 @@ dialect-norm/
    uv sync
    ```
 
-2. **Hugging Face Authentication (Required for gated model access):**
-   Set your Hugging Face Access Token as an environment variable or pass `--token`:
+2. **Hugging Face Authentication (Required for gated models):**
    ```bash
    # Windows PowerShell
    $env:HF_TOKEN="YOUR_HF_ACCESS_TOKEN"
@@ -77,9 +81,31 @@ dialect-norm/
 
 ## 🚀 Quick Start & Usage
 
-### 1. Using the Unified CLI (`evaluate.py`)
+### 1. Sequential Fine-Tuning Suites (Seq2Seq Normalization)
 
-Run evaluation for any language using the main entry point:
+Run sequential fine-tuning across all 8 dataset variants (16k and 32k for D1, D2, D4, D124):
+
+```bash
+# Run mT5-small Sequential Suite (300M)
+uv run train-mt5-suite
+
+# Run IndicTrans2 Sequential Suite (dist-320M)
+uv run train-indictrans2-suite
+```
+
+Individual variant entry points:
+```bash
+uv run train-mt5-all-32k
+uv run train-mt5-d1-32k
+uv run train-mt5-d2-32k
+uv run train-mt5-d4-32k
+```
+
+---
+
+### 2. Using the Unified ASR CLI (`evaluate.py`)
+
+Run ASR evaluation for any language:
 
 ```bash
 # Evaluate Marathi (Default)
@@ -88,57 +114,22 @@ uv run python evaluate.py --lang marathi
 # Evaluate Hindi on 50 samples using RNNT decoding
 uv run python evaluate.py --lang hindi --decoder rnnt --max-samples 50
 
-# Evaluate Bengali using CUDA device and explicit token
-uv run python evaluate.py --lang bengali --device cuda --token YOUR_HF_TOKEN
-
 # Evaluate ALL 9 available languages
 uv run python evaluate.py --lang all
 ```
 
 ---
 
-### 2. Using Language-Specific Evaluators (`evaluators/`)
+## 📊 Benchmark Output Reports (`baseline-indic-conformer/` & `models/`)
 
-Each language has an independent evaluator script inside `evaluators/`:
+For each fine-tuned model and ASR evaluation, **structured YAML summary reports** are generated:
 
-```bash
-uv run python evaluators/marathi.py --max-samples 20
-uv run python evaluators/hindi.py
-uv run python evaluators/telugu.py
-uv run python evaluators/run_all.py --max-samples 10
-```
+1. **`models/<model_variant>/cv_summary.yaml`**:
+   - 5-Fold Cross-Validation metrics (Val/Test Loss, BLEU score, chrF++).
+   - Per-dialect test breakdown (D1 Malvani, D2 Ahirani, D4 Varhadi).
 
----
-
-### 3. Programmatic Python API
-
-Import `dialect_norm` directly in Python:
-
-```python
-import dialect_norm
-from dialect_norm.evaluators.marathi import evaluate_marathi
-from dialect_norm.evaluators.hindi import evaluate_hindi
-
-# Run Marathi Evaluation
-evaluate_marathi(max_samples=50, decoder="both")
-
-# Run Hindi Evaluation
-evaluate_hindi(max_samples=50, decoder="both")
-```
-
----
-
-## 📊 Benchmark Output Reports (`baseline-indic-conformer/`)
-
-For each language evaluation, **two YAML report files** are generated:
-
-1. **`indic_conformer_<language>_detailed.yaml`**:
-   - Full sample-wise itemization (utterance ID, reference vs. hypothesis, exact match boolean, raw/normalized WER & CER).
-   - Complete sub-group breakdowns (Dialects D1-D5, Domains Agriculture/Banking, Gender, Age Group, Slab).
-
-2. **`indic_conformer_<language>_summary.yaml`**:
-   - Concise executive summary containing key metrics (overall RAW & NORMALIZED WER/CER/SER, Exact Match Accuracy %).
-   - High-level dialect-wise and domain-wise normalized WER summaries.
+2. **`baseline-indic-conformer/indic_conformer_<lang>_summary.yaml`**:
+   - Concise ASR summary containing overall RAW & NORMALIZED WER/CER/SER metrics.
 
 ---
 
@@ -146,8 +137,6 @@ For each language evaluation, **two YAML report files** are generated:
 
 - **Text Normalization**: Removes Devanagari and general punctuation (`।`, `॥`, `?`, `!`, `,`, `.`, etc.) and collapses multi-space whitespace.
 - **Evaluated Metrics**:
-  - **WER** (Word Error Rate - Raw & Normalized)
-  - **CER** (Character Error Rate - Raw & Normalized)
-  - **SER** (Sentence Error Rate)
+  - **BLEU & chrF++** (SacredBLEU & chrF++ for Seq2Seq Dialect Normalization)
+  - **WER / CER / SER** (Word, Character, and Sentence Error Rate for ASR)
   - **Exact Match Accuracy %**
-  - **Edit Distance Breakdown** (Substitutions, Deletions, Insertions, Hits)
