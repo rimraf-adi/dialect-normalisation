@@ -113,17 +113,17 @@ Below is the official test evaluation matrix evaluated on **`IISc_RESPIN_test_mr
 
 ---
 
-## 6. Dialectwise Side-by-Side Comparison: IndicConformer ASR Baseline WER vs. Fine-Tuned Seq2Seq Models
+## 6. Comprehensive Dialectwise Comparison: 16k & 32k Models vs. IndicConformer ASR Baseline WER
 
-Below is the comprehensive dialect-level breakdown comparing **Baseline IndicConformer ASR WER** (Speech-to-Text), **Raw Dialect Input Text WER**, and **Fine-Tuned Seq2Seq Model Output WER** (`ai4bharat/IndicBART` and `google/mt5-small`) evaluated on the official **`IISc_RESPIN_test_mr`** benchmark set (2,170 utterances):
+Below is the complete side-by-side dialect-level breakdown comparing **IndicConformer ASR Baseline WER** (Speech-to-Text), **Raw Dialect Input Text WER**, and **Fine-Tuned Seq2Seq Model Output WER** for **BOTH 16k Original and 32k Expanded Datasets** (`ai4bharat/IndicBART` and `google/mt5-small`) evaluated on the official **`IISc_RESPIN_test_mr`** benchmark set (2,170 utterances):
 
-| Sub-Dialect Code / Name | Test Utterances | IndicConformer ASR Baseline WER (%) | Raw Dialect Input Text WER (%) | IndicBART (32k) Output WER (%) | **mT5-Small (32k) Output WER (%)** | **mT5-Small BLEU** | **mT5-Small Relative WER Reduction (%)** |
-| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| **D1 (Malvani)** | 559 | 34.37% | 51.14% | 34.96% | **32.75%** | **44.36** | **-4.71%** (vs ASR) / **-35.96%** (vs Raw Text) |
-| **D2 (Ahirani)** | 540 | 24.14% | 42.35% | 13.55% | **12.61%** 🚀 | **79.76** 🚀 | **-47.76%** (vs ASR) / **-70.22%** (vs Raw Text) 🔥 |
-| **D3 (Standard Marathi)** | 555 | 10.87% | 0.00% | 3.88% | **1.37%** 🔥 | **97.39** 🚀 | **-87.40%** (vs ASR) *(Near-zero degradation)* |
-| **D4 (Varhadi)** | 516 | 24.79% | 23.93% | 15.57% | **14.19%** 🚀 | **76.90** 🚀 | **-42.76%** (vs ASR) / **-40.70%** (vs Raw Text) |
-| **Overall Combined** | **2,170** | **23.71%** | **40.00%** | **16.23%** | **16.58%** 🚀 | **73.48** 🚀 | **-30.07%** (vs ASR) / **-58.55%** (vs Raw Text) 🔥 |
+| Sub-Dialect Code / Name | Test Utterances | IndicConformer ASR Baseline WER (%) | Raw Dialect Input Text WER (%) | IndicBART (16k) WER (%) | IndicBART (32k) WER (%) | **mT5-Small (16k) WER (%)** | **mT5-Small (32k) WER (%)** | **mT5-Small (32k) BLEU** | **mT5 Relative WER Reduction (%)** |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :--- |
+| **D1 (Malvani)** | 559 | 34.37% | 51.14% | 26.60% | 60.32% | **34.37%** | **32.75%** | **44.36** | **-4.71%** (vs ASR) / **-35.96%** (vs Raw Text) |
+| **D2 (Ahirani)** | 540 | 24.14% | 42.35% | 6.46% | 28.70% | **11.95%** | **12.61%** 🚀 | **79.76** 🚀 | **-47.76%** (vs ASR) / **-70.22%** (vs Raw Text) 🔥 |
+| **D3 (Standard)** | 555 | 10.87% | 0.00% | 3.12% | 3.88% | **1.56%** | **1.37%** 🔥 | **97.39** 🚀 | **-87.40%** (vs ASR) *(Near-zero degradation)* |
+| **D4 (Varhadi)** | 516 | 24.79% | 23.93% | 10.19% | 25.43% | **14.73%** | **14.19%** 🚀 | **76.90** 🚀 | **-42.76%** (vs ASR) / **-40.70%** (vs Raw Text) |
+| **Overall Combined** | **2,170** | **23.71%** | **40.00%** | **30.13%** | **16.23%** | **17.23%** | **16.58%** 🚀 | **73.48** 🚀 | **-30.07%** (vs ASR) / **-58.55%** (vs Raw Text) 🔥 |
 
 ---
 
