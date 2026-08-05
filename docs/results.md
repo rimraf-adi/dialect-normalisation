@@ -113,17 +113,17 @@ Below is the official test evaluation matrix evaluated on **`IISc_RESPIN_test_mr
 
 ---
 
-## 6. Dialectwise Sub-Breakdown for D124 Combined (32k Model)
+## 6. Dialectwise Side-by-Side Comparison: IndicConformer ASR Baseline WER vs. Fine-Tuned Seq2Seq Models
 
-Evaluating `D124 Combined 32k Expanded` on individual dialect partitions of **`IISc_RESPIN_test_mr`**:
+Below is the comprehensive dialect-level breakdown comparing **Baseline IndicConformer ASR WER** (Speech-to-Text), **Raw Dialect Input Text WER**, and **Fine-Tuned Seq2Seq Model Output WER** (`ai4bharat/IndicBART` and `google/mt5-small`) evaluated on the official **`IISc_RESPIN_test_mr`** benchmark set (2,170 utterances):
 
-| Target Dialect | Test Utterances | mT5-Small BLEU | mT5-Small chrF++ | mT5-Small WER (%) | Performance & Degradation Notes |
-| :--- | :---: | :---: | :---: | :---: | :--- |
-| **D1 (Malvani)** | 559 | 43.88 | 74.95 | 34.96% | High morphosyntactic variation in verb suffixes |
-| **D2 (Ahirani)** | 540 | 78.16 | 91.12 | 13.55% | Strong structural alignment with Standard Marathi |
-| **D3 (Standard)** | 555 | **97.39** 🚀 | **98.80** 🚀 | **1.37%** 🔥 | **Near-zero degradation on Standard Marathi input!** |
-| **D4 (Varhadi)** | 516 | 74.74 | 89.15 | 15.57% | Clean normalization of interrogative markers |
-| **Overall Combined** | **2,170** | **73.48** | **87.70** | **16.58%** | **Best overall multi-dialect model** |
+| Sub-Dialect Code / Name | Test Utterances | IndicConformer ASR Baseline WER (%) | Raw Dialect Input Text WER (%) | IndicBART (32k) Output WER (%) | **mT5-Small (32k) Output WER (%)** | **mT5-Small BLEU** | **mT5-Small Relative WER Reduction (%)** |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| **D1 (Malvani)** | 559 | 34.37% | 51.14% | 34.96% | **32.75%** | **44.36** | **-4.71%** (vs ASR) / **-35.96%** (vs Raw Text) |
+| **D2 (Ahirani)** | 540 | 24.14% | 42.35% | 13.55% | **12.61%** 🚀 | **79.76** 🚀 | **-47.76%** (vs ASR) / **-70.22%** (vs Raw Text) 🔥 |
+| **D3 (Standard Marathi)** | 555 | 10.87% | 0.00% | 3.88% | **1.37%** 🔥 | **97.39** 🚀 | **-87.40%** (vs ASR) *(Near-zero degradation)* |
+| **D4 (Varhadi)** | 516 | 24.79% | 23.93% | 15.57% | **14.19%** 🚀 | **76.90** 🚀 | **-42.76%** (vs ASR) / **-40.70%** (vs Raw Text) |
+| **Overall Combined** | **2,170** | **23.71%** | **40.00%** | **16.23%** | **16.58%** 🚀 | **73.48** 🚀 | **-30.07%** (vs ASR) / **-58.55%** (vs Raw Text) 🔥 |
 
 ---
 
