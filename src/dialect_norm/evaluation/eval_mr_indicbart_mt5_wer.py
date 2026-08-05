@@ -172,16 +172,16 @@ def main():
         return None
 
     tasks = [
-        # 16k Original Datasets
+        # 16k Original Datasets (Respective Dialect Test Sets Only)
         ("D1 Malvani (16k Original)", [Path("data/synthetic_parallel/d1.csv")], find_best_model(Path("models/indicbart_d1")), find_best_model(Path("models/mt5_d1_16k"))),
         ("D2 Ahirani (16k Original)", [Path("data/synthetic_parallel/d2.csv")], find_best_model(Path("models/indicbart_d2")), find_best_model(Path("models/mt5_d2_16k"))),
         ("D4 Varhadi (16k Original)", [Path("data/synthetic_parallel/d4.csv")], find_best_model(Path("models/indicbart_d4")), find_best_model(Path("models/mt5_d4_16k"))),
         ("D124 Combined (16k Original)", [Path("data/synthetic_parallel/d1.csv"), Path("data/synthetic_parallel/d2.csv"), Path("data/synthetic_parallel/d4.csv")], find_best_model(Path("models/indicbart_combined")), find_best_model(Path("models/mt5_combined_16k"))),
         
-        # 32k Expanded Datasets
-        ("D1 Malvani (32k Expanded)", [Path("data/synthetic_parallel/d1.csv"), Path("data/synthetic-data/all_aug.csv")], find_best_model(Path("models/indicbart_d1_32k")), find_best_model(Path("models/mt5_d1_32k"))),
-        ("D2 Ahirani (32k Expanded)", [Path("data/synthetic_parallel/d2.csv"), Path("data/synthetic-data/all_aug.csv")], find_best_model(Path("models/indicbart_d2_32k")), find_best_model(Path("models/mt5_d2_32k"))),
-        ("D4 Varhadi (32k Expanded)", [Path("data/synthetic_parallel/d4.csv"), Path("data/synthetic-data/all_aug.csv")], find_best_model(Path("models/indicbart_d4_32k")), find_best_model(Path("models/mt5_d4_32k"))),
+        # 32k Expanded Datasets (Respective Dialect Test Sets Only)
+        ("D1 Malvani (32k Expanded)", [Path("data/synthetic_parallel/d1.csv"), Path("data/synthetic-data/d1_aug.csv")], find_best_model(Path("models/indicbart_d1_32k")), find_best_model(Path("models/mt5_d1_32k"))),
+        ("D2 Ahirani (32k Expanded)", [Path("data/synthetic_parallel/d2.csv"), Path("data/synthetic-data/d2_aug.csv")], find_best_model(Path("models/indicbart_d2_32k")), find_best_model(Path("models/mt5_d2_32k"))),
+        ("D4 Varhadi (32k Expanded)", [Path("data/synthetic_parallel/d4.csv"), Path("data/synthetic-data/d4_aug.csv")], find_best_model(Path("models/indicbart_d4_32k")), find_best_model(Path("models/mt5_d4_32k"))),
         ("D124 Combined (32k Expanded)", [Path("data/synthetic_parallel/d1.csv"), Path("data/synthetic_parallel/d2.csv"), Path("data/synthetic_parallel/d4.csv"), Path("data/synthetic-data/all_aug.csv")], find_best_model(Path("models/indicbart_combined_32k")), find_best_model(Path("models/mt5_combined_32k"))),
     ]
 
@@ -198,11 +198,15 @@ def main():
         dialect_inputs = [clean_text(d["dialect_text"]) for d in test_data]
         targets = [clean_text(d["standard_text"]) for d in test_data]
 
-        # Calculate Baseline (Unnormalized Dialect Text vs Standard Target)
-        raw_wer = round(float(jiwer.wer(targets, dialect_inputs)) * 100.0, 2)
-        raw_cer = round(float(jiwer.cer(targets, dialect_inputs)) * 100.0, 2)
+        # Clean text normalization for WER/CER calculation without punctuation artifacts
+        dialect_inputs_norm = [normalize_text(d) for d in dialect_inputs]
+        targets_norm = [normalize_text(t) for t in targets]
 
-        logger.info(f"RAW DIALECT BASELINE (Unnormalized): WER = {raw_wer:.2f}% | CER = {raw_cer:.2f}%")
+        # Calculate Baseline (Unnormalized Dialect Text vs Standard Target)
+        raw_wer = round(float(jiwer.wer(targets_norm, dialect_inputs_norm)) * 100.0, 2)
+        raw_cer = round(float(jiwer.cer(targets_norm, dialect_inputs_norm)) * 100.0, 2)
+
+        logger.info(f"RAW DIALECT BASELINE (Normalized Text): WER = {raw_wer:.2f}% | CER = {raw_cer:.2f}%")
 
         # 1. IndicBART Inference / Metric Retrieval
         indicbart_preds = []
@@ -210,7 +214,8 @@ def main():
         if indicbart_model and indicbart_model.exists():
             logger.info(f"\n--- Running IndicBART (244M) Test Inference ---")
             indicbart_preds = run_model_inference(indicbart_model, test_data, is_indicbart=True)
-            indicbart_metrics = compute_detailed_metrics(dialect_inputs, indicbart_preds, targets)
+            indicbart_preds_norm = [normalize_text(p) for p in indicbart_preds]
+            indicbart_metrics = compute_detailed_metrics(dialect_inputs_norm, indicbart_preds_norm, targets_norm)
             logger.info(f"IndicBART Metrics: BLEU = {indicbart_metrics['bleu']} | chrF++ = {indicbart_metrics['chrf']} | WER = {indicbart_metrics['norm_wer']}% | CER = {indicbart_metrics['norm_cer']}% | WER Reduction = -{indicbart_metrics['wer_reduction']}%")
         else:
             # Fallback to recorded cv_summary.yaml metrics for 16k IndicBART runs
@@ -238,8 +243,25 @@ def main():
         if mt5_model and mt5_model.exists():
             logger.info(f"\n--- Running mT5-Small (300M) Test Inference ---")
             mt5_preds = run_model_inference(mt5_model, test_data, is_indicbart=False)
-            mt5_metrics = compute_detailed_metrics(dialect_inputs, mt5_preds, targets)
+            mt5_preds_norm = [normalize_text(p) for p in mt5_preds]
+            mt5_metrics = compute_detailed_metrics(dialect_inputs_norm, mt5_preds_norm, targets_norm)
             logger.info(f"mT5-Small Metrics: BLEU = {mt5_metrics['bleu']} | chrF++ = {mt5_metrics['chrf']} | WER = {mt5_metrics['norm_wer']}% | CER = {mt5_metrics['norm_cer']}% | WER Reduction = -{mt5_metrics['wer_reduction']}%")
+
+            # If Combined model, calculate dialectwise breakdown
+            if "Combined" in name:
+                logger.info("\n--- Dialectwise Breakdown for Combined Model ---")
+                dialect_indices = defaultdict(list)
+                for idx, sample in enumerate(test_data):
+                    d_code = sample.get("dialect", "UNK").upper()
+                    dialect_indices[d_code].append(idx)
+
+                for d_code, sub_indices in sorted(dialect_indices.items()):
+                    sub_inputs = [dialect_inputs_norm[i] for i in sub_indices]
+                    sub_targets = [targets_norm[i] for i in sub_indices]
+                    sub_mt5_preds = [mt5_preds_norm[i] for i in sub_indices]
+                    sub_metrics = compute_detailed_metrics(sub_inputs, sub_mt5_preds, sub_targets)
+                    sub_raw_wer = round(float(jiwer.wer(sub_targets, sub_inputs)) * 100.0, 2)
+                    logger.info(f"  [{d_code}] Test Samples: {len(sub_indices):,} | Raw WER: {sub_raw_wer:.2f}% | mT5 BLEU: {sub_metrics['bleu']} | mT5 WER: {sub_metrics['norm_wer']}% | Drop: -{sub_metrics['wer_reduction']}%")
         else:
             logger.info(f"mT5-Small model checkpoint not found for {name}. Skipping.")
 
