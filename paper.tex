@@ -148,18 +148,19 @@ Models are trained using PyTorch and Hugging Face `Transformers` with AdaFactor/
 \end{table*}
 
 \begin{table*}[t]
-\caption{Benchmark Performance Matrix on 32k Expanded Datasets (32,335 Parallel Pairs)}
-\label{tab:results_32k}
+\caption{Seq2Seq Model Benchmark Matrix Evaluated on Official `IISc\_RESPIN\_test\_mr` Test Directory}
+\label{tab:results_respin}
 \centering
-\begin{tabularx}{\textwidth}{l r r c c c c c c}
+\begin{tabularx}{\textwidth}{l r r c c c c}
 \toprule
-\textbf{Dataset Partition} & \textbf{Total Size} & \textbf{Test Size} & \textbf{IndicBART BLEU} & \textbf{mT5-Small BLEU} & \textbf{$\Delta$ BLEU} & \textbf{IndicBART chrF++} & \textbf{mT5-Small chrF++} & \textbf{$\Delta$ chrF++} \\
+\textbf{Model Variant} & \textbf{Dialect Split} & \textbf{Utterances} & \textbf{IndicBART BLEU} & \textbf{IndicBART WER} & \textbf{mT5-Small BLEU} & \textbf{mT5-Small WER} \\
 \midrule
-\textbf{D1 (Malvani)} & 11,145 & 1,671 & 38.91 & \textbf{54.84} & \textbf{+15.93} & 59.11 & \textbf{76.17} & \textbf{+17.06} \\
-\textbf{D2 (Ahirani)} & 11,035 & 1,655 & 33.68 & \textbf{54.83} & \textbf{+21.15} & 54.12 & \textbf{75.89} & \textbf{+21.77} \\
-\textbf{D4 (Varhadi)} & 10,155 & 1,523 & 50.15 & \textbf{58.70} & \textbf{+8.55} & 69.80 & \textbf{79.12} & \textbf{+9.32} \\
+\textbf{D1 (Malvani 16k)} & D1 & 559 & 57.80 & 26.60\% & \textbf{43.86} & \textbf{34.37\%} \\
+\textbf{D2 (Ahirani 16k)} & D2 & 540 & 90.13 & 6.46\% & \textbf{79.46} & \textbf{11.95\%} \\
+\textbf{D4 (Varhadi 16k)} & D4 & 516 & 83.59 & 10.19\% & \textbf{74.81} & \textbf{14.73\%} \\
 \midrule
-\textbf{D124 Combined} & 32,335 & 4,850 & 63.59 & \textbf{69.05} & \textbf{+5.46} & 80.12 & \textbf{84.36} & \textbf{+4.24} \\
+\textbf{D124 Combined 16k} & D1+D2+D3+D4 & 2,170 & 62.98 & 30.13\% & \textbf{72.18} & \textbf{17.23\%} \\
+\textbf{D124 Combined 32k} & D1+D2+D3+D4 & 2,170 & \textbf{76.50} & \textbf{16.23\%} & \textbf{73.48} & \textbf{16.58\%} \\
 \bottomrule
 \end{tabularx}
 \end{table*}

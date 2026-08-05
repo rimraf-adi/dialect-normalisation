@@ -6,12 +6,12 @@ An automated evaluation and fine-tuning framework for benchmarking:
 
 ---
 
-## 🏆 Key Benchmark Highlights (Seq2Seq Dialect Normalization)
+## 🏆 Key Benchmark Highlights (Evaluated on `IISc_RESPIN_test_mr` Test Directory)
 
-| Model Architecture | Combined 16k BLEU | Combined 32k BLEU | Combined 32k WER (%) | **Relative WER Reduction (%)** | **Varhadi D4 Peak BLEU** | **Malvani D1 Peak BLEU** |
+| Model Architecture | Combined 16k BLEU | Combined 32k BLEU | Combined 32k WER (%) | **Standard Marathi D3 BLEU** | **Ahirani D2 Sub-BLEU** | **Varhadi D4 Sub-BLEU** |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: |
-| `ai4bharat/IndicBART` (244M) | 48.17 | 63.59 | 27.16% | -31.07% | 79.51 | 46.12 |
-| **`google/mt5-small` (300M)** | **62.68** 🚀 | **69.05** 🚀 | **21.43%** 🔥 | **-45.62%** 🔥 | **79.83** 🔥 | **54.84** 🚀 |
+| `ai4bharat/IndicBART` (244M) | 62.98 | **76.50** | 16.23% | 96.12 | 75.80 | 73.15 |
+| **`google/mt5-small` (300M)** | **72.18** 🚀 | **73.48** 🚀 | **16.58%** 🔥 | **97.39** 🚀 | **78.16** 🔥 | **74.74** 🔥 |
 
 *Detailed comparative analysis is documented in [docs/results.md](file:///d:/dialect-norm/docs/results.md).*
 

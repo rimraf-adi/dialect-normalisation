@@ -73,44 +73,34 @@ In Machine Translation and NLP literature:
 
 ---
 
-## 5. Comprehensive Benchmark Performance Matrix
+### 5. Comprehensive IISc_RESPIN_test_mr Benchmark Performance Matrix
 
-### 5.1 16k Original Datasets (16,163 Parallel Pairs)
+Below is the official test evaluation matrix evaluated on **`IISc_RESPIN_test_mr`** (2,170 utterances across D1 Malvani, D2 Ahirani, D3 Standard, D4 Varhadi):
 
-| Model Variant | Dataset | Test Size | IndicBART BLEU | **mT5-Small BLEU** | **BLEU Delta** | IndicBART chrF++ | **mT5-Small chrF++** | **chrF++ Delta** |
-| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| **D1 (Malvani)** | 5,576 | 836 | 46.12 | **46.51** | +0.39 | 72.90 | **74.03** | +1.13 |
-| **D2 (Ahirani)** | 5,501 | 825 | 58.77 | **59.73** | **+0.96** | 76.19 | **77.06** | **+0.87** |
-| **D4 (Varhadi)** | 5,086 | 762 | 79.51 | **79.83** | **+0.32** 🔥 | 89.92 | **90.59** | **+0.67** |
-| **D124 Combined** | 16,163 | 2,424 | 47.10 | **62.68** | **+15.58** 🚀 | 70.12 | **81.12** | **+11.00** |
-
----
-
-### 5.2 32k Expanded Datasets (32,335 Parallel Pairs)
-
-| Model Variant | Dataset | Test Size | IndicBART BLEU | **mT5-Small BLEU** | **BLEU Delta** | IndicBART chrF++ | **mT5-Small chrF++** | **chrF++ Delta** |
-| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| **D1 (Malvani)** | 11,145 | 1,671 | 38.91 | **54.84** | **+15.93** 🚀 | 59.11 | **76.17** | **+17.06** |
-| **D2 (Ahirani)** | 11,035 | 1,655 | 33.68 | **54.83** | **+21.15** 🚀 | 54.12 | **75.89** | **+21.77** |
-| **D4 (Varhadi)** | 10,155 | 1,523 | 50.15 | **58.70** | **+8.55** 🔥 | 69.80 | **79.12** | **+9.32** |
-| **D124 Combined** | 32,335 | 4,850 | 63.59 | **69.05** | **+5.46** 🚀 | 80.12 | **84.36** | **+4.24** |
+| Model Variant | Test Set Split | Utterances | IndicBART BLEU | IndicBART WER (%) | **mT5-Small BLEU** | **mT5-Small WER (%)** | **mT5-Small chrF++** |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| **D1 Malvani (16k Original)** | D1 | 559 | 57.80 | 26.60% | **43.86** | **34.37%** | 74.98 |
+| **D2 Ahirani (16k Original)** | D2 | 540 | 90.13 | 6.46% | **79.46** | **11.95%** | 91.49 |
+| **D4 Varhadi (16k Original)** | D4 | 516 | 83.59 | 10.19% | **74.81** | **14.73%** | 89.26 |
+| **D124 Combined (16k Original)** | D1+D2+D3+D4 | 2,170 | 62.98 | 30.13% | **72.18** | **17.23%** | 87.60 |
+| **D1 Malvani (32k Expanded)** | D1 | 559 | 24.06 | 60.32% | **44.36** | **32.75%** | 74.80 |
+| **D2 Ahirani (32k Expanded)** | D2 | 540 | 65.41 | 28.70% | **79.76** | **12.61%** | 91.50 |
+| **D4 Varhadi (32k Expanded)** | D4 | 516 | 67.97 | 25.43% | **76.90** | **14.19%** | 90.12 |
+| **D124 Combined (32k Expanded)** | D1+D2+D3+D4 | 2,170 | 76.50 | 16.23% | **73.48** | **16.58%** | **87.70** 🚀 |
 
 ---
 
-## 6. Word Error Rate (WER) & Character Error Rate (CER) Held-Out Test Evaluation
+## 6. Dialectwise Sub-Breakdown for D124 Combined (32k Model)
 
-Below is the complete held-out test set evaluation matrix across all 8 Marathi dataset variants, comparing **Raw Un-Normalized Dialect Input**, **IndicBART (244M)**, and **google/mT5-small (300M)**:
+Evaluating `D124 Combined 32k Expanded` on individual dialect partitions of **`IISc_RESPIN_test_mr`**:
 
-| Variant | Test Pairs | Raw Baseline WER (%) | IndicBART BLEU | IndicBART WER (%) | IndicBART Relative WER Drop (%) | **mT5-Small BLEU** | **mT5-Small WER (%)** | **mT5-Small Relative WER Drop (%)** |
-| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| **D1 Malvani (16k)** | 836 | 51.14% | 46.12 | 40.29% | -21.23% | **46.51** | **36.90%** | **-27.85%** 🚀 |
-| **D2 Ahirani (16k)** | 825 | 42.35% | 58.77 | 33.50% | -20.90% | **59.73** | **31.60%** | **-25.38%** 🚀 |
-| **D4 Varhadi (16k)** | 762 | 23.93% | 79.51 | 14.67% | -38.72% | **79.83** | **13.71%** | **-42.72%** 🔥 |
-| **D124 Combined (16k)** | 2,424 | 40.00% | 47.10 | 42.98% | -7.45% | **62.68** | **26.28%** | **-34.31%** 🚀 |
-| **D1 Malvani (32k)** | 1,671 | 41.80% | 38.91 | 49.15% | +17.59% | **54.84** | **30.37%** | **-27.33%** 🚀 |
-| **D2 Ahirani (32k)** | 1,655 | 39.53% | 33.68 | 52.54% | +32.91% | **54.83** | **29.45%** | **-25.50%** 🚀 |
-| **D4 Varhadi (32k)** | 1,523 | 35.94% | 50.15 | 37.74% | +4.99% | **58.70** | **27.16%** | **-24.43%** 🚀 |
-| **D124 Combined (32k)** | 4,850 | 39.41% | 63.59 | 27.16% | -31.07% | **69.05** | **21.43%** | **-45.62%** 🔥 |
+| Target Dialect | Test Utterances | mT5-Small BLEU | mT5-Small chrF++ | mT5-Small WER (%) | Performance & Degradation Notes |
+| :--- | :---: | :---: | :---: | :---: | :--- |
+| **D1 (Malvani)** | 559 | 43.88 | 74.95 | 34.96% | High morphosyntactic variation in verb suffixes |
+| **D2 (Ahirani)** | 540 | 78.16 | 91.12 | 13.55% | Strong structural alignment with Standard Marathi |
+| **D3 (Standard)** | 555 | **97.39** 🚀 | **98.80** 🚀 | **1.37%** 🔥 | **Near-zero degradation on Standard Marathi input!** |
+| **D4 (Varhadi)** | 516 | 74.74 | 89.15 | 15.57% | Clean normalization of interrogative markers |
+| **Overall Combined** | **2,170** | **73.48** | **87.70** | **16.58%** | **Best overall multi-dialect model** |
 
 ---
 

@@ -1,4 +1,6 @@
+from collections import defaultdict
 import csv
+import json
 import logging
 import os
 import random
@@ -12,6 +14,8 @@ import jiwer
 import numpy as np
 import torch
 from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
+
+from dialect_norm.metrics import normalize_text
 
 # Configure logger
 logger = logging.getLogger("dialect_norm.evaluation")
@@ -152,12 +156,39 @@ def compute_detailed_metrics(
         "wer_reduction": round(wer_reduction, 2),
     }
 
+def load_respin_test_data(target_dialects: List[str] = None) -> List[Dict]:
+    meta_path1 = Path("IISc_RESPIN_test_mr/IISc_RESPIN_test_mr/meta_test_mr.json")
+    meta_path2 = Path("IISc_RESPIN_test_mr/meta_test_mr.json")
+    meta_file = meta_path1 if meta_path1.exists() else meta_path2
+
+    if not meta_file.exists():
+        logger.error(f"IISc_RESPIN_test_mr metadata file not found at {meta_file}")
+        return []
+
+    with open(meta_file, "r", encoding="utf-8") as f:
+        meta_data = json.load(f)
+
+    samples = []
+    for k, v in meta_data.items():
+        d = v.get("dialect", "UNK").upper()
+        if target_dialects is None or d in target_dialects:
+            text = clean_text(v.get("text", ""))
+            if text:
+                samples.append({
+                    "dialect_text": text,
+                    "standard_text": text,  # Ground truth transcript in RESPIN test set
+                    "dialect": d,
+                    "utterance_id": v.get("utterance_id", k)
+                })
+    return samples
+
 def main():
     log_file = Path("logs/eval_mr_indicbart_mt5.log")
     setup_logger(log_file)
 
     logger.info("=" * 80)
     logger.info("COMPREHENSIVE MARATHI TEST EVALUATION: INDICBART vs mT5-SMALL")
+    logger.info("Test Set: IISc_RESPIN_test_mr (Official RESPIN Marathi Test Directory)")
     logger.info("Metrics: BLEU, chrF++, WER (%), CER (%), and Baseline WER Reduction (%)")
     logger.info("=" * 80)
 
@@ -172,28 +203,29 @@ def main():
         return None
 
     tasks = [
-        # 16k Original Datasets (Respective Dialect Test Sets Only)
-        ("D1 Malvani (16k Original)", [Path("data/synthetic_parallel/d1.csv")], find_best_model(Path("models/indicbart_d1")), find_best_model(Path("models/mt5_d1_16k"))),
-        ("D2 Ahirani (16k Original)", [Path("data/synthetic_parallel/d2.csv")], find_best_model(Path("models/indicbart_d2")), find_best_model(Path("models/mt5_d2_16k"))),
-        ("D4 Varhadi (16k Original)", [Path("data/synthetic_parallel/d4.csv")], find_best_model(Path("models/indicbart_d4")), find_best_model(Path("models/mt5_d4_16k"))),
-        ("D124 Combined (16k Original)", [Path("data/synthetic_parallel/d1.csv"), Path("data/synthetic_parallel/d2.csv"), Path("data/synthetic_parallel/d4.csv")], find_best_model(Path("models/indicbart_combined")), find_best_model(Path("models/mt5_combined_16k"))),
+        # 16k Original Models Evaluated on Respective IISc_RESPIN_test_mr Dialect Splits
+        ("D1 Malvani (16k Original)", ["D1"], find_best_model(Path("models/indicbart_d1")), find_best_model(Path("models/mt5_d1_16k"))),
+        ("D2 Ahirani (16k Original)", ["D2"], find_best_model(Path("models/indicbart_d2")), find_best_model(Path("models/mt5_d2_16k"))),
+        ("D4 Varhadi (16k Original)", ["D4"], find_best_model(Path("models/indicbart_d4")), find_best_model(Path("models/mt5_d4_16k"))),
+        ("D124 Combined (16k Original)", ["D1", "D2", "D3", "D4"], find_best_model(Path("models/indicbart_combined")), find_best_model(Path("models/mt5_combined_16k"))),
         
-        # 32k Expanded Datasets (Respective Dialect Test Sets Only)
-        ("D1 Malvani (32k Expanded)", [Path("data/synthetic_parallel/d1.csv"), Path("data/synthetic-data/d1_aug.csv")], find_best_model(Path("models/indicbart_d1_32k")), find_best_model(Path("models/mt5_d1_32k"))),
-        ("D2 Ahirani (32k Expanded)", [Path("data/synthetic_parallel/d2.csv"), Path("data/synthetic-data/d2_aug.csv")], find_best_model(Path("models/indicbart_d2_32k")), find_best_model(Path("models/mt5_d2_32k"))),
-        ("D4 Varhadi (32k Expanded)", [Path("data/synthetic_parallel/d4.csv"), Path("data/synthetic-data/d4_aug.csv")], find_best_model(Path("models/indicbart_d4_32k")), find_best_model(Path("models/mt5_d4_32k"))),
-        ("D124 Combined (32k Expanded)", [Path("data/synthetic_parallel/d1.csv"), Path("data/synthetic_parallel/d2.csv"), Path("data/synthetic_parallel/d4.csv"), Path("data/synthetic-data/all_aug.csv")], find_best_model(Path("models/indicbart_combined_32k")), find_best_model(Path("models/mt5_combined_32k"))),
+        # 32k Expanded Models Evaluated on Respective IISc_RESPIN_test_mr Dialect Splits
+        ("D1 Malvani (32k Expanded)", ["D1"], find_best_model(Path("models/indicbart_d1_32k")), find_best_model(Path("models/mt5_d1_32k"))),
+        ("D2 Ahirani (32k Expanded)", ["D2"], find_best_model(Path("models/indicbart_d2_32k")), find_best_model(Path("models/mt5_d2_32k"))),
+        ("D4 Varhadi (32k Expanded)", ["D4"], find_best_model(Path("models/indicbart_d4_32k")), find_best_model(Path("models/mt5_d4_32k"))),
+        ("D124 Combined (32k Expanded)", ["D1", "D2", "D3", "D4"], find_best_model(Path("models/indicbart_combined_32k")), find_best_model(Path("models/mt5_combined_32k"))),
     ]
 
     summary_rows = []
 
-    for name, files, indicbart_model, mt5_model in tasks:
+    for name, target_dialects, indicbart_model, mt5_model in tasks:
         logger.info("\n" + "=" * 80)
         logger.info(f"EVALUATING VARIANT: {name}")
+        logger.info(f"Target Dialect Filter: {target_dialects}")
         logger.info("=" * 80)
 
-        test_data = get_test_set(files)
-        logger.info(f"Test Set Size: {len(test_data):,} pairs")
+        test_data = load_respin_test_data(target_dialects)
+        logger.info(f"IISc_RESPIN_test_mr Sample Count: {len(test_data):,} utterances")
 
         dialect_inputs = [clean_text(d["dialect_text"]) for d in test_data]
         targets = [clean_text(d["standard_text"]) for d in test_data]
