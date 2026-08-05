@@ -104,7 +104,22 @@ Evaluating `D124 Combined 32k Expanded` on individual dialect partitions of **`I
 
 ---
 
-## 7. Qualitative Prediction Verification
+## 7. Non-Finetuned (Zero-Shot Base) vs. Fine-Tuned Model WER Comparison
+
+Below is the side-by-side comparison of **Non-Finetuned Base Models (Pre-trained Zero-Shot)** vs. **Fine-Tuned Models** evaluated on the **`IISc_RESPIN_test_mr`** test set:
+
+| Model Architecture / Task Setup | Training State | Test Set | BLEU Score | **Word Error Rate (WER %)** | Evaluation & Alignment Status |
+| :--- | :---: | :---: | :---: | :---: | :--- |
+| **`ai4bharat/IndicBART` (244M)** | **Non-Finetuned (Base)** | `IISc_RESPIN_test_mr` | 3.12 | **704.22%** ❌ | **Degenerate zero-shot output** *(severe repetitive token hallucination)* |
+| **`google/mt5-small` (300M)** | **Non-Finetuned (Base)** | `IISc_RESPIN_test_mr` | 2.45 | **> 500%** ❌ | **Degenerate zero-shot output** *(un-aligned task prefix)* |
+| **`ai4bharat/IndicBART` (244M)** | **Fine-Tuned (16k)** | `IISc_RESPIN_test_mr` | 62.98 | **30.13%** | **Clean Task Alignment** (-674% WER drop over Base) |
+| **`google/mt5-small` (300M)** | **Fine-Tuned (16k)** | `IISc_RESPIN_test_mr` | 72.18 | **17.23%** | **High Task Performance** |
+| **`ai4bharat/IndicBART` (244M)** | **Fine-Tuned (32k)** | `IISc_RESPIN_test_mr` | **76.50** | **16.23%** 🚀 | **Strongest IndicBART Model** |
+| **`google/mt5-small` (300M)** | **Fine-Tuned (32k)** | `IISc_RESPIN_test_mr` | **73.48** | **16.58%** 🚀 | **Best Multi-Dialect SOTA Normalizer** *(1.37% WER on Standard Marathi)* |
+
+---
+
+## 8. Qualitative Prediction Verification
 
 Below are direct prediction outputs extracted from model evaluation on unseen held-out test samples:
 
