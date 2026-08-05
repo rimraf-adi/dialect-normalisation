@@ -63,21 +63,20 @@ In Machine Translation and NLP literature:
 
 Baseline Speech-to-Text performance evaluated on the official **`IISc_RESPIN_test_mr`** audio benchmark dataset (2,170 speech utterances across D1, D2, D3, D4):
 
-| Decoder Mode | Non-Normalized (Raw) WER (%) | **Normalized ASR WER (%)** | Raw CER (%) | **Normalized CER (%)** | Normalized Exact Match Acc (%) |
+| Decoder Mode | Utterances | Audio Duration | **Normalized ASR WER (%)** | **Normalized ASR CER (%)** | Exact Match Acc (%) |
 | :--- | :---: | :---: | :---: | :---: | :---: |
-| **CTC Decoder** | **19.44%** | **1.56%** 🚀 | 6.08% | **0.53%** | **90.00%** |
-| **RNNT Decoder** | **20.83%** | **3.12%** 🚀 | 6.33% | **0.80%** | **80.00%** |
+| **Connectionist Temporal Classification (CTC)** | 2,170 | 3.04 Hours | **23.94%** | **5.12%** | **30.12%** |
+| **RNN-Transducer (RNN-T)** | 2,170 | 3.04 Hours | **23.71%** 🚀 | **5.06%** 🚀 | **30.78%** 🚀 |
 
-### Domainwise & Dialectwise ASR Baseline Breakdown
+### Sub-Dialect Level Baseline ASR Breakdown (`IISc_RESPIN_test_mr`)
 
-| Partition Key | Domain / Dialect Name | Sample Count | Raw WER (%) | **Normalized WER (%)** | Normalized CER (%) |
+| Sub-Dialect Code | Sub-Dialect Name / Region | Sample Count | CTC Norm WER (%) | **RNNT Norm WER (%)** | **RNNT Norm CER (%)** |
 | :--- | :--- | :---: | :---: | :---: | :---: |
-| **Domain** | Agriculture | 1,480 | 18.20% | **0.00%** 🔥 | **0.00%** |
-| **Domain** | Banking | 690 | 22.10% | **3.85%** | **1.47%** |
-| **Dialect** | D1 (Malvani) | 559 | 24.50% | **2.80%** | **0.95%** |
-| **Dialect** | D2 (Ahirani) | 540 | 19.80% | **1.85%** | **0.62%** |
-| **Dialect** | D3 (Standard Marathi) | 555 | 19.44% | **1.56%** | **0.53%** |
-| **Dialect** | D4 (Varhadi) | 516 | 17.20% | **1.20%** | **0.41%** |
+| **D1** | South Konkan (Ratnagiri / Sindhudurg / Malvani) | 559 | 34.59% | **34.37%** | 7.45% |
+| **D2** | North Konkan (Palghar / Thane / Ahirani) | 540 | 24.64% | **24.14%** | 5.08% |
+| **D3** | Standard Pune Marathi Benchmark | 555 | 11.57% | **10.87%** 🔥 | **2.34%** 🔥 |
+| **D4** | Varhadi (Vidarbha / Amravati) | 516 | 24.29% | **24.79%** | 5.14% |
+| **Overall Marathi** | **All 4 Sub-Dialects Combined** | **2,170** | **23.94%** | **23.71%** | **5.06%** |
 
 ---
 
