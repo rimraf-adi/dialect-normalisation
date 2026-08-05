@@ -97,30 +97,44 @@ In Machine Translation and NLP literature:
 
 ---
 
-## 6. Qualitative Prediction Verification
+## 6. Word Error Rate (WER) & Character Error Rate (CER) Held-Out Test Evaluation
 
-Below are direct prediction outputs extracted from `google/mt5-small` model evaluation on unseen held-out test samples:
+Below is the complete held-out test set evaluation matrix across all 8 Marathi dataset variants, comparing **Raw Un-Normalized Dialect Input**, **IndicBART (244M)**, and **google/mT5-small (300M)**:
 
-### Sample 1: Financial Domain Entity Alignment (Combined 32k Model)
-* **Dialect Input**: *क्रेडिट कार्डवरून जास्तीत जास्त किती कर्ज मिळते, आणि डेबिट कार्डवरून जास्तीत जास्त किती पैसे काढू शकतो आम्ही?*
-* **Model Output**: `क्रेडिट कार्डवरून जास्तीत जास्त किती कर्ज मिळते, आणि डेबिट कार्डवरून जास्तीत जास्त किती पैसे काढू शकतो आम्ही?`
-* **Reference Target**: `क्रेडिट कार्डवरून जास्तीत जास्त किती कर्ज मिळते, आणि डेबिट कार्डवरून जास्तीत जास्त किती पैसे काढू शकतो आम्ही?`
-* **Result**: **100% Exact String Match (BLEU 100.0, chrF++ 100.0)**
-
-### Sample 2: Agricultural Question Normalization (Varhadi D4 Model)
-* **Dialect Input**: *रासायनिक शेती काऊन परवडत नाही?*
-* **Model Output**: `रासायनिक शेती काऊन परवडत नाही?`
-* **Reference Target**: `रासायनिक शेती काऊन परवडत नाही का?`
-* **Result**: **High semantic fidelity** *(Clean normalization of Varhadi interrogative `काऊन`)*
+| Variant | Test Pairs | Raw Baseline WER (%) | IndicBART BLEU | IndicBART WER (%) | IndicBART Relative WER Drop (%) | **mT5-Small BLEU** | **mT5-Small WER (%)** | **mT5-Small Relative WER Drop (%)** |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| **D1 Malvani (16k)** | 836 | 51.14% | 46.12 | 40.29% | -21.23% | **46.51** | **36.90%** | **-27.85%** 🚀 |
+| **D2 Ahirani (16k)** | 825 | 42.35% | 58.77 | 33.50% | -20.90% | **59.73** | **31.60%** | **-25.38%** 🚀 |
+| **D4 Varhadi (16k)** | 762 | 23.93% | 79.51 | 14.67% | -38.72% | **79.83** | **13.71%** | **-42.72%** 🔥 |
+| **D124 Combined (16k)** | 2,424 | 40.00% | 47.10 | 42.98% | -7.45% | **62.68** | **26.28%** | **-34.31%** 🚀 |
+| **D1 Malvani (32k)** | 1,671 | 41.80% | 38.91 | 49.15% | +17.59% | **54.84** | **30.37%** | **-27.33%** 🚀 |
+| **D2 Ahirani (32k)** | 1,655 | 39.53% | 33.68 | 52.54% | +32.91% | **54.83** | **29.45%** | **-25.50%** 🚀 |
+| **D4 Varhadi (32k)** | 1,523 | 35.94% | 50.15 | 37.74% | +4.99% | **58.70** | **27.16%** | **-24.43%** 🚀 |
+| **D124 Combined (32k)** | 4,850 | 39.41% | 63.59 | 27.16% | -31.07% | **69.05** | **21.43%** | **-45.62%** 🔥 |
 
 ---
 
-## 7. Artifact & Log References
+## 7. Qualitative Prediction Verification
 
-* **mT5 Combined 16k CV Summary**: [models/mt5_combined_16k/cv_summary.yaml](file:///d:/dialect-norm/models/mt5_combined_16k/cv_summary.yaml)
-* **mT5 D1 32k CV Summary**: [models/mt5_d1_32k/cv_summary.yaml](file:///d:/dialect-norm/models/mt5_d1_32k/cv_summary.yaml)
-* **mT5 D2 32k CV Summary**: [models/mt5_d2_32k/cv_summary.yaml](file:///d:/dialect-norm/models/mt5_d2_32k/cv_summary.yaml)
-* **mT5 D4 32k CV Summary**: [models/mt5_d4_32k/cv_summary.yaml](file:///d:/dialect-norm/models/mt5_d4_32k/cv_summary.yaml)
+Below are direct prediction outputs extracted from model evaluation on unseen held-out test samples:
+
+### Sample 1: Interrogative Dialect Normalization (D124 Combined 32k Model)
+* **Dialect Input**: *मनाले बँकमा क्रेडिट कार्ड काढण्यासाठी शेतस, तुनाले काय कागदपत्रे लागन?*
+* **Ground Truth**: `मला बँकेत क्रेडिट कार्ड काढायचे आहे, तुला काय कागदपत्रे लागतील?`
+* **IndicBART Pred**: `मला बँकेत क्रेडिट कार्ड काढण्यासाठी आहे, तुला काय कागदपत्रे लागतील?`
+* **mT5-Small Pred**: `मला बँकेत क्रेडिट कार्ड काढण्यासाठी असते, तुला काय कागदपत्रे लागतील?`
+
+### Sample 2: Financial Domain Entity Alignment (Combined 32k Model)
+* **Dialect Input**: *क्रेडिट कार्डवरून जास्तीत जास्त किती कर्ज मिळते, आणि डेबिट कार्डवरून जास्तीत जास्त किती पैसे काढू शकतो आम्ही?*
+* **mT5-Small Output**: `क्रेडिट कार्डवरून जास्तीत जास्त किती कर्ज मिळते, आणि डेबिट कार्डवरून जास्तीत जास्त किती पैसे काढू शकतो आम्ही?`
+* **Reference Target**: `क्रेडिट कार्डवरून जास्तीत जास्त किती कर्ज मिळते, आणि डेबिट कार्डवरून जास्तीत जास्त किती पैसे काढू शकतो आम्ही?`
+* **Result**: **100% Exact String Match (BLEU 100.0, chrF++ 100.0)**
+
+---
+
+## 8. Artifact & Log References
+
+* **Marathi Comprehensive Test WER Log**: [logs/eval_mr_indicbart_mt5.log](file:///d:/dialect-norm/logs/eval_mr_indicbart_mt5.log)
+* **mT5 Combined 32k CV Summary**: [models/mt5_combined_32k/cv_summary.yaml](file:///d:/dialect-norm/models/mt5_combined_32k/cv_summary.yaml)
 * **IndicBART Combined 32k CV Summary**: [models/indicbart_combined_32k/cv_summary.yaml](file:///d:/dialect-norm/models/indicbart_combined_32k/cv_summary.yaml)
-* **mT5 Execution Log**: [logs/train_mt5_combined_32k.log](file:///d:/dialect-norm/logs/train_mt5_combined_32k.log)
 * **LaTeX Implementation Log**: [docs/logs.tex](file:///d:/dialect-norm/docs/logs.tex)
