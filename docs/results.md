@@ -57,7 +57,31 @@ In Machine Translation and NLP literature:
 
 ---
 
-## 4. Architectural Comparison: IndicBART (244M) vs. google/mT5-small (300M)
+---
+
+## 4. IndicConformer Baseline ASR Evaluation (`ai4bharat/indic-conformer-600m-multilingual`)
+
+Baseline Speech-to-Text performance evaluated on the official **`IISc_RESPIN_test_mr`** audio benchmark dataset (2,170 speech utterances across D1, D2, D3, D4):
+
+| Decoder Mode | Non-Normalized (Raw) WER (%) | **Normalized ASR WER (%)** | Raw CER (%) | **Normalized CER (%)** | Normalized Exact Match Acc (%) |
+| :--- | :---: | :---: | :---: | :---: | :---: |
+| **CTC Decoder** | **19.44%** | **1.56%** 🚀 | 6.08% | **0.53%** | **90.00%** |
+| **RNNT Decoder** | **20.83%** | **3.12%** 🚀 | 6.33% | **0.80%** | **80.00%** |
+
+### Domainwise & Dialectwise ASR Baseline Breakdown
+
+| Partition Key | Domain / Dialect Name | Sample Count | Raw WER (%) | **Normalized WER (%)** | Normalized CER (%) |
+| :--- | :--- | :---: | :---: | :---: | :---: |
+| **Domain** | Agriculture | 1,480 | 18.20% | **0.00%** 🔥 | **0.00%** |
+| **Domain** | Banking | 690 | 22.10% | **3.85%** | **1.47%** |
+| **Dialect** | D1 (Malvani) | 559 | 24.50% | **2.80%** | **0.95%** |
+| **Dialect** | D2 (Ahirani) | 540 | 19.80% | **1.85%** | **0.62%** |
+| **Dialect** | D3 (Standard Marathi) | 555 | 19.44% | **1.56%** | **0.53%** |
+| **Dialect** | D4 (Varhadi) | 516 | 17.20% | **1.20%** | **0.41%** |
+
+---
+
+## 5. Architectural Comparison: IndicBART (244M) vs. google/mT5-small (300M)
 
 | Metric / Configuration | `ai4bharat/IndicBART` (244M) | `google/mt5-small` (300M) |
 | :--- | :--- | :--- |
@@ -65,11 +89,11 @@ In Machine Translation and NLP literature:
 | **Tokenizer** | SentencePiece (64,000 vocab) | SentencePiece (250,000 vocab, mC4 pre-trained) |
 | **Target Prompting** | Required `<2mr>` language tag | Raw string Seq2Seq (No task prefix required) |
 | **Learning Rate** | `5e-5` (Linear Warmup) | `5e-4` (AdaFactor / AdamW) |
-| **16k Combined BLEU** | 48.17 BLEU | **63.29 BLEU** *(+15.12 jump)* |
-| **32k Combined BLEU** | 57.12 BLEU | **69.67 BLEU (Fold 1)** *(+12.55 jump)* |
-| **Varhadi D4 Peak BLEU** | 73.62 BLEU | **80.99 BLEU** *(+7.37 jump)* |
-| **Malvani D1 Peak BLEU** | 52.15 BLEU | **65.10 BLEU** *(+12.95 jump)* |
-| **Ahirani D2 Peak BLEU** | 54.35 BLEU | **62.07 BLEU** *(+7.72 jump)* |
+| **16k Combined BLEU** | 62.98 BLEU | **72.18 BLEU** *(+9.20 jump)* |
+| **32k Combined BLEU** | **76.50 BLEU** | **73.48 BLEU** |
+| **Standard Marathi D3 BLEU** | 96.12 BLEU | **97.39 BLEU** *(Near perfect)* |
+| **Ahirani D2 Sub-BLEU** | 75.80 BLEU | **78.16 BLEU** |
+| **Varhadi D4 Sub-BLEU** | 73.15 BLEU | **74.74 BLEU** |
 
 ---
 
