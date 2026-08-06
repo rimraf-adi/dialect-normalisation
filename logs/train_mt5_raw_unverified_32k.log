@@ -1,0 +1,349 @@
+[2026-08-06 09:12:56,788] [INFO] ======================================================================
+[2026-08-06 09:12:56,788] [INFO] mT5 FINE-TUNING (OPTION B: 85/15 STRATIFIED SPLIT + 5-FOLD CV)
+[2026-08-06 09:12:56,789] [INFO] ======================================================================
+[2026-08-06 09:12:56,789] [INFO] Target Model            : google/mt5-small
+[2026-08-06 09:12:56,789] [INFO] Output Directory        : D:\dialect-norm\models\mt5_raw_unverified_32k
+[2026-08-06 09:12:56,789] [INFO] Log File                : D:\dialect-norm\logs\train_mt5_raw_unverified_32k.log
+[2026-08-06 09:12:56,790] [INFO] Total Dataset Size      : 19,914 pairs
+[2026-08-06 09:12:56,790] [INFO] ======================================================================
+[2026-08-06 09:12:56,803] [INFO] 85% Training Pool: 16,927 pairs
+[2026-08-06 09:12:56,803] [INFO] 15% Held-Out Test : 2,987 pairs
+[2026-08-06 09:12:57,199] [INFO] HTTP Request: HEAD https://huggingface.co/google/mt5-small/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+[2026-08-06 09:12:57,218] [INFO] HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/google/mt5-small/73fb5dbe4756edadc8fbe8c769b0a109493acf7a/config.json "HTTP/1.1 200 OK"
+[2026-08-06 09:12:57,641] [INFO] HTTP Request: HEAD https://huggingface.co/google/mt5-small/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+[2026-08-06 09:12:57,660] [INFO] HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/google/mt5-small/73fb5dbe4756edadc8fbe8c769b0a109493acf7a/tokenizer_config.json "HTTP/1.1 200 OK"
+[2026-08-06 09:12:57,976] [INFO] HTTP Request: GET https://huggingface.co/api/models/google/mt5-small/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
+[2026-08-06 09:12:58,201] [INFO] HTTP Request: GET https://huggingface.co/api/models/google/mt5-small/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+[2026-08-06 09:12:59,314] [INFO] HTTP Request: GET https://huggingface.co/api/models/google/mt5-small "HTTP/1.1 200 OK"
+[2026-08-06 09:12:59,316] [INFO] 
+======================================================================
+[2026-08-06 09:12:59,316] [INFO] RUNNING mT5 CROSS-VALIDATION: FOLD 1/5
+[2026-08-06 09:12:59,316] [INFO] ======================================================================
+[2026-08-06 09:12:59,538] [INFO] HTTP Request: HEAD https://huggingface.co/google/mt5-small/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+[2026-08-06 09:12:59,558] [INFO] HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/google/mt5-small/73fb5dbe4756edadc8fbe8c769b0a109493acf7a/config.json "HTTP/1.1 200 OK"
+[2026-08-06 09:12:59,831] [INFO] HTTP Request: HEAD https://huggingface.co/google/mt5-small/resolve/main/model.safetensors "HTTP/1.1 404 Not Found"
+[2026-08-06 09:13:00,053] [INFO] HTTP Request: GET https://huggingface.co/api/models/google/mt5-small "HTTP/1.1 200 OK"
+[2026-08-06 09:13:00,320] [INFO] HTTP Request: GET https://huggingface.co/api/models/google/mt5-small/commits/main "HTTP/1.1 200 OK"
+[2026-08-06 09:13:00,585] [INFO] HTTP Request: GET https://huggingface.co/api/models/google/mt5-small/discussions?p=0 "HTTP/1.1 200 OK"
+[2026-08-06 09:13:00,841] [INFO] HTTP Request: GET https://huggingface.co/api/models/google/mt5-small/commits/refs%2Fpr%2F15 "HTTP/1.1 200 OK"
+[2026-08-06 09:13:01,065] [INFO] HTTP Request: HEAD https://huggingface.co/google/mt5-small/resolve/refs%2Fpr%2F15/model.safetensors.index.json "HTTP/1.1 404 Not Found"
+[2026-08-06 09:13:01,294] [INFO] HTTP Request: HEAD https://huggingface.co/google/mt5-small/resolve/refs%2Fpr%2F15/model.safetensors "HTTP/1.1 302 Found"
+[2026-08-06 09:13:01,976] [INFO] HTTP Request: HEAD https://huggingface.co/google/mt5-small/resolve/main/generation_config.json "HTTP/1.1 307 Temporary Redirect"
+[2026-08-06 09:13:01,996] [INFO] HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/google/mt5-small/73fb5dbe4756edadc8fbe8c769b0a109493acf7a/generation_config.json "HTTP/1.1 200 OK"
+[2026-08-06 09:21:03,804] [INFO] Generation Length Check: Avg Pred Words = 8.9 | Avg Ref Words = 8.7
+[2026-08-06 09:21:03,805] [INFO] [Sample 1] Pred: 'कुबलाई खान ह्याला पहिला फियाट पैसा निर्माता मानले जाते' | Ref: 'कुबलाई खानला पहिला फियाट पैसा निर्माता मानले जाते'
+[2026-08-06 09:21:03,808] [INFO] [Sample 2] Pred: 'एरोपॉनिक्स पद्धतीद्वारे रोपांना हवेमध्ये उगवले जाते' | Ref: 'एरोपॉनिक्स पद्धतीद्वारे रोपांना हवेमध्ये उगवले जाते'
+[2026-08-06 09:21:03,812] [INFO] [Sample 3] Pred: 'संत्र्याच्या पिकावर तुषार सिंचन काम करणे का?' | Ref: 'संत्र्याच्या पिकावर तुषार सिंचन काम करत आहे का?'
+[2026-08-06 09:29:21,859] [INFO] Generation Length Check: Avg Pred Words = 8.8 | Avg Ref Words = 8.7
+[2026-08-06 09:29:21,859] [INFO] [Sample 1] Pred: 'कुबलाई खान ह्याला पहिला फियाट पैसा निर्माता मानले जाते' | Ref: 'कुबलाई खानला पहिला फियाट पैसा निर्माता मानले जाते'
+[2026-08-06 09:29:21,864] [INFO] [Sample 2] Pred: 'एरोपॉनिक्स पद्धतीद्वारे रोपांना हवेमध्ये उगवले जाते' | Ref: 'एरोपॉनिक्स पद्धतीद्वारे रोपांना हवेमध्ये उगवले जाते'
+[2026-08-06 09:29:21,868] [INFO] [Sample 3] Pred: 'संत्र्याच्या पिकावर तुषार सिंचन काम करेल का?' | Ref: 'संत्र्याच्या पिकावर तुषार सिंचन काम करत आहे का?'
+[2026-08-06 09:37:37,850] [INFO] Generation Length Check: Avg Pred Words = 8.8 | Avg Ref Words = 8.7
+[2026-08-06 09:37:37,850] [INFO] [Sample 1] Pred: 'कुबलाई खान ह्याला पहिला फियाट पैसा निर्माता मानले जाते' | Ref: 'कुबलाई खानला पहिला फियाट पैसा निर्माता मानले जाते'
+[2026-08-06 09:37:37,854] [INFO] [Sample 2] Pred: 'एरोपॉनिक्स पद्धतीद्वारे रोपांना हवेमध्ये उगवले जाते' | Ref: 'एरोपॉनिक्स पद्धतीद्वारे रोपांना हवेमध्ये उगवले जाते'
+[2026-08-06 09:37:37,858] [INFO] [Sample 3] Pred: 'संत्र्याच्या पिकावर तुषार सिंचन काम करेल का?' | Ref: 'संत्र्याच्या पिकावर तुषार सिंचन काम करत आहे का?'
+[2026-08-06 09:45:57,572] [INFO] Generation Length Check: Avg Pred Words = 8.8 | Avg Ref Words = 8.7
+[2026-08-06 09:45:57,572] [INFO] [Sample 1] Pred: 'कुबलाई खान ह्याला पहिला फियाट पैसा निर्माता मानले जाते' | Ref: 'कुबलाई खानला पहिला फियाट पैसा निर्माता मानले जाते'
+[2026-08-06 09:45:57,576] [INFO] [Sample 2] Pred: 'एरोपॉनिक्स पद्धतीद्वारे रोपांना हवेमध्ये उगवले जाते' | Ref: 'एरोपॉनिक्स पद्धतीद्वारे रोपांना हवेमध्ये उगवले जाते'
+[2026-08-06 09:45:57,580] [INFO] [Sample 3] Pred: 'संत्र्याच्या पिकावर तुषार सिंचन काम करेल का?' | Ref: 'संत्र्याच्या पिकावर तुषार सिंचन काम करत आहे का?'
+[2026-08-06 09:54:17,855] [INFO] Generation Length Check: Avg Pred Words = 8.8 | Avg Ref Words = 8.7
+[2026-08-06 09:54:17,856] [INFO] [Sample 1] Pred: 'कुबलाई खान ह्याला पहिला फियाट पैसा निर्माता मानले जाते' | Ref: 'कुबलाई खानला पहिला फियाट पैसा निर्माता मानले जाते'
+[2026-08-06 09:54:17,860] [INFO] [Sample 2] Pred: 'एरोपॉनिक्स पद्धतीद्वारे रोपांना हवेमध्ये उगवले जाते' | Ref: 'एरोपॉनिक्स पद्धतीद्वारे रोपांना हवेमध्ये उगवले जाते'
+[2026-08-06 09:54:17,865] [INFO] [Sample 3] Pred: 'संत्र्याच्या पिकावर तुषार सिंचन काम करेल का?' | Ref: 'संत्र्याच्या पिकावर तुषार सिंचन काम करत आहे का?'
+[2026-08-06 09:54:51,200] [INFO] Fold 1 Step-Averaged Training Loss: 0.8443
+[2026-08-06 09:54:51,200] [INFO] Evaluating Fold 1 on CV Validation Split (3,385 samples)...
+[2026-08-06 09:58:20,361] [INFO] Generation Length Check: Avg Pred Words = 8.8 | Avg Ref Words = 8.7
+[2026-08-06 09:58:20,361] [INFO] [Sample 1] Pred: 'कुबलाई खान ह्याला पहिला फियाट पैसा निर्माता मानले जाते' | Ref: 'कुबलाई खानला पहिला फियाट पैसा निर्माता मानले जाते'
+[2026-08-06 09:58:20,363] [INFO] [Sample 2] Pred: 'एरोपॉनिक्स पद्धतीद्वारे रोपांना हवेमध्ये उगवले जाते' | Ref: 'एरोपॉनिक्स पद्धतीद्वारे रोपांना हवेमध्ये उगवले जाते'
+[2026-08-06 09:58:20,367] [INFO] [Sample 3] Pred: 'संत्र्याच्या पिकावर तुषार सिंचन काम करेल का?' | Ref: 'संत्र्याच्या पिकावर तुषार सिंचन काम करत आहे का?'
+[2026-08-06 09:58:21,771] [INFO] Fold 1 Val Loss: 0.5689  Val BLEU: 61.65  Val chrF: 80.44
+[2026-08-06 09:58:21,772] [INFO] Evaluating Fold 1 on Held-Out Test Set (2,987 samples)...
+[2026-08-06 10:01:26,050] [INFO] Generation Length Check: Avg Pred Words = 8.8 | Avg Ref Words = 8.8
+[2026-08-06 10:01:26,050] [INFO] [Sample 1] Pred: 'इजाइच्या कडकडाटाची माहिती कोणते मोबाईल ॲप देईल?' | Ref: 'मी कोणते मोबाईल ॲप देईन?'
+[2026-08-06 10:01:26,052] [INFO] [Sample 2] Pred: 'एक मिनी स्टेटमेंट तुमच्या मागील खर्चाचा पाच ते दहा व्यवहार दाखवतो' | Ref: 'एक मिनी स्टेटमेंट तुमच्या मागील खर्चाचे पाच ते दहा व्यवहार दाखवा?'
+[2026-08-06 10:01:26,056] [INFO] [Sample 3] Pred: 'अनेक वित्तीय सेवा कंपन्या त्यांच्या बचत उत्पादनांसाठी त्यांचा लोगो म्हणून पिगी बँकांचा वापर करतात' | Ref: 'अनेक वित्तीय सेवा कंपन्या त्यांच्या बचत उत्पादनांसाठी त्यांचा लोगो म्हणून पिगी बँकांचा वापर करतात'
+[2026-08-06 10:01:27,340] [INFO] Fold 1 Test Loss: 0.5742  Test BLEU: 61.07  Test chrF: 80.20
+[2026-08-06 10:01:27,342] [INFO] Running independent per-dialect test evaluation breakdown...
+[2026-08-06 10:02:31,426] [INFO] Generation Length Check: Avg Pred Words = 9.0 | Avg Ref Words = 8.9
+[2026-08-06 10:02:31,426] [INFO] [Sample 1] Pred: 'एक मिनी स्टेटमेंट तुमच्या मागील खर्चाचा पाच ते दहा व्यवहार दाखवतो' | Ref: 'एक मिनी स्टेटमेंट तुमच्या मागील खर्चाचे पाच ते दहा व्यवहार दाखवा?'
+[2026-08-06 10:02:31,428] [INFO] [Sample 2] Pred: 'संपत्तीच्या बाबतीत केलेल्या गुन्ह्यांका आर्थिक अपराध म्हणत आहेत' | Ref: 'संपत्तीच्या बाबतीत केलेल्या गुन्ह्यांना आर्थिक अपराध म्हणतात'
+[2026-08-06 10:02:31,431] [INFO] [Sample 3] Pred: 'मार्क टू मार्केट रोजच्या अकाउंटींगची एक पद्धत आहे' | Ref: 'मार्क टू मार्केट रोजच्या अकाउंटींगची एक पद्धत आहे'
+[2026-08-06 10:02:31,910] [INFO]   [D1] Test Samples: 1,026 | Loss: 0.6567 | BLEU: 49.1939 | chrF: 75.6265
+[2026-08-06 10:03:38,254] [INFO] Generation Length Check: Avg Pred Words = 8.8 | Avg Ref Words = 8.7
+[2026-08-06 10:03:38,254] [INFO] [Sample 1] Pred: 'मासे पकडा ना एक दिवस मला चाली आहे.' | Ref: 'मासा पकडा, दिवस मा चालले.'
+[2026-08-06 10:03:38,256] [INFO] [Sample 2] Pred: 'पिकांना पाणी पुरवठा करताना पाण्याचे काही बंधन असते का? कोणत्या पिकाला किती पाणी द्यावे ते कशाप्रकारे ठरवावे?' | Ref: 'पिकांना पाणी पुरवठा करताना पाण्याचे काही बंधन असते का ? कोणत्या पिकाला किती पाणी द्यावे ते कशाप्रकारे ठरवावे ?'
+[2026-08-06 10:03:38,259] [INFO] [Sample 3] Pred: 'भारतात स्क्वैशचा वापर हिरवा भाज्या म्हणून होतो.' | Ref: 'भारतात स्क्वैशचा वापर हिरव्या भाज्यांसोबत केला जातो?'
+[2026-08-06 10:03:38,745] [INFO]   [D2] Test Samples: 1,046 | Loss: 0.6837 | BLEU: 58.4649 | chrF: 76.641
+[2026-08-06 10:04:35,416] [INFO] Generation Length Check: Avg Pred Words = 8.7 | Avg Ref Words = 8.6
+[2026-08-06 10:04:35,416] [INFO] [Sample 1] Pred: 'इजाइच्या कडकडाटाची माहिती कोणते मोबाईल ॲप देईल?' | Ref: 'मी कोणते मोबाईल ॲप देईन?'
+[2026-08-06 10:04:35,418] [INFO] [Sample 2] Pred: 'अनेक वित्तीय सेवा कंपन्या त्यांच्या बचत उत्पादनांसाठी त्यांचा लोगो म्हणून पिगी बँकांचा वापर करतात' | Ref: 'अनेक वित्तीय सेवा कंपन्या त्यांच्या बचत उत्पादनांसाठी त्यांचा लोगो म्हणून पिगी बँकांचा वापर करतात'
+[2026-08-06 10:04:35,421] [INFO] [Sample 3] Pred: 'कर्जदार त्यांचे वैयक्तिक कर्ज तपशील नेट बँकिंग आणि लॉगिन पोर्टलद्वारे पाहू शकतात' | Ref: 'कर्जदार त्यांचे वैयक्तिक कर्ज तपशील नेट बँकिंग आणि लॉगिन पोर्टल द्वारे पाहू शकतात'
+[2026-08-06 10:04:35,854] [INFO]   [D4] Test Samples: 915 | Loss: 0.347 | BLEU: 77.9057 | chrF: 89.7184
+[2026-08-06 10:04:35,854] [INFO] New Best Fold (1) Test BLEU: 61.07! Saving local model to: models\mt5_raw_unverified_32k\best_model
+[2026-08-06 10:04:45,955] [INFO] 
+======================================================================
+[2026-08-06 10:04:45,955] [INFO] RUNNING mT5 CROSS-VALIDATION: FOLD 2/5
+[2026-08-06 10:04:45,955] [INFO] ======================================================================
+[2026-08-06 10:04:46,324] [INFO] HTTP Request: HEAD https://huggingface.co/google/mt5-small/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+[2026-08-06 10:04:46,344] [INFO] HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/google/mt5-small/73fb5dbe4756edadc8fbe8c769b0a109493acf7a/config.json "HTTP/1.1 200 OK"
+[2026-08-06 10:04:46,589] [INFO] HTTP Request: HEAD https://huggingface.co/google/mt5-small/resolve/main/model.safetensors "HTTP/1.1 404 Not Found"
+[2026-08-06 10:04:46,829] [INFO] HTTP Request: GET https://huggingface.co/api/models/google/mt5-small "HTTP/1.1 200 OK"
+[2026-08-06 10:04:47,148] [INFO] HTTP Request: GET https://huggingface.co/api/models/google/mt5-small/commits/main "HTTP/1.1 200 OK"
+[2026-08-06 10:04:47,409] [INFO] HTTP Request: GET https://huggingface.co/api/models/google/mt5-small/discussions?p=0 "HTTP/1.1 200 OK"
+[2026-08-06 10:04:47,692] [INFO] HTTP Request: GET https://huggingface.co/api/models/google/mt5-small/commits/refs%2Fpr%2F15 "HTTP/1.1 200 OK"
+[2026-08-06 10:04:47,932] [INFO] HTTP Request: HEAD https://huggingface.co/google/mt5-small/resolve/refs%2Fpr%2F15/model.safetensors.index.json "HTTP/1.1 404 Not Found"
+[2026-08-06 10:04:47,959] [INFO] HTTP Request: HEAD https://huggingface.co/google/mt5-small/resolve/main/generation_config.json "HTTP/1.1 307 Temporary Redirect"
+[2026-08-06 10:04:47,978] [INFO] HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/google/mt5-small/73fb5dbe4756edadc8fbe8c769b0a109493acf7a/generation_config.json "HTTP/1.1 200 OK"
+[2026-08-06 10:04:48,157] [INFO] HTTP Request: HEAD https://huggingface.co/google/mt5-small/resolve/refs%2Fpr%2F15/model.safetensors "HTTP/1.1 302 Found"
+[2026-08-06 10:12:57,401] [INFO] Generation Length Check: Avg Pred Words = 9.0 | Avg Ref Words = 8.9
+[2026-08-06 10:12:57,401] [INFO] [Sample 1] Pred: 'बाॅयलर कोंबडीच्या पोल्ट्री फारमं करते शासन कर्ज देते' | Ref: 'बाॅयलर कोंबडींच्या पोल्ट्रीचे फार्मिंग करता शासन कर्ज देते.'
+[2026-08-06 10:12:57,405] [INFO] [Sample 2] Pred: 'भाड्याने खरेदी करा तुम्हाला हप्ते म्हणून देखील ओळखता येईल' | Ref: 'भाड्याने खरेदी करा तर तुम्हाला हप्ते म्हणून देखील ओळखता येईल'
+[2026-08-06 10:12:57,411] [INFO] [Sample 3] Pred: 'जिओसाठी टॉप किती रकमेपर्यंत करू शकतो?' | Ref: 'जिओसाठी किती रक्कम करू शकता?'
+[2026-08-06 10:21:22,225] [INFO] Generation Length Check: Avg Pred Words = 9.0 | Avg Ref Words = 8.9
+[2026-08-06 10:21:22,225] [INFO] [Sample 1] Pred: 'बाॅयलर कोंबडीच्या पोल्ट्री फॉर्म करता शासन कर्ज देते' | Ref: 'बाॅयलर कोंबडींच्या पोल्ट्रीचे फार्मिंग करता शासन कर्ज देते.'
+[2026-08-06 10:21:22,230] [INFO] [Sample 2] Pred: 'भाड्याने खरेदी करा तुम्हाला हप्ते म्हणून देखील ओळखता येईल' | Ref: 'भाड्याने खरेदी करा तर तुम्हाला हप्ते म्हणून देखील ओळखता येईल'
+[2026-08-06 10:21:22,235] [INFO] [Sample 3] Pred: 'जिओसाठी टॉप किती रकमेपर्यंत करू शकतो?' | Ref: 'जिओसाठी किती रक्कम करू शकता?'
+[2026-08-06 10:29:49,582] [INFO] Generation Length Check: Avg Pred Words = 8.9 | Avg Ref Words = 8.9
+[2026-08-06 10:29:49,582] [INFO] [Sample 1] Pred: 'बाॅयलर कोंबडीच्या पोल्ट्री फारमं करता शासन कर्ज देते' | Ref: 'बाॅयलर कोंबडींच्या पोल्ट्रीचे फार्मिंग करता शासन कर्ज देते.'
+[2026-08-06 10:29:49,587] [INFO] [Sample 2] Pred: 'भाड्याने खरेदी करा तुम्हाला हप्ते म्हणून देखील ओळखता येईल' | Ref: 'भाड्याने खरेदी करा तर तुम्हाला हप्ते म्हणून देखील ओळखता येईल'
+[2026-08-06 10:29:49,592] [INFO] [Sample 3] Pred: 'जिओसाठी टॉप किती रकमेपर्यंत करू शकतो?' | Ref: 'जिओसाठी किती रक्कम करू शकता?'
+[2026-08-06 10:38:13,546] [INFO] Generation Length Check: Avg Pred Words = 8.9 | Avg Ref Words = 8.9
+[2026-08-06 10:38:13,547] [INFO] [Sample 1] Pred: 'बाॅयलर कोंबडीच्या पोल्ट्री फॉर्म करताना शासन कर्ज देते' | Ref: 'बाॅयलर कोंबडींच्या पोल्ट्रीचे फार्मिंग करता शासन कर्ज देते.'
+[2026-08-06 10:38:13,551] [INFO] [Sample 2] Pred: 'भाड्याने खरेदी करा तुम्हाला हप्ते म्हणून देखील ओळखता येईल' | Ref: 'भाड्याने खरेदी करा तर तुम्हाला हप्ते म्हणून देखील ओळखता येईल'
+[2026-08-06 10:38:13,557] [INFO] [Sample 3] Pred: 'जिओसाठी टॉप किती रकमेपर्यंत करू शकतो?' | Ref: 'जिओसाठी किती रक्कम करू शकता?'
+[2026-08-06 10:46:36,881] [INFO] Generation Length Check: Avg Pred Words = 8.9 | Avg Ref Words = 8.9
+[2026-08-06 10:46:36,882] [INFO] [Sample 1] Pred: 'बाॅयलर कोंबडीच्या पोल्ट्री फॉर्म करताना शासन कर्ज देते' | Ref: 'बाॅयलर कोंबडींच्या पोल्ट्रीचे फार्मिंग करता शासन कर्ज देते.'
+[2026-08-06 10:46:36,886] [INFO] [Sample 2] Pred: 'भाड्याने खरेदी करा तुम्हाला हप्ते म्हणून देखील ओळखता येईल' | Ref: 'भाड्याने खरेदी करा तर तुम्हाला हप्ते म्हणून देखील ओळखता येईल'
+[2026-08-06 10:46:36,891] [INFO] [Sample 3] Pred: 'जिओसाठी टॉप किती रकमेपर्यंत करू शकतो?' | Ref: 'जिओसाठी किती रक्कम करू शकता?'
+[2026-08-06 10:47:07,546] [INFO] Fold 2 Step-Averaged Training Loss: 0.9492
+[2026-08-06 10:47:07,547] [INFO] Evaluating Fold 2 on CV Validation Split (3,385 samples)...
+[2026-08-06 10:50:42,392] [INFO] Generation Length Check: Avg Pred Words = 8.9 | Avg Ref Words = 8.9
+[2026-08-06 10:50:42,392] [INFO] [Sample 1] Pred: 'बाॅयलर कोंबडीच्या पोल्ट्री फॉर्म करताना शासन कर्ज देते' | Ref: 'बाॅयलर कोंबडींच्या पोल्ट्रीचे फार्मिंग करता शासन कर्ज देते.'
+[2026-08-06 10:50:42,394] [INFO] [Sample 2] Pred: 'भाड्याने खरेदी करा तुम्हाला हप्ते म्हणून देखील ओळखता येईल' | Ref: 'भाड्याने खरेदी करा तर तुम्हाला हप्ते म्हणून देखील ओळखता येईल'
+[2026-08-06 10:50:42,398] [INFO] [Sample 3] Pred: 'जिओसाठी टॉप किती रकमेपर्यंत करू शकतो?' | Ref: 'जिओसाठी किती रक्कम करू शकता?'
+[2026-08-06 10:50:44,159] [INFO] Fold 2 Val Loss: 0.5668  Val BLEU: 60.97  Val chrF: 80.10
+[2026-08-06 10:50:44,159] [INFO] Evaluating Fold 2 on Held-Out Test Set (2,987 samples)...
+[2026-08-06 10:53:48,784] [INFO] Generation Length Check: Avg Pred Words = 8.8 | Avg Ref Words = 8.8
+[2026-08-06 10:53:48,785] [INFO] [Sample 1] Pred: 'तुमच्या कडकडाटाची माहिती कोणते मोबाईल ॲप देईन?' | Ref: 'मी कोणते मोबाईल ॲप देईन?'
+[2026-08-06 10:53:48,786] [INFO] [Sample 2] Pred: 'एक मिनी स्टेटमेंट तुम्हाला मागील खर्चाचा पाच ते दहा व्यवहार दाखवतो' | Ref: 'एक मिनी स्टेटमेंट तुमच्या मागील खर्चाचे पाच ते दहा व्यवहार दाखवा?'
+[2026-08-06 10:53:48,801] [INFO] [Sample 3] Pred: 'अनेक वित्तीय सेवा कंपन्या त्यांच्या बचत उत्पादनांसाठी त्यांचा लोगो म्हणून पिगी बँकांचा वापर करतात' | Ref: 'अनेक वित्तीय सेवा कंपन्या त्यांच्या बचत उत्पादनांसाठी त्यांचा लोगो म्हणून पिगी बँकांचा वापर करतात'
+[2026-08-06 10:53:50,090] [INFO] Fold 2 Test Loss: 0.5709  Test BLEU: 61.10  Test chrF: 80.20
+[2026-08-06 10:53:50,092] [INFO] Running independent per-dialect test evaluation breakdown...
+[2026-08-06 10:54:54,361] [INFO] Generation Length Check: Avg Pred Words = 9.1 | Avg Ref Words = 8.9
+[2026-08-06 10:54:54,362] [INFO] [Sample 1] Pred: 'एक मिनी स्टेटमेंट तुम्हाला मागील खर्चाचा पाच ते दहा व्यवहार दाखवतो' | Ref: 'एक मिनी स्टेटमेंट तुमच्या मागील खर्चाचे पाच ते दहा व्यवहार दाखवा?'
+[2026-08-06 10:54:54,364] [INFO] [Sample 2] Pred: 'संपत्तीच्या बाबतीत केलेल्या गुन्ह्यांना आर्थिक अपराध म्हणतात' | Ref: 'संपत्तीच्या बाबतीत केलेल्या गुन्ह्यांना आर्थिक अपराध म्हणतात'
+[2026-08-06 10:54:54,368] [INFO] [Sample 3] Pred: 'मार्क टू मार्केट रोजच्या अकाउंटींगची एक पद्धत आहे' | Ref: 'मार्क टू मार्केट रोजच्या अकाउंटींगची एक पद्धत आहे'
+[2026-08-06 10:54:54,858] [INFO]   [D1] Test Samples: 1,026 | Loss: 0.651 | BLEU: 49.451 | chrF: 75.7443
+[2026-08-06 10:56:00,270] [INFO] Generation Length Check: Avg Pred Words = 8.8 | Avg Ref Words = 8.7
+[2026-08-06 10:56:00,270] [INFO] [Sample 1] Pred: 'मासा पकडा ना एक दिवस माही चाली आहे.' | Ref: 'मासा पकडा, दिवस मा चालले.'
+[2026-08-06 10:56:00,272] [INFO] [Sample 2] Pred: 'पिकांना पाणी पुरवठा करताना पाण्याचे काही बंधन असते का? कोणत्या पिकाला किती पाणी द्यावे ते कशाप्रकारे ठरवावे?' | Ref: 'पिकांना पाणी पुरवठा करताना पाण्याचे काही बंधन असते का ? कोणत्या पिकाला किती पाणी द्यावे ते कशाप्रकारे ठरवावे ?'
+[2026-08-06 10:56:00,276] [INFO] [Sample 3] Pred: 'भारतात स्क्वैशचा वापर हिरवा भाज्या म्हणून होतो.' | Ref: 'भारतात स्क्वैशचा वापर हिरव्या भाज्यांसोबत केला जातो?'
+[2026-08-06 10:56:00,796] [INFO]   [D2] Test Samples: 1,046 | Loss: 0.6861 | BLEU: 58.2494 | chrF: 76.5096
+[2026-08-06 10:56:56,423] [INFO] Generation Length Check: Avg Pred Words = 8.7 | Avg Ref Words = 8.6
+[2026-08-06 10:56:56,424] [INFO] [Sample 1] Pred: 'तुमच्या कडकडाटाची माहिती कोणते मोबाईल ॲप देईन?' | Ref: 'मी कोणते मोबाईल ॲप देईन?'
+[2026-08-06 10:56:56,426] [INFO] [Sample 2] Pred: 'अनेक वित्तीय सेवा कंपन्या त्यांच्या बचत उत्पादनांसाठी त्यांचा लोगो म्हणून पिगी बँकांचा वापर करतात' | Ref: 'अनेक वित्तीय सेवा कंपन्या त्यांच्या बचत उत्पादनांसाठी त्यांचा लोगो म्हणून पिगी बँकांचा वापर करतात'
+[2026-08-06 10:56:56,430] [INFO] [Sample 3] Pred: 'कर्जदार त्यांचे वैयक्तिक कर्ज तपशील नेट बँकिंग आणि लॉगिन पोर्टलद्वारे पाहू शकतात' | Ref: 'कर्जदार त्यांचे वैयक्तिक कर्ज तपशील नेट बँकिंग आणि लॉगिन पोर्टल द्वारे पाहू शकतात'
+[2026-08-06 10:56:56,866] [INFO]   [D4] Test Samples: 915 | Loss: 0.3433 | BLEU: 77.9532 | chrF: 89.719
+[2026-08-06 10:56:56,866] [INFO] New Best Fold (2) Test BLEU: 61.10! Saving local model to: models\mt5_raw_unverified_32k\best_model
+[2026-08-06 10:57:05,744] [INFO] 
+======================================================================
+[2026-08-06 10:57:05,744] [INFO] RUNNING mT5 CROSS-VALIDATION: FOLD 3/5
+[2026-08-06 10:57:05,744] [INFO] ======================================================================
+[2026-08-06 10:57:06,037] [INFO] HTTP Request: HEAD https://huggingface.co/google/mt5-small/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+[2026-08-06 10:57:06,061] [INFO] HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/google/mt5-small/73fb5dbe4756edadc8fbe8c769b0a109493acf7a/config.json "HTTP/1.1 200 OK"
+[2026-08-06 10:57:06,301] [INFO] HTTP Request: HEAD https://huggingface.co/google/mt5-small/resolve/main/model.safetensors "HTTP/1.1 404 Not Found"
+[2026-08-06 10:57:06,532] [INFO] HTTP Request: GET https://huggingface.co/api/models/google/mt5-small "HTTP/1.1 200 OK"
+[2026-08-06 10:57:06,771] [INFO] HTTP Request: GET https://huggingface.co/api/models/google/mt5-small/commits/main "HTTP/1.1 200 OK"
+[2026-08-06 10:57:07,037] [INFO] HTTP Request: GET https://huggingface.co/api/models/google/mt5-small/discussions?p=0 "HTTP/1.1 200 OK"
+[2026-08-06 10:57:07,279] [INFO] HTTP Request: GET https://huggingface.co/api/models/google/mt5-small/commits/refs%2Fpr%2F15 "HTTP/1.1 200 OK"
+[2026-08-06 10:57:07,508] [INFO] HTTP Request: HEAD https://huggingface.co/google/mt5-small/resolve/refs%2Fpr%2F15/model.safetensors.index.json "HTTP/1.1 404 Not Found"
+[2026-08-06 10:57:07,731] [INFO] HTTP Request: HEAD https://huggingface.co/google/mt5-small/resolve/main/generation_config.json "HTTP/1.1 307 Temporary Redirect"
+[2026-08-06 10:57:07,752] [INFO] HTTP Request: HEAD https://huggingface.co/google/mt5-small/resolve/refs%2Fpr%2F15/model.safetensors "HTTP/1.1 302 Found"
+[2026-08-06 10:57:07,756] [INFO] HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/google/mt5-small/73fb5dbe4756edadc8fbe8c769b0a109493acf7a/generation_config.json "HTTP/1.1 200 OK"
+[2026-08-06 11:05:00,604] [INFO] Generation Length Check: Avg Pred Words = 8.8 | Avg Ref Words = 8.8
+[2026-08-06 11:05:00,604] [INFO] [Sample 1] Pred: 'कृषी प्रदूषण म्हणजे कृषी पद्धतींच्या जैविक आणि अजैविक उपउत्पादनांचा संदर्भ' | Ref: 'कृषी प्रदूषण म्हणजे कृषी पद्धतींच्या जैविक आणि अजैविक उपउत्पादनांचा संदर्भ?'
+[2026-08-06 11:05:00,610] [INFO] [Sample 2] Pred: 'गुलाब फुलाच्या वाढीकरिता कोंबडीचे खत चांगले असते का?' | Ref: 'गुलाब फुलाच्या वाढीकरिता कोंबडीचे खत चांगले असते का?'
+[2026-08-06 11:05:00,616] [INFO] [Sample 3] Pred: 'निव्वळ वर्तमान मू्ल्य वेगवेगळा वेळी होणाऱ्यो रोख प्रवाहाचा मालिकेवर लागू होतो' | Ref: 'निव्वळ वर्तमान मूल्य वेगवेगळ्या वेळी झाले आणि ते रोख प्रवाहाच्या मालिकेवर लागू होते.'
+[2026-08-06 11:13:15,399] [INFO] Generation Length Check: Avg Pred Words = 8.9 | Avg Ref Words = 8.8
+[2026-08-06 11:13:15,400] [INFO] [Sample 1] Pred: 'कृषी प्रदूषण म्हणजे कृषी पद्धतींच्या जैविक आणि अजैविक उपउत्पादनांचा संदर्भ' | Ref: 'कृषी प्रदूषण म्हणजे कृषी पद्धतींच्या जैविक आणि अजैविक उपउत्पादनांचा संदर्भ?'
+[2026-08-06 11:13:15,405] [INFO] [Sample 2] Pred: 'गुलाब फुलाच्या वाढीकरिता कोंबडीचे खत चांगले असते का?' | Ref: 'गुलाब फुलाच्या वाढीकरिता कोंबडीचे खत चांगले असते का?'
+[2026-08-06 11:13:15,410] [INFO] [Sample 3] Pred: 'निव्वळ वर्तमान मूल्य वेगवेगळा वेळी होणाऱ्यो रोख प्रवाहाचे मालिकेवर लागू होते' | Ref: 'निव्वळ वर्तमान मूल्य वेगवेगळ्या वेळी झाले आणि ते रोख प्रवाहाच्या मालिकेवर लागू होते.'
+[2026-08-06 11:21:38,727] [INFO] Generation Length Check: Avg Pred Words = 8.9 | Avg Ref Words = 8.8
+[2026-08-06 11:21:38,727] [INFO] [Sample 1] Pred: 'कृषी प्रदूषण म्हणजे कृषी पद्धतींच्या जैविक आणि अजैविक उपउत्पादनांचा संदर्भ' | Ref: 'कृषी प्रदूषण म्हणजे कृषी पद्धतींच्या जैविक आणि अजैविक उपउत्पादनांचा संदर्भ?'
+[2026-08-06 11:21:38,733] [INFO] [Sample 2] Pred: 'गुलाब फुलाच्या वाढीकरिता कोंबडीचे खत चांगले असते का?' | Ref: 'गुलाब फुलाच्या वाढीकरिता कोंबडीचे खत चांगले असते का?'
+[2026-08-06 11:21:38,740] [INFO] [Sample 3] Pred: 'निव्वळ वर्तमान मूल्य वेगवेगळ्या वेळी होणाऱ्यो रोख प्रवाहाचे मालिकेवर लागू होते' | Ref: 'निव्वळ वर्तमान मूल्य वेगवेगळ्या वेळी झाले आणि ते रोख प्रवाहाच्या मालिकेवर लागू होते.'
+[2026-08-06 11:29:59,656] [INFO] Generation Length Check: Avg Pred Words = 8.9 | Avg Ref Words = 8.8
+[2026-08-06 11:29:59,656] [INFO] [Sample 1] Pred: 'कृषी प्रदूषण म्हणजे कृषी पद्धतींच्या जैविक आणि अजैविक उपउत्पादनांचा संदर्भ' | Ref: 'कृषी प्रदूषण म्हणजे कृषी पद्धतींच्या जैविक आणि अजैविक उपउत्पादनांचा संदर्भ?'
+[2026-08-06 11:29:59,662] [INFO] [Sample 2] Pred: 'गुलाब फुलाच्या वाढीकरिता कोंबडीचे खत चांगले असते का?' | Ref: 'गुलाब फुलाच्या वाढीकरिता कोंबडीचे खत चांगले असते का?'
+[2026-08-06 11:29:59,668] [INFO] [Sample 3] Pred: 'निव्वळ वर्तमान मूल्य वेगवेगळा वेळी होणारा रोख प्रवाहाच्या मालिकेवर लागू होता' | Ref: 'निव्वळ वर्तमान मूल्य वेगवेगळ्या वेळी झाले आणि ते रोख प्रवाहाच्या मालिकेवर लागू होते.'
+[2026-08-06 11:38:16,705] [INFO] Generation Length Check: Avg Pred Words = 8.8 | Avg Ref Words = 8.8
+[2026-08-06 11:38:16,705] [INFO] [Sample 1] Pred: 'कृषी प्रदूषण म्हणजे कृषी पद्धतींच्या जैविक आणि अजैविक उपउत्पादनांचा संदर्भ' | Ref: 'कृषी प्रदूषण म्हणजे कृषी पद्धतींच्या जैविक आणि अजैविक उपउत्पादनांचा संदर्भ?'
+[2026-08-06 11:38:16,711] [INFO] [Sample 2] Pred: 'गुलाब फुलाच्या वाढीकरिता कोंबडीचे खत चांगले असते का?' | Ref: 'गुलाब फुलाच्या वाढीकरिता कोंबडीचे खत चांगले असते का?'
+[2026-08-06 11:38:16,717] [INFO] [Sample 3] Pred: 'निव्वळ वर्तमान मूल्य वेगवेगळा वेळी होणाऱ्यो रोख प्रवाहाच्या मालिकेवर लागू होता' | Ref: 'निव्वळ वर्तमान मूल्य वेगवेगळ्या वेळी झाले आणि ते रोख प्रवाहाच्या मालिकेवर लागू होते.'
+[2026-08-06 11:38:50,390] [INFO] Fold 3 Step-Averaged Training Loss: 0.8824
+[2026-08-06 11:38:50,390] [INFO] Evaluating Fold 3 on CV Validation Split (3,385 samples)...
+[2026-08-06 11:42:16,747] [INFO] Generation Length Check: Avg Pred Words = 8.9 | Avg Ref Words = 8.8
+[2026-08-06 11:42:16,747] [INFO] [Sample 1] Pred: 'कृषी प्रदूषण म्हणजे कृषी पद्धतींच्या जैविक आणि अजैविक उपउत्पादनांचा संदर्भ' | Ref: 'कृषी प्रदूषण म्हणजे कृषी पद्धतींच्या जैविक आणि अजैविक उपउत्पादनांचा संदर्भ?'
+[2026-08-06 11:42:16,749] [INFO] [Sample 2] Pred: 'गुलाब फुलाच्या वाढीकरिता कोंबडीचे खत चांगले असते का?' | Ref: 'गुलाब फुलाच्या वाढीकरिता कोंबडीचे खत चांगले असते का?'
+[2026-08-06 11:42:16,754] [INFO] [Sample 3] Pred: 'निव्वळ वर्तमान मूल्य वेगवेगळा वेळी होणारा रोख प्रवाहाच्या मालिकेवर लागू होता' | Ref: 'निव्वळ वर्तमान मूल्य वेगवेगळ्या वेळी झाले आणि ते रोख प्रवाहाच्या मालिकेवर लागू होते.'
+[2026-08-06 11:42:18,172] [INFO] Fold 3 Val Loss: 0.5838  Val BLEU: 60.88  Val chrF: 79.91
+[2026-08-06 11:42:18,172] [INFO] Evaluating Fold 3 on Held-Out Test Set (2,987 samples)...
+[2026-08-06 11:45:19,275] [INFO] Generation Length Check: Avg Pred Words = 8.9 | Avg Ref Words = 8.8
+[2026-08-06 11:45:19,275] [INFO] [Sample 1] Pred: 'तुमच्या कडकडाटाची माहिती कोणते मोबाईल ॲप देईल?' | Ref: 'मी कोणते मोबाईल ॲप देईन?'
+[2026-08-06 11:45:19,277] [INFO] [Sample 2] Pred: 'एक मिनी स्टेटमेंट तुम्हाला मागील खर्चाचा पाच ते दहा व्यवहार दाखवतो' | Ref: 'एक मिनी स्टेटमेंट तुमच्या मागील खर्चाचे पाच ते दहा व्यवहार दाखवा?'
+[2026-08-06 11:45:19,282] [INFO] [Sample 3] Pred: 'अनेक वित्तीय सेवा कंपन्या त्यांच्या बचत उत्पादनांसाठी त्यांचा लोगो म्हणून पिगी बँकांचा वापर करतात' | Ref: 'अनेक वित्तीय सेवा कंपन्या त्यांच्या बचत उत्पादनांसाठी त्यांचा लोगो म्हणून पिगी बँकांचा वापर करतात'
+[2026-08-06 11:45:20,543] [INFO] Fold 3 Test Loss: 0.5754  Test BLEU: 61.35  Test chrF: 80.27
+[2026-08-06 11:45:20,545] [INFO] Running independent per-dialect test evaluation breakdown...
+[2026-08-06 11:46:23,365] [INFO] Generation Length Check: Avg Pred Words = 9.1 | Avg Ref Words = 8.9
+[2026-08-06 11:46:23,365] [INFO] [Sample 1] Pred: 'एक मिनी स्टेटमेंट तुम्हाला मागील खर्चाचा पाच ते दहा व्यवहार दाखवतो' | Ref: 'एक मिनी स्टेटमेंट तुमच्या मागील खर्चाचे पाच ते दहा व्यवहार दाखवा?'
+[2026-08-06 11:46:23,367] [INFO] [Sample 2] Pred: 'संपत्तीच्या बाबतीत केलेल्या गुन्ह्यांका आर्थिक अपराध म्हणतात' | Ref: 'संपत्तीच्या बाबतीत केलेल्या गुन्ह्यांना आर्थिक अपराध म्हणतात'
+[2026-08-06 11:46:23,370] [INFO] [Sample 3] Pred: 'मार्क टू मार्केट रोजच्या अकाउंटींगची एक पद्धत आहे' | Ref: 'मार्क टू मार्केट रोजच्या अकाउंटींगची एक पद्धत आहे'
+[2026-08-06 11:46:23,863] [INFO]   [D1] Test Samples: 1,026 | Loss: 0.6551 | BLEU: 49.0578 | chrF: 75.4701
+[2026-08-06 11:47:27,719] [INFO] Generation Length Check: Avg Pred Words = 8.8 | Avg Ref Words = 8.7
+[2026-08-06 11:47:27,720] [INFO] [Sample 1] Pred: 'मासा पकडा ना येवसाय दिवस माही चाली आहे.' | Ref: 'मासा पकडा, दिवस मा चालले.'
+[2026-08-06 11:47:27,721] [INFO] [Sample 2] Pred: 'पिकांना पाणी पुरवठा करताना पाण्याचे काही बंधन असते का? कोणत्या पिकाला किती पाणी द्यावे ते कशाप्रकारे ठरवावे?' | Ref: 'पिकांना पाणी पुरवठा करताना पाण्याचे काही बंधन असते का ? कोणत्या पिकाला किती पाणी द्यावे ते कशाप्रकारे ठरवावे ?'
+[2026-08-06 11:47:27,725] [INFO] [Sample 3] Pred: 'भारतात स्क्वैशचा वापर हिरवा भाज्या म्हणून आहे.' | Ref: 'भारतात स्क्वैशचा वापर हिरव्या भाज्यांसोबत केला जातो?'
+[2026-08-06 11:47:28,233] [INFO]   [D2] Test Samples: 1,046 | Loss: 0.6885 | BLEU: 58.8717 | chrF: 76.8114
+[2026-08-06 11:48:23,668] [INFO] Generation Length Check: Avg Pred Words = 8.7 | Avg Ref Words = 8.6
+[2026-08-06 11:48:23,669] [INFO] [Sample 1] Pred: 'तुमच्या कडकडाटाची माहिती कोणते मोबाईल ॲप देईल?' | Ref: 'मी कोणते मोबाईल ॲप देईन?'
+[2026-08-06 11:48:23,670] [INFO] [Sample 2] Pred: 'अनेक वित्तीय सेवा कंपन्या त्यांच्या बचत उत्पादनांसाठी त्यांचा लोगो म्हणून पिगी बँकांचा वापर करतात' | Ref: 'अनेक वित्तीय सेवा कंपन्या त्यांच्या बचत उत्पादनांसाठी त्यांचा लोगो म्हणून पिगी बँकांचा वापर करतात'
+[2026-08-06 11:48:23,674] [INFO] [Sample 3] Pred: 'कर्जदार त्यांचे वैयक्तिक कर्ज तपशील नेट बँकिंग आणि लॉगिन पोर्टलद्वारे पाहू शकतात' | Ref: 'कर्जदार त्यांचे वैयक्तिक कर्ज तपशील नेट बँकिंग आणि लॉगिन पोर्टल द्वारे पाहू शकतात'
+[2026-08-06 11:48:24,134] [INFO]   [D4] Test Samples: 915 | Loss: 0.3474 | BLEU: 78.4852 | chrF: 89.9305
+[2026-08-06 11:48:24,134] [INFO] New Best Fold (3) Test BLEU: 61.35! Saving local model to: models\mt5_raw_unverified_32k\best_model
+[2026-08-06 11:48:34,018] [INFO] 
+======================================================================
+[2026-08-06 11:48:34,018] [INFO] RUNNING mT5 CROSS-VALIDATION: FOLD 4/5
+[2026-08-06 11:48:34,018] [INFO] ======================================================================
+[2026-08-06 11:48:34,638] [INFO] HTTP Request: HEAD https://huggingface.co/google/mt5-small/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+[2026-08-06 11:48:34,656] [INFO] HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/google/mt5-small/73fb5dbe4756edadc8fbe8c769b0a109493acf7a/config.json "HTTP/1.1 200 OK"
+[2026-08-06 11:48:34,884] [INFO] HTTP Request: HEAD https://huggingface.co/google/mt5-small/resolve/main/model.safetensors "HTTP/1.1 404 Not Found"
+[2026-08-06 11:48:35,118] [INFO] HTTP Request: GET https://huggingface.co/api/models/google/mt5-small "HTTP/1.1 200 OK"
+[2026-08-06 11:48:35,358] [INFO] HTTP Request: GET https://huggingface.co/api/models/google/mt5-small/commits/main "HTTP/1.1 200 OK"
+[2026-08-06 11:48:35,615] [INFO] HTTP Request: GET https://huggingface.co/api/models/google/mt5-small/discussions?p=0 "HTTP/1.1 200 OK"
+[2026-08-06 11:48:35,850] [INFO] HTTP Request: GET https://huggingface.co/api/models/google/mt5-small/commits/refs%2Fpr%2F15 "HTTP/1.1 200 OK"
+[2026-08-06 11:48:36,085] [INFO] HTTP Request: HEAD https://huggingface.co/google/mt5-small/resolve/refs%2Fpr%2F15/model.safetensors.index.json "HTTP/1.1 404 Not Found"
+[2026-08-06 11:48:36,277] [INFO] HTTP Request: HEAD https://huggingface.co/google/mt5-small/resolve/main/generation_config.json "HTTP/1.1 307 Temporary Redirect"
+[2026-08-06 11:48:36,296] [INFO] HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/google/mt5-small/73fb5dbe4756edadc8fbe8c769b0a109493acf7a/generation_config.json "HTTP/1.1 200 OK"
+[2026-08-06 11:48:36,325] [INFO] HTTP Request: HEAD https://huggingface.co/google/mt5-small/resolve/refs%2Fpr%2F15/model.safetensors "HTTP/1.1 302 Found"
+[2026-08-06 11:56:30,818] [INFO] Generation Length Check: Avg Pred Words = 8.8 | Avg Ref Words = 8.8
+[2026-08-06 11:56:30,818] [INFO] [Sample 1] Pred: 'पेमेंटची वसूली अन्य आर्थिक सेवांमध्ये येते' | Ref: 'पेमेंटची वसुली इतर आर्थिक सेवांमध्ये होते'
+[2026-08-06 11:56:30,824] [INFO] [Sample 2] Pred: 'शेतीसाठी शेतजमीन भाडेतत्त्वावर दिली जाते' | Ref: 'शेतीसाठी शेतजमीन भाडेतत्त्वावर दिली जाते'
+[2026-08-06 11:56:30,834] [INFO] [Sample 3] Pred: 'वैयक्तिक कर्जाचा व्याजदर प्रत्येक महिन्याला एक पुर्णांक तीन टक्के आहे' | Ref: 'वैयक्तिक कर्जाचे व्याजदर प्रत्येक महिन्याला एक पूर्णांक तीन टक्के आहे'
+[2026-08-06 12:04:51,734] [INFO] Generation Length Check: Avg Pred Words = 8.9 | Avg Ref Words = 8.8
+[2026-08-06 12:04:51,735] [INFO] [Sample 1] Pred: 'पेमेंटची वसूली अन्य आर्थिक सेवांमध्ये येते' | Ref: 'पेमेंटची वसुली इतर आर्थिक सेवांमध्ये होते'
+[2026-08-06 12:04:51,741] [INFO] [Sample 2] Pred: 'शेतीसाठी शेतजमीन भाडेतत्त्वावर दिली जाते' | Ref: 'शेतीसाठी शेतजमीन भाडेतत्त्वावर दिली जाते'
+[2026-08-06 12:04:51,748] [INFO] [Sample 3] Pred: 'वैयक्तिक कर्जाचा व्याजदर प्रत्येक महिन्याक एक पुर्णांक तीन टक्के आहे' | Ref: 'वैयक्तिक कर्जाचे व्याजदर प्रत्येक महिन्याला एक पूर्णांक तीन टक्के आहे'
+[2026-08-06 12:13:09,449] [INFO] Generation Length Check: Avg Pred Words = 8.8 | Avg Ref Words = 8.8
+[2026-08-06 12:13:09,450] [INFO] [Sample 1] Pred: 'पेमेंटची वसूली अन्य आर्थिक सेवांमध्ये येते' | Ref: 'पेमेंटची वसुली इतर आर्थिक सेवांमध्ये होते'
+[2026-08-06 12:13:09,456] [INFO] [Sample 2] Pred: 'शेतीसाठी शेतजमीन भाडेतत्त्वावर दिली जाते' | Ref: 'शेतीसाठी शेतजमीन भाडेतत्त्वावर दिली जाते'
+[2026-08-06 12:13:09,463] [INFO] [Sample 3] Pred: 'वैयक्तिक कर्जाचा व्याजदर प्रत्येक महिन्याला एक पुर्णांक तीन टक्के आहे' | Ref: 'वैयक्तिक कर्जाचे व्याजदर प्रत्येक महिन्याला एक पूर्णांक तीन टक्के आहे'
+[2026-08-06 12:21:29,352] [INFO] Generation Length Check: Avg Pred Words = 8.9 | Avg Ref Words = 8.8
+[2026-08-06 12:21:29,352] [INFO] [Sample 1] Pred: 'पेमेंटची वसूली अन्य आर्थिक सेवांमध्ये येते' | Ref: 'पेमेंटची वसुली इतर आर्थिक सेवांमध्ये होते'
+[2026-08-06 12:21:29,359] [INFO] [Sample 2] Pred: 'शेतीसाठी शेतजमीन भाडेतत्त्वावर दिली जाते' | Ref: 'शेतीसाठी शेतजमीन भाडेतत्त्वावर दिली जाते'
+[2026-08-06 12:21:29,365] [INFO] [Sample 3] Pred: 'वैयक्तिक कर्जाचा व्याजदर प्रत्येक महिन्याला एक पुर्णांक तीन टक्के आहे' | Ref: 'वैयक्तिक कर्जाचे व्याजदर प्रत्येक महिन्याला एक पूर्णांक तीन टक्के आहे'
+[2026-08-06 12:29:46,268] [INFO] Generation Length Check: Avg Pred Words = 8.9 | Avg Ref Words = 8.8
+[2026-08-06 12:29:46,268] [INFO] [Sample 1] Pred: 'पेमेंटची वसूली अन्य आर्थिक सेवांमध्ये येते' | Ref: 'पेमेंटची वसुली इतर आर्थिक सेवांमध्ये होते'
+[2026-08-06 12:29:46,275] [INFO] [Sample 2] Pred: 'शेतीसाठी शेतजमीन भाडेतत्त्वावर दिली जाते' | Ref: 'शेतीसाठी शेतजमीन भाडेतत्त्वावर दिली जाते'
+[2026-08-06 12:29:46,283] [INFO] [Sample 3] Pred: 'वैयक्तिक कर्जाचा व्याजदर प्रत्येक महिन्याला एक पुर्णांक तीन टक्के आहे' | Ref: 'वैयक्तिक कर्जाचे व्याजदर प्रत्येक महिन्याला एक पूर्णांक तीन टक्के आहे'
+[2026-08-06 12:30:16,938] [INFO] Fold 4 Step-Averaged Training Loss: 0.8142
+[2026-08-06 12:30:16,938] [INFO] Evaluating Fold 4 on CV Validation Split (3,385 samples)...
+[2026-08-06 12:33:44,480] [INFO] Generation Length Check: Avg Pred Words = 8.9 | Avg Ref Words = 8.8
+[2026-08-06 12:33:44,480] [INFO] [Sample 1] Pred: 'पेमेंटची वसूली अन्य आर्थिक सेवांमध्ये येते' | Ref: 'पेमेंटची वसुली इतर आर्थिक सेवांमध्ये होते'
+[2026-08-06 12:33:44,482] [INFO] [Sample 2] Pred: 'शेतीसाठी शेतजमीन भाडेतत्त्वावर दिली जाते' | Ref: 'शेतीसाठी शेतजमीन भाडेतत्त्वावर दिली जाते'
+[2026-08-06 12:33:44,488] [INFO] [Sample 3] Pred: 'वैयक्तिक कर्जाचा व्याजदर प्रत्येक महिन्याला एक पुर्णांक तीन टक्के आहे' | Ref: 'वैयक्तिक कर्जाचे व्याजदर प्रत्येक महिन्याला एक पूर्णांक तीन टक्के आहे'
+[2026-08-06 12:33:45,930] [INFO] Fold 4 Val Loss: 0.5958  Val BLEU: 60.42  Val chrF: 79.77
+[2026-08-06 12:33:45,930] [INFO] Evaluating Fold 4 on Held-Out Test Set (2,987 samples)...
+[2026-08-06 12:36:47,569] [INFO] Generation Length Check: Avg Pred Words = 8.8 | Avg Ref Words = 8.8
+[2026-08-06 12:36:47,570] [INFO] [Sample 1] Pred: 'तुमच्या कडकडाटाची माहिती कोणते मोबाईल ॲप देईल?' | Ref: 'मी कोणते मोबाईल ॲप देईन?'
+[2026-08-06 12:36:47,571] [INFO] [Sample 2] Pred: 'एक मिनी स्टेटमेंट तुमचा मागील खर्चाचा पाच ते दहा व्यवहार दाखवतो' | Ref: 'एक मिनी स्टेटमेंट तुमच्या मागील खर्चाचे पाच ते दहा व्यवहार दाखवा?'
+[2026-08-06 12:36:47,577] [INFO] [Sample 3] Pred: 'अनेक वित्तीय सेवा कंपन्या त्यांच्या बचत उत्पादनांसाठी त्यांचा लोगो म्हणून पिगी बँकांचा वापर करतात' | Ref: 'अनेक वित्तीय सेवा कंपन्या त्यांच्या बचत उत्पादनांसाठी त्यांचा लोगो म्हणून पिगी बँकांचा वापर करतात'
+[2026-08-06 12:36:48,835] [INFO] Fold 4 Test Loss: 0.5819  Test BLEU: 61.16  Test chrF: 80.10
+[2026-08-06 12:36:48,837] [INFO] Running independent per-dialect test evaluation breakdown...
+[2026-08-06 12:37:51,534] [INFO] Generation Length Check: Avg Pred Words = 9.0 | Avg Ref Words = 8.9
+[2026-08-06 12:37:51,534] [INFO] [Sample 1] Pred: 'एक मिनी स्टेटमेंट तुमचा मागील खर्चाचा पाच ते दहा व्यवहार दाखवतो' | Ref: 'एक मिनी स्टेटमेंट तुमच्या मागील खर्चाचे पाच ते दहा व्यवहार दाखवा?'
+[2026-08-06 12:37:51,536] [INFO] [Sample 2] Pred: 'संपत्तीच्या बाबतीत केलेल्या गुन्ह्यांका आर्थिक अपराध म्हणतात' | Ref: 'संपत्तीच्या बाबतीत केलेल्या गुन्ह्यांना आर्थिक अपराध म्हणतात'
+[2026-08-06 12:37:51,540] [INFO] [Sample 3] Pred: 'मार्क टू मार्केट रोजच्या अकाउंटींगची एक पद्धत आहे' | Ref: 'मार्क टू मार्केट रोजच्या अकाउंटींगची एक पद्धत आहे'
+[2026-08-06 12:37:52,034] [INFO]   [D1] Test Samples: 1,026 | Loss: 0.6595 | BLEU: 49.2979 | chrF: 75.4987
+[2026-08-06 12:38:56,210] [INFO] Generation Length Check: Avg Pred Words = 8.8 | Avg Ref Words = 8.7
+[2026-08-06 12:38:56,210] [INFO] [Sample 1] Pred: 'मासे पकडाने एक दिवस माही चाली आहे.' | Ref: 'मासा पकडा, दिवस मा चालले.'
+[2026-08-06 12:38:56,212] [INFO] [Sample 2] Pred: 'पिकांना पाणी पुरवठा करताना पाण्याचे काही बंधन असते का? कोणत्या पिकाला किती पाणी द्यावे ते कशाप्रकारे ठरवावे?' | Ref: 'पिकांना पाणी पुरवठा करताना पाण्याचे काही बंधन असते का ? कोणत्या पिकाला किती पाणी द्यावे ते कशाप्रकारे ठरवावे ?'
+[2026-08-06 12:38:56,217] [INFO] [Sample 3] Pred: 'भारतात स्क्वैशचा वापर हिरवा भाज्या म्हणून होतो.' | Ref: 'भारतात स्क्वैशचा वापर हिरव्या भाज्यांसोबत केला जातो?'
+[2026-08-06 12:38:56,699] [INFO]   [D2] Test Samples: 1,046 | Loss: 0.6996 | BLEU: 58.3344 | chrF: 76.4583
+[2026-08-06 12:39:51,798] [INFO] Generation Length Check: Avg Pred Words = 8.7 | Avg Ref Words = 8.6
+[2026-08-06 12:39:51,798] [INFO] [Sample 1] Pred: 'तुमच्या कडकडाटाची माहिती कोणते मोबाईल ॲप देईल?' | Ref: 'मी कोणते मोबाईल ॲप देईन?'
+[2026-08-06 12:39:51,800] [INFO] [Sample 2] Pred: 'अनेक वित्तीय सेवा कंपन्या त्यांच्या बचत उत्पादनांसाठी त्यांचा लोगो म्हणून पिगी बँकांचा वापर करतात' | Ref: 'अनेक वित्तीय सेवा कंपन्या त्यांच्या बचत उत्पादनांसाठी त्यांचा लोगो म्हणून पिगी बँकांचा वापर करतात'
+[2026-08-06 12:39:51,806] [INFO] [Sample 3] Pred: 'कर्जदार त्यांचे वैयक्तिक कर्ज तपशील नेट बँकिंग आणि लॉगिन पोर्टलद्वारे पाहू शकतात' | Ref: 'कर्जदार त्यांचे वैयक्तिक कर्ज तपशील नेट बँकिंग आणि लॉगिन पोर्टल द्वारे पाहू शकतात'
+[2026-08-06 12:39:52,238] [INFO]   [D4] Test Samples: 915 | Loss: 0.3509 | BLEU: 78.127 | chrF: 89.7501
+[2026-08-06 12:39:52,777] [INFO] 
+======================================================================
+[2026-08-06 12:39:52,777] [INFO] RUNNING mT5 CROSS-VALIDATION: FOLD 5/5
+[2026-08-06 12:39:52,777] [INFO] ======================================================================
+[2026-08-06 12:39:53,145] [INFO] HTTP Request: HEAD https://huggingface.co/google/mt5-small/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+[2026-08-06 12:39:53,167] [INFO] HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/google/mt5-small/73fb5dbe4756edadc8fbe8c769b0a109493acf7a/config.json "HTTP/1.1 200 OK"
+[2026-08-06 12:39:53,417] [INFO] HTTP Request: HEAD https://huggingface.co/google/mt5-small/resolve/main/model.safetensors "HTTP/1.1 404 Not Found"
+[2026-08-06 12:39:53,642] [INFO] HTTP Request: GET https://huggingface.co/api/models/google/mt5-small "HTTP/1.1 200 OK"
+[2026-08-06 12:39:53,897] [INFO] HTTP Request: GET https://huggingface.co/api/models/google/mt5-small/commits/main "HTTP/1.1 200 OK"
+[2026-08-06 12:39:54,159] [INFO] HTTP Request: GET https://huggingface.co/api/models/google/mt5-small/discussions?p=0 "HTTP/1.1 200 OK"
+[2026-08-06 12:39:54,432] [INFO] HTTP Request: GET https://huggingface.co/api/models/google/mt5-small/commits/refs%2Fpr%2F15 "HTTP/1.1 200 OK"
+[2026-08-06 12:39:54,673] [INFO] HTTP Request: HEAD https://huggingface.co/google/mt5-small/resolve/refs%2Fpr%2F15/model.safetensors.index.json "HTTP/1.1 404 Not Found"
+[2026-08-06 12:39:54,875] [INFO] HTTP Request: HEAD https://huggingface.co/google/mt5-small/resolve/main/generation_config.json "HTTP/1.1 307 Temporary Redirect"
+[2026-08-06 12:39:54,894] [INFO] HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/google/mt5-small/73fb5dbe4756edadc8fbe8c769b0a109493acf7a/generation_config.json "HTTP/1.1 200 OK"
+[2026-08-06 12:39:54,909] [INFO] HTTP Request: HEAD https://huggingface.co/google/mt5-small/resolve/refs%2Fpr%2F15/model.safetensors "HTTP/1.1 302 Found"
+[2026-08-06 12:48:05,305] [INFO] Generation Length Check: Avg Pred Words = 8.9 | Avg Ref Words = 8.7
+[2026-08-06 12:48:05,305] [INFO] [Sample 1] Pred: 'मालमत्ता विमा मालमत्तेच्या जोखमीपासून संरक्षण प्रदान करते' | Ref: 'मालमत्ता विमा मालमत्तेच्या जोखमीपासून संरक्षण प्रदान करते'
+[2026-08-06 12:48:05,312] [INFO] [Sample 2] Pred: 'तण ही एक वनस्पती आहे जी विशिष्ट परिस्थितीत अवांछित मानली जाते' | Ref: 'तण ही एक वनस्पती आहे जी विशिष्ट परिस्थितीत अवांछित मानली जाते'
+[2026-08-06 12:48:05,319] [INFO] [Sample 3] Pred: 'खोबरेल तेल वापर अन्नात केंससना करता, त्वचा कारता करत आहे.' | Ref: 'खोबरेल तेल अन्न वापरासाठी, त्वचा करायला करत आहात.'
+[2026-08-06 12:56:24,242] [INFO] Generation Length Check: Avg Pred Words = 8.8 | Avg Ref Words = 8.7
+[2026-08-06 12:56:24,242] [INFO] [Sample 1] Pred: 'मालमत्ता विमा मालमत्तेच्या जोखमीपासून संरक्षण प्रदान करते' | Ref: 'मालमत्ता विमा मालमत्तेच्या जोखमीपासून संरक्षण प्रदान करते'
+[2026-08-06 12:56:24,249] [INFO] [Sample 2] Pred: 'तण ही एक वनस्पती आहे जी विशिष्ट परिस्थितीत अवांछित मानली जाते' | Ref: 'तण ही एक वनस्पती आहे जी विशिष्ट परिस्थितीत अवांछित मानली जाते'
+[2026-08-06 12:56:24,261] [INFO] [Sample 3] Pred: 'खोबरेल तेल वापर अन्नात केंससना करते, त्वचा कारता करत आहे.' | Ref: 'खोबरेल तेल अन्न वापरासाठी, त्वचा करायला करत आहात.'
+[2026-08-06 13:04:52,884] [INFO] Generation Length Check: Avg Pred Words = 8.8 | Avg Ref Words = 8.7
+[2026-08-06 13:04:52,884] [INFO] [Sample 1] Pred: 'मालमत्ता विमा मालमत्तेच्या जोखमीपासून संरक्षण प्रदान करते' | Ref: 'मालमत्ता विमा मालमत्तेच्या जोखमीपासून संरक्षण प्रदान करते'
+[2026-08-06 13:04:52,892] [INFO] [Sample 2] Pred: 'तण ही एक वनस्पती आहे जी विशिष्ट परिस्थितीत अवांछित मानली जाते' | Ref: 'तण ही एक वनस्पती आहे जी विशिष्ट परिस्थितीत अवांछित मानली जाते'
+[2026-08-06 13:04:52,898] [INFO] [Sample 3] Pred: 'खोबरेल तेल वापर अन्ना, केंससना करता, त्वचाना कारता करत आहे.' | Ref: 'खोबरेल तेल अन्न वापरासाठी, त्वचा करायला करत आहात.'
+[2026-08-06 13:13:10,177] [INFO] Generation Length Check: Avg Pred Words = 8.8 | Avg Ref Words = 8.7
+[2026-08-06 13:13:10,178] [INFO] [Sample 1] Pred: 'मालमत्ता विमा मालमत्तेच्या जोखमीपासून संरक्षण प्रदान करते' | Ref: 'मालमत्ता विमा मालमत्तेच्या जोखमीपासून संरक्षण प्रदान करते'
+[2026-08-06 13:13:10,185] [INFO] [Sample 2] Pred: 'तण ही एक वनस्पती आहे जी विशिष्ट परिस्थितीत अवांछित मानली जाते' | Ref: 'तण ही एक वनस्पती आहे जी विशिष्ट परिस्थितीत अवांछित मानली जाते'
+[2026-08-06 13:13:10,191] [INFO] [Sample 3] Pred: 'खोबरेल तेल वापर अन्नामध्ये केंससना करता, त्वचाना कारता करत आहे.' | Ref: 'खोबरेल तेल अन्न वापरासाठी, त्वचा करायला करत आहात.'
+[2026-08-06 13:21:24,821] [INFO] Generation Length Check: Avg Pred Words = 8.8 | Avg Ref Words = 8.7
+[2026-08-06 13:21:24,822] [INFO] [Sample 1] Pred: 'मालमत्ता विमा मालमत्तेच्या जोखमीपासून संरक्षण प्रदान करते' | Ref: 'मालमत्ता विमा मालमत्तेच्या जोखमीपासून संरक्षण प्रदान करते'
+[2026-08-06 13:21:24,829] [INFO] [Sample 2] Pred: 'तण ही एक वनस्पती आहे जी विशिष्ट परिस्थितीत अवांछित मानली जाते' | Ref: 'तण ही एक वनस्पती आहे जी विशिष्ट परिस्थितीत अवांछित मानली जाते'
+[2026-08-06 13:21:24,837] [INFO] [Sample 3] Pred: 'खोबरेल तेल वापरून अन्नामध्ये केंससना करता, त्वचाना कारता करत आहे.' | Ref: 'खोबरेल तेल अन्न वापरासाठी, त्वचा करायला करत आहात.'
+[2026-08-06 13:21:55,309] [INFO] Fold 5 Step-Averaged Training Loss: 0.8137
+[2026-08-06 13:21:55,309] [INFO] Evaluating Fold 5 on CV Validation Split (3,387 samples)...
+[2026-08-06 13:25:22,609] [INFO] Generation Length Check: Avg Pred Words = 8.8 | Avg Ref Words = 8.7
+[2026-08-06 13:25:22,609] [INFO] [Sample 1] Pred: 'मालमत्ता विमा मालमत्तेच्या जोखमीपासून संरक्षण प्रदान करते' | Ref: 'मालमत्ता विमा मालमत्तेच्या जोखमीपासून संरक्षण प्रदान करते'
+[2026-08-06 13:25:22,611] [INFO] [Sample 2] Pred: 'तण ही एक वनस्पती आहे जी विशिष्ट परिस्थितीत अवांछित मानली जाते' | Ref: 'तण ही एक वनस्पती आहे जी विशिष्ट परिस्थितीत अवांछित मानली जाते'
+[2026-08-06 13:25:22,618] [INFO] [Sample 3] Pred: 'खोबरेल तेल वापरून अन्नामध्ये केंससना करता, त्वचाना कारता करत आहे.' | Ref: 'खोबरेल तेल अन्न वापरासाठी, त्वचा करायला करत आहात.'
+[2026-08-06 13:25:24,022] [INFO] Fold 5 Val Loss: 0.5916  Val BLEU: 60.81  Val chrF: 79.92
+[2026-08-06 13:25:24,022] [INFO] Evaluating Fold 5 on Held-Out Test Set (2,987 samples)...
+[2026-08-06 13:28:25,347] [INFO] Generation Length Check: Avg Pred Words = 8.8 | Avg Ref Words = 8.8
+[2026-08-06 13:28:25,347] [INFO] [Sample 1] Pred: 'तुमच्या कडकडाटाची माहिती कोणते मोबाईल ॲप देईल?' | Ref: 'मी कोणते मोबाईल ॲप देईन?'
+[2026-08-06 13:28:25,349] [INFO] [Sample 2] Pred: 'एक मिनी स्टेटमेंट तुम्हाला मागील खर्चाचा पाच ते दहा व्यवहार दाखवतो' | Ref: 'एक मिनी स्टेटमेंट तुमच्या मागील खर्चाचे पाच ते दहा व्यवहार दाखवा?'
+[2026-08-06 13:28:25,356] [INFO] [Sample 3] Pred: 'अनेक वित्तीय सेवा कंपन्या त्यांच्या बचत उत्पादनांसाठी त्यांचा लोगो म्हणून पिगी बँकांचा वापर करतात' | Ref: 'अनेक वित्तीय सेवा कंपन्या त्यांच्या बचत उत्पादनांसाठी त्यांचा लोगो म्हणून पिगी बँकांचा वापर करतात'
+[2026-08-06 13:28:26,627] [INFO] Fold 5 Test Loss: 0.5851  Test BLEU: 61.38  Test chrF: 80.14
+[2026-08-06 13:28:26,630] [INFO] Running independent per-dialect test evaluation breakdown...
+[2026-08-06 13:29:30,038] [INFO] Generation Length Check: Avg Pred Words = 9.0 | Avg Ref Words = 8.9
+[2026-08-06 13:29:30,039] [INFO] [Sample 1] Pred: 'एक मिनी स्टेटमेंट तुम्हाला मागील खर्चाचा पाच ते दहा व्यवहार दाखवतो' | Ref: 'एक मिनी स्टेटमेंट तुमच्या मागील खर्चाचे पाच ते दहा व्यवहार दाखवा?'
+[2026-08-06 13:29:30,041] [INFO] [Sample 2] Pred: 'संपत्तीच्या बाबतीत केलेल्या गुन्ह्यांका आर्थिक अपराध म्हणतात' | Ref: 'संपत्तीच्या बाबतीत केलेल्या गुन्ह्यांना आर्थिक अपराध म्हणतात'
+[2026-08-06 13:29:30,046] [INFO] [Sample 3] Pred: 'मार्क टू मार्केट रोजच्या अकाउंटींगची एक पद्धत आहे' | Ref: 'मार्क टू मार्केट रोजच्या अकाउंटींगची एक पद्धत आहे'
+[2026-08-06 13:29:30,534] [INFO]   [D1] Test Samples: 1,026 | Loss: 0.6642 | BLEU: 49.0653 | chrF: 75.3695
+[2026-08-06 13:30:34,704] [INFO] Generation Length Check: Avg Pred Words = 8.8 | Avg Ref Words = 8.7
+[2026-08-06 13:30:34,704] [INFO] [Sample 1] Pred: 'मासा पकडाचा दिवस देखील चांगला आहे.' | Ref: 'मासा पकडा, दिवस मा चालले.'
+[2026-08-06 13:30:34,706] [INFO] [Sample 2] Pred: 'पिकांना पाणी पुरवठा करताना पाण्याचे काही बंधन असते का? कोणत्या पिकाला किती पाणी द्यावे ते कशाप्रकारे ठरवावे?' | Ref: 'पिकांना पाणी पुरवठा करताना पाण्याचे काही बंधन असते का ? कोणत्या पिकाला किती पाणी द्यावे ते कशाप्रकारे ठरवावे ?'
+[2026-08-06 13:30:34,711] [INFO] [Sample 3] Pred: 'भारतात स्क्वैशचा वापर हिरवा भाज्या म्हणतात.' | Ref: 'भारतात स्क्वैशचा वापर हिरव्या भाज्यांसोबत केला जातो?'
+[2026-08-06 13:30:35,204] [INFO]   [D2] Test Samples: 1,046 | Loss: 0.7028 | BLEU: 58.8153 | chrF: 76.6439
+[2026-08-06 13:31:31,583] [INFO] Generation Length Check: Avg Pred Words = 8.7 | Avg Ref Words = 8.6
+[2026-08-06 13:31:31,583] [INFO] [Sample 1] Pred: 'तुमच्या कडकडाटाची माहिती कोणते मोबाईल ॲप देईल?' | Ref: 'मी कोणते मोबाईल ॲप देईन?'
+[2026-08-06 13:31:31,585] [INFO] [Sample 2] Pred: 'अनेक वित्तीय सेवा कंपन्या त्यांच्या बचत उत्पादनांसाठी त्यांचा लोगो म्हणून पिगी बँकांचा वापर करतात' | Ref: 'अनेक वित्तीय सेवा कंपन्या त्यांच्या बचत उत्पादनांसाठी त्यांचा लोगो म्हणून पिगी बँकांचा वापर करतात'
+[2026-08-06 13:31:31,592] [INFO] [Sample 3] Pred: 'कर्जदार त्यांचे वैयक्तिक कर्ज तपशील नेट बँकिंग आणि लॉगिन पोर्टलद्वारे पाहू शकतात' | Ref: 'कर्जदार त्यांचे वैयक्तिक कर्ज तपशील नेट बँकिंग आणि लॉगिन पोर्टल द्वारे पाहू शकतात'
+[2026-08-06 13:31:32,023] [INFO]   [D4] Test Samples: 915 | Loss: 0.3532 | BLEU: 78.0524 | chrF: 89.8046
+[2026-08-06 13:31:32,023] [INFO] New Best Fold (5) Test BLEU: 61.38! Saving local model to: models\mt5_raw_unverified_32k\best_model
+[2026-08-06 13:31:39,811] [INFO] === mT5 CROSS VALIDATION COMPLETED ===
+[2026-08-06 13:31:39,811] [INFO] Avg Test Loss: 0.5775 | BLEU: 61.2122 | chrF++: 80.1818
+[2026-08-06 13:31:39,812] [INFO] Best Fine-Tuned Model Saved to: models\mt5_raw_unverified_32k\best_model
+[2026-08-06 13:31:40,016] [INFO] [SUCCESS] mT5-Small Raw Unverified Training Complete.
+[2026-08-06 13:31:40,016] [INFO] 
+================================================================================
+[2026-08-06 13:31:40,016] [INFO] VERIFICATION ENGINE ABLATION COMPLETED IN 492.05 MINUTES
+[2026-08-06 13:31:40,016] [INFO] ================================================================================

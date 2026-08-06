@@ -1,0 +1,19 @@
+[2026-08-05 15:22:27,251] [INFO] ================================================================================
+[2026-08-05 15:22:27,251] [INFO] ================================================================================
+[2026-08-05 15:22:27,251] [INFO] STARTING VERIFICATION ENGINE ABLATION EXPERIMENT (RAW VS FILTERED SYNTHETIC DATA)
+[2026-08-05 15:22:27,251] [INFO] ================================================================================
+[2026-08-05 15:22:27,252] [INFO] ================================================================================
+[2026-08-05 15:22:27,252] [INFO] STARTING VERIFICATION ENGINE ABLATION EXPERIMENT (RAW VS FILTERED SYNTHETIC DATA)
+[2026-08-05 15:22:27,252] [INFO] 
+>>> PHASE 1: Training IndicBART on Raw Unverified Synthetic Data (19,914 parallel pairs)
+[2026-08-05 15:22:27,252] [INFO] ================================================================================
+[2026-08-05 15:22:27,252] [INFO] ================================================================================
+[2026-08-05 15:22:27,252] [INFO] 
+>>> PHASE 1: Training IndicBART on Raw Unverified Synthetic Data (19,914 parallel pairs)
+[2026-08-05 15:22:27,252] [INFO] 
+>>> PHASE 1: Training IndicBART on Raw Unverified Synthetic Data (19,914 parallel pairs)
+[2026-08-06 05:19:36,802] [INFO] ================================================================================
+[2026-08-06 05:19:36,802] [INFO] STARTING VERIFICATION ENGINE ABLATION EXPERIMENT (RAW VS FILTERED SYNTHETIC DATA)
+[2026-08-06 05:19:36,802] [INFO] ================================================================================
+[2026-08-06 05:19:36,802] [INFO] 
+>>> PHASE 1: Training IndicBART on Raw Unverified Synthetic Data (19,914 parallel pairs)

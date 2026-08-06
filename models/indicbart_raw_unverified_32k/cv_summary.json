@@ -1,0 +1,188 @@
+{
+  "dataset_files": [
+    "data\\synthetic_parallel\\raw_unverified_combined.csv"
+  ],
+  "total_samples": 19914,
+  "train_pool_size": 16925,
+  "test_set_size": 2989,
+  "model_name": "ai4bharat/IndicBART",
+  "hyperparameters": {
+    "epochs": 5,
+    "batch_size": 16,
+    "gradient_accumulation_steps": 2,
+    "effective_batch_size": 32,
+    "learning_rate": 5e-05,
+    "weight_decay": 0.01,
+    "warmup_ratio": 0.1,
+    "early_stopping_patience": 2
+  },
+  "n_folds": 5,
+  "avg_val_loss": 0.7245,
+  "avg_val_bleu": 44.2378,
+  "avg_val_chrf": 65.4637,
+  "avg_test_loss": 0.7254,
+  "avg_test_bleu": 43.0935,
+  "avg_test_chrf": 64.5357,
+  "fold_metrics": [
+    {
+      "fold": 1,
+      "train_samples": 13540,
+      "val_samples": 3385,
+      "train_loss": 2.253,
+      "val_loss": 0.7244,
+      "val_bleu": 44.6022,
+      "val_chrf": 65.9834,
+      "test_loss": 0.7272,
+      "test_bleu": 43.1451,
+      "test_chrf": 64.6213,
+      "per_dialect_test_metrics": {
+        "D1": {
+          "test_samples": 1046,
+          "test_loss": 0.8074,
+          "test_bleu": 24.4419,
+          "test_chrf": 51.6761
+        },
+        "D2": {
+          "test_samples": 1050,
+          "test_loss": 0.88,
+          "test_bleu": 39.8335,
+          "test_chrf": 60.4978
+        },
+        "D4": {
+          "test_samples": 893,
+          "test_loss": 0.4533,
+          "test_bleu": 69.9768,
+          "test_chrf": 83.924
+        }
+      }
+    },
+    {
+      "fold": 2,
+      "train_samples": 13540,
+      "val_samples": 3385,
+      "train_loss": 2.2614,
+      "val_loss": 0.7088,
+      "val_bleu": 45.0263,
+      "val_chrf": 65.7948,
+      "test_loss": 0.7259,
+      "test_bleu": 43.0785,
+      "test_chrf": 64.5018,
+      "per_dialect_test_metrics": {
+        "D1": {
+          "test_samples": 1046,
+          "test_loss": 0.8058,
+          "test_bleu": 24.7372,
+          "test_chrf": 51.7881
+        },
+        "D2": {
+          "test_samples": 1050,
+          "test_loss": 0.8798,
+          "test_bleu": 39.8134,
+          "test_chrf": 60.5178
+        },
+        "D4": {
+          "test_samples": 893,
+          "test_loss": 0.4512,
+          "test_bleu": 69.4584,
+          "test_chrf": 83.4124
+        }
+      }
+    },
+    {
+      "fold": 3,
+      "train_samples": 13540,
+      "val_samples": 3385,
+      "train_loss": 2.2444,
+      "val_loss": 0.7423,
+      "val_bleu": 43.6965,
+      "val_chrf": 64.9921,
+      "test_loss": 0.7243,
+      "test_bleu": 43.2329,
+      "test_chrf": 64.6361,
+      "per_dialect_test_metrics": {
+        "D1": {
+          "test_samples": 1046,
+          "test_loss": 0.8037,
+          "test_bleu": 24.8148,
+          "test_chrf": 51.9206
+        },
+        "D2": {
+          "test_samples": 1050,
+          "test_loss": 0.878,
+          "test_bleu": 40.2258,
+          "test_chrf": 60.8353
+        },
+        "D4": {
+          "test_samples": 893,
+          "test_loss": 0.4507,
+          "test_bleu": 69.3898,
+          "test_chrf": 83.3468
+        }
+      }
+    },
+    {
+      "fold": 4,
+      "train_samples": 13540,
+      "val_samples": 3385,
+      "train_loss": 2.2565,
+      "val_loss": 0.7214,
+      "val_bleu": 43.1624,
+      "val_chrf": 64.9755,
+      "test_loss": 0.7255,
+      "test_bleu": 42.5872,
+      "test_chrf": 64.1932,
+      "per_dialect_test_metrics": {
+        "D1": {
+          "test_samples": 1046,
+          "test_loss": 0.806,
+          "test_bleu": 24.1684,
+          "test_chrf": 51.3279
+        },
+        "D2": {
+          "test_samples": 1050,
+          "test_loss": 0.8778,
+          "test_bleu": 39.3181,
+          "test_chrf": 60.1371
+        },
+        "D4": {
+          "test_samples": 893,
+          "test_loss": 0.4522,
+          "test_bleu": 69.0817,
+          "test_chrf": 83.3371
+        }
+      }
+    },
+    {
+      "fold": 5,
+      "train_samples": 13540,
+      "val_samples": 3385,
+      "train_loss": 2.2539,
+      "val_loss": 0.7255,
+      "val_bleu": 44.7018,
+      "val_chrf": 65.5726,
+      "test_loss": 0.7241,
+      "test_bleu": 43.4236,
+      "test_chrf": 64.7262,
+      "per_dialect_test_metrics": {
+        "D1": {
+          "test_samples": 1046,
+          "test_loss": 0.8038,
+          "test_bleu": 24.616,
+          "test_chrf": 51.7145
+        },
+        "D2": {
+          "test_samples": 1050,
+          "test_loss": 0.8776,
+          "test_bleu": 40.0148,
+          "test_chrf": 60.5648
+        },
+        "D4": {
+          "test_samples": 893,
+          "test_loss": 0.45,
+          "test_bleu": 70.3504,
+          "test_chrf": 84.1254
+        }
+      }
+    }
+  ]
+}

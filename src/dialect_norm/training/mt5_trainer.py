@@ -411,3 +411,8 @@ def train_mt5_d4_32k():
 def train_mt5_all_32k():
     csv_paths = [Path("data/synthetic_parallel/d1.csv"), Path("data/synthetic_parallel/d2.csv"), Path("data/synthetic_parallel/d4.csv"), Path("data/synthetic-data/all_aug.csv")]
     run_cross_validation_mt5(load_dialect_data(csv_paths), output_dir=Path("models/mt5_combined_32k"), dataset_files=[str(p) for p in csv_paths])
+
+def train_mt5_raw_unverified_32k():
+    csv_paths = [Path("data/synthetic_parallel/raw_unverified_combined.csv")]
+    run_cross_validation_mt5(load_dialect_data(csv_paths), output_dir=Path("models/mt5_raw_unverified_32k"), dataset_files=[str(p) for p in csv_paths])
+

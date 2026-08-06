@@ -592,3 +592,12 @@ def cli_train_all_32k():
     )
 
 
+def cli_train_raw_unverified_32k():
+    """Train IndicBART on Raw Unverified Synthetic Dataset (Original Clean + Raw Unverified Gemma-2 Synthetic including flawed pairs)."""
+    train_indicbart_3fold_cv(
+        csv_paths=[DATA_DIR / "raw_unverified_combined.csv"],
+        output_dir=Path("models/indicbart_raw_unverified_32k"),
+    )
+
+
+
