@@ -29,6 +29,7 @@ models/**/logs/
 IISc_RESPIN_*/
 data/*
 !data/synthetic_parallel/
+!data/synthetic-data/
 
 
 
