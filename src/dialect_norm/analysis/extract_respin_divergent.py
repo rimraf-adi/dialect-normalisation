@@ -153,21 +153,34 @@ def main():
             d_norm = normalize_text(orig_txt)
             s_norm = normalize_text(norm_pred)
 
-            wer_val = float(jiwer.wer(s_norm, d_norm)) * 100.0 if s_norm else 0.0
-            cer_val = float(jiwer.cer(s_norm, d_norm)) * 100.0 if s_norm else 0.0
+            d_words = d_norm.split()
+            s_words = s_norm.split()
+
+            if not d_words or not s_words:
+                continue
+
+            # Standard Levenshtein word edit distance bounded in [0, 100%]
+            word_ops = jiwer.process_words(s_norm, d_norm)
+            edits = word_ops.substitutions + word_ops.deletions + word_ops.insertions
+            bounded_wer = min(100.0, round((edits / max(len(d_words), len(s_words))) * 100.0, 2))
+
+            char_ops = jiwer.process_characters(s_norm, d_norm)
+            char_edits = char_ops.substitutions + char_ops.deletions + char_ops.insertions
+            bounded_cer = min(100.0, round((char_edits / max(len(d_norm), len(s_norm))) * 100.0, 2))
+
             oov_ratio = compute_standard_oov_ratio(orig_txt, d3_vocab)
 
-            # Composite Score measuring divergence of original spoken dialect transcript from standard Marathi
-            div_score = (0.45 * wer_val) + (0.30 * cer_val) + (0.25 * oov_ratio)
+            # Composite Divergence Score bounded in [0, 100]
+            div_score = round((0.45 * bounded_wer) + (0.30 * bounded_cer) + (0.25 * oov_ratio), 2)
 
             scored_items.append({
                 "key": item["key"],
                 "dialect": d_code,
                 "domain": item.get("domain", ""),
                 "gender": item.get("gender", ""),
-                "divergence_score": round(div_score, 2),
-                "wer_percentage": round(wer_val, 2),
-                "cer_percentage": round(cer_val, 2),
+                "divergence_score": div_score,
+                "wer_percentage": bounded_wer,
+                "cer_percentage": bounded_cer,
                 "standard_oov_ratio": oov_ratio,
                 "original_transcript": orig_txt,
                 "normalized_standard_output": norm_pred,
