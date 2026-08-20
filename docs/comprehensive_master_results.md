@@ -8,7 +8,7 @@
 
 ## 1. Complete Neural Sequence-to-Sequence 5-Fold Cross-Validation Matrix
 
-This table presents the comprehensive 5-fold cross-validation performance across all model architectures and dataset configurations, reporting mean, standard deviation, and best-fold metrics.
+This table presents the comprehensive 5-fold cross-validation performance across all model architectures and dataseAt configurations, reporting mean, standard deviation, and best-fold metrics.
 
 | Model Directory Key | Architecture | Dialect Split | Dataset Scale | Total Pairs | Train / Val / Test Split | Mean Val BLEU | Mean Val chrF++ | Mean Val Loss | **Mean Test BLEU ($\pm \sigma$)** | **Best Fold BLEU** | **Mean Test chrF++ ($\pm \sigma$)** | **Mean Test Loss** |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
