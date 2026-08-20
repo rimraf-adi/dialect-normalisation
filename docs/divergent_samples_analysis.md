@@ -1,119 +1,97 @@
-# Comprehensive Linguistic Analysis: Highly Divergent Marathi Dialect Utterances (D1, D2, D4)
+# Comprehensive Linguistic Analysis: Divergent Spoken Marathi Dialect Utterances (D1, D2, D4)
 
-**Repository**: `rimraf-adi/dialect-normalisation`  
-**Dataset Version**: 32k Expanded Multi-Dialect Benchmark  
-**Dialects Covered**:
+**Benchmark Dataset**: IISc RESPIN Spoken Dialect Corpus (`IISc_RESPIN_test_mr`)  
+**Methodology**: Unsupervised Dialect Divergence Ranking via Fine-Tuned mT5 Normalizer & Standard Marathi (D3) Lexical Out-of-Vocabulary (OOV) Scoring  
+**Target Dialects**:
 1. **D1 Malvani** (South Konkan: Ratnagiri / Sindhudurg)
-2. **D2 Ahirani** (Khandesh / North Konkan: Palghar / Thane / Jalgaon)
+2. **D2 Ahirani** (Khandesh & North Konkan: Palghar / Thane / Jalgaon)
 3. **D4 Varhadi** (Vidarbha: Amravati / Akola / Yavatmal)
 
 ---
 
-## 1. Executive Summary & Computational Selection Criteria
+## 1. Methodology: Measuring Dialect Divergence on Unpaired Spoken Audio
 
-This report presents an in-depth linguistic analysis of the **most divergent Marathi dialect utterances** computationally extracted from over **25,000 parallel pairs**.
+In natural speech corpora like IISc RESPIN, speech recordings are **unpaired** (i.e. speakers spoke natural domain sentences without pre-aligned standard text). 
 
-To isolate sentences that are maximally distant from Standard Pune Marathi, each candidate sentence pair $(D, S)$ was evaluated using a multi-metric composite divergence score:
+To objectively identify the utterances that deviate most from Pune Standard Marathi, each original spoken transcript $T_{\text{orig}}$ is processed through our two-stage computational pipeline:
 
-$$\text{Divergence Score} = 0.50 \times \text{WER} + 0.30 \times \text{CER} + 0.20 \times \text{LDR}$$
-
-Where:
-* **WER (Word Error Rate %)**: Quantifies word-level insertion, deletion, and substitution distance.
-* **CER (Character Error Rate %)**: Captures fine-grained morphological and suffix transformations.
-* **LDR (Lexical Divergence Ratio %)**: Measures the proportion of non-standard dialectal vocabulary tokens.
-
----
-
-## 2. Dialectwise Divergence Summary
-
-| Dialect Code | Region / Sub-Dialect Name | Samples Extracted | Avg Divergence Score | Avg WER (%) | Avg CER (%) | Primary Linguistic Divergence Drivers |
-| :--- | :--- | :---: | :---: | :---: | :---: | :--- |
-| **D1** | **Malvani** *(South Konkan)* | 150 | **104.68** | **120.63%** | **67.45%** | Nominal/verbal `-चो/-ची/-चे` gender-number inflections, auxiliary `असा/हा` |
-| **D2** | **Ahirani** *(Khandesh / North Konkan)* | 150 | **118.99** | **134.37%** | **83.10%** | Locative postpositions (`-मा`, `-मझारथून`, `-म्हा`), auxiliary `शे`, verb suffix `-स` |
-| **D4** | **Varhadi** *(Vidarbha)* | 150 | **99.35** | **112.76%** | **68.06%** | Interrogative pronouns (`काऊन`, `कोनचे`), inessive marker `-मंदी`, retroflex shifts |
+1. **Machine Normalization Transformation**:
+   $T_{\text{orig}}$ is passed through our SOTA fine-tuned `mT5-Small` normalizer to generate the predicted Standard Pune Marathi target $T_{\text{std}}$.
+2. **Normalization Edit Distance**:
+   $$\text{WER} = \text{jiwer.wer}(T_{\text{std}}, T_{\text{orig}}) \times 100\%$$
+   $$\text{CER} = \text{jiwer.cer}(T_{\text{std}}, T_{\text{orig}}) \times 100\%$$
+3. **Standard Marathi Lexical OOV Ratio**:
+   Measures the percentage of words in $T_{\text{orig}}$ absent from the Standard Marathi (D3) lexicon.
+4. **Composite Divergence Metric**:
+   $$\text{Divergence Score} = 0.45 \times \text{WER} + 0.30 \times \text{CER} + 0.25 \times \text{OOV Ratio}$$
 
 ---
 
-## 3. Detailed Sample Breakdown & Linguistic Explanations
+## 2. Dialectwise Extraction Summary
+
+| Dialect Code | Region / Variety | Unique Spoken Transcripts | Top Extracted Chunk | Avg Divergence Score | Avg Normalization WER (%) | Standard OOV Ratio (%) |
+| :--- | :--- | :---: | :---: | :---: | :---: | :---: |
+| **D1** | **Malvani** *(South Konkan)* | 212 | **100** | **47.65** | **49.32%** | **78.32%** |
+| **D2** | **Ahirani** *(Khandesh / North Konkan)* | 152 | **100** | **33.49** | **26.08%** | **74.05%** |
+| **D4** | **Varhadi** *(Vidarbha)* | 198 | **100** | **34.27** | **28.31%** | **75.33%** |
 
 ---
 
-### 3.1 D1 Malvani (South Konkan: Ratnagiri & Sindhudurg)
+## 3. Detailed Linguistic Breakdown & Top Spoken Samples
 
-Malvani is spoken in coastal southern Maharashtra and Goa. It exhibits heavy morphological divergence from Standard Pune Marathi, particularly in its nominal possessive suffixes, verbal infinitive markers, and distinctive auxiliary verbs.
+---
 
-#### Extracted Top Samples & Linguistic Explanations
+### 3.1 📍 D1 Malvani (South Konkan: Ratnagiri / Sindhudurg)
 
-| Rank | Score | WER (%) | CER (%) | Dialect Text (Input) | Standard Pune Target | Detailed Morphosyntactic Explanation |
+Malvani is characterized by nominal and verbal inflections ending in `-ो` / `-ूचे`, dative/purpose marker `खाती` (`खातिर`), and first-person pronoun `माका`.
+
+| Rank | Score | WER (%) | OOV (%) | Original Spoken RESPIN Transcript | Normalized Standard Pune Marathi | Key Morphosyntactic Features |
 | :---: | :---: | :---: | :---: | :--- | :--- | :--- |
-| **1** | **210.48** | 233.33% | 157.14% | `गुगल पे ह्या गुगल ने विकसित केला हा` | `हे विकसित केले` | **1. Auxiliary Shift**: Malvani uses `हा` instead of Standard Marathi `आहे` / `केले`.<br>**2. Possessive Shift**: Malvani `ह्या` replaces standard `हे`. |
-| **2** | **189.09** | 200.0% | 163.64% | `क्रेडिट कार्ड कसा वापरूचा ?` | `कसे वापरावे?` | **1. Infinitive Suffix `-चा`**: Malvani uses `-ूचा` (`वापरूचा`) for potential infinitives where standard Marathi uses `-ावे` (`वापरावे`).<br>**2. Gender Agreement**: `कसा` vs `कसे`. |
-| **3** | **163.93** | 175.0% | 138.1% | `हरभरा पीक वाढता तेव्हा कश्याचो अडथलो येता ?` | `कश्याचा अडथळा येता का?` | **1. O-Inflection**: Malvani transforms standard `-ा` endings to `-ो` (`कश्याचो` $\rightarrow$ `कश्याचा`, `अडथलो` $\rightarrow$ `अडथळा`). |
-| **4** | **162.06** | 200.0% | 73.53% | `के.वाय.सी करूच्या खातिर कसले कागद लागतले ?` | `केवायसीसाठी कोणते कागदपत्रे लागतात?` | **1. Postposition `खातिर`**: Malvani uses `करूच्या खातिर` (for doing) instead of standard `-साठी`.<br>**2. Future Verb Suffix `-तले`**: `लागतले` $\rightarrow$ `लागतात`. |
-| **5** | **147.00** | 150.0% | 140.0% | `लीफ कर्ल ह्यो आजार कसो बरो व्हता ?` | `हे आजार कसे आहे?` | **1. Demonstrative `ह्यो`**: Malvani uses `ह्यो` for standard `हे`.<br>**2. Verb `व्हता`**: Malvani uses `व्हता` (becomes/is) for standard `आहे`. |
-| **6** | **139.64** | 175.0% | 57.14% | `के.वाय.सी मोबाईलातसून करुक गावता काय ?` | `केवायसी मोबाईलमधून काय मिळते?` | **1. Verb `गावता`**: Malvani `गावता` (to find/get) replaces standard `मिळते`.<br>**2. Ablative Postposition `-तसून`**: `मोबाईलातसून` $\rightarrow$ `मोबाईलमधून`. |
-| **7** | **133.33** | 166.67% | 55.56% | `के.वाय.सी किदयाक करूची ?` | `केवायसी कसे करायचे?` | **1. Interrogative `किदयाक`**: Distinctive Malvani word for *why/how* (`कशासाठी / कसे`). |
+| **1** | **103.25** | 125.0% | 100.0% | `टँकरात भरलल्या दुधाक पायपातसून सगळीकडे पोचयतत` | `टँकरात भरलेल्या दुधाकडे पाईपमधून सगळीकडे पोहोचवतात` | • Dative suffix `-क` (`दुधाक` $\rightarrow$ `दुधाला`)<br>• Ablative suffix `-तसून` (`पायपातसून` $\rightarrow$ `पाईपमधून`)<br>• Plural verb ending `-तत` (`पोचयतत` $\rightarrow$ `पोहोचवतात`) |
+| **2** | **81.43** | 100.0% | 60.0% | `कर्ज कोनाकपण फेडूक मेलता काय ?` | `कर्ज कोणालाही फेडता येते का?` | • Indefinite pronoun `कोनाकपण` (`कोणालाही`)<br>• Potential verb `मेलता` (`मिळते / येते`)<br>• Infinitive `-ूक` (`फेडूक` $\rightarrow$ `फेडायला`) |
+| **3** | **73.74** | 100.0% | 85.71% | `बुरशी पासून झाडांका लय प्रकारचे तरास जातत` | `बुरशीपासून झाडांना अनेक प्रकारचा त्रास होतो` | • Plural accusative `-ंका` (`झाडांका` $\rightarrow$ `झाडांना`)<br>• Quantifier `लय` (`अनेक / खूप`)<br>• Verb `जातत` (`होतात`) |
+| **4** | **71.11** | 85.71% | 83.33% | `ऊसाच्या पिकाक खयच्या सिंचनाचो उपयोग करतत ?` | `उसाच्या पिकाला कोणत्या सिंचनाचा उपयोग करतात?` | • Interrogative `खयच्या` (`कोणत्या`)<br>• Genitive inflection `-चो` (`सिंचनाचो` $\rightarrow$ `सिंचनाचा`) |
+| **5** | **69.60** | 100.0% | 57.14% | `हया कर्ज घेऊच्या खाती कोसाइनर लागतलो का ?` | `हे कर्ज घेण्यासाठी सह-स्वाक्षरीकर्ता लागेल का?` | • Purpose marker `खाती` (`घेऊच्या खाती` $\rightarrow$ `घेण्यासाठी`)<br>• Future verb `-तलो` (`लागतलो` $\rightarrow$ `लागेल`) |
+| **6** | **67.99** | 85.71% | 75.0% | `माका क्रेडिट कार्डाक आजुन किती पैशे भरूचे हत ?` | `मला क्रेडिट कार्डसाठी अजून किती पैसे भरावे लागतील?` | • Dative pronoun `माका` (`मला`)<br>• Obligative suffix `-ूचे हत` (`भरूचे हत` $\rightarrow$ `भरावे लागतील`) |
+| **7** | **64.00** | 66.67% | 100.0% | `सांड बैल ह्यो लय शक्तिमान प्राणी आसा` | `सांड बैल हा अतिशय शक्तिमान प्राणी आहे` | • Demonstrative `ह्यो` (`हा`)<br>• Copula `आसा` (`आहे`) |
 
 ---
 
-### 3.2 D2 Ahirani (Khandesh & North Konkan: Palghar, Thane, Jalgaon)
+### 3.2 📍 D2 Ahirani (Khandesh & North Konkan: Palghar / Thane / Jalgaon)
 
-Ahirani shows strong structural influence from Khandeshi and Gujarati morphosyntax. Key features include the universal auxiliary `शे` (*is*), locative postpositions (`-मा` / `-मझारथून`), and plural marker `-स`.
+Ahirani exhibits Gujarati and Western Indo-Aryan substrata, featuring locative `-मा` / `-मझार`, universal copula `शे`, plural marker `-स्ले / -स्नं`, and verb inflection `-स`.
 
-#### Extracted Top Samples & Linguistic Explanations
-
-| Rank | Score | WER (%) | CER (%) | Dialect Text (Input) | Standard Pune Target | Detailed Morphosyntactic Explanation |
+| Rank | Score | WER (%) | OOV (%) | Original Spoken RESPIN Transcript | Normalized Standard Pune Marathi | Key Morphosyntactic Features |
 | :---: | :---: | :---: | :---: | :--- | :--- | :--- |
-| **1** | **260.26** | 250.0% | 284.21% | `ट्रॅव्हल चेक कार्यालयना संगे संबंधित शे जे शहरेसमा रास` | `पर्यटन शहरे आहेत का` | **1. Auxiliary `शे`**: Ahirani uses `शे` for standard `आहे`.<br>**2. Plural/Locative `-समा / -रास`**: `शहरेसमा रास` $\rightarrow$ `शहरे आहेत`.<br>**3. Postposition `संगे`**: `कार्यालयना संगे` $\rightarrow$ `कार्यालयासोबत`. |
-| **2** | **177.50** | 200.0% | 125.0% | `एखांदाना मोबाइलमा गुगल पे नशी ते पैसा धाडता येतस` | `एका माणसाला गुगलवरून पैसे काढता येतात का?` | **1. Locative `-मा`**: `मोबाइलमा` for standard `मोबाईलमध्ये`.<br>**2. Verb `धाडता`**: Ahirani `धाडणे` (to send/transfer) used instead of `काढणे`.<br>**3. Negative Auxiliary `नशी`**: `नशी` for `नसल्यास`. |
-| **3** | **175.18** | 214.29% | 83.93% | `समुद्रना शेवाळ ना वावर मा जीवन चक्र नियंत्रित करी टाकणस` | `समुद्राच्या लाटांवरून जीवनचक्र नियंत्रित होते` | **1. Genitive `-ना`**: Ahirani uses `-ना` (`समुद्रना`, `वावर मा`) where standard Marathi uses `-च्या / -वर`.<br>**2. Compound Verb `-टाकणस`**: `करी टाकणस` $\rightarrow$ `नियंत्रित होते`. |
-| **4** | **172.40** | 200.0% | 108.0% | `करनी चोरी करान सरकार भी नजर म्हा गुन्हा समजावस` | `सरकारला माझा गुन्हा समजतो.` | **1. Locative `म्हा`**: `नजर म्हा` (in the eyes of) for standard `सरकारला / नजरेत`.<br>**2. Verb Ending `-वस`**: `समजावस` $\rightarrow$ `समजतो`. |
-| **5** | **162.43** | 180.0% | 121.43% | `यवहार खातामझारथून तुमी पैसा धाडू शकतस` | `तुम्ही यातून पैसे मिळवू शकता` | **1. Ablative-Locative `-मझारथून`**: Ahirani `-मझारथून` (*from inside*) for standard `यातून / याच्यामधून`.<br>**2. Second-Person Verb `-तस`**: `शकतस` $\rightarrow$ `शक्ता`. |
-| **6** | **153.15** | 166.67% | 121.62% | `सोता भारतच एक महत्वानी बाजारपेठ शे` | `भारत स्वतः एक महत्त्वाची बाजारपेठ आहे.` | **1. Auxiliary `शे`**: `शे` $\rightarrow$ `आहे`.<br>**2. Adjectival Suffix `-नी`**: `महत्वानी` $\rightarrow$ `महत्त्वाची`. |
+| **1** | **81.38** | 87.5% | 72.73% | `पी.पी.एफ मझार जमा करेल पैसा हायातीमा काढता येतसका नैत ?` | `पी.पी.एफ. मध्ये जमा केलेले पैसे आयुष्यात काढता येतात का नाहीत?` | • Inessive postposition `मझार` (`मध्ये`)<br>• Locative postposition `-मा` (`हायातीमा` $\rightarrow$ `आयुष्यात`)<br>• Negative tag `नैत` (`नाहीत`) |
+| **2** | **78.21** | 83.33% | 100.0% | `कर्जलेवावर गहाण ठेयेल मालमत्ता ईकता नयी येस` | `कर्ज घेतल्यावर गहाण ठेवलेली मालमत्ता विकता येत नाही` | • Past participle `ठेयेल` (`ठेवलेली`)<br>• Verb `ईकता` (`विकता`)<br>• Negative auxiliary `नयी येस` (`येत नाही`) |
+| **3** | **71.60** | 87.5% | 88.89% | `भारतमा परतेक राज्यनी वरीसनं उतपननी वाढ आल्लग आल्लग शे` | `भारतात प्रत्येक राज्याची वार्षिक उत्पन्नाची वाढ वेगवेगळी आहे` | • Locative `-मा` (`भारतमा` $\rightarrow$ `भारतात`)<br>• Genitive `-नी` (`राज्यनी` $\rightarrow$ `राज्याची`)<br>• Adverb `आल्लग आल्लग` (`वेगवेगळी`)<br>• Copula `शे` (`आहे`) |
+| **4** | **69.28** | 75.0% | 100.0% | `शेतीना अवजारेस्नं परदरशन मांडं तवय त्यास्नी ईक्री वाढी` | `शेतीची अवजारे प्रदर्शन मांडल्यावर त्यांची विक्री वाढली` | • Plural genitive `-स्नं / -स्नी` (`अवजारेस्नं` $\rightarrow$ `अवजारांचे`, `त्यास्नी` $\rightarrow$ `त्यांची`)<br>• Temporal conjunction `तवय` (`तेव्हा`)<br>• Lexical `ईक्री` (`विक्री`) |
+| **5** | **68.48** | 75.0% | 77.78% | `फळे देनारा झाडेस्ले शेतकरी जमीनना आंदाज लीसनी काटछाट करस` | `फळे देणाऱ्या झाडांना शेतकरी जमिनीचा अंदाज घेऊन छाटणी करतो` | • Dative plural `-स्ले` (`झाडेस्ले` $\rightarrow$ `झाडांना`)<br>• Conjunctive participle `लीसनी` (`घेऊन`)<br>• Present tense verb `-स` (`करस` $\rightarrow$ `करतो`) |
+| **6** | **67.51** | 75.0% | 88.89% | `भोपयाना भाजीना वापर रायता लोणचं खीर बनाडाना करता करतंस` | `भोपळ्याच्या भाजीचा वापर रायता लोणचे खीर बनवण्यासाठी करतात` | • Phonological cluster `भोपयाना` (`भोपळ्याच्या`)<br>• Infinitive `बनाडाना करता` (`बनवण्यासाठी`)<br>• Habitual verb `करतंस` (`करतात`) |
 
 ---
 
-### 3.3 D4 Varhadi (Vidarbha: Amravati, Akola, Yavatmal)
+### 3.3 📍 D4 Varhadi (Vidarbha: Amravati / Akola / Yavatmal)
 
-Varhadi is spoken in eastern Maharashtra (Vidarbha). It is characterized by interrogative pronouns (`काऊन`, `कोनचे`), inessive locatives (`-मंदी`), and a characteristic phonological softening of retroflex consonants ($ळ \rightarrow ल$, $ण \rightarrow न$).
+Varhadi features distinctive dative pronoun `मले`, interrogatives `कोंते / कोनचा`, retroflex softening ($ळ \rightarrow ल$, $ण \rightarrow न$), and verb endings in `-न / -ीन`.
 
-#### Extracted Top Samples & Linguistic Explanations
-
-| Rank | Score | WER (%) | CER (%) | Dialect Text (Input) | Standard Pune Target | Detailed Morphosyntactic Explanation |
+| Rank | Score | WER (%) | OOV (%) | Original Spoken RESPIN Transcript | Normalized Standard Pune Marathi | Key Morphosyntactic Features |
 | :---: | :---: | :---: | :---: | :--- | :--- | :--- |
-| **1** | **230.00** | 200.0% | 300.0% | `रेपसीडले रब्बी हंगामामंदीच काऊन पेरतात ?` | `कोण पेरतात?` | **1. Interrogative `काऊन`**: Varhadi `काऊन` (*why / who*) for standard `का / कोण`.<br>**2. Inessive `-मंदीच`**: `हंगामामंदीच` for standard `हंगामामध्येच`. |
-| **2** | **186.88** | 200.0% | 156.25% | `नरम पोळी येईन अस गवाचं वान कोनचं ?` | `कोणतं वान वापराव ?` | **1. Interrogative `कोनचं`**: Varhadi `कोनचं` for standard `कोणतं`.<br>**2. Future Verb `येईन`**: `येईन` for standard `येईल` ($ळ \rightarrow न$). |
-| **3** | **170.23** | 175.0% | 159.09% | `इजाइच्या कडकडाटाची बतावनी कोनचे मोबाईल ॲप देईन ?` | `कोणते मोबाइल ऐप द्यावे?` | **1. Lexical `इजाइच्या`**: Varhadi `इजाइ` (lightning) for standard `विजेच्या`.<br>**2. Interrogative `कोनचे`**: `कोनचे` $\rightarrow$ `कोणते`. |
-| **4** | **165.13** | 175.0% | 142.11% | `रब्बी अस खरीप हंगामात कोनचे पिकं घेता येईन ?` | `कोणते पीक घेता येईल?` | **1. Conjunction `अस`**: Varhadi `अस` (*and / or*) for standard `आणि / किंवा`.<br>**2. Future Verb `येईन`**: `येईन` $\rightarrow$ `येईल`. |
-| **5** | **161.11** | 200.0% | 70.37% | `मोबाईल वर बाजारसमिती चे भाव कशे माईत होईन ?` | `मोबाईलवर बाजारभाव कसे कळतील?` | **1. Compound Lexeme `माईत होईन`**: Varhadi `माईत होईन` (will be known) for standard `कळतील`. |
-| **6** | **142.38** | 166.67% | 85.71% | `स्कॉलरशिप भेटासाठी मले खात खोलने गरजेचे हाय` | `स्कॉलरशिप मिळवण्यासाठी खाते उघडणे गरजेचे आहे` | **1. Pronoun `मले`**: Varhadi dative pronoun `मले` for standard `मला`.<br>**2. Infinitive `भेटासाठी`**: `भेटासाठी` $\rightarrow$ `मिळवण्यासाठी`. |
+| **1** | **63.93** | 75.0% | 72.73% | `मले माया बईनीले मोबाईल भेट द्यासाठी ऑनलाईन पैसे कसे देता येईन ?` | `मला माझ्या बहिणीला मोबाईल भेट देण्यासाठी ऑनलाईन पैसे कसे देता येतील?` | • Dative pronoun `मले` (`मला`)<br>• Possessive `माया` (`माझ्या`)<br>• Kinship term `बईनीले` (`बहिणीला`)<br>• Future verb `येईन` (`येतील`) |
+| **2** | **59.72** | 71.43% | 85.71% | `खातं काढताना मले किती पैसा भरा लागन ?` | `खाते उघडताना मला किती पैसे भरावे लागतील?` | • Pronoun `मले` (`मला`)<br>• Future auxiliary `लागन` (`लागतील`)<br>• Lexical `काढताना` (`उघडताना`) |
+| **3** | **59.24** | 75.0% | 66.67% | `क्रेडिट कार्ड घ्यासाठी मले कोनचा अर्ज भरनं सोप राहीन ?` | `क्रेडिट कार्ड घेण्यासाठी मला कोणता अर्ज भरणे सोपे राहील?` | • Interrogative `कोनचा` (`कोणता`)<br>• Infinitive `घ्यासाठी` (`घेण्यासाठी`)<br>• Future auxiliary `राहीन` (`राहील`) |
+| **4** | **57.48** | 71.43% | 87.5% | `कास्तकार मोबाईल वरून शेतीचं मार्गदर्शन कस भेटवू शकते ?` | `शेतकरी मोबाईलवरून शेतीचे मार्गदर्शन कसे मिळवू शकतो?` | • Lexical noun `कास्तकार` (`शेतकरी`)<br>• Potential verb `भेटवू शकते` (`मिळवू शकतो`) |
+| **5** | **55.14** | 60.0% | 66.67% | `कर्ज घ्याचे टायमाले साक्षीदार लागन का ?` | `कर्ज घेण्याच्या वेळी साक्षीदार लागेल का?` | • Temporal loan-blend `टायमाले` (`वेळी / वेळेस`)<br>• Future verb `लागन` (`लागेल`) |
+| **6** | **53.33** | 66.67% | 66.67% | `दसऱ्यासाठी मले कितीक रुपये कर्ज भेटन ?` | `दसऱ्यासाठी मला किती रुपये कर्ज मिळेल?` | • Quantifier `कितीक` (`किती`)<br>• Verb `भेटन` (`मिळेल`) |
 
 ---
 
-## 4. Key Cross-Dialect Comparative Insights
+## 4. Exported Clean Datasets for Manual Verification
 
-1. **Interrogative Transformation**:
-   * **Malvani (D1)** uses `किदयाक` / `कश्याचो`.
-   * **Ahirani (D2)** relies on sentence-final `शे काय` / `का`.
-   * **Varhadi (D4)** consistently uses `काऊन` / `कोनचे` / `कोनचं`.
+The extracted top divergent spoken transcripts are saved in clean UTF-8 CSV format under `reports/respin_divergent_samples/`:
 
-2. **Locative & Postposition System**:
-   * **D1 Malvani**: Uses `-तसून` (ablative) and `खातिर` (dative/purpose).
-   * **D2 Ahirani**: Uses `-मा`, `-मझारथून`, and `-म्हा` (locative).
-   * **D4 Varhadi**: Uses `-मंदी` / `-मंदीच` (inessive locative).
-
-3. **Copula / Auxiliary System**:
-   * **D1 Malvani**: `हा` / `असा` / `व्हता`.
-   * **D2 Ahirani**: `शे` (present) / `रास` (plural).
-   * **D4 Varhadi**: `हाय` / `होईन`.
-
----
-
-## 5. Dataset Exports for Manual Verification & Human Annotation
-
-All extracted top divergent sample sets are exported in clean UTF-8 CSV format for human inspection:
-
-* 📄 **D1 Malvani Top 150 CSV**: [reports/divergent_samples/d1_top_divergent.csv](file:///d:/dialect-norm/reports/divergent_samples/d1_top_divergent.csv)
-* 📄 **D2 Ahirani Top 150 CSV**: [reports/divergent_samples/d2_top_divergent.csv](file:///d:/dialect-norm/reports/divergent_samples/d2_top_divergent.csv)
-* 📄 **D4 Varhadi Top 150 CSV**: [reports/divergent_samples/d4_top_divergent.csv](file:///d:/dialect-norm/reports/divergent_samples/d4_top_divergent.csv)
-* 📄 **Combined All Dialects CSV**: [reports/divergent_samples/all_dialects_top_divergent.csv](file:///d:/dialect-norm/reports/divergent_samples/all_dialects_top_divergent.csv)
+* 📄 **D1 Malvani Top Spoken CSV**: [reports/respin_divergent_samples/respin_d1_top_divergent.csv](file:///d:/dialect-norm/reports/respin_divergent_samples/respin_d1_top_divergent.csv)
+* 📄 **D2 Ahirani Top Spoken CSV**: [reports/respin_divergent_samples/respin_d2_top_divergent.csv](file:///d:/dialect-norm/reports/respin_divergent_samples/respin_d2_top_divergent.csv)
+* 📄 **D4 Varhadi Top Spoken CSV**: [reports/respin_divergent_samples/respin_d4_top_divergent.csv](file:///d:/dialect-norm/reports/respin_divergent_samples/respin_d4_top_divergent.csv)
+* 📄 **Summary Digest**: [reports/respin_divergent_samples/respin_divergence_summary.md](file:///d:/dialect-norm/reports/respin_divergent_samples/respin_divergence_summary.md)
