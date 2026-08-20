@@ -1,0 +1,234 @@
+indicbart_combined_16k:
+  name: IndicBART Combined 16k
+  path: models\indicbart_combined\fold_1\best_model
+  results:
+    Combined:
+      bleu: 61.93
+      cer: 26.34
+      chrf: 75.37
+      exact_match_acc: 53.87
+      num_samples: 2170
+      wer: 31.17
+    D1:
+      bleu: 20.19
+      cer: 53.91
+      chrf: 46.49
+      exact_match_acc: 5.55
+      num_samples: 559
+      wer: 63.83
+    D2:
+      bleu: 69.58
+      cer: 22.47
+      chrf: 79.89
+      exact_match_acc: 63.52
+      num_samples: 540
+      wer: 25.24
+    D3:
+      bleu: 94.47
+      cer: 3.85
+      chrf: 96.58
+      exact_match_acc: 95.14
+      num_samples: 555
+      wer: 5.04
+    D4:
+      bleu: 64.4
+      cer: 23.1
+      chrf: 77.95
+      exact_match_acc: 51.74
+      num_samples: 516
+      wer: 29.08
+indicbart_combined_32k:
+  name: IndicBART Combined 32k
+  path: models\indicbart_combined_32k\fold_1\best_model
+  results:
+    Combined:
+      bleu: 65.14
+      cer: 19.16
+      chrf: 79.15
+      exact_match_acc: 50.0
+      num_samples: 2170
+      wer: 26.83
+    D1:
+      bleu: 39.04
+      cer: 28.5
+      chrf: 65.17
+      exact_match_acc: 7.51
+      num_samples: 559
+      wer: 44.07
+    D2:
+      bleu: 69.25
+      cer: 19.11
+      chrf: 80.54
+      exact_match_acc: 57.22
+      num_samples: 540
+      wer: 24.08
+    D3:
+      bleu: 87.1
+      cer: 9.36
+      chrf: 91.85
+      exact_match_acc: 85.95
+      num_samples: 555
+      wer: 11.45
+    D4:
+      bleu: 65.82
+      cer: 18.89
+      chrf: 79.77
+      exact_match_acc: 49.81
+      num_samples: 516
+      wer: 26.88
+indicbart_raw_unverified_32k:
+  name: IndicBART Raw Unverified 32k
+  path: models\indicbart_raw_unverified_32k\fold_1\best_model
+  results:
+    Combined:
+      bleu: 61.67
+      cer: 26.38
+      chrf: 75.26
+      exact_match_acc: 52.76
+      num_samples: 2170
+      wer: 31.46
+    D1:
+      bleu: 21.93
+      cer: 52.79
+      chrf: 47.74
+      exact_match_acc: 4.65
+      num_samples: 559
+      wer: 62.8
+    D2:
+      bleu: 69.28
+      cer: 22.7
+      chrf: 79.64
+      exact_match_acc: 64.07
+      num_samples: 540
+      wer: 25.56
+    D3:
+      bleu: 92.17
+      cer: 5.41
+      chrf: 95.24
+      exact_match_acc: 91.71
+      num_samples: 555
+      wer: 6.99
+    D4:
+      bleu: 64.28
+      cer: 22.7
+      chrf: 78.01
+      exact_match_acc: 51.16
+      num_samples: 516
+      wer: 29.08
+mt5_combined_16k:
+  name: mT5-Small Combined 16k
+  path: models\mt5_combined_16k\best_model
+  results:
+    Combined:
+      bleu: 73.02
+      cer: 5.76
+      chrf: 87.9
+      exact_match_acc: 52.35
+      num_samples: 2170
+      wer: 16.83
+    D1:
+      bleu: 42.22
+      cer: 12.3
+      chrf: 74.6
+      exact_match_acc: 4.65
+      num_samples: 559
+      wer: 34.83
+    D2:
+      bleu: 78.19
+      cer: 5.48
+      chrf: 89.69
+      exact_match_acc: 62.22
+      num_samples: 540
+      wer: 14.15
+    D3:
+      bleu: 96.98
+      cer: 0.37
+      chrf: 99.13
+      exact_match_acc: 92.43
+      num_samples: 555
+      wer: 1.72
+    D4:
+      bleu: 74.65
+      cer: 4.39
+      chrf: 89.12
+      exact_match_acc: 50.58
+      num_samples: 516
+      wer: 15.75
+mt5_combined_32k:
+  name: mT5-Small Combined 32k
+  path: models\mt5_combined_32k\best_model
+  results:
+    Combined:
+      bleu: 74.44
+      cer: 5.66
+      chrf: 88.24
+      exact_match_acc: 53.96
+      num_samples: 2170
+      wer: 15.96
+    D1:
+      bleu: 44.72
+      cer: 12.29
+      chrf: 74.8
+      exact_match_acc: 5.01
+      num_samples: 559
+      wer: 34.61
+    D2:
+      bleu: 79.15
+      cer: 5.29
+      chrf: 90.2
+      exact_match_acc: 63.7
+      num_samples: 540
+      wer: 12.66
+    D3:
+      bleu: 97.74
+      cer: 0.29
+      chrf: 99.22
+      exact_match_acc: 93.33
+      num_samples: 555
+      wer: 1.07
+    D4:
+      bleu: 76.45
+      cer: 4.27
+      chrf: 89.68
+      exact_match_acc: 54.46
+      num_samples: 516
+      wer: 14.64
+mt5_raw_unverified_32k:
+  name: mT5-Small Raw Unverified 32k
+  path: models\mt5_raw_unverified_32k\best_model
+  results:
+    Combined:
+      bleu: 74.39
+      cer: 5.68
+      chrf: 88.19
+      exact_match_acc: 53.5
+      num_samples: 2170
+      wer: 16.23
+    D1:
+      bleu: 44.64
+      cer: 12.34
+      chrf: 75.07
+      exact_match_acc: 4.83
+      num_samples: 559
+      wer: 34.59
+    D2:
+      bleu: 79.13
+      cer: 5.18
+      chrf: 90.14
+      exact_match_acc: 61.85
+      num_samples: 540
+      wer: 13.27
+    D3:
+      bleu: 97.97
+      cer: 0.28
+      chrf: 99.34
+      exact_match_acc: 93.87
+      num_samples: 555
+      wer: 0.98
+    D4:
+      bleu: 75.97
+      cer: 4.41
+      chrf: 89.15
+      exact_match_acc: 54.07
+      num_samples: 516
+      wer: 15.21

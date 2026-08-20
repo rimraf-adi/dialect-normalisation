@@ -1,0 +1,2034 @@
+indicbart_combined:
+  dir: models\indicbart_combined
+  folds:
+    fold_1:
+      Combined:
+        bleu: 53.34
+        cer: 32.18
+        chrf: 69.74
+        exact_match_acc: 43.87
+        num_samples: 2170
+        wer: 37.38
+      D1:
+        bleu: 18.21
+        cer: 55.72
+        chrf: 44.7
+        exact_match_acc: 5.55
+        num_samples: 559
+        wer: 65.19
+      D2:
+        bleu: 59.41
+        cer: 29.26
+        chrf: 73.28
+        exact_match_acc: 50.19
+        num_samples: 540
+        wer: 32.65
+      D3:
+        bleu: 81.16
+        cer: 13.45
+        chrf: 88.0
+        exact_match_acc: 77.66
+        num_samples: 555
+        wer: 15.68
+      D4:
+        bleu: 56.89
+        cer: 28.56
+        chrf: 72.79
+        exact_match_acc: 42.44
+        num_samples: 516
+        wer: 34.71
+    fold_2:
+      Combined:
+        bleu: 52.25
+        cer: 33.29
+        chrf: 68.86
+        exact_match_acc: 43.92
+        num_samples: 2170
+        wer: 38.36
+      D1:
+        bleu: 14.7
+        cer: 59.71
+        chrf: 41.3
+        exact_match_acc: 4.83
+        num_samples: 559
+        wer: 68.42
+      D2:
+        bleu: 57.89
+        cer: 30.48
+        chrf: 72.29
+        exact_match_acc: 50.37
+        num_samples: 540
+        wer: 33.87
+      D3:
+        bleu: 81.93
+        cer: 12.95
+        chrf: 88.34
+        exact_match_acc: 77.12
+        num_samples: 555
+        wer: 15.03
+      D4:
+        bleu: 56.91
+        cer: 28.11
+        chrf: 73.03
+        exact_match_acc: 43.8
+        num_samples: 516
+        wer: 34.73
+    fold_3:
+      Combined:
+        bleu: 53.51
+        cer: 32.13
+        chrf: 69.74
+        exact_match_acc: 44.15
+        num_samples: 2170
+        wer: 37.36
+      D1:
+        bleu: 17.33
+        cer: 56.75
+        chrf: 43.83
+        exact_match_acc: 5.9
+        num_samples: 559
+        wer: 66.13
+      D2:
+        bleu: 60.03
+        cer: 29.66
+        chrf: 73.23
+        exact_match_acc: 51.85
+        num_samples: 540
+        wer: 32.45
+      D3:
+        bleu: 80.65
+        cer: 13.96
+        chrf: 87.54
+        exact_match_acc: 75.86
+        num_samples: 555
+        wer: 16.08
+      D4:
+        bleu: 58.36
+        cer: 26.36
+        chrf: 74.13
+        exact_match_acc: 43.41
+        num_samples: 516
+        wer: 33.48
+    fold_4:
+      Combined:
+        bleu: 52.28
+        cer: 32.87
+        chrf: 69.04
+        exact_match_acc: 42.63
+        num_samples: 2170
+        wer: 38.28
+      D1:
+        bleu: 18.19
+        cer: 56.07
+        chrf: 44.55
+        exact_match_acc: 5.01
+        num_samples: 559
+        wer: 65.43
+      D2:
+        bleu: 57.8
+        cer: 30.66
+        chrf: 72.17
+        exact_match_acc: 49.81
+        num_samples: 540
+        wer: 34.03
+      D3:
+        bleu: 77.96
+        cer: 15.8
+        chrf: 85.96
+        exact_match_acc: 72.43
+        num_samples: 555
+        wer: 18.38
+      D4:
+        bleu: 57.55
+        cer: 27.27
+        chrf: 73.37
+        exact_match_acc: 43.8
+        num_samples: 516
+        wer: 34.05
+    fold_5:
+      Combined:
+        bleu: 52.76
+        cer: 32.7
+        chrf: 69.28
+        exact_match_acc: 43.59
+        num_samples: 2170
+        wer: 37.89
+      D1:
+        bleu: 16.18
+        cer: 57.79
+        chrf: 42.68
+        exact_match_acc: 4.65
+        num_samples: 559
+        wer: 66.94
+      D2:
+        bleu: 60.71
+        cer: 28.65
+        chrf: 73.99
+        exact_match_acc: 52.04
+        num_samples: 540
+        wer: 31.9
+      D3:
+        bleu: 77.6
+        cer: 16.38
+        chrf: 85.57
+        exact_match_acc: 73.51
+        num_samples: 555
+        wer: 18.82
+      D4:
+        bleu: 59.2
+        cer: 26.25
+        chrf: 74.6
+        exact_match_acc: 44.77
+        num_samples: 516
+        wer: 32.69
+  has_folds: true
+  name: IndicBART Combined (16k)
+indicbart_combined_32k:
+  dir: models\indicbart_combined_32k
+  folds:
+    fold_1:
+      Combined:
+        bleu: 60.69
+        cer: 22.34
+        chrf: 76.21
+        exact_match_acc: 45.07
+        num_samples: 2170
+        wer: 30.45
+      D1:
+        bleu: 38.23
+        cer: 28.75
+        chrf: 64.73
+        exact_match_acc: 5.72
+        num_samples: 559
+        wer: 44.34
+      D2:
+        bleu: 63.32
+        cer: 23.93
+        chrf: 76.39
+        exact_match_acc: 51.85
+        num_samples: 540
+        wer: 29.08
+      D3:
+        bleu: 76.73
+        cer: 16.55
+        chrf: 85.2
+        exact_match_acc: 73.87
+        num_samples: 555
+        wer: 19.82
+      D4:
+        bleu: 64.83
+        cer: 19.59
+        chrf: 79.22
+        exact_match_acc: 49.61
+        num_samples: 516
+        wer: 27.9
+    fold_2:
+      Combined:
+        bleu: 56.19
+        cer: 27.3
+        chrf: 72.66
+        exact_match_acc: 39.08
+        num_samples: 2170
+        wer: 34.36
+      D1:
+        bleu: 32.84
+        cer: 36.89
+        chrf: 59.29
+        exact_match_acc: 4.29
+        num_samples: 559
+        wer: 50.37
+      D2:
+        bleu: 60.4
+        cer: 26.5
+        chrf: 74.74
+        exact_match_acc: 45.56
+        num_samples: 540
+        wer: 31.6
+      D3:
+        bleu: 78.16
+        cer: 15.08
+        chrf: 86.19
+        exact_match_acc: 66.31
+        num_samples: 555
+        wer: 17.94
+      D4:
+        bleu: 54.29
+        cer: 29.89
+        chrf: 70.94
+        exact_match_acc: 40.7
+        num_samples: 516
+        wer: 36.73
+    fold_3:
+      Combined:
+        bleu: 57.81
+        cer: 25.88
+        chrf: 73.73
+        exact_match_acc: 40.74
+        num_samples: 2170
+        wer: 32.77
+      D1:
+        bleu: 35.13
+        cer: 33.56
+        chrf: 61.79
+        exact_match_acc: 5.19
+        num_samples: 559
+        wer: 47.96
+      D2:
+        bleu: 64.86
+        cer: 22.8
+        chrf: 77.8
+        exact_match_acc: 49.07
+        num_samples: 540
+        wer: 27.55
+      D3:
+        bleu: 76.56
+        cer: 17.48
+        chrf: 84.28
+        exact_match_acc: 67.21
+        num_samples: 555
+        wer: 19.33
+      D4:
+        bleu: 55.41
+        cer: 29.11
+        chrf: 71.6
+        exact_match_acc: 42.05
+        num_samples: 516
+        wer: 35.6
+    fold_4:
+      Combined:
+        bleu: 63.42
+        cer: 19.77
+        chrf: 78.52
+        exact_match_acc: 44.56
+        num_samples: 2170
+        wer: 27.6
+      D1:
+        bleu: 39.8
+        cer: 27.0
+        chrf: 66.44
+        exact_match_acc: 6.08
+        num_samples: 559
+        wer: 42.71
+      D2:
+        bleu: 68.8
+        cer: 18.75
+        chrf: 81.19
+        exact_match_acc: 52.96
+        num_samples: 540
+        wer: 23.64
+      D3:
+        bleu: 83.11
+        cer: 12.05
+        chrf: 89.13
+        exact_match_acc: 73.69
+        num_samples: 555
+        wer: 14.06
+      D4:
+        bleu: 62.39
+        cer: 20.71
+        chrf: 78.0
+        exact_match_acc: 46.12
+        num_samples: 516
+        wer: 29.33
+    fold_5:
+      Combined:
+        bleu: 49.38
+        cer: 34.08
+        chrf: 67.39
+        exact_match_acc: 37.05
+        num_samples: 2170
+        wer: 40.09
+      D1:
+        bleu: 26.52
+        cer: 45.11
+        chrf: 53.04
+        exact_match_acc: 4.65
+        num_samples: 559
+        wer: 56.87
+      D2:
+        bleu: 52.93
+        cer: 33.31
+        chrf: 69.11
+        exact_match_acc: 39.63
+        num_samples: 540
+        wer: 37.26
+      D3:
+        bleu: 64.63
+        cer: 27.3
+        chrf: 76.15
+        exact_match_acc: 61.8
+        num_samples: 555
+        wer: 29.41
+      D4:
+        bleu: 55.4
+        cer: 29.82
+        chrf: 71.82
+        exact_match_acc: 42.83
+        num_samples: 516
+        wer: 36.1
+  has_folds: true
+  name: IndicBART Combined (32k)
+indicbart_d1:
+  dir: models\indicbart_d1
+  folds:
+    fold_1:
+      Combined:
+        bleu: 72.71
+        cer: 8.85
+        chrf: 86.58
+        exact_match_acc: 47.19
+        num_samples: 2170
+        wer: 18.02
+      D1:
+        bleu: 47.13
+        cer: 15.26
+        chrf: 74.76
+        exact_match_acc: 6.26
+        num_samples: 559
+        wer: 34.42
+      D2:
+        bleu: 78.82
+        cer: 7.69
+        chrf: 89.54
+        exact_match_acc: 54.44
+        num_samples: 540
+        wer: 13.62
+      D3:
+        bleu: 90.22
+        cer: 3.26
+        chrf: 95.61
+        exact_match_acc: 80.9
+        num_samples: 555
+        wer: 6.18
+      D4:
+        bleu: 75.03
+        cer: 8.72
+        chrf: 87.14
+        exact_match_acc: 47.67
+        num_samples: 516
+        wer: 17.19
+    fold_2:
+      Combined:
+        bleu: 72.14
+        cer: 9.26
+        chrf: 86.2
+        exact_match_acc: 46.45
+        num_samples: 2170
+        wer: 18.52
+      D1:
+        bleu: 46.05
+        cer: 15.65
+        chrf: 74.03
+        exact_match_acc: 4.29
+        num_samples: 559
+        wer: 35.16
+      D2:
+        bleu: 77.66
+        cer: 8.41
+        chrf: 88.93
+        exact_match_acc: 52.96
+        num_samples: 540
+        wer: 14.69
+      D3:
+        bleu: 90.69
+        cer: 3.22
+        chrf: 95.77
+        exact_match_acc: 82.16
+        num_samples: 555
+        wer: 5.95
+      D4:
+        bleu: 74.53
+        cer: 9.27
+        chrf: 86.85
+        exact_match_acc: 46.9
+        num_samples: 516
+        wer: 17.57
+    fold_3:
+      Combined:
+        bleu: 71.83
+        cer: 9.55
+        chrf: 85.94
+        exact_match_acc: 45.9
+        num_samples: 2170
+        wer: 18.82
+      D1:
+        bleu: 45.15
+        cer: 16.06
+        chrf: 73.65
+        exact_match_acc: 3.94
+        num_samples: 559
+        wer: 35.38
+      D2:
+        bleu: 77.63
+        cer: 8.7
+        chrf: 88.66
+        exact_match_acc: 52.04
+        num_samples: 540
+        wer: 14.91
+      D3:
+        bleu: 90.14
+        cer: 3.42
+        chrf: 95.44
+        exact_match_acc: 80.72
+        num_samples: 555
+        wer: 6.34
+      D4:
+        bleu: 74.71
+        cer: 9.53
+        chrf: 86.75
+        exact_match_acc: 47.48
+        num_samples: 516
+        wer: 17.93
+    fold_4:
+      Combined:
+        bleu: 71.37
+        cer: 9.84
+        chrf: 85.75
+        exact_match_acc: 46.13
+        num_samples: 2170
+        wer: 19.11
+      D1:
+        bleu: 45.65
+        cer: 16.49
+        chrf: 73.76
+        exact_match_acc: 5.19
+        num_samples: 559
+        wer: 35.69
+      D2:
+        bleu: 76.72
+        cer: 9.19
+        chrf: 88.26
+        exact_match_acc: 52.96
+        num_samples: 540
+        wer: 15.33
+      D3:
+        bleu: 90.39
+        cer: 3.28
+        chrf: 95.63
+        exact_match_acc: 80.9
+        num_samples: 555
+        wer: 6.13
+      D4:
+        bleu: 73.18
+        cer: 9.89
+        chrf: 86.1
+        exact_match_acc: 45.93
+        num_samples: 516
+        wer: 18.55
+    fold_5:
+      Combined:
+        bleu: 72.16
+        cer: 9.42
+        chrf: 86.13
+        exact_match_acc: 46.5
+        num_samples: 2170
+        wer: 18.65
+      D1:
+        bleu: 45.78
+        cer: 16.8
+        chrf: 73.42
+        exact_match_acc: 4.29
+        num_samples: 559
+        wer: 36.06
+      D2:
+        bleu: 77.73
+        cer: 8.29
+        chrf: 89.11
+        exact_match_acc: 53.52
+        num_samples: 540
+        wer: 14.61
+      D3:
+        bleu: 90.86
+        cer: 3.26
+        chrf: 95.76
+        exact_match_acc: 82.16
+        num_samples: 555
+        wer: 5.97
+      D4:
+        bleu: 74.68
+        cer: 8.79
+        chrf: 87.01
+        exact_match_acc: 46.51
+        num_samples: 516
+        wer: 17.21
+  has_folds: true
+  name: IndicBART D1 Malvani (16k)
+indicbart_d1_32k:
+  dir: models\indicbart_d1_32k
+  folds:
+    fold_1:
+      Combined:
+        bleu: 53.22
+        cer: 33.99
+        chrf: 68.68
+        exact_match_acc: 45.58
+        num_samples: 2170
+        wer: 37.69
+      D1:
+        bleu: 13.54
+        cer: 61.26
+        chrf: 39.39
+        exact_match_acc: 4.83
+        num_samples: 559
+        wer: 68.44
+      D2:
+        bleu: 62.74
+        cer: 28.75
+        chrf: 74.16
+        exact_match_acc: 54.26
+        num_samples: 540
+        wer: 30.4
+      D3:
+        bleu: 80.54
+        cer: 15.28
+        chrf: 86.89
+        exact_match_acc: 76.94
+        num_samples: 555
+        wer: 17.15
+      D4:
+        bleu: 59.2
+        cer: 28.8
+        chrf: 73.73
+        exact_match_acc: 46.9
+        num_samples: 516
+        wer: 33.55
+    fold_2:
+      Combined:
+        bleu: 54.88
+        cer: 32.71
+        chrf: 69.9
+        exact_match_acc: 47.05
+        num_samples: 2170
+        wer: 36.51
+      D1:
+        bleu: 13.93
+        cer: 61.62
+        chrf: 39.37
+        exact_match_acc: 5.55
+        num_samples: 559
+        wer: 68.44
+      D2:
+        bleu: 65.47
+        cer: 26.22
+        chrf: 76.44
+        exact_match_acc: 57.04
+        num_samples: 540
+        wer: 28.27
+      D3:
+        bleu: 83.0
+        cer: 13.0
+        chrf: 88.74
+        exact_match_acc: 78.74
+        num_samples: 555
+        wer: 14.92
+      D4:
+        bleu: 59.49
+        cer: 28.01
+        chrf: 74.28
+        exact_match_acc: 47.48
+        num_samples: 516
+        wer: 33.14
+    fold_3:
+      Combined:
+        bleu: 55.18
+        cer: 32.37
+        chrf: 70.13
+        exact_match_acc: 46.73
+        num_samples: 2170
+        wer: 36.18
+      D1:
+        bleu: 13.54
+        cer: 61.68
+        chrf: 39.2
+        exact_match_acc: 5.72
+        num_samples: 559
+        wer: 68.48
+      D2:
+        bleu: 63.85
+        cer: 27.52
+        chrf: 75.22
+        exact_match_acc: 54.81
+        num_samples: 540
+        wer: 29.54
+      D3:
+        bleu: 84.28
+        cer: 11.7
+        chrf: 89.75
+        exact_match_acc: 79.28
+        num_samples: 555
+        wer: 13.59
+      D4:
+        bleu: 61.39
+        cer: 26.51
+        chrf: 75.54
+        exact_match_acc: 47.67
+        num_samples: 516
+        wer: 31.71
+    fold_4:
+      Combined:
+        bleu: 53.82
+        cer: 33.19
+        chrf: 69.45
+        exact_match_acc: 45.25
+        num_samples: 2170
+        wer: 37.25
+      D1:
+        bleu: 12.45
+        cer: 62.19
+        chrf: 38.68
+        exact_match_acc: 3.94
+        num_samples: 559
+        wer: 69.53
+      D2:
+        bleu: 65.48
+        cer: 25.76
+        chrf: 76.67
+        exact_match_acc: 54.26
+        num_samples: 540
+        wer: 28.25
+      D3:
+        bleu: 80.64
+        cer: 14.8
+        chrf: 87.14
+        exact_match_acc: 75.86
+        num_samples: 555
+        wer: 16.73
+      D4:
+        bleu: 59.71
+        cer: 28.09
+        chrf: 74.53
+        exact_match_acc: 47.67
+        num_samples: 516
+        wer: 33.23
+    fold_5:
+      Combined:
+        bleu: 54.49
+        cer: 32.66
+        chrf: 69.74
+        exact_match_acc: 45.62
+        num_samples: 2170
+        wer: 36.74
+      D1:
+        bleu: 13.85
+        cer: 61.0
+        chrf: 39.57
+        exact_match_acc: 4.83
+        num_samples: 559
+        wer: 68.63
+      D2:
+        bleu: 63.51
+        cer: 27.06
+        chrf: 75.37
+        exact_match_acc: 53.15
+        num_samples: 540
+        wer: 29.61
+      D3:
+        bleu: 82.08
+        cer: 13.65
+        chrf: 88.06
+        exact_match_acc: 76.76
+        num_samples: 555
+        wer: 15.57
+      D4:
+        bleu: 61.33
+        cer: 26.96
+        chrf: 75.32
+        exact_match_acc: 48.45
+        num_samples: 516
+        wer: 31.83
+  has_folds: true
+  name: IndicBART D1 Malvani (32k)
+indicbart_d2:
+  dir: models\indicbart_d2
+  folds:
+    fold_1:
+      Combined:
+        bleu: 83.83
+        cer: 4.3
+        chrf: 92.73
+        exact_match_acc: 61.06
+        num_samples: 2170
+        wer: 10.0
+      D1:
+        bleu: 69.56
+        cer: 7.14
+        chrf: 86.78
+        exact_match_acc: 20.93
+        num_samples: 559
+        wer: 18.24
+      D2:
+        bleu: 84.27
+        cer: 5.27
+        chrf: 92.67
+        exact_match_acc: 69.07
+        num_samples: 540
+        wer: 10.41
+      D3:
+        bleu: 97.82
+        cer: 0.37
+        chrf: 99.24
+        exact_match_acc: 94.05
+        num_samples: 555
+        wer: 1.0
+      D4:
+        bleu: 84.29
+        cer: 4.14
+        chrf: 92.7
+        exact_match_acc: 60.66
+        num_samples: 516
+        wer: 9.83
+    fold_2:
+      Combined:
+        bleu: 83.4
+        cer: 4.25
+        chrf: 92.62
+        exact_match_acc: 60.69
+        num_samples: 2170
+        wer: 10.0
+      D1:
+        bleu: 69.07
+        cer: 7.05
+        chrf: 86.57
+        exact_match_acc: 24.15
+        num_samples: 559
+        wer: 18.28
+      D2:
+        bleu: 83.84
+        cer: 5.19
+        chrf: 92.57
+        exact_match_acc: 65.74
+        num_samples: 540
+        wer: 10.45
+      D3:
+        bleu: 97.3
+        cer: 0.5
+        chrf: 99.06
+        exact_match_acc: 92.61
+        num_samples: 555
+        wer: 1.18
+      D4:
+        bleu: 84.0
+        cer: 3.99
+        chrf: 92.77
+        exact_match_acc: 60.66
+        num_samples: 516
+        wer: 9.56
+    fold_3:
+      Combined:
+        bleu: 83.82
+        cer: 4.36
+        chrf: 92.71
+        exact_match_acc: 61.8
+        num_samples: 2170
+        wer: 9.85
+      D1:
+        bleu: 70.52
+        cer: 6.88
+        chrf: 87.26
+        exact_match_acc: 25.94
+        num_samples: 559
+        wer: 17.65
+      D2:
+        bleu: 84.57
+        cer: 5.36
+        chrf: 92.67
+        exact_match_acc: 69.07
+        num_samples: 540
+        wer: 10.28
+      D3:
+        bleu: 97.86
+        cer: 0.36
+        chrf: 99.27
+        exact_match_acc: 94.05
+        num_samples: 555
+        wer: 0.81
+      D4:
+        bleu: 82.92
+        cer: 4.59
+        chrf: 92.08
+        exact_match_acc: 58.33
+        num_samples: 516
+        wer: 10.17
+    fold_4:
+      Combined:
+        bleu: 84.02
+        cer: 4.38
+        chrf: 92.77
+        exact_match_acc: 62.07
+        num_samples: 2170
+        wer: 9.89
+      D1:
+        bleu: 69.95
+        cer: 7.06
+        chrf: 87.0
+        exact_match_acc: 25.04
+        num_samples: 559
+        wer: 17.95
+      D2:
+        bleu: 84.71
+        cer: 5.45
+        chrf: 92.67
+        exact_match_acc: 68.89
+        num_samples: 540
+        wer: 10.19
+      D3:
+        bleu: 98.57
+        cer: 0.26
+        chrf: 99.48
+        exact_match_acc: 95.86
+        num_samples: 555
+        wer: 0.77
+      D4:
+        bleu: 83.44
+        cer: 4.48
+        chrf: 92.37
+        exact_match_acc: 58.72
+        num_samples: 516
+        wer: 10.15
+    fold_5:
+      Combined:
+        bleu: 83.75
+        cer: 4.39
+        chrf: 92.7
+        exact_match_acc: 62.07
+        num_samples: 2170
+        wer: 10.1
+      D1:
+        bleu: 69.83
+        cer: 7.23
+        chrf: 86.65
+        exact_match_acc: 26.12
+        num_samples: 559
+        wer: 18.22
+      D2:
+        bleu: 83.92
+        cer: 5.48
+        chrf: 92.6
+        exact_match_acc: 68.33
+        num_samples: 540
+        wer: 10.82
+      D3:
+        bleu: 97.99
+        cer: 0.36
+        chrf: 99.29
+        exact_match_acc: 94.41
+        num_samples: 555
+        wer: 1.02
+      D4:
+        bleu: 83.9
+        cer: 4.22
+        chrf: 92.72
+        exact_match_acc: 59.69
+        num_samples: 516
+        wer: 9.83
+  has_folds: true
+  name: IndicBART D2 Ahirani (16k)
+indicbart_d2_32k:
+  dir: models\indicbart_d2_32k
+  folds:
+    fold_1:
+      Combined:
+        bleu: 54.67
+        cer: 33.08
+        chrf: 69.86
+        exact_match_acc: 44.88
+        num_samples: 2170
+        wer: 36.86
+      D1:
+        bleu: 26.05
+        cer: 52.26
+        chrf: 50.07
+        exact_match_acc: 9.12
+        num_samples: 559
+        wer: 59.13
+      D2:
+        bleu: 56.15
+        cer: 33.46
+        chrf: 70.16
+        exact_match_acc: 51.11
+        num_samples: 540
+        wer: 35.47
+      D3:
+        bleu: 78.83
+        cer: 15.8
+        chrf: 85.96
+        exact_match_acc: 74.59
+        num_samples: 555
+        wer: 17.94
+      D4:
+        bleu: 58.59
+        cer: 29.29
+        chrf: 73.35
+        exact_match_acc: 45.16
+        num_samples: 516
+        wer: 33.76
+    fold_2:
+      Combined:
+        bleu: 56.97
+        cer: 31.61
+        chrf: 71.3
+        exact_match_acc: 47.19
+        num_samples: 2170
+        wer: 35.27
+      D1:
+        bleu: 26.87
+        cer: 51.51
+        chrf: 50.8
+        exact_match_acc: 10.02
+        num_samples: 559
+        wer: 58.65
+      D2:
+        bleu: 60.32
+        cer: 30.67
+        chrf: 72.73
+        exact_match_acc: 54.63
+        num_samples: 540
+        wer: 32.36
+      D3:
+        bleu: 80.06
+        cer: 15.08
+        chrf: 86.83
+        exact_match_acc: 76.58
+        num_samples: 555
+        wer: 17.24
+      D4:
+        bleu: 61.71
+        cer: 27.67
+        chrf: 74.98
+        exact_match_acc: 48.06
+        num_samples: 516
+        wer: 31.74
+    fold_3:
+      Combined:
+        bleu: 56.53
+        cer: 31.8
+        chrf: 71.12
+        exact_match_acc: 46.96
+        num_samples: 2170
+        wer: 35.56
+      D1:
+        bleu: 29.37
+        cer: 49.53
+        chrf: 52.95
+        exact_match_acc: 12.52
+        num_samples: 559
+        wer: 56.76
+      D2:
+        bleu: 61.09
+        cer: 30.17
+        chrf: 73.14
+        exact_match_acc: 55.0
+        num_samples: 540
+        wer: 31.69
+      D3:
+        bleu: 78.88
+        cer: 15.89
+        chrf: 86.14
+        exact_match_acc: 75.32
+        num_samples: 555
+        wer: 18.24
+      D4:
+        bleu: 57.71
+        cer: 30.27
+        chrf: 72.45
+        exact_match_acc: 45.35
+        num_samples: 516
+        wer: 34.6
+    fold_4:
+      Combined:
+        bleu: 56.99
+        cer: 31.16
+        chrf: 71.53
+        exact_match_acc: 46.13
+        num_samples: 2170
+        wer: 35.13
+      D1:
+        bleu: 27.72
+        cer: 50.62
+        chrf: 51.61
+        exact_match_acc: 10.2
+        num_samples: 559
+        wer: 57.97
+      D2:
+        bleu: 63.16
+        cer: 28.07
+        chrf: 74.81
+        exact_match_acc: 55.0
+        num_samples: 540
+        wer: 30.0
+      D3:
+        bleu: 77.94
+        cer: 16.32
+        chrf: 85.56
+        exact_match_acc: 73.69
+        num_samples: 555
+        wer: 18.7
+      D4:
+        bleu: 60.08
+        cer: 28.24
+        chrf: 74.28
+        exact_match_acc: 46.12
+        num_samples: 516
+        wer: 32.89
+    fold_5:
+      Combined:
+        bleu: 55.69
+        cer: 32.24
+        chrf: 70.63
+        exact_match_acc: 45.44
+        num_samples: 2170
+        wer: 36.05
+      D1:
+        bleu: 31.4
+        cer: 46.95
+        chrf: 54.98
+        exact_match_acc: 10.55
+        num_samples: 559
+        wer: 54.96
+      D2:
+        bleu: 56.14
+        cer: 33.88
+        chrf: 69.81
+        exact_match_acc: 51.85
+        num_samples: 540
+        wer: 35.47
+      D3:
+        bleu: 79.28
+        cer: 15.92
+        chrf: 86.01
+        exact_match_acc: 75.5
+        num_samples: 555
+        wer: 17.57
+      D4:
+        bleu: 56.92
+        cer: 30.94
+        chrf: 72.02
+        exact_match_acc: 44.19
+        num_samples: 516
+        wer: 35.16
+  has_folds: true
+  name: IndicBART D2 Ahirani (32k)
+indicbart_d4:
+  dir: models\indicbart_d4
+  folds:
+    fold_1:
+      Combined:
+        bleu: 89.3
+        cer: 2.81
+        chrf: 94.93
+        exact_match_acc: 73.92
+        num_samples: 2170
+        wer: 6.82
+      D1:
+        bleu: 83.36
+        cer: 4.87
+        chrf: 91.86
+        exact_match_acc: 52.77
+        num_samples: 559
+        wer: 11.22
+      D2:
+        bleu: 95.65
+        cer: 0.94
+        chrf: 98.25
+        exact_match_acc: 87.04
+        num_samples: 540
+        wer: 2.19
+      D3:
+        bleu: 98.68
+        cer: 0.18
+        chrf: 99.6
+        exact_match_acc: 96.94
+        num_samples: 555
+        wer: 0.7
+      D4:
+        bleu: 79.69
+        cer: 5.1
+        chrf: 90.23
+        exact_match_acc: 58.33
+        num_samples: 516
+        wer: 13.08
+    fold_2:
+      Combined:
+        bleu: 89.03
+        cer: 2.83
+        chrf: 94.88
+        exact_match_acc: 73.64
+        num_samples: 2170
+        wer: 6.96
+      D1:
+        bleu: 83.25
+        cer: 5.03
+        chrf: 91.91
+        exact_match_acc: 52.24
+        num_samples: 559
+        wer: 11.5
+      D2:
+        bleu: 95.04
+        cer: 0.9
+        chrf: 98.24
+        exact_match_acc: 86.67
+        num_samples: 540
+        wer: 2.58
+      D3:
+        bleu: 98.2
+        cer: 0.48
+        chrf: 99.25
+        exact_match_acc: 96.58
+        num_samples: 555
+        wer: 1.07
+      D4:
+        bleu: 79.79
+        cer: 4.75
+        chrf: 90.32
+        exact_match_acc: 58.53
+        num_samples: 516
+        wer: 12.58
+    fold_3:
+      Combined:
+        bleu: 89.21
+        cer: 2.82
+        chrf: 94.93
+        exact_match_acc: 74.52
+        num_samples: 2170
+        wer: 6.79
+      D1:
+        bleu: 83.53
+        cer: 4.58
+        chrf: 92.11
+        exact_match_acc: 54.74
+        num_samples: 559
+        wer: 11.11
+      D2:
+        bleu: 94.86
+        cer: 0.97
+        chrf: 98.09
+        exact_match_acc: 87.22
+        num_samples: 540
+        wer: 2.41
+      D3:
+        bleu: 98.02
+        cer: 0.63
+        chrf: 99.1
+        exact_match_acc: 95.86
+        num_samples: 555
+        wer: 1.25
+      D4:
+        bleu: 80.64
+        cer: 4.99
+        chrf: 90.62
+        exact_match_acc: 59.69
+        num_samples: 516
+        wer: 12.3
+    fold_4:
+      Combined:
+        bleu: 89.28
+        cer: 2.81
+        chrf: 94.93
+        exact_match_acc: 74.75
+        num_samples: 2170
+        wer: 6.83
+      D1:
+        bleu: 82.8
+        cer: 4.77
+        chrf: 91.68
+        exact_match_acc: 52.42
+        num_samples: 559
+        wer: 11.35
+      D2:
+        bleu: 95.72
+        cer: 0.98
+        chrf: 98.44
+        exact_match_acc: 89.07
+        num_samples: 540
+        wer: 2.27
+      D3:
+        bleu: 98.68
+        cer: 0.18
+        chrf: 99.6
+        exact_match_acc: 96.94
+        num_samples: 555
+        wer: 0.7
+      D4:
+        bleu: 80.06
+        cer: 5.18
+        chrf: 90.22
+        exact_match_acc: 60.08
+        num_samples: 516
+        wer: 12.89
+    fold_5:
+      Combined:
+        bleu: 89.29
+        cer: 2.84
+        chrf: 94.96
+        exact_match_acc: 74.33
+        num_samples: 2170
+        wer: 6.73
+      D1:
+        bleu: 83.81
+        cer: 4.61
+        chrf: 92.14
+        exact_match_acc: 54.92
+        num_samples: 559
+        wer: 10.78
+      D2:
+        bleu: 95.23
+        cer: 1.48
+        chrf: 98.04
+        exact_match_acc: 87.41
+        num_samples: 540
+        wer: 2.73
+      D3:
+        bleu: 97.66
+        cer: 0.5
+        chrf: 99.13
+        exact_match_acc: 94.95
+        num_samples: 555
+        wer: 1.16
+      D4:
+        bleu: 80.66
+        cer: 4.62
+        chrf: 90.71
+        exact_match_acc: 59.5
+        num_samples: 516
+        wer: 12.15
+  has_folds: true
+  name: IndicBART D4 Varhadi (16k)
+indicbart_d4_32k:
+  dir: models\indicbart_d4_32k
+  folds:
+    fold_1:
+      Combined:
+        bleu: 71.56
+        cer: 20.15
+        chrf: 81.3
+        exact_match_acc: 57.24
+        num_samples: 2170
+        wer: 23.55
+      D1:
+        bleu: 63.96
+        cer: 23.2
+        chrf: 77.48
+        exact_match_acc: 31.66
+        num_samples: 559
+        wer: 29.32
+      D2:
+        bleu: 76.61
+        cer: 18.56
+        chrf: 83.64
+        exact_match_acc: 66.67
+        num_samples: 540
+        wer: 19.62
+      D3:
+        bleu: 81.57
+        cer: 15.59
+        chrf: 86.71
+        exact_match_acc: 81.08
+        num_samples: 555
+        wer: 16.4
+      D4:
+        bleu: 64.59
+        cer: 22.99
+        chrf: 77.6
+        exact_match_acc: 49.42
+        num_samples: 516
+        wer: 28.63
+    fold_2:
+      Combined:
+        bleu: 71.61
+        cer: 20.08
+        chrf: 81.33
+        exact_match_acc: 56.96
+        num_samples: 2170
+        wer: 23.41
+      D1:
+        bleu: 64.95
+        cer: 22.46
+        chrf: 78.01
+        exact_match_acc: 30.77
+        num_samples: 559
+        wer: 28.12
+      D2:
+        bleu: 75.17
+        cer: 18.7
+        chrf: 83.22
+        exact_match_acc: 64.07
+        num_samples: 540
+        wer: 20.49
+      D3:
+        bleu: 82.65
+        cer: 14.79
+        chrf: 87.39
+        exact_match_acc: 82.16
+        num_samples: 555
+        wer: 15.47
+      D4:
+        bleu: 64.16
+        cer: 24.15
+        chrf: 76.92
+        exact_match_acc: 50.78
+        num_samples: 516
+        wer: 29.33
+    fold_3:
+      Combined:
+        bleu: 69.22
+        cer: 22.33
+        chrf: 79.49
+        exact_match_acc: 55.99
+        num_samples: 2170
+        wer: 25.52
+      D1:
+        bleu: 59.44
+        cer: 27.25
+        chrf: 74.02
+        exact_match_acc: 29.52
+        num_samples: 559
+        wer: 33.12
+      D2:
+        bleu: 73.71
+        cer: 21.0
+        chrf: 81.53
+        exact_match_acc: 65.0
+        num_samples: 540
+        wer: 21.93
+      D3:
+        bleu: 82.03
+        cer: 15.28
+        chrf: 86.98
+        exact_match_acc: 81.26
+        num_samples: 555
+        wer: 16.01
+      D4:
+        bleu: 62.25
+        cer: 25.39
+        chrf: 75.71
+        exact_match_acc: 48.06
+        num_samples: 516
+        wer: 30.69
+    fold_4:
+      Combined:
+        bleu: 70.22
+        cer: 21.59
+        chrf: 80.07
+        exact_match_acc: 56.13
+        num_samples: 2170
+        wer: 24.62
+      D1:
+        bleu: 62.33
+        cer: 26.04
+        chrf: 75.44
+        exact_match_acc: 31.66
+        num_samples: 559
+        wer: 31.04
+      D2:
+        bleu: 73.94
+        cer: 20.38
+        chrf: 81.81
+        exact_match_acc: 63.89
+        num_samples: 540
+        wer: 21.5
+      D3:
+        bleu: 82.42
+        cer: 15.22
+        chrf: 87.09
+        exact_match_acc: 81.98
+        num_samples: 555
+        wer: 15.68
+      D4:
+        bleu: 62.76
+        cer: 24.34
+        chrf: 76.21
+        exact_match_acc: 46.71
+        num_samples: 516
+        wer: 29.94
+    fold_5:
+      Combined:
+        bleu: 69.27
+        cer: 22.27
+        chrf: 79.44
+        exact_match_acc: 55.99
+        num_samples: 2170
+        wer: 25.38
+      D1:
+        bleu: 57.13
+        cer: 29.58
+        chrf: 71.96
+        exact_match_acc: 28.09
+        num_samples: 559
+        wer: 34.99
+      D2:
+        bleu: 75.01
+        cer: 19.35
+        chrf: 82.67
+        exact_match_acc: 63.7
+        num_samples: 540
+        wer: 20.49
+      D3:
+        bleu: 82.71
+        cer: 14.9
+        chrf: 87.32
+        exact_match_acc: 82.7
+        num_samples: 555
+        wer: 15.43
+      D4:
+        bleu: 62.73
+        cer: 24.72
+        chrf: 76.11
+        exact_match_acc: 49.42
+        num_samples: 516
+        wer: 30.24
+  has_folds: true
+  name: IndicBART D4 Varhadi (32k)
+indicbart_raw_unverified_32k:
+  dir: models\indicbart_raw_unverified_32k
+  folds:
+    fold_1:
+      Combined:
+        bleu: 53.26
+        cer: 32.44
+        chrf: 69.52
+        exact_match_acc: 43.09
+        num_samples: 2170
+        wer: 37.64
+      D1:
+        bleu: 19.63
+        cer: 54.87
+        chrf: 45.83
+        exact_match_acc: 4.65
+        num_samples: 559
+        wer: 64.35
+      D2:
+        bleu: 62.78
+        cer: 26.4
+        chrf: 75.72
+        exact_match_acc: 52.78
+        num_samples: 540
+        wer: 30.16
+      D3:
+        bleu: 77.62
+        cer: 16.94
+        chrf: 85.06
+        exact_match_acc: 71.89
+        num_samples: 555
+        wer: 18.84
+      D4:
+        bleu: 55.17
+        cer: 30.04
+        chrf: 71.39
+        exact_match_acc: 43.6
+        num_samples: 516
+        wer: 36.14
+    fold_2:
+      Combined:
+        bleu: 51.93
+        cer: 33.44
+        chrf: 68.6
+        exact_match_acc: 42.3
+        num_samples: 2170
+        wer: 38.65
+      D1:
+        bleu: 17.85
+        cer: 56.64
+        chrf: 44.11
+        exact_match_acc: 4.65
+        num_samples: 559
+        wer: 65.78
+      D2:
+        bleu: 57.13
+        cer: 31.01
+        chrf: 71.8
+        exact_match_acc: 48.7
+        num_samples: 540
+        wer: 34.53
+      D3:
+        bleu: 77.97
+        cer: 16.64
+        chrf: 85.39
+        exact_match_acc: 72.61
+        num_samples: 555
+        wer: 18.56
+      D4:
+        bleu: 57.25
+        cer: 27.8
+        chrf: 72.99
+        exact_match_acc: 43.8
+        num_samples: 516
+        wer: 34.51
+    fold_3:
+      Combined:
+        bleu: 52.16
+        cer: 33.42
+        chrf: 68.59
+        exact_match_acc: 43.04
+        num_samples: 2170
+        wer: 38.52
+      D1:
+        bleu: 16.91
+        cer: 57.0
+        chrf: 43.35
+        exact_match_acc: 4.47
+        num_samples: 559
+        wer: 66.55
+      D2:
+        bleu: 59.56
+        cer: 29.48
+        chrf: 73.08
+        exact_match_acc: 51.3
+        num_samples: 540
+        wer: 32.65
+      D3:
+        bleu: 78.31
+        cer: 15.89
+        chrf: 85.86
+        exact_match_acc: 71.89
+        num_samples: 555
+        wer: 18.08
+      D4:
+        bleu: 56.45
+        cer: 29.64
+        chrf: 71.9
+        exact_match_acc: 45.16
+        num_samples: 516
+        wer: 35.62
+    fold_4:
+      Combined:
+        bleu: 51.31
+        cer: 34.14
+        chrf: 68.05
+        exact_match_acc: 42.49
+        num_samples: 2170
+        wer: 39.21
+      D1:
+        bleu: 14.95
+        cer: 59.52
+        chrf: 41.53
+        exact_match_acc: 4.65
+        num_samples: 559
+        wer: 68.26
+      D2:
+        bleu: 57.79
+        cer: 31.21
+        chrf: 71.7
+        exact_match_acc: 48.7
+        num_samples: 540
+        wer: 34.18
+      D3:
+        bleu: 77.78
+        cer: 16.5
+        chrf: 85.42
+        exact_match_acc: 73.69
+        num_samples: 555
+        wer: 18.82
+      D4:
+        bleu: 57.46
+        cer: 27.52
+        chrf: 73.2
+        exact_match_acc: 43.41
+        num_samples: 516
+        wer: 34.32
+    fold_5:
+      Combined:
+        bleu: 52.03
+        cer: 33.17
+        chrf: 68.78
+        exact_match_acc: 42.3
+        num_samples: 2170
+        wer: 38.5
+      D1:
+        bleu: 16.87
+        cer: 57.67
+        chrf: 43.17
+        exact_match_acc: 4.65
+        num_samples: 559
+        wer: 66.59
+      D2:
+        bleu: 57.51
+        cer: 30.16
+        chrf: 72.33
+        exact_match_acc: 48.33
+        num_samples: 540
+        wer: 34.0
+      D3:
+        bleu: 77.94
+        cer: 16.27
+        chrf: 85.6
+        exact_match_acc: 72.25
+        num_samples: 555
+        wer: 18.61
+      D4:
+        bleu: 58.26
+        cer: 26.84
+        chrf: 73.81
+        exact_match_acc: 44.57
+        num_samples: 516
+        wer: 33.55
+  has_folds: true
+  name: IndicBART Raw Unverified (32k)
+mt5_combined_16k:
+  dir: models\mt5_combined_16k
+  folds:
+    fold_1:
+      Combined:
+        bleu: 72.86
+        cer: 5.84
+        chrf: 87.83
+        exact_match_acc: 52.35
+        num_samples: 2170
+        wer: 16.9
+      D1:
+        bleu: 41.22
+        cer: 12.58
+        chrf: 74.14
+        exact_match_acc: 4.65
+        num_samples: 559
+        wer: 35.27
+      D2:
+        bleu: 78.43
+        cer: 5.5
+        chrf: 89.88
+        exact_match_acc: 62.22
+        num_samples: 540
+        wer: 13.97
+      D3:
+        bleu: 96.98
+        cer: 0.37
+        chrf: 99.13
+        exact_match_acc: 92.43
+        num_samples: 555
+        wer: 1.72
+      D4:
+        bleu: 74.65
+        cer: 4.39
+        chrf: 89.12
+        exact_match_acc: 50.58
+        num_samples: 516
+        wer: 15.75
+  has_folds: false
+  name: mT5-Small Combined (16k)
+mt5_combined_32k:
+  dir: models\mt5_combined_32k
+  folds:
+    fold_1:
+      Combined:
+        bleu: 74.28
+        cer: 5.73
+        chrf: 88.09
+        exact_match_acc: 53.96
+        num_samples: 2170
+        wer: 16.1
+      D1:
+        bleu: 44.83
+        cer: 12.16
+        chrf: 74.85
+        exact_match_acc: 5.01
+        num_samples: 559
+        wer: 34.5
+      D2:
+        bleu: 78.88
+        cer: 5.5
+        chrf: 89.91
+        exact_match_acc: 63.7
+        num_samples: 540
+        wer: 13.01
+      D3:
+        bleu: 97.74
+        cer: 0.29
+        chrf: 99.22
+        exact_match_acc: 93.33
+        num_samples: 555
+        wer: 1.07
+      D4:
+        bleu: 76.0
+        cer: 4.47
+        chrf: 89.33
+        exact_match_acc: 54.46
+        num_samples: 516
+        wer: 14.96
+  has_folds: false
+  name: mT5-Small Combined (32k)
+mt5_d1_16k:
+  dir: models\mt5_d1_16k
+  folds:
+    fold_1:
+      Combined:
+        bleu: 72.37
+        cer: 5.69
+        chrf: 88.1
+        exact_match_acc: 41.06
+        num_samples: 2170
+        wer: 16.59
+      D1:
+        bleu: 43.81
+        cer: 12.24
+        chrf: 74.99
+        exact_match_acc: 4.65
+        num_samples: 559
+        wer: 34.64
+      D2:
+        bleu: 81.13
+        cer: 3.78
+        chrf: 91.88
+        exact_match_acc: 47.59
+        num_samples: 540
+        wer: 10.74
+      D3:
+        bleu: 88.94
+        cer: 2.1
+        chrf: 95.96
+        exact_match_acc: 68.11
+        num_samples: 555
+        wer: 5.99
+      D4:
+        bleu: 75.51
+        cer: 4.22
+        chrf: 90.34
+        exact_match_acc: 44.57
+        num_samples: 516
+        wer: 14.37
+  has_folds: false
+  name: mT5-Small D1 Malvani (16k)
+mt5_d1_32k:
+  dir: models\mt5_d1_32k
+  folds:
+    fold_1:
+      Combined:
+        bleu: 76.34
+        cer: 4.66
+        chrf: 89.94
+        exact_match_acc: 50.41
+        num_samples: 2170
+        wer: 13.81
+      D1:
+        bleu: 44.1
+        cer: 11.21
+        chrf: 76.13
+        exact_match_acc: 4.65
+        num_samples: 559
+        wer: 32.73
+      D2:
+        bleu: 83.85
+        cer: 2.89
+        chrf: 93.53
+        exact_match_acc: 57.59
+        num_samples: 540
+        wer: 8.59
+      D3:
+        bleu: 94.97
+        cer: 0.88
+        chrf: 98.19
+        exact_match_acc: 86.67
+        num_samples: 555
+        wer: 2.46
+      D4:
+        bleu: 82.03
+        cer: 3.23
+        chrf: 92.78
+        exact_match_acc: 53.49
+        num_samples: 516
+        wer: 10.76
+  has_folds: false
+  name: mT5-Small D1 Malvani (32k)
+mt5_d2_16k:
+  dir: models\mt5_d2_16k
+  folds:
+    fold_1:
+      Combined:
+        bleu: 88.22
+        cer: 2.25
+        chrf: 95.59
+        exact_match_acc: 68.85
+        num_samples: 2170
+        wer: 7.09
+      D1:
+        bleu: 84.76
+        cer: 2.97
+        chrf: 94.88
+        exact_match_acc: 48.3
+        num_samples: 559
+        wer: 9.72
+      D2:
+        bleu: 81.79
+        cer: 3.57
+        chrf: 92.48
+        exact_match_acc: 63.33
+        num_samples: 540
+        wer: 10.76
+      D3:
+        bleu: 97.48
+        cer: 0.31
+        chrf: 99.25
+        exact_match_acc: 94.41
+        num_samples: 555
+        wer: 1.05
+      D4:
+        bleu: 88.57
+        cer: 2.02
+        chrf: 95.97
+        exact_match_acc: 69.38
+        num_samples: 516
+        wer: 6.45
+  has_folds: false
+  name: mT5-Small D2 Ahirani (16k)
+mt5_d2_32k:
+  dir: models\mt5_d2_32k
+  folds:
+    fold_1:
+      Combined:
+        bleu: 86.76
+        cer: 2.65
+        chrf: 94.66
+        exact_match_acc: 66.13
+        num_samples: 2170
+        wer: 8.22
+      D1:
+        bleu: 80.77
+        cer: 4.06
+        chrf: 92.65
+        exact_match_acc: 42.93
+        num_samples: 559
+        wer: 12.2
+      D2:
+        bleu: 82.09
+        cer: 3.98
+        chrf: 92.25
+        exact_match_acc: 64.44
+        num_samples: 540
+        wer: 11.26
+      D3:
+        bleu: 97.86
+        cer: 0.22
+        chrf: 99.4
+        exact_match_acc: 94.23
+        num_samples: 555
+        wer: 1.07
+      D4:
+        bleu: 86.33
+        cer: 2.15
+        chrf: 94.64
+        exact_match_acc: 62.79
+        num_samples: 516
+        wer: 7.92
+  has_folds: false
+  name: mT5-Small D2 Ahirani (32k)
+mt5_d4_16k:
+  dir: models\mt5_d4_16k
+  folds:
+    fold_1:
+      Combined:
+        bleu: 88.44
+        cer: 2.08
+        chrf: 95.5
+        exact_match_acc: 70.69
+        num_samples: 2170
+        wer: 6.98
+      D1:
+        bleu: 87.2
+        cer: 2.23
+        chrf: 95.23
+        exact_match_acc: 56.35
+        num_samples: 559
+        wer: 8.34
+      D2:
+        bleu: 93.57
+        cer: 1.29
+        chrf: 97.84
+        exact_match_acc: 81.67
+        num_samples: 540
+        wer: 3.87
+      D3:
+        bleu: 96.61
+        cer: 0.53
+        chrf: 99.01
+        exact_match_acc: 91.35
+        num_samples: 555
+        wer: 1.81
+      D4:
+        bleu: 76.4
+        cer: 4.25
+        chrf: 89.98
+        exact_match_acc: 52.52
+        num_samples: 516
+        wer: 13.85
+  has_folds: false
+  name: mT5-Small D4 Varhadi (16k)
+mt5_d4_32k:
+  dir: models\mt5_d4_32k
+  folds:
+    fold_1:
+      Combined:
+        bleu: 89.35
+        cer: 2.03
+        chrf: 95.67
+        exact_match_acc: 72.72
+        num_samples: 2170
+        wer: 6.78
+      D1:
+        bleu: 88.44
+        cer: 2.61
+        chrf: 95.33
+        exact_match_acc: 62.43
+        num_samples: 559
+        wer: 8.3
+      D2:
+        bleu: 93.65
+        cer: 0.86
+        chrf: 97.98
+        exact_match_acc: 80.74
+        num_samples: 540
+        wer: 3.63
+      D3:
+        bleu: 97.4
+        cer: 0.44
+        chrf: 99.0
+        exact_match_acc: 91.35
+        num_samples: 555
+        wer: 1.42
+      D4:
+        bleu: 77.94
+        cer: 4.16
+        chrf: 90.43
+        exact_match_acc: 55.43
+        num_samples: 516
+        wer: 13.71
+  has_folds: false
+  name: mT5-Small D4 Varhadi (32k)
+mt5_raw_unverified_32k:
+  dir: models\mt5_raw_unverified_32k
+  folds:
+    fold_1:
+      Combined:
+        bleu: 74.51
+        cer: 5.64
+        chrf: 88.25
+        exact_match_acc: 53.5
+        num_samples: 2170
+        wer: 16.13
+      D1:
+        bleu: 44.74
+        cer: 12.25
+        chrf: 75.16
+        exact_match_acc: 4.83
+        num_samples: 559
+        wer: 34.5
+      D2:
+        bleu: 79.15
+        cer: 5.15
+        chrf: 90.12
+        exact_match_acc: 61.85
+        num_samples: 540
+        wer: 13.27
+      D3:
+        bleu: 97.97
+        cer: 0.28
+        chrf: 99.34
+        exact_match_acc: 93.87
+        num_samples: 555
+        wer: 0.98
+      D4:
+        bleu: 76.33
+        cer: 4.39
+        chrf: 89.34
+        exact_match_acc: 54.07
+        num_samples: 516
+        wer: 14.91
+  has_folds: false
+  name: mT5-Small Raw Unverified (32k)
