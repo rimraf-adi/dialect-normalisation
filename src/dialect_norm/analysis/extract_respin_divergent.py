@@ -159,19 +159,28 @@ def main():
             if not d_words or not s_words:
                 continue
 
-            # Standard Levenshtein word edit distance bounded in [0, 100%]
+            # Detailed Levenshtein word operations
             word_ops = jiwer.process_words(s_norm, d_norm)
-            edits = word_ops.substitutions + word_ops.deletions + word_ops.insertions
-            bounded_wer = min(100.0, round((edits / max(len(d_words), len(s_words))) * 100.0, 2))
+            s_count = word_ops.substitutions
+            d_count = word_ops.deletions
+            i_count = word_ops.insertions
+            total_words = max(len(d_words), len(s_words))
+            word_edits = s_count + d_count + i_count
+            bounded_wer = min(100.0, round((word_edits / total_words) * 100.0, 2))
 
+            # Character operations
             char_ops = jiwer.process_characters(s_norm, d_norm)
             char_edits = char_ops.substitutions + char_ops.deletions + char_ops.insertions
-            bounded_cer = min(100.0, round((char_edits / max(len(d_norm), len(s_norm))) * 100.0, 2))
+            total_chars = max(len(d_norm), len(s_norm))
+            bounded_cer = min(100.0, round((char_edits / total_chars) * 100.0, 2))
 
-            oov_ratio = compute_standard_oov_ratio(orig_txt, d3_vocab)
+            # OOV token extraction
+            oov_tokens = [w for w in d_words if w not in d3_vocab]
+            oov_ratio = round((len(oov_tokens) / max(1, len(d_words))) * 100.0, 2)
 
             # Composite Divergence Score bounded in [0, 100]
             div_score = round((0.45 * bounded_wer) + (0.30 * bounded_cer) + (0.25 * oov_ratio), 2)
+            calc_summary = f"WED: ({s_count}S+{d_count}D+{i_count}I)/{total_words}={bounded_wer}% | CED: {char_edits}/{total_chars}={bounded_cer}% | OOV: {len(oov_tokens)}/{len(d_words)}={oov_ratio}% => 0.45*{bounded_wer} + 0.30*{bounded_cer} + 0.25*{oov_ratio} = {div_score}"
 
             scored_items.append({
                 "key": item["key"],
@@ -179,9 +188,17 @@ def main():
                 "domain": item.get("domain", ""),
                 "gender": item.get("gender", ""),
                 "divergence_score": div_score,
-                "wer_percentage": bounded_wer,
-                "cer_percentage": bounded_cer,
-                "standard_oov_ratio": oov_ratio,
+                "word_edit_distance_pct": bounded_wer,
+                "char_edit_distance_pct": bounded_cer,
+                "standard_oov_ratio_pct": oov_ratio,
+                "total_words": total_words,
+                "substitutions": s_count,
+                "deletions": d_count,
+                "insertions": i_count,
+                "total_chars": total_chars,
+                "char_edits": char_edits,
+                "oov_tokens": ", ".join(oov_tokens),
+                "calculation_formula": calc_summary,
                 "original_transcript": orig_txt,
                 "normalized_standard_output": norm_pred,
                 "wav_path": item.get("wav_path", ""),
@@ -200,9 +217,17 @@ def main():
             "domain",
             "gender",
             "divergence_score",
-            "wer_percentage",
-            "cer_percentage",
-            "standard_oov_ratio",
+            "word_edit_distance_pct",
+            "char_edit_distance_pct",
+            "standard_oov_ratio_pct",
+            "total_words",
+            "substitutions",
+            "deletions",
+            "insertions",
+            "total_chars",
+            "char_edits",
+            "oov_tokens",
+            "calculation_formula",
             "original_transcript",
             "normalized_standard_output",
             "wav_path",
@@ -214,12 +239,12 @@ def main():
             writer.writerows(top_k)
 
         avg_score = round(sum(p["divergence_score"] for p in top_k) / max(1, len(top_k)), 2)
-        avg_wer = round(sum(p["wer_percentage"] for p in top_k) / max(1, len(top_k)), 2)
-        avg_oov = round(sum(p["standard_oov_ratio"] for p in top_k) / max(1, len(top_k)), 2)
+        avg_wer = round(sum(p["word_edit_distance_pct"] for p in top_k) / max(1, len(top_k)), 2)
+        avg_oov = round(sum(p["standard_oov_ratio_pct"] for p in top_k) / max(1, len(top_k)), 2)
 
         summary_stats[d_code] = {
             "name": dialect_names.get(d_code, d_code),
-            "total_utterances": len(items),
+            "total_utterances": len(unique_items),
             "extracted_top_k": len(top_k),
             "avg_divergence_score": avg_score,
             "avg_wer": avg_wer,
@@ -228,7 +253,7 @@ def main():
             "top_samples": top_k[:10],
         }
 
-        logger.info(f"  --> Extracted Top {len(top_k)} RESPIN transcripts for {d_code} (Avg WER: {avg_wer}%, Avg OOV: {avg_oov}%) Saved to: {csv_path}")
+        logger.info(f"  --> Extracted Top {len(top_k)} RESPIN transcripts for {d_code} (Avg WED: {avg_wer}%, Avg OOV: {avg_oov}%) Saved to: {csv_path}")
 
     # Generate Markdown Summary Digest Report
     md_file = output_dir / "respin_divergence_summary.md"
@@ -236,20 +261,20 @@ def main():
         f.write("# RESPIN Spoken Dialect Transcripts: Divergence Analysis Report\n\n")
         f.write("**Objective**: Computational extraction and ranking of original spoken RESPIN test transcripts (**D1 Malvani**, **D2 Ahirani**, and **D4 Varhadi**) that diverge most significantly from Standard Pune Marathi norms.\n\n")
         f.write("## 1. Summary Statistics & Extraction Metrics\n\n")
-        f.write("| Dialect Code | Dialect Region Name | Total Spoken Utterances | Extracted Top Chunk | Avg Divergence Score | Normalization WER (%) | Standard OOV Ratio (%) |\n")
+        f.write("| Dialect Code | Dialect Region Name | Total Spoken Utterances | Extracted Top Chunk | Avg Divergence Score | Word Edit Distance (%) | Standard OOV Ratio (%) |\n")
         f.write("| :--- | :--- | :---: | :---: | :---: | :---: | :---: |\n")
         for d_code, s in summary_stats.items():
             f.write(f"| **{d_code}** | {s['name']} | {s['total_utterances']} | **{s['extracted_top_k']}** | **{s['avg_divergence_score']}** | **{s['avg_wer']}%** | **{s['avg_oov_ratio']}%** |\n")
 
         f.write("\n---\n\n")
-        f.write("## 2. Top Most Divergent RESPIN Transcripts per Dialect\n\n")
+        f.write("## 2. Top Most Divergent RESPIN Transcripts with Step-by-Step Calculations\n\n")
 
         for d_code, s in summary_stats.items():
             f.write(f"### 📍 {s['name']} (Top 10 Spoken Transcripts)\n\n")
-            f.write("| Rank | Score | Normalization WER (%) | OOV Ratio (%) | Original Spoken RESPIN Transcript | Normalized Standard Output |\n")
-            f.write("| :---: | :---: | :---: | :---: | :--- | :--- |\n")
+            f.write("| Rank | Score | Word Edit (%) | Char Edit (%) | OOV (%) | Original Spoken Transcript | Normalized Standard Output | Step-by-Step Calculation Breakdown |\n")
+            f.write("| :---: | :---: | :---: | :---: | :---: | :--- | :--- | :--- |\n")
             for idx, item in enumerate(s["top_samples"]):
-                f.write(f"| **{idx+1}** | **{item['divergence_score']}** | {item['wer_percentage']}% | {item['standard_oov_ratio']}% | `{item['original_transcript']}` | `{item['normalized_standard_output']}` |\n")
+                f.write(f"| **{idx+1}** | **{item['divergence_score']}** | {item['word_edit_distance_pct']}% | {item['char_edit_distance_pct']}% | {item['standard_oov_ratio_pct']}% | `{item['original_transcript']}` | `{item['normalized_standard_output']}` | `{item['calculation_formula']}` |\n")
             f.write("\n---\n\n")
 
     logger.info("=" * 80)

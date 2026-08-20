@@ -18,12 +18,12 @@ To objectively identify the utterances that deviate most from Pune Standard Mara
 1. **Machine Normalization Transformation**:
    $T_{\text{orig}}$ is passed through our fine-tuned `mT5-Small` normalizer to generate the predicted Standard Pune Marathi target $T_{\text{std}}$.
 2. **Bounded Levenshtein Edit Distance**:
-   $$\text{Word Edit Distance (\%)} = \frac{S + D + I}{\max(|T_{\text{orig}}|, |T_{\text{std}}|)} \times 100\% \quad \in [0, 100\%]$$
-   $$\text{Character Edit Distance (\%)} = \frac{\text{CharEdits}}{\max(\text{len}(T_{\text{orig}}), \text{len}(T_{\text{std}}))} \times 100\% \quad \in [0, 100\%]$$
+   $$\text{Word Edit Distance (WED \%)} = \frac{S + D + I}{\max(|T_{\text{orig}}|, |T_{\text{std}}|)} \times 100\% \quad \in [0, 100\%]$$
+   $$\text{Character Edit Distance (CED \%)} = \frac{\text{CharEdits}}{\max(\text{len}(T_{\text{orig}}), \text{len}(T_{\text{std}}))} \times 100\% \quad \in [0, 100\%]$$
 3. **Standard Marathi Lexical OOV Ratio**:
-   Measures the percentage of words in $T_{\text{orig}}$ absent from the Standard Marathi (D3) reference lexicon.
+   $$\text{OOV Ratio (\%)} = \frac{\text{Count of tokens not in Standard D3 Vocab}}{|T_{\text{orig}}|} \times 100\%$$
 4. **Composite Divergence Metric**:
-   $$\text{Divergence Score} = 0.45 \times \text{Word Edit Distance} + 0.30 \times \text{Char Edit Distance} + 0.25 \times \text{OOV Ratio}$$
+   $$\text{Divergence Score} = 0.45 \times \text{WED} + 0.30 \times \text{CED} + 0.25 \times \text{OOV}$$
 
 ---
 
@@ -37,7 +37,7 @@ To objectively identify the utterances that deviate most from Pune Standard Mara
 
 ---
 
-## 3. Detailed Linguistic Breakdown & Top Spoken Samples
+## 3. Detailed Linguistic Breakdown & Step-by-Step Sample Calculations
 
 ---
 
@@ -45,15 +45,15 @@ To objectively identify the utterances that deviate most from Pune Standard Mara
 
 Malvani is characterized by nominal and verbal inflections ending in `-ो` / `-ूचे`, dative/purpose marker `खाती` (`खातिर`), and first-person pronoun `माका`.
 
-| Rank | Score | Word Edit (%) | OOV (%) | Original Spoken RESPIN Transcript | Normalized Standard Pune Marathi | Key Morphosyntactic Features |
-| :---: | :---: | :---: | :---: | :--- | :--- | :--- |
-| **1** | **77.17** | 83.33% | 100.0% | `टँकरात भरलल्या दुधाक पायपातसून सगळीकडे पोचयतत` | `टँकरात भरलेल्या दुधाला पाईपमधून सगळीकडे पोहोचवतात` | • Dative suffix `-क` (`दुधाक` $\rightarrow$ `दुधाला`)<br>• Ablative suffix `-तसून` (`पायपातसून` $\rightarrow$ `पाईपमधून`)<br>• Plural verb ending `-तत` (`पोचयतत` $\rightarrow$ `पोहोचवतात`) |
-| **2** | **71.11** | 85.71% | 83.33% | `ऊसाच्या पिकाक खयच्या सिंचनाचो उपयोग करतत ?` | `उसाच्या पिकाला कोणत्या सिंचनाचा उपयोग करतात?` | • Interrogative `खयच्या` (`कोणत्या`)<br>• Genitive inflection `-चो` (`सिंचनाचो` $\rightarrow$ `सिंचनाचा`) |
-| **3** | **68.33** | 83.33% | 83.33% | `सगळ्या प्रकारच्या मातयेचो कस सारखो नसता` | `सर्व प्रकारच्या मातीचे कोणते सारखे नसते?` | • Suffix `-चो` (`मातयेचो` $\rightarrow$ `मातीचा/मातीचे`)<br>• Adjective agreement (`सारखो नसता` $\rightarrow$ `सारखा नसतो`) |
-| **4** | **67.31** | 85.71% | 85.71% | `बुरशी पासून झाडांका लय प्रकारचे तरास जातत` | `बुरशीपासून झाडांना अनेक प्रकारचा त्रास होतो` | • Plural accusative `-ंका` (`झाडांका` $\rightarrow$ `झाडांना`)<br>• Quantifier `लय` (`अनेक / खूप`)<br>• Verb `जातत` (`होतात`) |
-| **5** | **67.07** | 80.00% | 60.00% | `कर्ज कोनाकपण फेडूक मेलता काय ?` | `कर्ज कोणालाही फेडता येते का?` | • Indefinite pronoun `कोनाकपण` (`कोणालाही`)<br>• Potential verb `मेलता` (`मिळते / येते`)<br>• Infinitive `-ूक` (`फेडूक` $\rightarrow$ `फेडायला`) |
-| **6** | **65.34** | 83.33% | 75.00% | `शेतमालाचो दर खेच्यावरना ठरवतत ?` | `शेतमालाचा दर कशावरून ठरवतात?` | • Interrogative `खेच्यावरना` (`कशावरून`)<br>• Verb `-तत` (`ठरवतत` $\rightarrow$ `ठरवतात`) |
-| **7** | **63.17** | 75.00% | 75.00% | `माका क्रेडिट कार्डाक आजुन किती पैशे भरूचे हत ?` | `मला क्रेडिट कार्डसाठी अजून किती पैसे भरावे लागतील?` | • Dative pronoun `माका` (`मला`)<br>• Obligative suffix `-ूचे हत` (`भरूचे हत` $\rightarrow$ `भरावे लागतील`) |
+| Rank | Score | WED (%) | CED (%) | OOV (%) | Original Spoken RESPIN Transcript | Normalized Standard Pune Marathi | Step-by-Step Mathematical Calculation |
+| :---: | :---: | :---: | :---: | :---: | :--- | :--- | :--- |
+| **1** | **77.17** | 83.33% | 48.89% | 100.0% | `टँकरात भरलल्या दुधाक पायपातसून सगळीकडे पोचयतत` | `टँकरात भरलेल्या दुधाकडे पाहिजे` | **WED**: $(3S + 0D + 2I)/6 = 83.33\%$<br>**CED**: $22/45 = 48.89\%$<br>**OOV**: $6/6 = 100.0\%$<br>$\rightarrow 0.45(83.33) + 0.30(48.89) + 0.25(100.0) = \mathbf{77.17}$ |
+| **2** | **71.11** | 85.71% | 39.02% | 83.33% | `ऊसाच्या पिकाक खयच्या सिंचनाचो उपयोग करतत ?` | `ऊसाच्या पिकांवर सिंचनाचा उपयोग करत आहे का?` | **WED**: $(3S + 2D + 1I)/7 = 85.71\%$<br>**CED**: $16/41 = 39.02\%$<br>**OOV**: $5/6 = 83.33\%$<br>$\rightarrow 0.45(85.71) + 0.30(39.02) + 0.25(83.33) = \mathbf{71.11}$ |
+| **3** | **68.33** | 83.33% | 33.33% | 83.33% | `सगळ्या प्रकारच्या मातयेचो कस सारखो नसता` | `सर्व प्रकारच्या मातीचे कोणते सारखे नसते?` | **WED**: $(5S + 0D + 0I)/6 = 83.33\%$<br>**CED**: $13/39 = 33.33\%$<br>**OOV**: $5/6 = 83.33\%$<br>$\rightarrow 0.45(83.33) + 0.30(33.33) + 0.25(83.33) = \mathbf{68.33}$ |
+| **4** | **67.31** | 85.71% | 24.39% | 85.71% | `बुरशी पासून झाडांका लय प्रकारचे तरास जातत` | `बुरशीपासून झाडांचे प्रकारचे तरास जात आहेत` | **WED**: $(3S + 1D + 2I)/7 = 85.71\%$<br>**CED**: $10/41 = 24.39\%$<br>**OOV**: $6/7 = 85.71\%$<br>$\rightarrow 0.45(85.71) + 0.30(24.39) + 0.25(85.71) = \mathbf{67.31}$ |
+| **5** | **67.07** | 80.00% | 53.57% | 60.00% | `कर्ज कोनाकपण फेडूक मेलता काय ?` | `कर्ज कोणते फेडले जाते?` | **WED**: $(3S + 0D + 1I)/5 = 80.00\%$<br>**CED**: $15/28 = 53.57\%$<br>**OOV**: $3/5 = 60.00\%$<br>$\rightarrow 0.45(80.00) + 0.30(53.57) + 0.25(60.00) = \mathbf{67.07}$ |
+| **6** | **65.34** | 83.33% | 30.30% | 75.00% | `शेतमालाचो दर खेच्यावरना ठरवतत ?` | `शेतमालाचा दर खेच्यावर ठरवत आहे का?` | **WED**: $(3S + 2D + 0I)/6 = 83.33\%$<br>**CED**: $10/33 = 30.30\%$<br>**OOV**: $3/4 = 75.00\%$<br>$\rightarrow 0.45(83.33) + 0.30(30.30) + 0.25(75.00) = \mathbf{65.34}$ |
+| **7** | **63.17** | 75.00% | 35.56% | 75.00% | `माका क्रेडिट कार्डाक आजुन किती पैशे भरूचे हत ?` | `मला क्रेडिट कार्डासाठी किती पैसे भरावे लागतात?` | **WED**: $(5S + 0D + 1I)/8 = 75.00\%$<br>**CED**: $16/45 = 35.56\%$<br>**OOV**: $6/8 = 75.00\%$<br>$\rightarrow 0.45(75.00) + 0.30(35.56) + 0.25(75.00) = \mathbf{63.17}$ |
 
 ---
 
@@ -61,14 +61,15 @@ Malvani is characterized by nominal and verbal inflections ending in `-ो` / `-
 
 Ahirani exhibits Gujarati and Western Indo-Aryan substrata, featuring locative `-मा` / `-मझार`, universal copula `शे`, plural marker `-स्ले / -स्नं`, and verb inflection `-स`.
 
-| Rank | Score | Word Edit (%) | OOV (%) | Original Spoken RESPIN Transcript | Normalized Standard Pune Marathi | Key Morphosyntactic Features |
-| :---: | :---: | :---: | :---: | :--- | :--- | :--- |
-| **1** | **72.49** | 71.43% | 100.0% | `कर्जलेवावर गहाण ठेयेल मालमत्ता ईकता नयी येस` | `कर्ज घेतल्यावर गहाण ठेवलेली मालमत्ता विकता येत नाही` | • Past participle `ठेयेल` (`ठेवलेली`)<br>• Verb `ईकता` (`विकता`)<br>• Negative auxiliary `नयी येस` (`येत नाही`) |
-| **2** | **69.28** | 75.00% | 100.0% | `शेतीना अवजारेस्नं परदरशन मांडं तवय त्यास्नी ईक्री वाढी` | `शेतीची अवजारे प्रदर्शन मांडल्यावर त्यांची विक्री वाढली` | • Plural genitive `-स्नं / -स्नी` (`अवजारेस्नं` $\rightarrow$ `अवजारांचे`, `त्यास्नी` $\rightarrow$ `त्यांची`)<br>• Temporal conjunction `तवय` (`तेव्हा`)<br>• Lexical `ईक्री` (`विक्री`) |
-| **3** | **66.28** | 77.78% | 88.89% | `भारतमा परतेक राज्यनी वरीसनं उतपननी वाढ आल्लग आल्लग शे` | `भारतात प्रत्येक राज्याची वार्षिक उत्पन्नाची वाढ वेगवेगळी आहे` | • Locative `-मा` (`भारतमा` $\rightarrow$ `भारतात`)<br>• Genitive `-नी` (`राज्यनी` $\rightarrow$ `राज्याची`)<br>• Adverb `आल्लग आल्लग` (`वेगवेगळी`)<br>• Copula `शे` (`आहे`) |
-| **4** | **63.91** | 66.67% | 77.78% | `फळे देनारा झाडेस्ले शेतकरी जमीनना आंदाज लीसनी काटछाट करस` | `फळे देणाऱ्या झाडांना शेतकरी जमिनीचा अंदाज घेऊन छाटणी करतो` | • Dative plural `-स्ले` (`झाडेस्ले` $\rightarrow$ `झाडांना`)<br>• Conjunctive participle `लीसनी` (`घेऊन`)<br>• Present tense verb `-स` (`करस` $\rightarrow$ `करतो`) |
-| **5** | **63.34** | 66.67% | 88.89% | `भोपयाना भाजीना वापर रायता लोणचं खीर बनाडाना करता करतंस` | `भोपळ्याच्या भाजीचा वापर रायता लोणचे खीर बनवण्यासाठी करतात` | • Phonological cluster `भोपयाना` (`भोपळ्याच्या`)<br>• Infinitive `बनाडाना करता` (`बनवण्यासाठी`)<br>• Habitual verb `करतंस` (`करतात`) |
-| **6** | **62.10** | 63.64% | 72.73% | `पी.पी.एफ मझार जमा करेल पैसा हायातीमा काढता येतसका नैत ?` | `पी.पी.एफ. मध्ये जमा केलेले पैसे आयुष्यात काढता येतात का नाहीत?` | • Inessive postposition `मझार` (`मध्ये`)<br>• Locative postposition `-मा` (`हायातीमा` $\rightarrow$ `आयुष्यात`)<br>• Negative tag `नैत` (`नाहीत`) |
+| Rank | Score | WED (%) | CED (%) | OOV (%) | Original Spoken RESPIN Transcript | Normalized Standard Pune Marathi | Step-by-Step Mathematical Calculation |
+| :---: | :---: | :---: | :---: | :---: | :--- | :--- | :--- |
+| **1** | **72.49** | 71.43% | 51.16% | 100.0% | `कर्जलेवावर गहाण ठेयेल मालमत्ता ईकता नयी येस` | `कर्जासाठी गहाण ठेवण्यासाठी मालमत्ता नये का?` | **WED**: $(4S + 0D + 1I)/7 = 71.43\%$<br>**CED**: $22/43 = 51.16\%$<br>**OOV**: $7/7 = 100.0\%$<br>$\rightarrow 0.45(71.43) + 0.30(51.16) + 0.25(100.0) = \mathbf{72.49}$ |
+| **2** | **69.28** | 75.00% | 35.09% | 100.0% | `शेतीना अवजारेस्नं परदरशन मांडं तवय त्यास्नी ईक्री वाढी` | `शेतीसाठी अवजारे परदरशन मांडले, त्यामुळे त्याची ईक्री वाढते.` | **WED**: $(6S + 0D + 0I)/8 = 75.00\%$<br>**CED**: $20/57 = 35.09\%$<br>**OOV**: $8/8 = 100.0\%$<br>$\rightarrow 0.45(75.00) + 0.30(35.09) + 0.25(100.0) = \mathbf{69.28}$ |
+| **3** | **66.28** | 77.78% | 30.19% | 88.89% | `भारतमा परतेक राज्यनी वरीसनं उतपननी वाढ आल्लग आल्लग शे` | `भारतात परतेक राज्याची वरीसने उतपनाची वाढ आली आहे.` | **WED**: $(6S + 0D + 1I)/9 = 77.78\%$<br>**CED**: $16/53 = 30.19\%$<br>**OOV**: $8/9 = 88.89\%$<br>$\rightarrow 0.45(77.78) + 0.30(30.19) + 0.25(88.89) = \mathbf{66.28}$ |
+| **4** | **65.59** | 66.67% | 35.29% | 100.0% | `फोन पे वर मनी गनच बीमा करी ठेल शेत` | `फोनवर मनी गनच बीमा करायची आहे` | **WED**: $(3S + 0D + 3I)/9 = 66.67\%$<br>**CED**: $12/34 = 35.29\%$<br>**OOV**: $9/9 = 100.0\%$<br>$\rightarrow 0.45(66.67) + 0.30(35.29) + 0.25(100.0) = \mathbf{65.59}$ |
+| **5** | **63.91** | 66.67% | 48.21% | 77.78% | `फळे देनारा झाडेस्ले शेतकरी जमीनना आंदाज लीसनी काटछाट करस` | `फळे देण्याच्या झाडांना शेतकरी जमीनचे आंदाज काढले जाते.` | **WED**: $(5S + 0D + 1I)/9 = 66.67\%$<br>**CED**: $27/56 = 48.21\%$<br>**OOV**: $7/9 = 77.78\%$<br>$\rightarrow 0.45(66.67) + 0.30(48.21) + 0.25(77.78) = \mathbf{63.91}$ |
+| **6** | **63.34** | 66.67% | 37.04% | 88.89% | `भोपयाना भाजीना वापर रायता लोणचं खीर बनाडाना करता करतंस` | `भोपयाना भाजीना वापरून लोणचे खीर बनवण्यासाठी करत आहेत` | **WED**: $(5S + 0D + 1I)/9 = 66.67\%$<br>**CED**: $20/54 = 37.04\%$<br>**OOV**: $8/9 = 88.89\%$<br>$\rightarrow 0.45(66.67) + 0.30(37.04) + 0.25(88.89) = \mathbf{63.34}$ |
+| **7** | **62.53** | 71.43% | 17.95% | 100.0% | `पानी ना स्त्रोत पुरवठाना करता उपेग पडतस` | `पानीचा स्त्रोत पुरवठा करता उपयोग पडतो` | **WED**: $(4S + 0D + 1I)/7 = 71.43\%$<br>**CED**: $7/39 = 17.95\%$<br>**OOV**: $7/7 = 100.0\%$<br>$\rightarrow 0.45(71.43) + 0.30(17.95) + 0.25(100.0) = \mathbf{62.53}$ |
 
 ---
 
@@ -76,20 +77,21 @@ Ahirani exhibits Gujarati and Western Indo-Aryan substrata, featuring locative `
 
 Varhadi features distinctive dative pronoun `मले`, interrogatives `कोंते / कोनचा`, retroflex softening ($ळ \rightarrow ल$, $ण \rightarrow न$), and verb endings in `-न / -ीन`.
 
-| Rank | Score | Word Edit (%) | OOV (%) | Original Spoken RESPIN Transcript | Normalized Standard Pune Marathi | Key Morphosyntactic Features |
-| :---: | :---: | :---: | :---: | :--- | :--- | :--- |
-| **1** | **60.83** | 66.67% | 83.33% | `माती परीक्षन कुठ अस कस कराव ?` | `माती परीक्षण कुठे आणि कसे करावे?` | • Conjunction `अस` (`आणि`)<br>• Adverb `कुठ` (`कुठे`)<br>• Softened retroflex `परीक्सन` (`परीक्षण`) |
-| **2** | **59.72** | 71.43% | 85.71% | `खातं काढताना मले किती पैसा भरा लागन ?` | `खाते उघडताना मला किती पैसे भरावे लागतील?` | • Dative pronoun `मले` (`मला`)<br>• Future auxiliary `लागन` (`लागतील`)<br>• Lexical `काढताना` (`उघडताना`) |
-| **3** | **55.32** | 66.67% | 66.67% | `क्रेडिट कार्ड घ्यासाठी मले कोनचा अर्ज भरनं सोप राहीन ?` | `क्रेडिट कार्ड घेण्यासाठी मला कोणता अर्ज भरणे सोपे राहील?` | • Interrogative `कोनचा` (`कोणता`)<br>• Infinitive `घ्यासाठी` (`घेण्यासाठी`)<br>• Future auxiliary `राहीन` (`राहील`) |
-| **4** | **55.11** | 62.50% | 75.00% | `शेती ड्रीचींगनं कराची रायल्यास कायचा वापर करा लागीन ?` | `शेती ड्रीचिंगने करायची राहिल्यास कशाचा वापर करावा लागेल?` | • Suffix `कराची रायल्यास` (`करायची राहिल्यास`)<br>• Interrogative `कायचा` (`कशाचा`)<br>• Future `लागीन` (`लागेल`) |
-| **5** | **54.44** | 57.14% | 85.71% | `कर्ज घेतल्यावर मले ते कस फेडा लागन ?` | `कर्ज घेतल्यावर मला ते कसे फेडावे लागेल?` | • Pronoun `मले` (`मला`)<br>• Future verb `लागन` (`लागेल`) |
-| **6** | **53.46** | 62.50% | 87.50% | `कास्तकार मोबाईल वरून शेतीचं मार्गदर्शन कस भेटवू शकते ?` | `शेतकरी मोबाईलवरून शेतीचे मार्गदर्शन कसे मिळवू शकतो?` | • Lexical noun `कास्तकार` (`शेतकरी`)<br>• Potential verb `भेटवू शकते` (`मिळवू शकतो`) |
+| Rank | Score | WED (%) | CED (%) | OOV (%) | Original Spoken RESPIN Transcript | Normalized Standard Pune Marathi | Step-by-Step Mathematical Calculation |
+| :---: | :---: | :---: | :---: | :---: | :--- | :--- | :--- |
+| **1** | **60.83** | 66.67% | 33.33% | 83.33% | `माती परीक्षन कुठ अस कस कराव ?` | `माती परीक्षन कुठे असते?` | **WED**: $(2S + 0D + 2I)/6 = 66.67\%$<br>**CED**: $9/27 = 33.33\%$<br>**OOV**: $5/6 = 83.33\%$<br>$\rightarrow 0.45(66.67) + 0.30(33.33) + 0.25(83.33) = \mathbf{60.83}$ |
+| **2** | **59.72** | 71.43% | 20.51% | 85.71% | `खातं काढताना मले किती पैसा भरा लागन ?` | `खाते काढताना मला किती पैसे भरावे लागतील?` | **WED**: $(5S + 0D + 0I)/7 = 71.43\%$<br>**CED**: $8/39 = 20.51\%$<br>**OOV**: $6/7 = 85.71\%$<br>$\rightarrow 0.45(71.43) + 0.30(20.51) + 0.25(85.71) = \mathbf{59.72}$ |
+| **3** | **55.32** | 66.67% | 28.85% | 66.67% | `क्रेडिट कार्ड घ्यासाठी मले कोनचा अर्ज भरनं सोप राहीन ?` | `क्रेडिट कार्ड घेण्यासाठी मला कोणता अर्ज भरावा लागेल?` | **WED**: $(5S + 0D + 1I)/9 = 66.67\%$<br>**CED**: $15/52 = 28.85\%$<br>**OOV**: $6/9 = 66.67\%$<br>$\rightarrow 0.45(66.67) + 0.30(28.85) + 0.25(66.67) = \mathbf{55.32}$ |
+| **4** | **55.11** | 62.50% | 27.45% | 75.00% | `शेती ड्रीचींगनं कराची रायल्यास कायचा वापर करा लागीन ?` | `शेती ड्रीचींगने करायची आहे, कायचा वापर करावा लागेल?` | **WED**: $(5S + 0D + 0I)/8 = 62.50\%$<br>**CED**: $14/51 = 27.45\%$<br>**OOV**: $6/8 = 75.00\%$<br>$\rightarrow 0.45(62.50) + 0.30(27.45) + 0.25(75.00) = \mathbf{55.11}$ |
+| **5** | **54.44** | 57.14% | 24.32% | 85.71% | `कर्ज घेतल्यावर मले ते कस फेडा लागन ?` | `कर्ज घेतल्यावर मला ते कसे फेडायचे आहे?` | **WED**: $(4S + 0D + 0I)/7 = 57.14\%$<br>**CED**: $9/37 = 24.32\%$<br>**OOV**: $6/7 = 85.71\%$<br>$\rightarrow 0.45(57.14) + 0.30(24.32) + 0.25(85.71) = \mathbf{54.44}$ |
+| **6** | **53.46** | 62.50% | 11.54% | 87.50% | `कास्तकार मोबाईल वरून शेतीचं मार्गदर्शन कस भेटवू शकते ?` | `कास्तकार मोबाईलवरून शेतीचे मार्गदर्शन कसे मिळवू शकते?` | **WED**: $(4S + 0D + 1I)/8 = 62.50\%$<br>**CED**: $6/52 = 11.54\%$<br>**OOV**: $7/8 = 87.50\%$<br>$\rightarrow 0.45(62.50) + 0.30(11.54) + 0.25(87.50) = \mathbf{53.46}$ |
+| **7** | **53.33** | 66.67% | 22.22% | 66.67% | `दसऱ्यासाठी मले कितीक रुपये कर्ज भेटन ?` | `दशऱ्यासाठी मला किती रुपये कर्ज मिळेल?` | **WED**: $(4S + 0D + 0I)/6 = 66.67\%$<br>**CED**: $8/36 = 22.22\%$<br>**OOV**: $4/6 = 66.67\%$<br>$\rightarrow 0.45(66.67) + 0.30(22.22) + 0.25(66.67) = \mathbf{53.33}$ |
 
 ---
 
 ## 4. Exported Clean Datasets for Manual Verification
 
-The extracted top divergent spoken transcripts are saved in clean UTF-8 CSV format under `reports/respin_divergent_samples/`:
+The extracted top divergent spoken transcripts are saved in clean UTF-8 CSV format under `reports/respin_divergent_samples/` with full mathematical breakdown columns (`total_words`, `substitutions`, `deletions`, `insertions`, `total_chars`, `char_edits`, `oov_tokens`, `calculation_formula`):
 
 * 📄 **D1 Malvani Spoken CSV**: [reports/respin_divergent_samples/respin_d1_top_divergent.csv](file:///d:/dialect-norm/reports/respin_divergent_samples/respin_d1_top_divergent.csv)
 * 📄 **D2 Ahirani Spoken CSV**: [reports/respin_divergent_samples/respin_d2_top_divergent.csv](file:///d:/dialect-norm/reports/respin_divergent_samples/respin_d2_top_divergent.csv)
