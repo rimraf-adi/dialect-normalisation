@@ -7,64 +7,48 @@ model_info:
 dataset_info:
   split: test
   metadata_file: IISc_RESPIN_test_mr\IISc_RESPIN_test_mr\meta_test_mr.json
-  total_utterances_evaluated: 10
+  total_utterances_evaluated: 2170
   total_utterances_in_meta: 2170
-  total_duration_hours: 0.015
-  avg_duration_seconds: 5.52
+  total_duration_hours: 3.042
+  avg_duration_seconds: 5.05
 key_metrics_summary:
   ctc:
     overall_summary:
-      raw_wer_percentage: 19.44
-      normalized_wer_percentage: 1.56
-      raw_cer_percentage: 6.08
-      normalized_cer_percentage: 0.53
-      raw_ser_percentage: 100.0
-      normalized_ser_percentage: 10.0
-      normalized_exact_match_acc_percentage: 90.0
-      total_ref_words: 64
-      substitutions: 1
-      deletions: 0
-      insertions: 0
-      hits: 63
+      raw_wer_percentage: 28.46
+      normalized_wer_percentage: 23.94
+      raw_cer_percentage: 7.26
+      normalized_cer_percentage: 4.95
+      raw_ser_percentage: 86.31
+      normalized_ser_percentage: 70.0
+      normalized_exact_match_acc_percentage: 30.0
+      total_ref_words: 17838
+      substitutions: 3433
+      deletions: 665
+      insertions: 173
+      hits: 13740
     dialect_normalized_wer:
+      D1:
+        normalized_wer_percentage: 34.59
+        normalized_cer_percentage: 7.39
+        utterances: 559
+      D2:
+        normalized_wer_percentage: 24.64
+        normalized_cer_percentage: 4.96
+        utterances: 540
       D3:
-        normalized_wer_percentage: 1.56
-        normalized_cer_percentage: 0.53
-        utterances: 10
+        normalized_wer_percentage: 11.57
+        normalized_cer_percentage: 2.27
+        utterances: 555
+      D4:
+        normalized_wer_percentage: 24.29
+        normalized_cer_percentage: 4.96
+        utterances: 516
     domain_normalized_wer:
       Agriculture:
-        normalized_wer_percentage: 0.0
-        normalized_cer_percentage: 0.0
-        utterances: 7
+        normalized_wer_percentage: 23.95
+        normalized_cer_percentage: 5.18
+        utterances: 1060
       Banking:
-        normalized_wer_percentage: 3.85
-        normalized_cer_percentage: 1.47
-        utterances: 3
-  rnnt:
-    overall_summary:
-      raw_wer_percentage: 20.83
-      normalized_wer_percentage: 3.12
-      raw_cer_percentage: 6.33
-      normalized_cer_percentage: 0.8
-      raw_ser_percentage: 100.0
-      normalized_ser_percentage: 20.0
-      normalized_exact_match_acc_percentage: 80.0
-      total_ref_words: 64
-      substitutions: 2
-      deletions: 0
-      insertions: 0
-      hits: 62
-    dialect_normalized_wer:
-      D3:
-        normalized_wer_percentage: 3.12
-        normalized_cer_percentage: 0.8
-        utterances: 10
-    domain_normalized_wer:
-      Agriculture:
-        normalized_wer_percentage: 0.0
-        normalized_cer_percentage: 0.0
-        utterances: 7
-      Banking:
-        normalized_wer_percentage: 7.69
-        normalized_cer_percentage: 2.21
-        utterances: 3
+        normalized_wer_percentage: 23.94
+        normalized_cer_percentage: 4.73
+        utterances: 1110
